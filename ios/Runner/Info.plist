@@ -54,8 +54,15 @@
 	<true/>
 
 	<key>NSCameraUsageDescription</key>
-    <string>In order to take a picture or video, this app requires permission to access the camera.</string>
-
+    <string>Para verificações de segurança, esse aplicativo requer acesso a câmera</string>
+	<key>NSFaceIDUsageDescription</key>
+    <string>Por questões de segurança e melhor conforto, permita a utilização da biometria.</string>
+	<key>NSCalendarsUsageDescription</key>
+    <string>Para que possamos adicionar os alugueis ao seu calendário, esse aplicativo requer acesso ao seu App de calendário</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>Para funcionamento da entrega, esse aplicativo requer acesso a sua localização.</string>
+	<key>PermissionGroupNotification</key>
+    <string>Para notificar sobre os alugueis e eventos, por favor permita acesso as suas notificações.</string>
 
 
 	<key>UILaunchStoryboardName</key>

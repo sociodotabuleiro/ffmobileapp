@@ -30,6 +30,12 @@ enum NotificationTypes {
   GAME_RENTED,
 }
 
+enum Categories {
+  civilization_and_culture,
+  complex_strategy,
+  futuristic,
+}
+
 extension FFEnumExtensions<T extends Enum> on T {
   String serialize() => name;
 }
@@ -49,6 +55,8 @@ T? deserializeEnum<T>(String? value) {
       return RentalStatus.values.deserialize(value) as T?;
     case (NotificationTypes):
       return NotificationTypes.values.deserialize(value) as T?;
+    case (Categories):
+      return Categories.values.deserialize(value) as T?;
     default:
       return null;
   }

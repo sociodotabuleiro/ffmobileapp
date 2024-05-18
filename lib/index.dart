@@ -14,3 +14,13 @@ export '/register/add_profile_phone_number/add_profile_phone_number_widget.dart'
 export '/register/add_profile_code_confirmation/add_profile_code_confirmation_widget.dart'
     show AddProfileCodeConfirmationWidget;
 export '/games/games_list/games_list_widget.dart' show GamesListWidget;
+export '/profile/profile/profile_widget.dart' show ProfileWidget;
+export '/games/game_details/game_details_widget.dart' show GameDetailsWidget;
+export '/games/to_rent_list/to_rent_list_widget.dart' show ToRentListWidget;
+export '/register/add_profile_address2/add_profile_address2_widget.dart'
+    show AddProfileAddress2Widget;
+export '/pages/sign_up/sign_up_widget.dart' show SignUpWidget;
+export '/pages/dashboard_responsive/dashboard_responsive_widget.dart'
+    show DashboardResponsiveWidget;
+export '/games/game_list_admin/game_list_admin_widget.dart'
+    show GameListAdminWidget;

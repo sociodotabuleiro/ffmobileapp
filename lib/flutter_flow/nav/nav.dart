@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '/backend/backend.dart';
-import '/backend/schema/structs/index.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
@@ -133,6 +132,57 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'gamesList',
           path: '/gamesList',
           builder: (context, params) => const GamesListWidget(),
+        ),
+        FFRoute(
+          name: 'Profile',
+          path: '/profile',
+          builder: (context, params) => const ProfileWidget(),
+        ),
+        FFRoute(
+          name: 'gameDetails',
+          path: '/gameDetails',
+          builder: (context, params) => GameDetailsWidget(
+            gameRef: params.getParam(
+              'gameRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['games'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'toRentList',
+          path: '/toRentList',
+          asyncParams: {
+            'gameObject': getDoc(['games'], GamesRecord.fromSnapshot),
+          },
+          builder: (context, params) => ToRentListWidget(
+            gameObject: params.getParam(
+              'gameObject',
+              ParamType.Document,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'addProfileAddress2',
+          path: '/addProfileAddress2',
+          builder: (context, params) => const AddProfileAddress2Widget(),
+        ),
+        FFRoute(
+          name: 'signUp',
+          path: '/signUp',
+          builder: (context, params) => const SignUpWidget(),
+        ),
+        FFRoute(
+          name: 'DashboardResponsive',
+          path: '/dashboardResponsive',
+          builder: (context, params) => const DashboardResponsiveWidget(),
+        ),
+        FFRoute(
+          name: 'gameListAdmin',
+          path: '/gamelist',
+          requireAuth: true,
+          builder: (context, params) => const GameListAdminWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -393,4 +443,14 @@ class RootPageContext {
         value: RootPageContext(true, errorRoute),
         child: child,
       );
+}
+
+extension GoRouterLocationExtension on GoRouter {
+  String getCurrentLocation() {
+    final RouteMatch lastMatch = routerDelegate.currentConfiguration.last;
+    final RouteMatchList matchList = lastMatch is ImperativeRouteMatch
+        ? lastMatch.matches
+        : routerDelegate.currentConfiguration;
+    return matchList.uri.toString();
+  }
 }

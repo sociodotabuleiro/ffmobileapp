@@ -1,4 +1,5 @@
 import '/components/nav_bar_widget.dart';
+import '/components/side_nav02_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'home_page_widget.dart' show HomePageWidget;
 import 'package:carousel_slider/carousel_slider.dart';
@@ -15,17 +16,19 @@ class HomePageModel extends FlutterFlowModel<HomePageWidget> {
 
   // Model for navBar component.
   late NavBarModel navBarModel;
-  // State field(s) for Switch widget.
-  bool switchValue = true;
+  // Model for SideNav02 component.
+  late SideNav02Model sideNav02Model;
 
   @override
   void initState(BuildContext context) {
     navBarModel = createModel(context, () => NavBarModel());
+    sideNav02Model = createModel(context, () => SideNav02Model());
   }
 
   @override
   void dispose() {
     unfocusNode.dispose();
     navBarModel.dispose();
+    sideNav02Model.dispose();
   }
 }

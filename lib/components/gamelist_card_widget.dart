@@ -33,6 +33,8 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => GamelistCardModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -64,7 +66,7 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
         final containerGamesRecord = snapshot.data!;
         return Container(
           width: double.infinity,
-          height: 300.0,
+          height: 230.0,
           decoration: BoxDecoration(
             color: FlutterFlowTheme.of(context).secondaryBackground,
           ),
@@ -86,8 +88,8 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
                         containerGamesRecord.thumbnailUrl,
                         'https://firebasestorage.googleapis.com/v0/b/sociodotabuleiro-jogos/o/public%2Fimg%2Fplaceholderboard_game.png?alt=media&token=f25b46ca-b4c9-458f-9bcf-bda3b129f91f',
                       ),
-                      width: MediaQuery.sizeOf(context).width * 0.5,
-                      height: 150.0,
+                      width: MediaQuery.sizeOf(context).width * 0.25,
+                      height: 75.0,
                       fit: BoxFit.cover,
                       alignment: const Alignment(0.0, 0.0),
                     ),
@@ -97,7 +99,7 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
                   padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 4.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         containerGamesRecord.name,
@@ -124,6 +126,7 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
                               .override(
                                 fontFamily: FlutterFlowTheme.of(context)
                                     .titleLargeFamily,
+                                fontSize: 18.0,
                                 letterSpacing: 0.0,
                                 useGoogleFonts: GoogleFonts.asMap().containsKey(
                                     FlutterFlowTheme.of(context)
@@ -138,25 +141,22 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
                   padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 4.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Expanded(
-                        child: Text(
-                          containerGamesRecord.description.maybeHandleOverflow(
-                            maxChars: 100,
-                            replacement: '…',
-                          ),
-                          style: FlutterFlowTheme.of(context)
-                              .labelMedium
-                              .override(
-                                fontFamily: FlutterFlowTheme.of(context)
-                                    .labelMediumFamily,
-                                letterSpacing: 0.0,
-                                useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                    FlutterFlowTheme.of(context)
-                                        .labelMediumFamily),
-                              ),
+                      Text(
+                        containerGamesRecord.description.maybeHandleOverflow(
+                          maxChars: 100,
+                          replacement: '…',
                         ),
+                        style:
+                            FlutterFlowTheme.of(context).labelMedium.override(
+                                  fontFamily: FlutterFlowTheme.of(context)
+                                      .labelMediumFamily,
+                                  letterSpacing: 0.0,
+                                  useGoogleFonts: GoogleFonts.asMap()
+                                      .containsKey(FlutterFlowTheme.of(context)
+                                          .labelMediumFamily),
+                                ),
                       ),
                       Padding(
                         padding:
@@ -196,7 +196,7 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
                           FaIcon(
                             FontAwesomeIcons.users,
                             color: FlutterFlowTheme.of(context).secondaryText,
-                            size: 24.0,
+                            size: 16.0,
                           ),
                           Padding(
                             padding: const EdgeInsetsDirectional.fromSTEB(
@@ -224,7 +224,7 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
                           FaIcon(
                             FontAwesomeIcons.clock,
                             color: FlutterFlowTheme.of(context).secondaryText,
-                            size: 24.0,
+                            size: 16.0,
                           ),
                           Padding(
                             padding: const EdgeInsetsDirectional.fromSTEB(
@@ -252,7 +252,7 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
                           Icon(
                             Icons.child_care,
                             color: FlutterFlowTheme.of(context).secondaryText,
-                            size: 24.0,
+                            size: 16.0,
                           ),
                           Padding(
                             padding: const EdgeInsetsDirectional.fromSTEB(

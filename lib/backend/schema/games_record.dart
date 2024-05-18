@@ -121,6 +121,36 @@ class GamesRecord extends FirestoreRecord {
   List<String> get galleryBluehash => _galleryBluehash ?? const [];
   bool hasGalleryBluehash() => _galleryBluehash != null;
 
+  // "availableAt" field.
+  List<DocumentReference>? _availableAt;
+  List<DocumentReference> get availableAt => _availableAt ?? const [];
+  bool hasAvailableAt() => _availableAt != null;
+
+  // "availableAtGeoHash" field.
+  List<String>? _availableAtGeoHash;
+  List<String> get availableAtGeoHash => _availableAtGeoHash ?? const [];
+  bool hasAvailableAtGeoHash() => _availableAtGeoHash != null;
+
+  // "bggRating" field.
+  double? _bggRating;
+  double get bggRating => _bggRating ?? 0.0;
+  bool hasBggRating() => _bggRating != null;
+
+  // "bggRanking" field.
+  int? _bggRanking;
+  int get bggRanking => _bggRanking ?? 0;
+  bool hasBggRanking() => _bggRanking != null;
+
+  // "bggWeight" field.
+  double? _bggWeight;
+  double get bggWeight => _bggWeight ?? 0.0;
+  bool hasBggWeight() => _bggWeight != null;
+
+  // "availableAtLatLng" field.
+  List<LatLng>? _availableAtLatLng;
+  List<LatLng> get availableAtLatLng => _availableAtLatLng ?? const [];
+  bool hasAvailableAtLatLng() => _availableAtLatLng != null;
+
   void _initializeFields() {
     _gameID = snapshotData['gameID'] as String?;
     _name = snapshotData['name'] as String?;
@@ -149,6 +179,12 @@ class GamesRecord extends FirestoreRecord {
     _achievements = getDataList(snapshotData['achievements']);
     _thumbnailBluehash = snapshotData['thumbnailBluehash'] as String?;
     _galleryBluehash = getDataList(snapshotData['galleryBluehash']);
+    _availableAt = getDataList(snapshotData['availableAt']);
+    _availableAtGeoHash = getDataList(snapshotData['availableAtGeoHash']);
+    _bggRating = castToType<double>(snapshotData['bggRating']);
+    _bggRanking = castToType<int>(snapshotData['bggRanking']);
+    _bggWeight = castToType<double>(snapshotData['bggWeight']);
+    _availableAtLatLng = getDataList(snapshotData['availableAtLatLng']);
   }
 
   static CollectionReference get collection =>
@@ -200,6 +236,9 @@ Map<String, dynamic> createGamesRecordData({
   bool? availableToRent,
   int? quantityAvailable,
   String? thumbnailBluehash,
+  double? bggRating,
+  int? bggRanking,
+  double? bggWeight,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -218,6 +257,9 @@ Map<String, dynamic> createGamesRecordData({
       'availableToRent': availableToRent,
       'quantityAvailable': quantityAvailable,
       'thumbnailBluehash': thumbnailBluehash,
+      'bggRating': bggRating,
+      'bggRanking': bggRanking,
+      'bggWeight': bggWeight,
     }.withoutNulls,
   );
 
@@ -251,7 +293,13 @@ class GamesRecordDocumentEquality implements Equality<GamesRecord> {
         e1?.quantityAvailable == e2?.quantityAvailable &&
         listEquality.equals(e1?.achievements, e2?.achievements) &&
         e1?.thumbnailBluehash == e2?.thumbnailBluehash &&
-        listEquality.equals(e1?.galleryBluehash, e2?.galleryBluehash);
+        listEquality.equals(e1?.galleryBluehash, e2?.galleryBluehash) &&
+        listEquality.equals(e1?.availableAt, e2?.availableAt) &&
+        listEquality.equals(e1?.availableAtGeoHash, e2?.availableAtGeoHash) &&
+        e1?.bggRating == e2?.bggRating &&
+        e1?.bggRanking == e2?.bggRanking &&
+        e1?.bggWeight == e2?.bggWeight &&
+        listEquality.equals(e1?.availableAtLatLng, e2?.availableAtLatLng);
   }
 
   @override
@@ -276,7 +324,13 @@ class GamesRecordDocumentEquality implements Equality<GamesRecord> {
         e?.quantityAvailable,
         e?.achievements,
         e?.thumbnailBluehash,
-        e?.galleryBluehash
+        e?.galleryBluehash,
+        e?.availableAt,
+        e?.availableAtGeoHash,
+        e?.bggRating,
+        e?.bggRanking,
+        e?.bggWeight,
+        e?.availableAtLatLng
       ]);
 
   @override

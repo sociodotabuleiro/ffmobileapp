@@ -1,9 +1,13 @@
-import '/backend/schema/structs/index.dart';
+import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'confirm_prompt_avatar_model.dart';
 export 'confirm_prompt_avatar_model.dart';
 
@@ -33,6 +37,8 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ConfirmPromptAvatarModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -44,6 +50,8 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Container(
       width: 300.0,
       height: 500.0,
@@ -174,8 +182,86 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                     Align(
                       alignment: const AlignmentDirectional(0.0, 1.0),
                       child: FFButtonWidget(
-                        onPressed: () {
-                          print('Button pressed ...');
+                        onPressed: () async {
+                          logFirebaseEvent(
+                              'CONFIRM_PROMPT_AVATAR_CONFIRMAR_BTN_ON_T');
+                          logFirebaseEvent('Button_backend_call');
+                          _model.imageCallResult =
+                              await GetImageOpenAiCall.call(
+                            description:
+                                'You are a fictional character in a fantastic world, a ${widget.configs?.genero} ${widget.configs?.raca}, ${widget.configs?.idade} years old,  living in ${widget.configs?.epoca} epoch with the following physical traits: ${widget.configs?.aparenciafisica}  with the following vestiments: ${widget.configs?.vestimentas}. Create a photo to be your profile picture, front-faced, cute style. Only the character. White background',
+                          );
+                          if ((_model.imageCallResult?.succeeded ?? true)) {
+                            logFirebaseEvent('Button_custom_action');
+                            _model.storageURL = await actions
+                                .downloadPictureAndSaveInFirebaseStorage(
+                              GetImageOpenAiCall.imageUrl(
+                                (_model.imageCallResult?.jsonBody ?? ''),
+                              )!,
+                            );
+                            if (_model.storageURL != 'ERROR') {
+                              logFirebaseEvent('Button_update_app_state');
+                              setState(() {
+                                FFAppState().profileUrlImage =
+                                    _model.storageURL!;
+                              });
+                              logFirebaseEvent('Button_backend_call');
+
+                              await currentUserReference!
+                                  .update(createUsersRecordData(
+                                photoUrl: FFAppState().profileUrlImage,
+                              ));
+                              logFirebaseEvent('Button_show_snack_bar');
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: const Text(
+                                    'Imagem salva com sucesso!',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  duration: const Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).success,
+                                ),
+                              );
+                              logFirebaseEvent('Button_navigate_to');
+
+                              context.goNamed('HomePage');
+                            } else {
+                              logFirebaseEvent('Button_show_snack_bar');
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: const Text(
+                                    'Falha ao salvar imagem',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  duration: const Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).secondary,
+                                ),
+                              );
+                            }
+                          } else {
+                            logFirebaseEvent('Button_show_snack_bar');
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: const Text(
+                                  'Falha ao criar imagem.',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                duration: const Duration(milliseconds: 4000),
+                                backgroundColor:
+                                    FlutterFlowTheme.of(context).secondary,
+                              ),
+                            );
+                          }
+
+                          setState(() {});
                         },
                         text: 'Confirmar',
                         options: FFButtonOptions(
@@ -210,6 +296,9 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                       alignment: const AlignmentDirectional(0.0, 1.0),
                       child: FFButtonWidget(
                         onPressed: () async {
+                          logFirebaseEvent(
+                              'CONFIRM_PROMPT_AVATAR_VOLTAR_BTN_ON_TAP');
+                          logFirebaseEvent('Button_close_dialog,_drawer,_etc');
                           Navigator.pop(context);
                         },
                         text: 'Voltar',

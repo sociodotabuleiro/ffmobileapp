@@ -158,6 +158,31 @@ class UsersRecord extends FirestoreRecord {
   List<DocumentReference> get rentedFrom => _rentedFrom ?? const [];
   bool hasRentedFrom() => _rentedFrom != null;
 
+  // "notificacoes" field.
+  List<DocumentReference>? _notificacoes;
+  List<DocumentReference> get notificacoes => _notificacoes ?? const [];
+  bool hasNotificacoes() => _notificacoes != null;
+
+  // "amountEarned" field.
+  double? _amountEarned;
+  double get amountEarned => _amountEarned ?? 0.0;
+  bool hasAmountEarned() => _amountEarned != null;
+
+  // "favoriteUsers" field.
+  List<DocumentReference>? _favoriteUsers;
+  List<DocumentReference> get favoriteUsers => _favoriteUsers ?? const [];
+  bool hasFavoriteUsers() => _favoriteUsers != null;
+
+  // "isStore" field.
+  bool? _isStore;
+  bool get isStore => _isStore ?? false;
+  bool hasIsStore() => _isStore != null;
+
+  // "notifications" field.
+  List<DocumentReference>? _notifications;
+  List<DocumentReference> get notifications => _notifications ?? const [];
+  bool hasNotifications() => _notifications != null;
+
   void _initializeFields() {
     _fullName = snapshotData['fullName'] as String?;
     _firstName = snapshotData['firstName'] as String?;
@@ -194,6 +219,11 @@ class UsersRecord extends FirestoreRecord {
     _rentedToCount = castToType<int>(snapshotData['rentedToCount']);
     _rentedTo = getDataList(snapshotData['rentedTo']);
     _rentedFrom = getDataList(snapshotData['rentedFrom']);
+    _notificacoes = getDataList(snapshotData['notificacoes']);
+    _amountEarned = castToType<double>(snapshotData['amountEarned']);
+    _favoriteUsers = getDataList(snapshotData['favoriteUsers']);
+    _isStore = snapshotData['isStore'] as bool?;
+    _notifications = getDataList(snapshotData['notifications']);
   }
 
   static CollectionReference get collection =>
@@ -253,6 +283,8 @@ Map<String, dynamic> createUsersRecordData({
   int? cartCount,
   int? rentedFromCount,
   int? rentedToCount,
+  double? amountEarned,
+  bool? isStore,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -279,6 +311,8 @@ Map<String, dynamic> createUsersRecordData({
       'cartCount': cartCount,
       'rentedFromCount': rentedFromCount,
       'rentedToCount': rentedToCount,
+      'amountEarned': amountEarned,
+      'isStore': isStore,
     }.withoutNulls,
   );
 
@@ -323,7 +357,12 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.rentedFromCount == e2?.rentedFromCount &&
         e1?.rentedToCount == e2?.rentedToCount &&
         listEquality.equals(e1?.rentedTo, e2?.rentedTo) &&
-        listEquality.equals(e1?.rentedFrom, e2?.rentedFrom);
+        listEquality.equals(e1?.rentedFrom, e2?.rentedFrom) &&
+        listEquality.equals(e1?.notificacoes, e2?.notificacoes) &&
+        e1?.amountEarned == e2?.amountEarned &&
+        listEquality.equals(e1?.favoriteUsers, e2?.favoriteUsers) &&
+        e1?.isStore == e2?.isStore &&
+        listEquality.equals(e1?.notifications, e2?.notifications);
   }
 
   @override
@@ -355,7 +394,12 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.rentedFromCount,
         e?.rentedToCount,
         e?.rentedTo,
-        e?.rentedFrom
+        e?.rentedFrom,
+        e?.notificacoes,
+        e?.amountEarned,
+        e?.favoriteUsers,
+        e?.isStore,
+        e?.notifications
       ]);
 
   @override

@@ -29,6 +29,8 @@ class _NavBarWidgetState extends State<NavBarWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => NavBarModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -117,11 +119,12 @@ class _NavBarWidgetState extends State<NavBarWidget> {
                   if (stackUsersRecord.cartCount > 0)
                     badges.Badge(
                       badgeContent: Text(
-                        '1',
+                        stackUsersRecord.cartCount.toString(),
                         style: FlutterFlowTheme.of(context).titleSmall.override(
                               fontFamily:
                                   FlutterFlowTheme.of(context).titleSmallFamily,
                               color: Colors.white,
+                              fontSize: 16.0,
                               letterSpacing: 0.0,
                               useGoogleFonts: GoogleFonts.asMap().containsKey(
                                   FlutterFlowTheme.of(context)
@@ -151,8 +154,11 @@ class _NavBarWidgetState extends State<NavBarWidget> {
               color: FlutterFlowTheme.of(context).secondaryBackground,
               size: 32.0,
             ),
-            onPressed: () {
-              print('profileButton pressed ...');
+            onPressed: () async {
+              logFirebaseEvent('NAV_BAR_COMP_profileButton_ON_TAP');
+              logFirebaseEvent('profileButton_navigate_to');
+
+              context.pushNamed('Profile');
             },
           ),
         ],

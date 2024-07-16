@@ -1,10 +1,12 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'sign_up_model.dart';
@@ -17,10 +19,13 @@ class SignUpWidget extends StatefulWidget {
   State<SignUpWidget> createState() => _SignUpWidgetState();
 }
 
-class _SignUpWidgetState extends State<SignUpWidget> {
+class _SignUpWidgetState extends State<SignUpWidget>
+    with TickerProviderStateMixin {
   late SignUpModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final animationsMap = <String, AnimationInfo>{};
 
   @override
   void initState() {
@@ -36,6 +41,21 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
     _model.confirmPasswordTextController ??= TextEditingController();
     _model.confirmPasswordFocusNode ??= FocusNode();
+
+    animationsMap.addAll({
+      'columnOnPageLoadAnimation': AnimationInfo(
+        trigger: AnimationTrigger.onPageLoad,
+        effectsBuilder: () => [
+          MoveEffect(
+            curve: Curves.easeInOut,
+            delay: 0.0.ms,
+            duration: 600.0.ms,
+            begin: const Offset(-60.0, 0.0),
+            end: const Offset(0.0, 0.0),
+          ),
+        ],
+      ),
+    });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
@@ -584,6 +604,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                             email:
                                                 _model.emailTextController.text,
                                             firstTimeLogin: true,
+                                            cpf: '',
                                           ));
 
                                       logFirebaseEvent('Button_navigate_to');
@@ -649,7 +670,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           ),
                         ),
                       ],
-                    ),
+                    ).animateOnPageLoad(
+                        animationsMap['columnOnPageLoadAnimation']!),
                   ),
                   Container(
                     width: MediaQuery.sizeOf(context).width * 1.0,
@@ -708,21 +730,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                 buttonSize: 65.0,
                                 icon: Icon(
                                   Icons.facebook,
-                                  color: FlutterFlowTheme.of(context).secondary,
-                                  size: 45.0,
-                                ),
-                                onPressed: () {
-                                  print('IconButton pressed ...');
-                                },
-                              ),
-                            ),
-                            Flexible(
-                              flex: 1,
-                              child: FlutterFlowIconButton(
-                                borderWidth: 1.0,
-                                buttonSize: 65.0,
-                                icon: Icon(
-                                  Icons.apple,
                                   color: FlutterFlowTheme.of(context).secondary,
                                   size: 45.0,
                                 ),

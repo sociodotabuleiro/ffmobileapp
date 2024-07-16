@@ -101,7 +101,7 @@ class _AddProfilePersonalInfoWidgetState
                             ),
                       ),
                       Text(
-                        '1/6',
+                        '1/7',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               fontFamily:
                                   FlutterFlowTheme.of(context).bodyMediumFamily,
@@ -721,20 +721,18 @@ class _AddProfilePersonalInfoWidgetState
                                             'ADD_PROFILE_PERSONAL_INFO_ChoiceChips_c0');
                                         logFirebaseEvent(
                                             'ChoiceChips_update_page_state');
-                                        setState(() {
-                                          _model.genderChoice = () {
-                                            if (_model.choiceChipsValue ==
-                                                'Feminino') {
-                                              return Gender.female;
-                                            } else if (_model
-                                                    .choiceChipsValue ==
-                                                'Masculino') {
-                                              return Gender.male;
-                                            } else {
-                                              return Gender.other;
-                                            }
-                                          }();
-                                        });
+                                        _model.genderChoice = () {
+                                          if (_model.choiceChipsValue ==
+                                              'Feminino') {
+                                            return Gender.female;
+                                          } else if (_model.choiceChipsValue ==
+                                              'Masculino') {
+                                            return Gender.male;
+                                          } else {
+                                            return Gender.other;
+                                          }
+                                        }();
+                                        setState(() {});
                                       },
                                       selectedChipStyle: ChipStyle(
                                         backgroundColor: const Color(0x4C39D2C0),
@@ -825,24 +823,33 @@ class _AddProfilePersonalInfoWidgetState
                             }
                             logFirebaseEvent('Button_backend_call');
 
-                            await widget.userRef!.update(createUsersRecordData(
-                              fullName:
-                                  '${_model.firstNameTextController.text}${_model.lastNameTextController.text}',
-                              firstName: _model.firstNameTextController.text,
-                              lastName: _model.lastNameTextController.text,
-                              cpf: _model.cpfTextController.text,
-                              rg: _model.rgTextController.text,
-                              gender: _model.genderChoice,
-                              birthDate: functions.stringToDate(
-                                  _model.dateOfBirthTextController.text),
-                              email: currentUserEmail,
-                              uid: currentUserUid,
-                              displayName: _model.firstNameTextController.text,
-                              createdTime: getCurrentTimestamp,
-                            ));
+                            await widget.userRef!.update({
+                              ...createUsersRecordData(
+                                fullName:
+                                    '${_model.firstNameTextController.text}${_model.lastNameTextController.text}',
+                                firstName: _model.firstNameTextController.text,
+                                lastName: _model.lastNameTextController.text,
+                                cpf: _model.cpfTextController.text,
+                                rg: _model.rgTextController.text,
+                                gender: _model.genderChoice,
+                                birthDate: functions.stringToDate(
+                                    _model.dateOfBirthTextController.text),
+                                email: currentUserEmail,
+                                uid: currentUserUid,
+                                displayName:
+                                    _model.firstNameTextController.text,
+                                createdTime: getCurrentTimestamp,
+                              ),
+                              ...mapToFirestore(
+                                {
+                                  'completedRegisterPages':
+                                      FieldValue.arrayUnion([1]),
+                                },
+                              ),
+                            });
                             logFirebaseEvent('Button_navigate_to');
 
-                            context.pushNamed('HomePage');
+                            context.pushNamed('addProfileAddress');
                           },
                           text: 'Próxima Etapa',
                           options: FFButtonOptions(

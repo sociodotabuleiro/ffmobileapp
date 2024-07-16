@@ -3,10 +3,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
-import '/backend/schema/util/schema_util.dart';
 import '/backend/schema/enums/enums.dart';
 
-import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 class GameRentalInfoStruct extends FFFirebaseStruct {
@@ -26,24 +24,28 @@ class GameRentalInfoStruct extends FFFirebaseStruct {
   DocumentReference? _gameID;
   DocumentReference? get gameID => _gameID;
   set gameID(DocumentReference? val) => _gameID = val;
+
   bool hasGameID() => _gameID != null;
 
   // "rentalDate" field.
   DateTime? _rentalDate;
   DateTime? get rentalDate => _rentalDate;
   set rentalDate(DateTime? val) => _rentalDate = val;
+
   bool hasRentalDate() => _rentalDate != null;
 
   // "dueDate" field.
   DateTime? _dueDate;
   DateTime? get dueDate => _dueDate;
   set dueDate(DateTime? val) => _dueDate = val;
+
   bool hasDueDate() => _dueDate != null;
 
   // "status" field.
   RentalStatus? _status;
   RentalStatus get status => _status ?? RentalStatus.initiated;
   set status(RentalStatus? val) => _status = val;
+
   bool hasStatus() => _status != null;
 
   static GameRentalInfoStruct fromMap(Map<String, dynamic> data) =>

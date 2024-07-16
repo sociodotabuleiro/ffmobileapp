@@ -12,7 +12,7 @@ class AddProfileAddressModel extends FlutterFlowModel<AddProfileAddressWidget> {
   final unfocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   // State field(s) for PlacePicker widget.
-  var placePickerValue = const FFPlace();
+  FFPlace placePickerValue = const FFPlace();
 
   @override
   void initState(BuildContext context) {}

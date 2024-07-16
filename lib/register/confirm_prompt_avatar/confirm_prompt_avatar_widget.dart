@@ -191,6 +191,7 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                             description:
                                 'You are a fictional character in a fantastic world, a ${widget.configs?.genero} ${widget.configs?.raca}, ${widget.configs?.idade} years old,  living in ${widget.configs?.epoca} epoch with the following physical traits: ${widget.configs?.aparenciafisica}  with the following vestiments: ${widget.configs?.vestimentas}. Create a photo to be your profile picture, front-faced, cute style. Only the character. White background',
                           );
+
                           if ((_model.imageCallResult?.succeeded ?? true)) {
                             logFirebaseEvent('Button_custom_action');
                             _model.storageURL = await actions
@@ -201,16 +202,21 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                             );
                             if (_model.storageURL != 'ERROR') {
                               logFirebaseEvent('Button_update_app_state');
-                              setState(() {
-                                FFAppState().profileUrlImage =
-                                    _model.storageURL!;
-                              });
+                              FFAppState().profileUrlImage = _model.storageURL!;
+                              setState(() {});
                               logFirebaseEvent('Button_backend_call');
 
-                              await currentUserReference!
-                                  .update(createUsersRecordData(
-                                photoUrl: FFAppState().profileUrlImage,
-                              ));
+                              await currentUserReference!.update({
+                                ...createUsersRecordData(
+                                  photoUrl: FFAppState().profileUrlImage,
+                                ),
+                                ...mapToFirestore(
+                                  {
+                                    'completedRegisterPages':
+                                        FieldValue.arrayUnion([5]),
+                                  },
+                                ),
+                              });
                               logFirebaseEvent('Button_show_snack_bar');
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(

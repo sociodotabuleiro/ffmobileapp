@@ -31,14 +31,14 @@ class GameListAdminModel extends FlutterFlowModel<GameListAdminWidget> {
   int get tabBarCurrentIndex =>
       tabBarController != null ? tabBarController!.index : 0;
 
-  // State field(s) for name widget.
-  FocusNode? nameFocusNode;
-  TextEditingController? nameTextController;
-  String? Function(BuildContext, String?)? nameTextControllerValidator;
   // State field(s) for description widget.
   FocusNode? descriptionFocusNode;
   TextEditingController? descriptionTextController;
   String? Function(BuildContext, String?)? descriptionTextControllerValidator;
+  // State field(s) for name widget.
+  FocusNode? nameFocusNode;
+  TextEditingController? nameTextController;
+  String? Function(BuildContext, String?)? nameTextControllerValidator;
   // State field(s) for playerCount widget.
   FocusNode? playerCountFocusNode;
   TextEditingController? playerCountTextController;
@@ -100,11 +100,11 @@ class GameListAdminModel extends FlutterFlowModel<GameListAdminWidget> {
     listViewPagingController2?.dispose();
 
     tabBarController?.dispose();
-    nameFocusNode?.dispose();
-    nameTextController?.dispose();
-
     descriptionFocusNode?.dispose();
     descriptionTextController?.dispose();
+
+    nameFocusNode?.dispose();
+    nameTextController?.dispose();
 
     playerCountFocusNode?.dispose();
     playerCountTextController?.dispose();

@@ -80,7 +80,7 @@ class _AddProfilePhoneNumberWidgetState
                             ),
                       ),
                       Text(
-                        '3/6',
+                        '4/7',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               fontFamily:
                                   FlutterFlowTheme.of(context).bodyMediumFamily,

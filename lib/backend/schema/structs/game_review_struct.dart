@@ -3,9 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
-import '/backend/schema/util/schema_util.dart';
 
-import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 class GameReviewStruct extends FFFirebaseStruct {
@@ -27,31 +25,37 @@ class GameReviewStruct extends FFFirebaseStruct {
   String? _gameReviewId;
   String get gameReviewId => _gameReviewId ?? '';
   set gameReviewId(String? val) => _gameReviewId = val;
+
   bool hasGameReviewId() => _gameReviewId != null;
 
   // "user" field.
   DocumentReference? _user;
   DocumentReference? get user => _user;
   set user(DocumentReference? val) => _user = val;
+
   bool hasUser() => _user != null;
 
   // "rating" field.
   int? _rating;
   int get rating => _rating ?? 0;
   set rating(int? val) => _rating = val;
-  void incrementRating(int amount) => _rating = rating + amount;
+
+  void incrementRating(int amount) => rating = rating + amount;
+
   bool hasRating() => _rating != null;
 
   // "comment" field.
   String? _comment;
   String get comment => _comment ?? '';
   set comment(String? val) => _comment = val;
+
   bool hasComment() => _comment != null;
 
   // "date" field.
   DateTime? _date;
   DateTime? get date => _date;
   set date(DateTime? val) => _date = val;
+
   bool hasDate() => _date != null;
 
   static GameReviewStruct fromMap(Map<String, dynamic> data) =>

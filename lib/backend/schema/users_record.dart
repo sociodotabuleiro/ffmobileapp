@@ -118,11 +118,6 @@ class UsersRecord extends FirestoreRecord {
   bool get completedRegister => _completedRegister ?? false;
   bool hasCompletedRegister() => _completedRegister != null;
 
-  // "registerPage" field.
-  int? _registerPage;
-  int get registerPage => _registerPage ?? 0;
-  bool hasRegisterPage() => _registerPage != null;
-
   // "favoritedGamesCount" field.
   int? _favoritedGamesCount;
   int get favoritedGamesCount => _favoritedGamesCount ?? 0;
@@ -183,6 +178,11 @@ class UsersRecord extends FirestoreRecord {
   List<DocumentReference> get notifications => _notifications ?? const [];
   bool hasNotifications() => _notifications != null;
 
+  // "completedRegisterPages" field.
+  List<int>? _completedRegisterPages;
+  List<int> get completedRegisterPages => _completedRegisterPages ?? const [];
+  bool hasCompletedRegisterPages() => _completedRegisterPages != null;
+
   void _initializeFields() {
     _fullName = snapshotData['fullName'] as String?;
     _firstName = snapshotData['firstName'] as String?;
@@ -211,7 +211,6 @@ class UsersRecord extends FirestoreRecord {
         getDataList(snapshotData['achievementsAccomplished']);
     _firstTimeLogin = snapshotData['firstTimeLogin'] as bool?;
     _completedRegister = snapshotData['completedRegister'] as bool?;
-    _registerPage = castToType<int>(snapshotData['registerPage']);
     _favoritedGamesCount = castToType<int>(snapshotData['favoritedGamesCount']);
     _wishlistCount = castToType<int>(snapshotData['wishlistCount']);
     _cartCount = castToType<int>(snapshotData['cartCount']);
@@ -224,6 +223,8 @@ class UsersRecord extends FirestoreRecord {
     _favoriteUsers = getDataList(snapshotData['favoriteUsers']);
     _isStore = snapshotData['isStore'] as bool?;
     _notifications = getDataList(snapshotData['notifications']);
+    _completedRegisterPages =
+        getDataList(snapshotData['completedRegisterPages']);
   }
 
   static CollectionReference get collection =>
@@ -277,7 +278,6 @@ Map<String, dynamic> createUsersRecordData({
   bool? stayLoggedIn,
   bool? firstTimeLogin,
   bool? completedRegister,
-  int? registerPage,
   int? favoritedGamesCount,
   int? wishlistCount,
   int? cartCount,
@@ -305,7 +305,6 @@ Map<String, dynamic> createUsersRecordData({
       'stayLoggedIn': stayLoggedIn,
       'firstTimeLogin': firstTimeLogin,
       'completedRegister': completedRegister,
-      'registerPage': registerPage,
       'favoritedGamesCount': favoritedGamesCount,
       'wishlistCount': wishlistCount,
       'cartCount': cartCount,
@@ -350,7 +349,6 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
             e1?.achievementsAccomplished, e2?.achievementsAccomplished) &&
         e1?.firstTimeLogin == e2?.firstTimeLogin &&
         e1?.completedRegister == e2?.completedRegister &&
-        e1?.registerPage == e2?.registerPage &&
         e1?.favoritedGamesCount == e2?.favoritedGamesCount &&
         e1?.wishlistCount == e2?.wishlistCount &&
         e1?.cartCount == e2?.cartCount &&
@@ -362,7 +360,9 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.amountEarned == e2?.amountEarned &&
         listEquality.equals(e1?.favoriteUsers, e2?.favoriteUsers) &&
         e1?.isStore == e2?.isStore &&
-        listEquality.equals(e1?.notifications, e2?.notifications);
+        listEquality.equals(e1?.notifications, e2?.notifications) &&
+        listEquality.equals(
+            e1?.completedRegisterPages, e2?.completedRegisterPages);
   }
 
   @override
@@ -387,7 +387,6 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.achievementsAccomplished,
         e?.firstTimeLogin,
         e?.completedRegister,
-        e?.registerPage,
         e?.favoritedGamesCount,
         e?.wishlistCount,
         e?.cartCount,
@@ -399,7 +398,8 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.amountEarned,
         e?.favoriteUsers,
         e?.isStore,
-        e?.notifications
+        e?.notifications,
+        e?.completedRegisterPages
       ]);
 
   @override

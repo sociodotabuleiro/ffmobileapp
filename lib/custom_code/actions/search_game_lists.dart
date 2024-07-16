@@ -12,23 +12,27 @@ import 'package:flutter/material.dart';
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
 Future<List<DocumentReference>> searchGameLists(String gameName) async {
-  // search my games collection to find documents which have the searched string in their name
-// Get the Firestore instance
+  // Get the Firestore instance
   final firestoreInstance = FirebaseFirestore.instance;
 
-// Create a query to search for documents with the searched string in their name
-  final query = firestoreInstance
-      .collection('games')
-      .where('name', isGreaterThanOrEqualTo: gameName)
-      .where('name', isLessThanOrEqualTo: gameName + '\uf8ff');
+  try {
+    // Create a query to search for documents with the searched string in their name
+    final query = firestoreInstance
+        .collection('games')
+        .where('name', isGreaterThanOrEqualTo: gameName)
+        .where('name', isLessThanOrEqualTo: gameName + '\uf8ff');
 
-// Execute the query and get the results
-  final querySnapshot = await query.get();
+    // Execute the query and get the results
+    final querySnapshot = await query.get();
 
-// Extract the document references from the query snapshot
-  final documentReferences =
-      querySnapshot.docs.map((doc) => doc.reference).toList();
+    // Extract the document references from the query snapshot
+    final documentReferences =
+        querySnapshot.docs.map((doc) => doc.reference).toList();
 
-// Return the document references
-  return documentReferences;
+    // Return the document references
+    return documentReferences;
+  } catch (e) {
+    print('Error searching game lists: $e');
+    return [];
+  }
 }

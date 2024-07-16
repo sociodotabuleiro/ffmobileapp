@@ -27,36 +27,42 @@ class AvatarSettingStruct extends FFFirebaseStruct {
   String? _raca;
   String get raca => _raca ?? '';
   set raca(String? val) => _raca = val;
+
   bool hasRaca() => _raca != null;
 
   // "genero" field.
   String? _genero;
   String get genero => _genero ?? '';
   set genero(String? val) => _genero = val;
+
   bool hasGenero() => _genero != null;
 
   // "idade" field.
   String? _idade;
   String get idade => _idade ?? '';
   set idade(String? val) => _idade = val;
+
   bool hasIdade() => _idade != null;
 
   // "epoca" field.
   String? _epoca;
   String get epoca => _epoca ?? '';
   set epoca(String? val) => _epoca = val;
+
   bool hasEpoca() => _epoca != null;
 
   // "aparenciafisica" field.
   String? _aparenciafisica;
   String get aparenciafisica => _aparenciafisica ?? '';
   set aparenciafisica(String? val) => _aparenciafisica = val;
+
   bool hasAparenciafisica() => _aparenciafisica != null;
 
   // "vestimentas" field.
   String? _vestimentas;
   String get vestimentas => _vestimentas ?? '';
   set vestimentas(String? val) => _vestimentas = val;
+
   bool hasVestimentas() => _vestimentas != null;
 
   static AvatarSettingStruct fromMap(Map<String, dynamic> data) =>

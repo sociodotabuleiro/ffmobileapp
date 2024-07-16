@@ -1,3 +1,5 @@
+import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -76,7 +78,7 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                             ),
                       ),
                       Text(
-                        '5/6',
+                        '6/7',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               fontFamily:
                                   FlutterFlowTheme.of(context).bodyMediumFamily,
@@ -297,6 +299,16 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                                           .validate()) {
                                     return;
                                   }
+                                  logFirebaseEvent('Button_backend_call');
+
+                                  await currentUserReference!.update({
+                                    ...mapToFirestore(
+                                      {
+                                        'completedRegisterPages':
+                                            FieldValue.arrayUnion([4]),
+                                      },
+                                    ),
+                                  });
                                   logFirebaseEvent('Button_navigate_to');
 
                                   context.pushNamed('addProfilePicture');

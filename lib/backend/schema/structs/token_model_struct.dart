@@ -17,6 +17,7 @@ class TokenModelStruct extends FFFirebaseStruct {
   String? _idToken;
   String get idToken => _idToken ?? '';
   set idToken(String? val) => _idToken = val;
+
   bool hasIdToken() => _idToken != null;
 
   static TokenModelStruct fromMap(Map<String, dynamic> data) =>

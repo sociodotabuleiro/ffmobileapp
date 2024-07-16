@@ -52,11 +52,11 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
       length: 3,
       initialIndex: 0,
     )..addListener(() => setState(() {}));
-    _model.nameTextController ??= TextEditingController();
-    _model.nameFocusNode ??= FocusNode();
-
     _model.descriptionTextController ??= TextEditingController();
     _model.descriptionFocusNode ??= FocusNode();
+
+    _model.nameTextController ??= TextEditingController();
+    _model.nameFocusNode ??= FocusNode();
 
     _model.playerCountTextController ??= TextEditingController();
     _model.playerCountFocusNode ??= FocusNode();
@@ -92,8 +92,8 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
     _model.heightFocusNode ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
-          _model.nameTextController?.text = 'Nome do Jogo';
           _model.descriptionTextController?.text = 'Descrição';
+          _model.nameTextController?.text = 'Nome do Jogo';
           _model.playerCountTextController?.text = 'Quantidade de Jogadores';
           _model.playTimeTextController?.text = 'Tempo de Jogo';
           _model.ageRecommendationTextController?.text = 'Idade Recomendada';
@@ -1034,17 +1034,15 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                               '') {
                                                         logFirebaseEvent(
                                                             'searchField_update_page_state');
-                                                        setState(() {
-                                                          _model.isSearching =
-                                                              true;
-                                                        });
+                                                        _model.isSearching =
+                                                            true;
+                                                        setState(() {});
                                                       } else {
                                                         logFirebaseEvent(
                                                             'searchField_update_page_state');
-                                                        setState(() {
-                                                          _model.isSearching =
-                                                              false;
-                                                        });
+                                                        _model.isSearching =
+                                                            false;
+                                                        setState(() {});
                                                       }
                                                     },
                                                   ),
@@ -1246,6 +1244,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                             ),
                                           );
                                         }
+
                                         return ListView.separated(
                                           padding: EdgeInsets.zero,
                                           scrollDirection: Axis.vertical,
@@ -1282,8 +1281,10 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                       ),
                                                     );
                                                   }
+
                                                   final cardGamesRecord =
                                                       snapshot.data!;
+
                                                   return InkWell(
                                                     splashColor:
                                                         Colors.transparent,
@@ -1298,10 +1299,9 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                           'GAME_LIST_ADMIN_Card_qw6m4ax5_ON_TAP');
                                                       logFirebaseEvent(
                                                           'Card_update_page_state');
-                                                      setState(() {
-                                                        _model.gameView =
-                                                            cardGamesRecord;
-                                                      });
+                                                      _model.gameView =
+                                                          cardGamesRecord;
+                                                      setState(() {});
                                                     },
                                                     child: Card(
                                                       clipBehavior: Clip
@@ -1504,10 +1504,9 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                     'GAME_LIST_ADMIN_Card_h2amovkr_ON_TAP');
                                                 logFirebaseEvent(
                                                     'Card_update_page_state');
-                                                setState(() {
-                                                  _model.gameView =
-                                                      listViewGamesRecord;
-                                                });
+                                                _model.gameView =
+                                                    listViewGamesRecord;
+                                                setState(() {});
                                               },
                                               child: Card(
                                                 clipBehavior:
@@ -1728,132 +1727,6 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                                           0.0,
                                                                           8.0,
                                                                           0.0),
-                                                              child: SizedBox(
-                                                                width: MediaQuery.sizeOf(
-                                                                            context)
-                                                                        .width *
-                                                                    0.3,
-                                                                child:
-                                                                    TextFormField(
-                                                                  controller: _model
-                                                                      .nameTextController,
-                                                                  focusNode: _model
-                                                                      .nameFocusNode,
-                                                                  autofocus:
-                                                                      true,
-                                                                  obscureText:
-                                                                      false,
-                                                                  decoration:
-                                                                      InputDecoration(
-                                                                    labelText:
-                                                                        'Nome',
-                                                                    labelStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .labelMedium
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              FlutterFlowTheme.of(context).labelMediumFamily,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          useGoogleFonts:
-                                                                              GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).labelMediumFamily),
-                                                                          lineHeight:
-                                                                              1.0,
-                                                                        ),
-                                                                    hintStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .labelMedium
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              FlutterFlowTheme.of(context).labelMediumFamily,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          useGoogleFonts:
-                                                                              GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).labelMediumFamily),
-                                                                        ),
-                                                                    enabledBorder:
-                                                                        UnderlineInputBorder(
-                                                                      borderSide:
-                                                                          BorderSide(
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .alternate,
-                                                                        width:
-                                                                            2.0,
-                                                                      ),
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              8.0),
-                                                                    ),
-                                                                    focusedBorder:
-                                                                        UnderlineInputBorder(
-                                                                      borderSide:
-                                                                          BorderSide(
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .primary,
-                                                                        width:
-                                                                            2.0,
-                                                                      ),
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              8.0),
-                                                                    ),
-                                                                    errorBorder:
-                                                                        UnderlineInputBorder(
-                                                                      borderSide:
-                                                                          BorderSide(
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .error,
-                                                                        width:
-                                                                            2.0,
-                                                                      ),
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              8.0),
-                                                                    ),
-                                                                    focusedErrorBorder:
-                                                                        UnderlineInputBorder(
-                                                                      borderSide:
-                                                                          BorderSide(
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .error,
-                                                                        width:
-                                                                            2.0,
-                                                                      ),
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              8.0),
-                                                                    ),
-                                                                  ),
-                                                                  style: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            FlutterFlowTheme.of(context).bodyMediumFamily,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        useGoogleFonts:
-                                                                            GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyMediumFamily),
-                                                                        lineHeight:
-                                                                            1.6,
-                                                                      ),
-                                                                  validator: _model
-                                                                      .nameTextControllerValidator
-                                                                      .asValidator(
-                                                                          context),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Expanded(
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          8.0,
-                                                                          0.0,
-                                                                          8.0,
-                                                                          0.0),
                                                               child:
                                                                   TextFormField(
                                                                 controller: _model
@@ -1969,6 +1842,132 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                                     .descriptionTextControllerValidator
                                                                     .asValidator(
                                                                         context),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          8.0,
+                                                                          0.0,
+                                                                          8.0,
+                                                                          0.0),
+                                                              child: SizedBox(
+                                                                width: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .width *
+                                                                    0.3,
+                                                                child:
+                                                                    TextFormField(
+                                                                  controller: _model
+                                                                      .nameTextController,
+                                                                  focusNode: _model
+                                                                      .nameFocusNode,
+                                                                  autofocus:
+                                                                      true,
+                                                                  obscureText:
+                                                                      false,
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    labelText:
+                                                                        'Nome',
+                                                                    labelStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              FlutterFlowTheme.of(context).labelMediumFamily,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          useGoogleFonts:
+                                                                              GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).labelMediumFamily),
+                                                                          lineHeight:
+                                                                              1.0,
+                                                                        ),
+                                                                    hintStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              FlutterFlowTheme.of(context).labelMediumFamily,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          useGoogleFonts:
+                                                                              GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).labelMediumFamily),
+                                                                        ),
+                                                                    enabledBorder:
+                                                                        UnderlineInputBorder(
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .alternate,
+                                                                        width:
+                                                                            2.0,
+                                                                      ),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              8.0),
+                                                                    ),
+                                                                    focusedBorder:
+                                                                        UnderlineInputBorder(
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .primary,
+                                                                        width:
+                                                                            2.0,
+                                                                      ),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              8.0),
+                                                                    ),
+                                                                    errorBorder:
+                                                                        UnderlineInputBorder(
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .error,
+                                                                        width:
+                                                                            2.0,
+                                                                      ),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              8.0),
+                                                                    ),
+                                                                    focusedErrorBorder:
+                                                                        UnderlineInputBorder(
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .error,
+                                                                        width:
+                                                                            2.0,
+                                                                      ),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              8.0),
+                                                                    ),
+                                                                  ),
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            FlutterFlowTheme.of(context).bodyMediumFamily,
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                        useGoogleFonts:
+                                                                            GoogleFonts.asMap().containsKey(FlutterFlowTheme.of(context).bodyMediumFamily),
+                                                                        lineHeight:
+                                                                            1.6,
+                                                                      ),
+                                                                  validator: _model
+                                                                      .nameTextControllerValidator
+                                                                      .asValidator(
+                                                                          context),
+                                                                ),
                                                               ),
                                                             ),
                                                           ),

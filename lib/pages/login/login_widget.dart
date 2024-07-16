@@ -65,10 +65,22 @@ class _LoginWidgetState extends State<LoginWidget> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Material(
-                    color: Colors.transparent,
-                    elevation: 4.0,
-                    shape: const RoundedRectangleBorder(
+                  Container(
+                    width: () {
+                      if (MediaQuery.sizeOf(context).width < kBreakpointSmall) {
+                        return 430.0;
+                      } else if (MediaQuery.sizeOf(context).width <
+                          kBreakpointMedium) {
+                        return 430.0;
+                      } else if (MediaQuery.sizeOf(context).width <
+                          kBreakpointLarge) {
+                        return 560.0;
+                      } else {
+                        return 560.0;
+                      }
+                    }(),
+                    height: MediaQuery.sizeOf(context).height * 0.2,
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(0.0),
                         bottomRight: Radius.circular(0.0),
@@ -76,42 +88,16 @@ class _LoginWidgetState extends State<LoginWidget> {
                         topRight: Radius.circular(16.0),
                       ),
                     ),
-                    child: Container(
-                      width: () {
-                        if (MediaQuery.sizeOf(context).width <
-                            kBreakpointSmall) {
-                          return 430.0;
-                        } else if (MediaQuery.sizeOf(context).width <
-                            kBreakpointMedium) {
-                          return 430.0;
-                        } else if (MediaQuery.sizeOf(context).width <
-                            kBreakpointLarge) {
-                          return 560.0;
-                        } else {
-                          return 560.0;
-                        }
-                      }(),
-                      height: MediaQuery.sizeOf(context).height * 0.2,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(0.0),
-                          bottomRight: Radius.circular(0.0),
-                          topLeft: Radius.circular(16.0),
-                          topRight: Radius.circular(16.0),
-                        ),
-                      ),
-                      child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.asset(
-                            'assets/images/logo_text.png',
-                            width: MediaQuery.sizeOf(context).width * 1.0,
-                            height: MediaQuery.sizeOf(context).height * 0.3,
-                            fit: BoxFit.contain,
-                          ),
+                    child: Padding(
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.asset(
+                          'assets/images/logo_text.png',
+                          width: MediaQuery.sizeOf(context).width * 1.0,
+                          height: MediaQuery.sizeOf(context).height * 0.3,
+                          fit: BoxFit.contain,
                         ),
                       ),
                     ),
@@ -125,19 +111,23 @@ class _LoginWidgetState extends State<LoginWidget> {
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Text(
-                          'Seja bem vindo!',
-                          style: FlutterFlowTheme.of(context)
-                              .headlineMedium
-                              .override(
-                                fontFamily: FlutterFlowTheme.of(context)
-                                    .headlineMediumFamily,
-                                color: FlutterFlowTheme.of(context).secondary,
-                                letterSpacing: 0.0,
-                                useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                    FlutterFlowTheme.of(context)
-                                        .headlineMediumFamily),
-                              ),
+                        Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              0.0, 16.0, 0.0, 0.0),
+                          child: Text(
+                            'Seja bem vindo!',
+                            style: FlutterFlowTheme.of(context)
+                                .headlineMedium
+                                .override(
+                                  fontFamily: FlutterFlowTheme.of(context)
+                                      .headlineMediumFamily,
+                                  color: FlutterFlowTheme.of(context).secondary,
+                                  letterSpacing: 0.0,
+                                  useGoogleFonts: GoogleFonts.asMap()
+                                      .containsKey(FlutterFlowTheme.of(context)
+                                          .headlineMediumFamily),
+                                ),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsetsDirectional.fromSTEB(
@@ -416,8 +406,24 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   padding: const EdgeInsetsDirectional.fromSTEB(
                                       8.0, 16.0, 8.0, 0.0),
                                   child: FFButtonWidget(
-                                    onPressed: () {
-                                      print('Button pressed ...');
+                                    onPressed: () async {
+                                      logFirebaseEvent(
+                                          'LOGIN_PAGE_ENTRAR_BTN_ON_TAP');
+                                      logFirebaseEvent('Button_auth');
+                                      GoRouter.of(context).prepareAuthEvent();
+
+                                      final user =
+                                          await authManager.signInWithEmail(
+                                        context,
+                                        _model.emailTextController.text,
+                                        _model.passwordTextController.text,
+                                      );
+                                      if (user == null) {
+                                        return;
+                                      }
+
+                                      context.goNamedAuth(
+                                          'HomePage', context.mounted);
                                     },
                                     text: 'Entrar',
                                     options: FFButtonOptions(
@@ -632,9 +638,18 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   if (user == null) {
                                     return;
                                   }
+                                  logFirebaseEvent('IconButton_navigate_to');
 
-                                  context.goNamedAuth(
-                                      'HomePage', context.mounted);
+                                  context.pushNamedAuth(
+                                    'addProfilePersonalInfo',
+                                    context.mounted,
+                                    queryParameters: {
+                                      'userRef': serializeParam(
+                                        currentUserReference,
+                                        ParamType.DocumentReference,
+                                      ),
+                                    }.withoutNulls,
+                                  );
                                 },
                               ),
                             ),
@@ -645,21 +660,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 buttonSize: 65.0,
                                 icon: Icon(
                                   Icons.facebook,
-                                  color: FlutterFlowTheme.of(context).secondary,
-                                  size: 45.0,
-                                ),
-                                onPressed: () {
-                                  print('IconButton pressed ...');
-                                },
-                              ),
-                            ),
-                            Flexible(
-                              flex: 1,
-                              child: FlutterFlowIconButton(
-                                borderWidth: 1.0,
-                                buttonSize: 65.0,
-                                icon: Icon(
-                                  Icons.apple,
                                   color: FlutterFlowTheme.of(context).secondary,
                                   size: 45.0,
                                 ),
@@ -692,8 +692,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                             borderRadius: BorderRadius.circular(8.0),
                             child: Image.asset(
                               'assets/images/ludo_logo_transparente_1.png',
-                              width: 300.0,
-                              height: 100.0,
+                              width: 250.0,
+                              height: 80.0,
                               fit: BoxFit.contain,
                               alignment: const Alignment(-1.0, 0.0),
                             ),
@@ -718,7 +718,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                         width: double.infinity,
                         height: MediaQuery.sizeOf(context).height * 0.08,
                         decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context).primaryBackground,
+                          color:
+                              FlutterFlowTheme.of(context).secondaryBackground,
                           borderRadius: const BorderRadius.only(
                             bottomLeft: Radius.circular(16.0),
                             bottomRight: Radius.circular(16.0),

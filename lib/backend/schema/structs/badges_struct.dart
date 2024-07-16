@@ -23,24 +23,28 @@ class BadgesStruct extends FFFirebaseStruct {
   String? _id;
   String get id => _id ?? '';
   set id(String? val) => _id = val;
+
   bool hasId() => _id != null;
 
   // "name" field.
   String? _name;
   String get name => _name ?? '';
   set name(String? val) => _name = val;
+
   bool hasName() => _name != null;
 
   // "description" field.
   String? _description;
   String get description => _description ?? '';
   set description(String? val) => _description = val;
+
   bool hasDescription() => _description != null;
 
   // "iconUrl" field.
   String? _iconUrl;
   String get iconUrl => _iconUrl ?? '';
   set iconUrl(String? val) => _iconUrl = val;
+
   bool hasIconUrl() => _iconUrl != null;
 
   static BadgesStruct fromMap(Map<String, dynamic> data) => BadgesStruct(

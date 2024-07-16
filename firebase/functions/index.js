@@ -5,9 +5,10 @@ admin.initializeApp();
 const stripeModule = require("stripe");
 
 // Credentials
-const kStripeProdSecretKey = "";
+const kStripeProdSecretKey =
+  "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";
 const kStripeTestSecretKey =
-  "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";
+  "sk_test_51P8mP2HGjqK04AXhn4zyqJaXmA9Z9YmF8HBOrpagEXhW5yvWDOUeM57wiTOr1iZCWqqv0Qjnd272ROnGiwsCI6Vf006pByWSQB";
 
 const secretKey = (isProd) =>
   isProd ? kStripeProdSecretKey : kStripeTestSecretKey;

@@ -3,9 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
-import '/backend/schema/util/schema_util.dart';
 
-import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 class SignUpRequestStruct extends FFFirebaseStruct {
@@ -21,12 +19,14 @@ class SignUpRequestStruct extends FFFirebaseStruct {
   String? _idToken;
   String get idToken => _idToken ?? '';
   set idToken(String? val) => _idToken = val;
+
   bool hasIdToken() => _idToken != null;
 
   // "user" field.
   DocumentReference? _user;
   DocumentReference? get user => _user;
   set user(DocumentReference? val) => _user = val;
+
   bool hasUser() => _user != null;
 
   static SignUpRequestStruct fromMap(Map<String, dynamic> data) =>

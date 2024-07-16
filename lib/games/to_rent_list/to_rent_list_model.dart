@@ -1,4 +1,4 @@
-import '/components/game_to_rent_widget.dart';
+import '/components/nav_bar_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'to_rent_list_widget.dart' show ToRentListWidget;
 import 'package:flutter/material.dart';
@@ -9,17 +9,19 @@ class ToRentListModel extends FlutterFlowModel<ToRentListWidget> {
   final unfocusNode = FocusNode();
   // Stores action output result for [Custom Action - filterByGeoHash] action in toRentList widget.
   List<DocumentReference>? searchedList;
-  // Model for gameToRent component.
-  late GameToRentModel gameToRentModel;
+  // Stores action output result for [Stripe Payment] action in Button widget.
+  String? paymentId;
+  // Model for navBar component.
+  late NavBarModel navBarModel;
 
   @override
   void initState(BuildContext context) {
-    gameToRentModel = createModel(context, () => GameToRentModel());
+    navBarModel = createModel(context, () => NavBarModel());
   }
 
   @override
   void dispose() {
     unfocusNode.dispose();
-    gameToRentModel.dispose();
+    navBarModel.dispose();
   }
 }

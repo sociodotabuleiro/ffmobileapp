@@ -157,7 +157,10 @@ class _SideNav02WidgetState extends State<SideNav02Widget>
                           child: CachedNetworkImage(
                             fadeInDuration: const Duration(milliseconds: 500),
                             fadeOutDuration: const Duration(milliseconds: 500),
-                            imageUrl: currentUserPhoto,
+                            imageUrl: valueOrDefault<String>(
+                              currentUserPhoto,
+                              'https://firebasestorage.googleapis.com/v0/b/sociodotabuleiro-main.appspot.com/o/landpage%2FwhatWeDo%2FEllipse3.png?alt=media&token=2fa389e7-8eec-4c37-9c33-63f89eaa8dee',
+                            ),
                             width: 44.0,
                             height: 44.0,
                             fit: BoxFit.cover,
@@ -378,7 +381,7 @@ class _SideNav02WidgetState extends State<SideNav02Widget>
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             FaIcon(
-                              FontAwesomeIcons.gamepad,
+                              FontAwesomeIcons.search,
                               color: Theme.of(context).brightness ==
                                       Brightness.light
                                   ? FlutterFlowTheme.of(context).tertiary

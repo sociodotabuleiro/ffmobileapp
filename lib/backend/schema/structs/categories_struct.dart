@@ -21,15 +21,22 @@ class CategoriesStruct extends FFFirebaseStruct {
   List<String>? _names;
   List<String> get names => _names ?? const [];
   set names(List<String>? val) => _names = val;
-  void updateNames(Function(List<String>) updateFn) => updateFn(_names ??= []);
+
+  void updateNames(Function(List<String>) updateFn) {
+    updateFn(_names ??= []);
+  }
+
   bool hasNames() => _names != null;
 
   // "thumbnail" field.
   List<String>? _thumbnail;
   List<String> get thumbnail => _thumbnail ?? const [];
   set thumbnail(List<String>? val) => _thumbnail = val;
-  void updateThumbnail(Function(List<String>) updateFn) =>
-      updateFn(_thumbnail ??= []);
+
+  void updateThumbnail(Function(List<String>) updateFn) {
+    updateFn(_thumbnail ??= []);
+  }
+
   bool hasThumbnail() => _thumbnail != null;
 
   static CategoriesStruct fromMap(Map<String, dynamic> data) =>
@@ -52,12 +59,12 @@ class CategoriesStruct extends FFFirebaseStruct {
         'names': serializeParam(
           _names,
           ParamType.String,
-          true,
+          isList: true,
         ),
         'thumbnail': serializeParam(
           _thumbnail,
           ParamType.String,
-          true,
+          isList: true,
         ),
       }.withoutNulls;
 

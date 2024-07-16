@@ -1,4 +1,5 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -77,7 +78,7 @@ class _AddProfileCodeConfirmationWidgetState
                             ),
                       ),
                       Text(
-                        '4/6',
+                        '5/7',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               fontFamily:
                                   FlutterFlowTheme.of(context).bodyMediumFamily,
@@ -124,7 +125,7 @@ class _AddProfileCodeConfirmationWidgetState
                           child: PinCodeTextField(
                             autoDisposeControllers: false,
                             appContext: context,
-                            length: 4,
+                            length: 6,
                             textStyle: FlutterFlowTheme.of(context)
                                 .bodyLarge
                                 .override(
@@ -210,10 +211,20 @@ class _AddProfileCodeConfirmationWidgetState
                               return;
                             }
 
+                            logFirebaseEvent('Button_backend_call');
+
+                            await currentUserReference!.update({
+                              ...mapToFirestore(
+                                {
+                                  'completedRegisterPages':
+                                      FieldValue.arrayUnion([3]),
+                                },
+                              ),
+                            });
                             logFirebaseEvent('Button_navigate_to');
 
                             context.goNamedAuth(
-                                'addProfileAddress', context.mounted);
+                                'addProfileGames', context.mounted);
                           },
                           text: 'Confirmar código',
                           options: FFButtonOptions(

@@ -7,8 +7,8 @@ import '/backend/schema/util/firestore_util.dart';
 import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
-class ToRentRecord extends FirestoreRecord {
-  ToRentRecord._(
+class MyGamesRecord extends FirestoreRecord {
+  MyGamesRecord._(
     super.reference,
     super.data,
   ) {
@@ -30,81 +30,91 @@ class ToRentRecord extends FirestoreRecord {
   double get price => _price ?? 0.0;
   bool hasPrice() => _price != null;
 
+  // "toRent" field.
+  bool? _toRent;
+  bool get toRent => _toRent ?? false;
+  bool hasToRent() => _toRent != null;
+
   DocumentReference get parentReference => reference.parent.parent!;
 
   void _initializeFields() {
     _gameRef = snapshotData['gameRef'] as DocumentReference?;
     _availableDates = getDataList(snapshotData['availableDates']);
     _price = castToType<double>(snapshotData['price']);
+    _toRent = snapshotData['toRent'] as bool?;
   }
 
   static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
       parent != null
-          ? parent.collection('toRent')
-          : FirebaseFirestore.instance.collectionGroup('toRent');
+          ? parent.collection('myGames')
+          : FirebaseFirestore.instance.collectionGroup('myGames');
 
   static DocumentReference createDoc(DocumentReference parent, {String? id}) =>
-      parent.collection('toRent').doc(id);
+      parent.collection('myGames').doc(id);
 
-  static Stream<ToRentRecord> getDocument(DocumentReference ref) =>
-      ref.snapshots().map((s) => ToRentRecord.fromSnapshot(s));
+  static Stream<MyGamesRecord> getDocument(DocumentReference ref) =>
+      ref.snapshots().map((s) => MyGamesRecord.fromSnapshot(s));
 
-  static Future<ToRentRecord> getDocumentOnce(DocumentReference ref) =>
-      ref.get().then((s) => ToRentRecord.fromSnapshot(s));
+  static Future<MyGamesRecord> getDocumentOnce(DocumentReference ref) =>
+      ref.get().then((s) => MyGamesRecord.fromSnapshot(s));
 
-  static ToRentRecord fromSnapshot(DocumentSnapshot snapshot) => ToRentRecord._(
+  static MyGamesRecord fromSnapshot(DocumentSnapshot snapshot) =>
+      MyGamesRecord._(
         snapshot.reference,
         mapFromFirestore(snapshot.data() as Map<String, dynamic>),
       );
 
-  static ToRentRecord getDocumentFromData(
+  static MyGamesRecord getDocumentFromData(
     Map<String, dynamic> data,
     DocumentReference reference,
   ) =>
-      ToRentRecord._(reference, mapFromFirestore(data));
+      MyGamesRecord._(reference, mapFromFirestore(data));
 
   @override
   String toString() =>
-      'ToRentRecord(reference: ${reference.path}, data: $snapshotData)';
+      'MyGamesRecord(reference: ${reference.path}, data: $snapshotData)';
 
   @override
   int get hashCode => reference.path.hashCode;
 
   @override
   bool operator ==(other) =>
-      other is ToRentRecord &&
+      other is MyGamesRecord &&
       reference.path.hashCode == other.reference.path.hashCode;
 }
 
-Map<String, dynamic> createToRentRecordData({
+Map<String, dynamic> createMyGamesRecordData({
   DocumentReference? gameRef,
   double? price,
+  bool? toRent,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'gameRef': gameRef,
       'price': price,
+      'toRent': toRent,
     }.withoutNulls,
   );
 
   return firestoreData;
 }
 
-class ToRentRecordDocumentEquality implements Equality<ToRentRecord> {
-  const ToRentRecordDocumentEquality();
+class MyGamesRecordDocumentEquality implements Equality<MyGamesRecord> {
+  const MyGamesRecordDocumentEquality();
 
   @override
-  bool equals(ToRentRecord? e1, ToRentRecord? e2) {
+  bool equals(MyGamesRecord? e1, MyGamesRecord? e2) {
     const listEquality = ListEquality();
     return e1?.gameRef == e2?.gameRef &&
         listEquality.equals(e1?.availableDates, e2?.availableDates) &&
-        e1?.price == e2?.price;
+        e1?.price == e2?.price &&
+        e1?.toRent == e2?.toRent;
   }
 
   @override
-  int hash(ToRentRecord? e) =>
-      const ListEquality().hash([e?.gameRef, e?.availableDates, e?.price]);
+  int hash(MyGamesRecord? e) => const ListEquality()
+      .hash([e?.gameRef, e?.availableDates, e?.price, e?.toRent]);
 
   @override
-  bool isValidKey(Object? o) => o is ToRentRecord;
+  bool isValidKey(Object? o) => o is MyGamesRecord;
 }

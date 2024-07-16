@@ -29,44 +29,57 @@ class GameLocationAvailabilityStruct extends FFFirebaseStruct {
   String? _cityName;
   String get cityName => _cityName ?? '';
   set cityName(String? val) => _cityName = val;
+
   bool hasCityName() => _cityName != null;
 
   // "distance" field.
   double? _distance;
   double get distance => _distance ?? 0.0;
   set distance(double? val) => _distance = val;
-  void incrementDistance(double amount) => _distance = distance + amount;
+
+  void incrementDistance(double amount) => distance = distance + amount;
+
   bool hasDistance() => _distance != null;
 
   // "dayRate" field.
   double? _dayRate;
   double get dayRate => _dayRate ?? 0.0;
   set dayRate(double? val) => _dayRate = val;
-  void incrementDayRate(double amount) => _dayRate = dayRate + amount;
+
+  void incrementDayRate(double amount) => dayRate = dayRate + amount;
+
   bool hasDayRate() => _dayRate != null;
 
   // "deliveryRate" field.
   double? _deliveryRate;
   double get deliveryRate => _deliveryRate ?? 0.0;
   set deliveryRate(double? val) => _deliveryRate = val;
+
   void incrementDeliveryRate(double amount) =>
-      _deliveryRate = deliveryRate + amount;
+      deliveryRate = deliveryRate + amount;
+
   bool hasDeliveryRate() => _deliveryRate != null;
 
   // "availabilityDates" field.
   List<DateTime>? _availabilityDates;
   List<DateTime> get availabilityDates => _availabilityDates ?? const [];
   set availabilityDates(List<DateTime>? val) => _availabilityDates = val;
-  void updateAvailabilityDates(Function(List<DateTime>) updateFn) =>
-      updateFn(_availabilityDates ??= []);
+
+  void updateAvailabilityDates(Function(List<DateTime>) updateFn) {
+    updateFn(_availabilityDates ??= []);
+  }
+
   bool hasAvailabilityDates() => _availabilityDates != null;
 
   // "coordinates" field.
   List<LatLng>? _coordinates;
   List<LatLng> get coordinates => _coordinates ?? const [];
   set coordinates(List<LatLng>? val) => _coordinates = val;
-  void updateCoordinates(Function(List<LatLng>) updateFn) =>
-      updateFn(_coordinates ??= []);
+
+  void updateCoordinates(Function(List<LatLng>) updateFn) {
+    updateFn(_coordinates ??= []);
+  }
+
   bool hasCoordinates() => _coordinates != null;
 
   static GameLocationAvailabilityStruct fromMap(Map<String, dynamic> data) =>
@@ -114,12 +127,12 @@ class GameLocationAvailabilityStruct extends FFFirebaseStruct {
         'availabilityDates': serializeParam(
           _availabilityDates,
           ParamType.DateTime,
-          true,
+          isList: true,
         ),
         'coordinates': serializeParam(
           _coordinates,
           ParamType.LatLng,
-          true,
+          isList: true,
         ),
       }.withoutNulls;
 

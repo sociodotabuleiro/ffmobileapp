@@ -13,7 +13,7 @@ import 'schema/achievements_record.dart';
 import 'schema/favorited_games_record.dart';
 import 'schema/wishlist_record.dart';
 import 'schema/cart_record.dart';
-import 'schema/to_rent_record.dart';
+import 'schema/my_games_record.dart';
 import 'dart:async';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -32,7 +32,7 @@ export 'schema/achievements_record.dart';
 export 'schema/favorited_games_record.dart';
 export 'schema/wishlist_record.dart';
 export 'schema/cart_record.dart';
-export 'schema/to_rent_record.dart';
+export 'schema/my_games_record.dart';
 
 /// Functions to query UsersRecords (as a Stream and as a Future).
 Future<int> queryUsersRecordCount({
@@ -670,57 +670,57 @@ Future<FFFirestorePage<CartRecord>> queryCartRecordPage({
       return page;
     });
 
-/// Functions to query ToRentRecords (as a Stream and as a Future).
-Future<int> queryToRentRecordCount({
+/// Functions to query MyGamesRecords (as a Stream and as a Future).
+Future<int> queryMyGamesRecordCount({
   DocumentReference? parent,
   Query Function(Query)? queryBuilder,
   int limit = -1,
 }) =>
     queryCollectionCount(
-      ToRentRecord.collection(parent),
+      MyGamesRecord.collection(parent),
       queryBuilder: queryBuilder,
       limit: limit,
     );
 
-Stream<List<ToRentRecord>> queryToRentRecord({
+Stream<List<MyGamesRecord>> queryMyGamesRecord({
   DocumentReference? parent,
   Query Function(Query)? queryBuilder,
   int limit = -1,
   bool singleRecord = false,
 }) =>
     queryCollection(
-      ToRentRecord.collection(parent),
-      ToRentRecord.fromSnapshot,
+      MyGamesRecord.collection(parent),
+      MyGamesRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,
     );
 
-Future<List<ToRentRecord>> queryToRentRecordOnce({
+Future<List<MyGamesRecord>> queryMyGamesRecordOnce({
   DocumentReference? parent,
   Query Function(Query)? queryBuilder,
   int limit = -1,
   bool singleRecord = false,
 }) =>
     queryCollectionOnce(
-      ToRentRecord.collection(parent),
-      ToRentRecord.fromSnapshot,
+      MyGamesRecord.collection(parent),
+      MyGamesRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,
     );
-Future<FFFirestorePage<ToRentRecord>> queryToRentRecordPage({
+Future<FFFirestorePage<MyGamesRecord>> queryMyGamesRecordPage({
   DocumentReference? parent,
   Query Function(Query)? queryBuilder,
   DocumentSnapshot? nextPageMarker,
   required int pageSize,
   required bool isStream,
-  required PagingController<DocumentSnapshot?, ToRentRecord> controller,
+  required PagingController<DocumentSnapshot?, MyGamesRecord> controller,
   List<StreamSubscription?>? streamSubscriptions,
 }) =>
     queryCollectionPage(
-      ToRentRecord.collection(parent),
-      ToRentRecord.fromSnapshot,
+      MyGamesRecord.collection(parent),
+      MyGamesRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       nextPageMarker: nextPageMarker,
       pageSize: pageSize,
@@ -732,7 +732,7 @@ Future<FFFirestorePage<ToRentRecord>> queryToRentRecordPage({
       );
       if (isStream) {
         final streamSubscription =
-            (page.dataStream)?.listen((List<ToRentRecord> data) {
+            (page.dataStream)?.listen((List<MyGamesRecord> data) {
           for (var item in data) {
             final itemIndexes = controller.itemList!
                 .asMap()

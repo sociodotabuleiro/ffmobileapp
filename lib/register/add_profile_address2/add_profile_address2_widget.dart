@@ -129,7 +129,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                             ),
                       ),
                       Text(
-                        '2/6',
+                        '3/7',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               fontFamily:
                                   FlutterFlowTheme.of(context).bodyMediumFamily,
@@ -1113,27 +1113,34 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                 'ADD_PROFILE_ADDRESS2_PRÓXIMA_ETAPA_BTN_O');
                             logFirebaseEvent('Button_backend_call');
 
-                            await currentUserReference!
-                                .update(createUsersRecordData(
-                              address: updateAddressStruct(
-                                AddressStruct(
-                                  street: _model.streetTextController.text,
-                                  number: _model.numberTextController.text,
-                                  complement:
-                                      _model.complementTextController.text,
-                                  neighborhood:
-                                      _model.neighborhoodTextController.text,
-                                  closeReferencePoint:
-                                      _model.referencePointTextController.text,
-                                  zip: _model.zipCodeTextController.text,
-                                  country: 'Brasil',
-                                  city: _model.cityTextController.text,
-                                  state: _model.stateTextController.text,
-                                  coordinates: FFAppState().userAddressLatLng,
+                            await currentUserReference!.update({
+                              ...createUsersRecordData(
+                                address: updateAddressStruct(
+                                  AddressStruct(
+                                    street: _model.streetTextController.text,
+                                    number: _model.numberTextController.text,
+                                    complement:
+                                        _model.complementTextController.text,
+                                    neighborhood:
+                                        _model.neighborhoodTextController.text,
+                                    closeReferencePoint: _model
+                                        .referencePointTextController.text,
+                                    zip: _model.zipCodeTextController.text,
+                                    country: 'Brasil',
+                                    city: _model.cityTextController.text,
+                                    state: _model.stateTextController.text,
+                                    coordinates: FFAppState().userAddressLatLng,
+                                  ),
+                                  clearUnsetFields: true,
                                 ),
-                                clearUnsetFields: true,
                               ),
-                            ));
+                              ...mapToFirestore(
+                                {
+                                  'completedRegisterPages':
+                                      FieldValue.arrayUnion([2]),
+                                },
+                              ),
+                            });
                             logFirebaseEvent('Button_custom_action');
                             await actions.getGeohash(
                               context,

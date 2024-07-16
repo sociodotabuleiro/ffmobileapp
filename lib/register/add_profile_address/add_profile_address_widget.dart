@@ -75,7 +75,7 @@ class _AddProfileAddressWidgetState extends State<AddProfileAddressWidget> {
                             ),
                       ),
                       Text(
-                        '2/6',
+                        '2/7',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               fontFamily:
                                   FlutterFlowTheme.of(context).bodyMediumFamily,
@@ -279,12 +279,11 @@ class _AddProfileAddressWidgetState extends State<AddProfileAddressWidget> {
                               return;
                             }
                             logFirebaseEvent('Button_update_app_state');
-                            setState(() {
-                              FFAppState().userAddress =
-                                  _model.placePickerValue.address;
-                              FFAppState().userAddressLatLng =
-                                  _model.placePickerValue.latLng;
-                            });
+                            FFAppState().userAddress =
+                                _model.placePickerValue.address;
+                            FFAppState().userAddressLatLng =
+                                _model.placePickerValue.latLng;
+                            setState(() {});
                             logFirebaseEvent('Button_navigate_to');
 
                             context.pushNamed('addProfileAddress2');

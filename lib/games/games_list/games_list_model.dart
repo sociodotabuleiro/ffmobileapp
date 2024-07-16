@@ -24,6 +24,14 @@ class GamesListModel extends FlutterFlowModel<GamesListWidget> {
   String? Function(BuildContext, String?)? textControllerValidator;
   // Stores action output result for [Custom Action - searchGameLists] action in TextField widget.
   List<DocumentReference>? searchedGamesList;
+  // State field(s) for PageView widget.
+  PageController? pageViewController;
+
+  int get pageViewCurrentIndex => pageViewController != null &&
+          pageViewController!.hasClients &&
+          pageViewController!.page != null
+      ? pageViewController!.page!.round()
+      : 0;
   // Model for navBar component.
   late NavBarModel navBarModel;
   // Model for SideNav02 component.

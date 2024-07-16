@@ -24,3 +24,8 @@ export '/pages/dashboard_responsive/dashboard_responsive_widget.dart'
     show DashboardResponsiveWidget;
 export '/games/game_list_admin/game_list_admin_widget.dart'
     show GameListAdminWidget;
+export '/games/my_games/my_games_widget.dart' show MyGamesWidget;
+export '/games/my_cart/my_cart_widget.dart' show MyCartWidget;
+export '/payment/payment01/payment01_widget.dart' show Payment01Widget;
+export '/payment/checkout/checkout_widget.dart' show CheckoutWidget;
+export '/save_actions/save_actions_widget.dart' show SaveActionsWidget;

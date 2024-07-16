@@ -3,10 +3,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
-import '/backend/schema/util/schema_util.dart';
 import '/backend/schema/enums/enums.dart';
 
-import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 class AuthDetailsStruct extends FFFirebaseStruct {
@@ -34,48 +32,56 @@ class AuthDetailsStruct extends FFFirebaseStruct {
   String? _userID;
   String get userID => _userID ?? '';
   set userID(String? val) => _userID = val;
+
   bool hasUserID() => _userID != null;
 
   // "method" field.
   AuthMethods? _method;
   AuthMethods? get method => _method;
   set method(AuthMethods? val) => _method = val;
+
   bool hasMethod() => _method != null;
 
   // "jwtTokenHash" field.
   String? _jwtTokenHash;
   String get jwtTokenHash => _jwtTokenHash ?? '';
   set jwtTokenHash(String? val) => _jwtTokenHash = val;
+
   bool hasJwtTokenHash() => _jwtTokenHash != null;
 
   // "refreshToken" field.
   String? _refreshToken;
   String get refreshToken => _refreshToken ?? '';
   set refreshToken(String? val) => _refreshToken = val;
+
   bool hasRefreshToken() => _refreshToken != null;
 
   // "issuer" field.
   String? _issuer;
   String get issuer => _issuer ?? '';
   set issuer(String? val) => _issuer = val;
+
   bool hasIssuer() => _issuer != null;
 
   // "subject" field.
   String? _subject;
   String get subject => _subject ?? '';
   set subject(String? val) => _subject = val;
+
   bool hasSubject() => _subject != null;
 
   // "audience" field.
   String? _audience;
   String get audience => _audience ?? '';
   set audience(String? val) => _audience = val;
+
   bool hasAudience() => _audience != null;
 
   // "issuedAt" field.
   DateTime? _issuedAt;
   DateTime? get issuedAt => _issuedAt;
   set issuedAt(DateTime? val) => _issuedAt = val;
+
   bool hasIssuedAt() => _issuedAt != null;
 
   static AuthDetailsStruct fromMap(Map<String, dynamic> data) =>

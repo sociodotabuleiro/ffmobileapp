@@ -84,6 +84,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'HomePage',
           path: '/homePage',
+          requireAuth: true,
           builder: (context, params) => const HomePageWidget(),
         ),
         FFRoute(
@@ -131,28 +132,37 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'gamesList',
           path: '/gamesList',
+          requireAuth: true,
           builder: (context, params) => const GamesListWidget(),
         ),
         FFRoute(
           name: 'Profile',
           path: '/profile',
+          requireAuth: true,
           builder: (context, params) => const ProfileWidget(),
         ),
         FFRoute(
           name: 'gameDetails',
-          path: '/gameDetails',
+          path: '/jogos/:gameName',
+          requireAuth: true,
+          asyncParams: {
+            'gameObject': getDoc(['games'], GamesRecord.fromSnapshot),
+          },
           builder: (context, params) => GameDetailsWidget(
-            gameRef: params.getParam(
-              'gameRef',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['games'],
+            gameObject: params.getParam(
+              'gameObject',
+              ParamType.Document,
+            ),
+            gameName: params.getParam(
+              'gameName',
+              ParamType.String,
             ),
           ),
         ),
         FFRoute(
           name: 'toRentList',
           path: '/toRentList',
+          requireAuth: true,
           asyncParams: {
             'gameObject': getDoc(['games'], GamesRecord.fromSnapshot),
           },
@@ -183,6 +193,33 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: '/gamelist',
           requireAuth: true,
           builder: (context, params) => const GameListAdminWidget(),
+        ),
+        FFRoute(
+          name: 'myGames',
+          path: '/myGames',
+          requireAuth: true,
+          builder: (context, params) => const MyGamesWidget(),
+        ),
+        FFRoute(
+          name: 'myCart',
+          path: '/myCart',
+          requireAuth: true,
+          builder: (context, params) => const MyCartWidget(),
+        ),
+        FFRoute(
+          name: 'payment01',
+          path: '/payment01',
+          builder: (context, params) => const Payment01Widget(),
+        ),
+        FFRoute(
+          name: 'Checkout',
+          path: '/checkout',
+          builder: (context, params) => const CheckoutWidget(),
+        ),
+        FFRoute(
+          name: 'saveActions',
+          path: '/saveActions',
+          builder: (context, params) => const SaveActionsWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

@@ -57,3 +57,34 @@ dynamic separateAddressFromPlace(String address) {
 
   return addressDetails;
 }
+
+DocumentReference? refFromWishlistArray(
+  dynamic jsonObject,
+  DocumentReference targetRef,
+  DocumentReference userRef,
+) {
+  for (var entry in jsonObject.entries) {
+    if (entry.value is DocumentReference && entry.value == targetRef) {
+      return FirebaseFirestore.instance
+          .collection('users')
+          .doc(userRef.id)
+          .collection('wishlist')
+          .doc(entry.key);
+    }
+  }
+  // If no match found, return null
+  return null;
+}
+
+bool checkGameRefInJson(
+  dynamic jsonList,
+  DocumentReference gameRef,
+) {
+  // create a function to check if a given document reference is a value in a json object
+  if (jsonList == null || gameRef == null) {
+    return false;
+  }
+  final gameRefString = gameRef.path;
+  final jsonMap = json.decode(json.encode(jsonList));
+  return jsonMap.containsValue(gameRefString);
+}

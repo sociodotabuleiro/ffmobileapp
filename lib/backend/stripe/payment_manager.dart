@@ -14,9 +14,10 @@ import '../cloud_functions/cloud_functions.dart';
 const _isProd = false;
 
 // Stripe Credentials
-const _kProdStripePublishableKey = '';
+const _kProdStripePublishableKey =
+    'pk_live_51P8mP2HGjqK04AXhg2JfbkbF91c57fXftV4FqbVlSWDUNjiTLUWu8vuV4hTDpkCDCdmIqjhlCdOwKWhAiIQtgVAJ001vaje3SU';
 const _kTestStripePublishableKey =
-    'pk_live_51P7Ki8078GB37jmXwTFKyA8rSMaHyt6wEVAXnhDJqMwL6ze5wahBg5CPA2EXBQBjwsWaRFRWNwIcRv5n8x40ySiT00M17g8Oph';
+    'pk_test_51P8mP2HGjqK04AXhIWGb7oSt7fvGkOT2sFShYHo74NxXRrLX8gb4Nl1rHqkmkTPEDqwzXwywwQTByqWNspd5ZoCM00577qOs4c';
 const _kAppleMerchantId = '';
 
 String stripePublishableKey() =>
@@ -91,7 +92,7 @@ Future<StripePaymentResponse> processStripePayment(
         paymentIntentClientSecret: response['paymentIntent'],
         customerEphemeralKeySecret: response['ephemeralKey'],
         customerId: response['customer'],
-        merchantDisplayName: 'Sócio Do Tabuleiro',
+        merchantDisplayName: 'Sócio do Tabuleiro',
         googlePay: allowGooglePay
             ? PaymentSheetGooglePay(
                 merchantCountryCode: 'BRA',

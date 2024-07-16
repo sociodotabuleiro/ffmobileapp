@@ -35,21 +35,6 @@ class GamesRecord extends FirestoreRecord {
   List<String> get categories => _categories ?? const [];
   bool hasCategories() => _categories != null;
 
-  // "playerCount" field.
-  String? _playerCount;
-  String get playerCount => _playerCount ?? '';
-  bool hasPlayerCount() => _playerCount != null;
-
-  // "playTime" field.
-  String? _playTime;
-  String get playTime => _playTime ?? '';
-  bool hasPlayTime() => _playTime != null;
-
-  // "ageRecommendation" field.
-  String? _ageRecommendation;
-  String get ageRecommendation => _ageRecommendation ?? '';
-  bool hasAgeRecommendation() => _ageRecommendation != null;
-
   // "averagePrice" field.
   double? _averagePrice;
   double get averagePrice => _averagePrice ?? 0.0;
@@ -151,14 +136,61 @@ class GamesRecord extends FirestoreRecord {
   List<LatLng> get availableAtLatLng => _availableAtLatLng ?? const [];
   bool hasAvailableAtLatLng() => _availableAtLatLng != null;
 
+  // "themes" field.
+  List<String>? _themes;
+  List<String> get themes => _themes ?? const [];
+  bool hasThemes() => _themes != null;
+
+  // "mechanics" field.
+  List<String>? _mechanics;
+  List<String> get mechanics => _mechanics ?? const [];
+  bool hasMechanics() => _mechanics != null;
+
+  // "isExpansion" field.
+  bool? _isExpansion;
+  bool get isExpansion => _isExpansion ?? false;
+  bool hasIsExpansion() => _isExpansion != null;
+
+  // "mainGame" field.
+  DocumentReference? _mainGame;
+  DocumentReference? get mainGame => _mainGame;
+  bool hasMainGame() => _mainGame != null;
+
+  // "ageRecommendation" field.
+  int? _ageRecommendation;
+  int get ageRecommendation => _ageRecommendation ?? 0;
+  bool hasAgeRecommendation() => _ageRecommendation != null;
+
+  // "idLdp" field.
+  int? _idLdp;
+  int get idLdp => _idLdp ?? 0;
+  bool hasIdLdp() => _idLdp != null;
+
+  // "playTime" field.
+  int? _playTime;
+  int get playTime => _playTime ?? 0;
+  bool hasPlayTime() => _playTime != null;
+
+  // "playerCountMax" field.
+  int? _playerCountMax;
+  int get playerCountMax => _playerCountMax ?? 0;
+  bool hasPlayerCountMax() => _playerCountMax != null;
+
+  // "playerCountMin" field.
+  int? _playerCountMin;
+  int get playerCountMin => _playerCountMin ?? 0;
+  bool hasPlayerCountMin() => _playerCountMin != null;
+
+  // "releaseYear" field.
+  int? _releaseYear;
+  int get releaseYear => _releaseYear ?? 0;
+  bool hasReleaseYear() => _releaseYear != null;
+
   void _initializeFields() {
     _gameID = snapshotData['gameID'] as String?;
     _name = snapshotData['name'] as String?;
     _description = snapshotData['description'] as String?;
     _categories = getDataList(snapshotData['categories']);
-    _playerCount = snapshotData['playerCount'] as String?;
-    _playTime = snapshotData['playTime'] as String?;
-    _ageRecommendation = snapshotData['ageRecommendation'] as String?;
     _averagePrice = castToType<double>(snapshotData['averagePrice']);
     _rating = castToType<double>(snapshotData['rating']);
     _thumbnailUrl = snapshotData['thumbnailUrl'] as String?;
@@ -185,6 +217,16 @@ class GamesRecord extends FirestoreRecord {
     _bggRanking = castToType<int>(snapshotData['bggRanking']);
     _bggWeight = castToType<double>(snapshotData['bggWeight']);
     _availableAtLatLng = getDataList(snapshotData['availableAtLatLng']);
+    _themes = getDataList(snapshotData['themes']);
+    _mechanics = getDataList(snapshotData['mechanics']);
+    _isExpansion = snapshotData['isExpansion'] as bool?;
+    _mainGame = snapshotData['mainGame'] as DocumentReference?;
+    _ageRecommendation = castToType<int>(snapshotData['ageRecommendation']);
+    _idLdp = castToType<int>(snapshotData['idLdp']);
+    _playTime = castToType<int>(snapshotData['playTime']);
+    _playerCountMax = castToType<int>(snapshotData['playerCountMax']);
+    _playerCountMin = castToType<int>(snapshotData['playerCountMin']);
+    _releaseYear = castToType<int>(snapshotData['releaseYear']);
   }
 
   static CollectionReference get collection =>
@@ -224,9 +266,6 @@ Map<String, dynamic> createGamesRecordData({
   String? gameID,
   String? name,
   String? description,
-  String? playerCount,
-  String? playTime,
-  String? ageRecommendation,
   double? averagePrice,
   double? rating,
   String? thumbnailUrl,
@@ -239,15 +278,20 @@ Map<String, dynamic> createGamesRecordData({
   double? bggRating,
   int? bggRanking,
   double? bggWeight,
+  bool? isExpansion,
+  DocumentReference? mainGame,
+  int? ageRecommendation,
+  int? idLdp,
+  int? playTime,
+  int? playerCountMax,
+  int? playerCountMin,
+  int? releaseYear,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'gameID': gameID,
       'name': name,
       'description': description,
-      'playerCount': playerCount,
-      'playTime': playTime,
-      'ageRecommendation': ageRecommendation,
       'averagePrice': averagePrice,
       'rating': rating,
       'thumbnailUrl': thumbnailUrl,
@@ -260,6 +304,14 @@ Map<String, dynamic> createGamesRecordData({
       'bggRating': bggRating,
       'bggRanking': bggRanking,
       'bggWeight': bggWeight,
+      'isExpansion': isExpansion,
+      'mainGame': mainGame,
+      'ageRecommendation': ageRecommendation,
+      'idLdp': idLdp,
+      'playTime': playTime,
+      'playerCountMax': playerCountMax,
+      'playerCountMin': playerCountMin,
+      'releaseYear': releaseYear,
     }.withoutNulls,
   );
 
@@ -276,9 +328,6 @@ class GamesRecordDocumentEquality implements Equality<GamesRecord> {
         e1?.name == e2?.name &&
         e1?.description == e2?.description &&
         listEquality.equals(e1?.categories, e2?.categories) &&
-        e1?.playerCount == e2?.playerCount &&
-        e1?.playTime == e2?.playTime &&
-        e1?.ageRecommendation == e2?.ageRecommendation &&
         e1?.averagePrice == e2?.averagePrice &&
         e1?.rating == e2?.rating &&
         e1?.thumbnailUrl == e2?.thumbnailUrl &&
@@ -299,7 +348,17 @@ class GamesRecordDocumentEquality implements Equality<GamesRecord> {
         e1?.bggRating == e2?.bggRating &&
         e1?.bggRanking == e2?.bggRanking &&
         e1?.bggWeight == e2?.bggWeight &&
-        listEquality.equals(e1?.availableAtLatLng, e2?.availableAtLatLng);
+        listEquality.equals(e1?.availableAtLatLng, e2?.availableAtLatLng) &&
+        listEquality.equals(e1?.themes, e2?.themes) &&
+        listEquality.equals(e1?.mechanics, e2?.mechanics) &&
+        e1?.isExpansion == e2?.isExpansion &&
+        e1?.mainGame == e2?.mainGame &&
+        e1?.ageRecommendation == e2?.ageRecommendation &&
+        e1?.idLdp == e2?.idLdp &&
+        e1?.playTime == e2?.playTime &&
+        e1?.playerCountMax == e2?.playerCountMax &&
+        e1?.playerCountMin == e2?.playerCountMin &&
+        e1?.releaseYear == e2?.releaseYear;
   }
 
   @override
@@ -308,9 +367,6 @@ class GamesRecordDocumentEquality implements Equality<GamesRecord> {
         e?.name,
         e?.description,
         e?.categories,
-        e?.playerCount,
-        e?.playTime,
-        e?.ageRecommendation,
         e?.averagePrice,
         e?.rating,
         e?.thumbnailUrl,
@@ -330,7 +386,17 @@ class GamesRecordDocumentEquality implements Equality<GamesRecord> {
         e?.bggRating,
         e?.bggRanking,
         e?.bggWeight,
-        e?.availableAtLatLng
+        e?.availableAtLatLng,
+        e?.themes,
+        e?.mechanics,
+        e?.isExpansion,
+        e?.mainGame,
+        e?.ageRecommendation,
+        e?.idLdp,
+        e?.playTime,
+        e?.playerCountMax,
+        e?.playerCountMin,
+        e?.releaseYear
       ]);
 
   @override

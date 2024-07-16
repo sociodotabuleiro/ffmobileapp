@@ -3,9 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
-import '/backend/schema/util/schema_util.dart';
 
-import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 class AddressStruct extends FFFirebaseStruct {
@@ -39,66 +37,77 @@ class AddressStruct extends FFFirebaseStruct {
   String? _street;
   String get street => _street ?? '';
   set street(String? val) => _street = val;
+
   bool hasStreet() => _street != null;
 
   // "number" field.
   String? _number;
   String get number => _number ?? '';
   set number(String? val) => _number = val;
+
   bool hasNumber() => _number != null;
 
   // "complement" field.
   String? _complement;
   String get complement => _complement ?? '';
   set complement(String? val) => _complement = val;
+
   bool hasComplement() => _complement != null;
 
   // "neighborhood" field.
   String? _neighborhood;
   String get neighborhood => _neighborhood ?? '';
   set neighborhood(String? val) => _neighborhood = val;
+
   bool hasNeighborhood() => _neighborhood != null;
 
   // "closeReferencePoint" field.
   String? _closeReferencePoint;
   String get closeReferencePoint => _closeReferencePoint ?? '';
   set closeReferencePoint(String? val) => _closeReferencePoint = val;
+
   bool hasCloseReferencePoint() => _closeReferencePoint != null;
 
   // "city" field.
   String? _city;
   String get city => _city ?? '';
   set city(String? val) => _city = val;
+
   bool hasCity() => _city != null;
 
   // "state" field.
   String? _state;
   String get state => _state ?? '';
   set state(String? val) => _state = val;
+
   bool hasState() => _state != null;
 
   // "zip" field.
   String? _zip;
   String get zip => _zip ?? '';
   set zip(String? val) => _zip = val;
+
   bool hasZip() => _zip != null;
 
   // "country" field.
   String? _country;
   String get country => _country ?? '';
   set country(String? val) => _country = val;
+
   bool hasCountry() => _country != null;
 
   // "coordinates" field.
   LatLng? _coordinates;
   LatLng? get coordinates => _coordinates;
   set coordinates(LatLng? val) => _coordinates = val;
+
   bool hasCoordinates() => _coordinates != null;
 
   // "geohash" field.
   String? _geohash;
   String get geohash => _geohash ?? '';
   set geohash(String? val) => _geohash = val;
+
   bool hasGeohash() => _geohash != null;
 
   static AddressStruct fromMap(Map<String, dynamic> data) => AddressStruct(

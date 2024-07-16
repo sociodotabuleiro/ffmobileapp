@@ -94,7 +94,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                             ),
                       ),
                       Text(
-                        '6/6',
+                        '7/7',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
                               fontFamily:
                                   FlutterFlowTheme.of(context).bodyMediumFamily,
@@ -194,6 +194,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                     GoogleFonts.asMap()
                                                         .containsKey('Outfit'),
                                               ),
+                                          hintText: 'Elfo Mágico',
                                           hintStyle: FlutterFlowTheme.of(
                                                   context)
                                               .labelMedium
@@ -302,6 +303,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                     GoogleFonts.asMap()
                                                         .containsKey('Outfit'),
                                               ),
+                                          hintText: 'Feminino',
                                           hintStyle: FlutterFlowTheme.of(
                                                   context)
                                               .labelMedium
@@ -410,6 +412,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                     GoogleFonts.asMap()
                                                         .containsKey('Outfit'),
                                               ),
+                                          hintText: '377 anos',
                                           hintStyle: FlutterFlowTheme.of(
                                                   context)
                                               .labelMedium
@@ -519,6 +522,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                     GoogleFonts.asMap()
                                                         .containsKey('Outfit'),
                                               ),
+                                          hintText: 'Passado Steampunk',
                                           hintStyle: FlutterFlowTheme.of(
                                                   context)
                                               .labelMedium

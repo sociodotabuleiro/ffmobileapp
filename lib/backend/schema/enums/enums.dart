@@ -31,9 +31,19 @@ enum NotificationTypes {
 }
 
 enum Categories {
-  civilization_and_culture,
-  complex_strategy,
-  futuristic,
+  alocacao_de_trabalhadores,
+  apostas_e_blefes,
+  carteados,
+  construcao_de_baralho,
+  controle_de_area,
+  cooperativo,
+  familia,
+  gerenciamento_de_maos,
+  gerenciamento_de_recursos,
+  narracao_de_historias,
+  negociacao_e_leilao,
+  rolagem_de_dados,
+  wargame,
 }
 
 extension FFEnumExtensions<T extends Enum> on T {

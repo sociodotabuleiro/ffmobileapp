@@ -1,10 +1,14 @@
-import '/components/gamelist_card_widget.dart';
-import '/components/nav_bar_widget.dart';
+import '/backend/backend.dart';
+import '/components/gamelist_card/gamelist_card_widget.dart';
+import '/components/nav_bar/nav_bar_widget.dart';
+import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
+import 'package:calendar/app_state.dart' as calendar_app_state;
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'my_games_model.dart';
@@ -23,6 +27,8 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  final animationsMap = <String, AnimationInfo>{};
+
   @override
   void initState() {
     super.initState();
@@ -36,8 +42,23 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
       vsync: this,
       length: 3,
       initialIndex: 0,
-    )..addListener(() => setState(() {}));
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    )..addListener(() => safeSetState(() {}));
+    animationsMap.addAll({
+      'gamelistCardOnPageLoadAnimation': AnimationInfo(
+        trigger: AnimationTrigger.onPageLoad,
+        effectsBuilder: () => [
+          FadeEffect(
+            curve: Curves.easeInOut,
+            delay: 500.0.ms,
+            duration: 600.0.ms,
+            begin: 0.0,
+            end: 1.0,
+          ),
+        ],
+      ),
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -50,14 +71,13 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
+    context.watch<calendar_app_state.FFAppState>();
 
     return Title(
         title: 'myGames',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -154,7 +174,7 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                                         _model.textController.text,
                                       );
 
-                                      setState(() {});
+                                      safeSetState(() {});
                                     },
                                     autofocus: false,
                                     textInputAction: TextInputAction.search,
@@ -213,23 +233,31 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                                 ),
                               ),
                             ),
-                            FlutterFlowIconButton(
-                              borderColor:
-                                  FlutterFlowTheme.of(context).alternate,
-                              borderRadius: 20.0,
-                              borderWidth: 1.0,
-                              buttonSize: 40.0,
-                              fillColor: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              icon: Icon(
-                                Icons.tune_rounded,
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                size: 24.0,
+                            if (responsiveVisibility(
+                              context: context,
+                              phone: false,
+                              tablet: false,
+                              tabletLandscape: false,
+                              desktop: false,
+                            ))
+                              FlutterFlowIconButton(
+                                borderColor:
+                                    FlutterFlowTheme.of(context).alternate,
+                                borderRadius: 20.0,
+                                borderWidth: 1.0,
+                                buttonSize: 40.0,
+                                fillColor: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                icon: Icon(
+                                  Icons.tune_rounded,
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
+                                  size: 24.0,
+                                ),
+                                onPressed: () {
+                                  print('IconButton pressed ...');
+                                },
                               ),
-                              onPressed: () {
-                                print('IconButton pressed ...');
-                              },
-                            ),
                           ],
                         ),
                       ),
@@ -284,98 +312,217 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                               KeepAliveWidgetWrapper(
                                 builder: (context) => Builder(
                                   builder: (context) {
-                                    final myGames =
-                                        FFAppState().myGames.toList();
-                                    if (myGames.isEmpty) {
-                                      return Center(
+                                    if ((FFAppState().myGamesId.isNotEmpty) ==
+                                        true) {
+                                      return Builder(
+                                        builder: (context) {
+                                          final myGamesRef =
+                                              FFAppState().myGamesRef.toList();
+                                          if (myGamesRef.isEmpty) {
+                                            return Center(
+                                              child: Image.asset(
+                                                'assets/images/logo_text.png',
+                                              ),
+                                            );
+                                          }
+
+                                          return SingleChildScrollView(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: List.generate(
+                                                  myGamesRef.length,
+                                                  (myGamesRefIndex) {
+                                                final myGamesRefItem =
+                                                    myGamesRef[myGamesRefIndex];
+                                                return Padding(
+                                                  padding: const EdgeInsetsDirectional
+                                                      .fromSTEB(12.0, 16.0,
+                                                          12.0, 12.0),
+                                                  child: StreamBuilder<
+                                                      GamesRecord>(
+                                                    stream:
+                                                        GamesRecord.getDocument(
+                                                            myGamesRefItem),
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      // Customize what your widget looks like when it's loading.
+                                                      if (!snapshot.hasData) {
+                                                        return Center(
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0.0,
+                                                                        16.0,
+                                                                        0.0,
+                                                                        16.0),
+                                                            child: SizedBox(
+                                                              width: 50.0,
+                                                              height: 50.0,
+                                                              child:
+                                                                  CircularProgressIndicator(
+                                                                valueColor:
+                                                                    AlwaysStoppedAnimation<
+                                                                        Color>(
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primary,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }
+
+                                                      final containerGamesRecord =
+                                                          snapshot.data!;
+
+                                                      return Container(
+                                                        height:
+                                                            MediaQuery.sizeOf(
+                                                                        context)
+                                                                    .height *
+                                                                0.24,
+                                                        decoration:
+                                                            const BoxDecoration(),
+                                                        child:
+                                                            GamelistCardWidget(
+                                                          key: Key(
+                                                              'Keyzzu_${myGamesRefIndex}_of_${myGamesRef.length}'),
+                                                          gameObject:
+                                                              containerGamesRecord,
+                                                        ).animateOnPageLoad(
+                                                                animationsMap[
+                                                                    'gamelistCardOnPageLoadAnimation']!),
+                                                      );
+                                                    },
+                                                  ),
+                                                );
+                                              }),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    } else {
+                                      return ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
                                         child: Image.asset(
                                           'assets/images/logo_text.png',
+                                          width: 50.0,
+                                          height: 50.0,
+                                          fit: BoxFit.contain,
                                         ),
                                       );
                                     }
-
-                                    return SingleChildScrollView(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: List.generate(myGames.length,
-                                            (myGamesIndex) {
-                                          final myGamesItem =
-                                              myGames[myGamesIndex];
-                                          return GamelistCardWidget(
-                                            key: Key(
-                                                'Keyjqd_${myGamesIndex}_of_${myGames.length}'),
-                                          );
-                                        }),
-                                      ),
-                                    );
                                   },
                                 ),
                               ),
                               KeepAliveWidgetWrapper(
                                 builder: (context) => Builder(
                                   builder: (context) {
-                                    final favoritedGames =
-                                        FFAppState().favoritedGames.toList();
-                                    if (favoritedGames.isEmpty) {
-                                      return Center(
+                                    if ((FFAppState()
+                                            .favoritedGames
+                                            .isNotEmpty) ==
+                                        true) {
+                                      return Builder(
+                                        builder: (context) {
+                                          final favoritedGames = FFAppState()
+                                              .favoritedGames
+                                              .toList();
+                                          if (favoritedGames.isEmpty) {
+                                            return Center(
+                                              child: Image.asset(
+                                                'assets/images/logo_text.png',
+                                              ),
+                                            );
+                                          }
+
+                                          return SingleChildScrollView(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: List.generate(
+                                                  favoritedGames.length,
+                                                  (favoritedGamesIndex) {
+                                                final favoritedGamesItem =
+                                                    favoritedGames[
+                                                        favoritedGamesIndex];
+                                                return GamelistCardWidget(
+                                                  key: Key(
+                                                      'Key1bl_${favoritedGamesIndex}_of_${favoritedGames.length}'),
+                                                );
+                                              }),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    } else {
+                                      return ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
                                         child: Image.asset(
                                           'assets/images/logo_text.png',
+                                          width: 50.0,
+                                          height: 50.0,
+                                          fit: BoxFit.contain,
                                         ),
                                       );
                                     }
-
-                                    return SingleChildScrollView(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children:
-                                            List.generate(favoritedGames.length,
-                                                (favoritedGamesIndex) {
-                                          final favoritedGamesItem =
-                                              favoritedGames[
-                                                  favoritedGamesIndex];
-                                          return GamelistCardWidget(
-                                            key: Key(
-                                                'Key1bl_${favoritedGamesIndex}_of_${favoritedGames.length}'),
-                                          );
-                                        }),
-                                      ),
-                                    );
                                   },
                                 ),
                               ),
                               KeepAliveWidgetWrapper(
                                 builder: (context) => Builder(
                                   builder: (context) {
-                                    final wishList =
-                                        FFAppState().wishlistedGames.toList();
-                                    if (wishList.isEmpty) {
-                                      return Center(
+                                    if ((FFAppState().wishlist.isNotEmpty) ==
+                                        true) {
+                                      return Builder(
+                                        builder: (context) {
+                                          final wishList =
+                                              FFAppState().wishlist.toList();
+                                          if (wishList.isEmpty) {
+                                            return Center(
+                                              child: Image.asset(
+                                                'assets/images/logo_text.png',
+                                              ),
+                                            );
+                                          }
+
+                                          return SingleChildScrollView(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children:
+                                                  List.generate(wishList.length,
+                                                      (wishListIndex) {
+                                                final wishListItem =
+                                                    wishList[wishListIndex];
+                                                return GamelistCardWidget(
+                                                  key: Key(
+                                                      'Keyn6j_${wishListIndex}_of_${wishList.length}'),
+                                                );
+                                              }),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    } else {
+                                      return ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
                                         child: Image.asset(
                                           'assets/images/logo_text.png',
+                                          width: 50.0,
+                                          height: 50.0,
+                                          fit: BoxFit.contain,
                                         ),
                                       );
                                     }
-
-                                    return SingleChildScrollView(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: List.generate(wishList.length,
-                                            (wishListIndex) {
-                                          final wishListItem =
-                                              wishList[wishListIndex];
-                                          return GamelistCardWidget(
-                                            key: Key(
-                                                'Keyn6j_${wishListIndex}_of_${wishList.length}'),
-                                          );
-                                        }),
-                                      ),
-                                    );
                                   },
                                 ),
                               ),
@@ -387,7 +534,7 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                   ),
                   wrapWithModel(
                     model: _model.navBarModel,
-                    updateCallback: () => setState(() {}),
+                    updateCallback: () => safeSetState(() {}),
                     child: const NavBarWidget(),
                   ),
                 ],

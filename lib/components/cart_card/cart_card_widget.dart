@@ -1,9 +1,9 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -63,7 +63,7 @@ class _CartCardWidgetState extends State<CartCardWidget> {
         _model.playtime = _model.gameByRef?.playTime.toString();
         _model.ageRecommendation =
             _model.gameByRef?.ageRecommendation.toString();
-        setState(() {});
+        safeSetState(() {});
       } else {
         logFirebaseEvent('cartCard_update_component_state');
         _model.gameObject = widget.gameObject;
@@ -76,11 +76,11 @@ class _CartCardWidgetState extends State<CartCardWidget> {
         _model.playtime = widget.gameObject?.playTime.toString();
         _model.ageRecommendation =
             widget.gameObject?.ageRecommendation.toString();
-        setState(() {});
+        safeSetState(() {});
       }
     });
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -126,205 +126,190 @@ class _CartCardWidgetState extends State<CartCardWidget> {
         decoration: BoxDecoration(
           color: FlutterFlowTheme.of(context).secondaryBackground,
         ),
-        child: Stack(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsetsDirectional.fromSTEB(16.0, 8.0, 16.0, 12.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16.0),
-                    child: CachedNetworkImage(
-                      fadeInDuration: const Duration(milliseconds: 500),
-                      fadeOutDuration: const Duration(milliseconds: 500),
-                      imageUrl: _model.gamePicUrl!,
-                      width: MediaQuery.sizeOf(context).width * 0.25,
-                      height: 75.0,
-                      fit: BoxFit.cover,
-                      alignment: const Alignment(0.0, 0.0),
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(16.0, 8.0, 16.0, 12.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16.0),
+                child: CachedNetworkImage(
+                  fadeInDuration: const Duration(milliseconds: 500),
+                  fadeOutDuration: const Duration(milliseconds: 500),
+                  imageUrl: _model.gamePicUrl!,
+                  width: MediaQuery.sizeOf(context).width * 0.25,
+                  height: 75.0,
+                  fit: BoxFit.cover,
+                  alignment: const Alignment(0.0, 0.0),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    valueOrDefault<String>(
+                      _model.gameName,
+                      'Nome do Jogo',
+                    ),
+                    style: FlutterFlowTheme.of(context).bodyLarge.override(
+                          fontFamily:
+                              FlutterFlowTheme.of(context).bodyLargeFamily,
+                          letterSpacing: 0.0,
+                          useGoogleFonts: GoogleFonts.asMap().containsKey(
+                              FlutterFlowTheme.of(context).bodyLargeFamily),
+                        ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 0.0),
+                    child: Text(
+                      valueOrDefault<String>(
+                        formatNumber(
+                          _model.gamePrice,
+                          formatType: FormatType.decimal,
+                          decimalType: DecimalType.commaDecimal,
+                          currency: 'R\$',
+                        ),
+                        '99',
+                      ),
+                      style: FlutterFlowTheme.of(context).titleLarge.override(
+                            fontFamily:
+                                FlutterFlowTheme.of(context).titleLargeFamily,
+                            fontSize: 18.0,
+                            letterSpacing: 0.0,
+                            useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                FlutterFlowTheme.of(context).titleLargeFamily),
+                          ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        valueOrDefault<String>(
-                          _model.gameName,
-                          'Nome do Jogo',
+                ],
+              ),
+            ),
+            Align(
+              alignment: const AlignmentDirectional(0.0, 1.0),
+              child: Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        FaIcon(
+                          FontAwesomeIcons.check,
+                          color: FlutterFlowTheme.of(context).success,
+                          size: 16.0,
                         ),
-                        style: FlutterFlowTheme.of(context).bodyLarge.override(
-                              fontFamily:
-                                  FlutterFlowTheme.of(context).bodyLargeFamily,
-                              letterSpacing: 0.0,
-                              useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                  FlutterFlowTheme.of(context).bodyLargeFamily),
-                            ),
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 0.0),
-                        child: Text(
+                        Text(
                           valueOrDefault<String>(
-                            formatNumber(
-                              _model.gamePrice,
-                              formatType: FormatType.decimal,
-                              decimalType: DecimalType.commaDecimal,
-                              currency: 'R\$',
-                            ),
-                            '99',
+                            _model.gameByRef?.availableAt.length.toString(),
+                            '0',
                           ),
                           style: FlutterFlowTheme.of(context)
-                              .titleLarge
+                              .bodyMedium
                               .override(
                                 fontFamily: FlutterFlowTheme.of(context)
-                                    .titleLargeFamily,
-                                fontSize: 18.0,
+                                    .bodyMediumFamily,
                                 letterSpacing: 0.0,
                                 useGoogleFonts: GoogleFonts.asMap().containsKey(
                                     FlutterFlowTheme.of(context)
-                                        .titleLargeFamily),
+                                        .bodyMediumFamily),
                               ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                Align(
-                  alignment: const AlignmentDirectional(0.0, 1.0),
-                  child: Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            FaIcon(
-                              FontAwesomeIcons.check,
-                              color: FlutterFlowTheme.of(context).success,
-                              size: 16.0,
-                            ),
-                            Text(
-                              valueOrDefault<String>(
-                                _model.gameByRef?.availableAt.length
-                                    .toString(),
-                                '0',
+                        Text(
+                          'disponíveis',
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                fontFamily: FlutterFlowTheme.of(context)
+                                    .bodyMediumFamily,
+                                letterSpacing: 0.0,
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    FlutterFlowTheme.of(context)
+                                        .bodyMediumFamily),
                               ),
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: FlutterFlowTheme.of(context)
-                                        .bodyMediumFamily,
-                                    letterSpacing: 0.0,
-                                    useGoogleFonts: GoogleFonts.asMap()
-                                        .containsKey(
-                                            FlutterFlowTheme.of(context)
-                                                .bodyMediumFamily),
-                                  ),
-                            ),
-                            Text(
-                              'disponíveis',
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: FlutterFlowTheme.of(context)
-                                        .bodyMediumFamily,
-                                    letterSpacing: 0.0,
-                                    useGoogleFonts: GoogleFonts.asMap()
-                                        .containsKey(
-                                            FlutterFlowTheme.of(context)
-                                                .bodyMediumFamily),
-                                  ),
-                            ),
-                          ].divide(const SizedBox(width: 8.0)),
                         ),
-                      ],
+                      ].divide(const SizedBox(width: 8.0)),
                     ),
-                  ),
+                  ],
                 ),
-                Align(
-                  alignment: const AlignmentDirectional(0.0, 1.0),
-                  child: Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            if (_model.filteredGeoHash!.isNotEmpty)
-                              Icon(
-                                Icons.place_outlined,
-                                color: _model.filteredGeoHash!.isNotEmpty
-                                    ? FlutterFlowTheme.of(context).success
-                                    : FlutterFlowTheme.of(context).error,
-                                size: 16.0,
-                              ),
-                            if (_model.filteredGeoHash!.isEmpty)
-                              Icon(
-                                Icons.wrong_location_outlined,
-                                color: _model.filteredGeoHash!.isNotEmpty
-                                    ? FlutterFlowTheme.of(context).success
-                                    : FlutterFlowTheme.of(context).error,
-                                size: 16.0,
-                              ),
-                            Text(
-                              valueOrDefault<String>(
-                                _model.filteredGeoHash?.length.toString(),
-                                '0',
-                              ),
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: FlutterFlowTheme.of(context)
-                                        .bodyMediumFamily,
-                                    letterSpacing: 0.0,
-                                    useGoogleFonts: GoogleFonts.asMap()
-                                        .containsKey(
-                                            FlutterFlowTheme.of(context)
-                                                .bodyMediumFamily),
-                                  ),
-                            ),
-                            Text(
-                              'locadores disponíveis num raio de 15km',
-                              style: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .override(
-                                    fontFamily: FlutterFlowTheme.of(context)
-                                        .bodyMediumFamily,
-                                    letterSpacing: 0.0,
-                                    useGoogleFonts: GoogleFonts.asMap()
-                                        .containsKey(
-                                            FlutterFlowTheme.of(context)
-                                                .bodyMediumFamily),
-                                  ),
-                            ),
-                          ].divide(const SizedBox(width: 8.0)),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Divider(
-                  thickness: 1.0,
-                  indent: 25.0,
-                  endIndent: 25.0,
-                  color: FlutterFlowTheme.of(context).secondary,
-                ),
-              ].divide(const SizedBox(height: 8.0)),
+              ),
             ),
-          ],
+            Align(
+              alignment: const AlignmentDirectional(0.0, 1.0),
+              child: Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        if (_model.filteredGeoHash!.isNotEmpty)
+                          Icon(
+                            Icons.place_outlined,
+                            color: _model.filteredGeoHash!.isNotEmpty
+                                ? FlutterFlowTheme.of(context).success
+                                : FlutterFlowTheme.of(context).error,
+                            size: 16.0,
+                          ),
+                        if (_model.filteredGeoHash!.isEmpty)
+                          Icon(
+                            Icons.wrong_location_outlined,
+                            color: _model.filteredGeoHash!.isNotEmpty
+                                ? FlutterFlowTheme.of(context).success
+                                : FlutterFlowTheme.of(context).error,
+                            size: 16.0,
+                          ),
+                        Text(
+                          valueOrDefault<String>(
+                            _model.filteredGeoHash?.length.toString(),
+                            '0',
+                          ),
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                fontFamily: FlutterFlowTheme.of(context)
+                                    .bodyMediumFamily,
+                                letterSpacing: 0.0,
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    FlutterFlowTheme.of(context)
+                                        .bodyMediumFamily),
+                              ),
+                        ),
+                        Text(
+                          'locadores disponíveis num raio de 15km',
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                fontFamily: FlutterFlowTheme.of(context)
+                                    .bodyMediumFamily,
+                                letterSpacing: 0.0,
+                                useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                    FlutterFlowTheme.of(context)
+                                        .bodyMediumFamily),
+                              ),
+                        ),
+                      ].divide(const SizedBox(width: 8.0)),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Divider(
+              thickness: 1.0,
+              indent: 25.0,
+              endIndent: 25.0,
+              color: FlutterFlowTheme.of(context).secondary,
+            ),
+          ].divide(const SizedBox(height: 8.0)),
         ),
       ),
     );

@@ -35,6 +35,11 @@ class MyGamesRecord extends FirestoreRecord {
   bool get toRent => _toRent ?? false;
   bool hasToRent() => _toRent != null;
 
+  // "publicId" field.
+  String? _publicId;
+  String get publicId => _publicId ?? '';
+  bool hasPublicId() => _publicId != null;
+
   DocumentReference get parentReference => reference.parent.parent!;
 
   void _initializeFields() {
@@ -42,6 +47,7 @@ class MyGamesRecord extends FirestoreRecord {
     _availableDates = getDataList(snapshotData['availableDates']);
     _price = castToType<double>(snapshotData['price']);
     _toRent = snapshotData['toRent'] as bool?;
+    _publicId = snapshotData['publicId'] as String?;
   }
 
   static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
@@ -87,12 +93,14 @@ Map<String, dynamic> createMyGamesRecordData({
   DocumentReference? gameRef,
   double? price,
   bool? toRent,
+  String? publicId,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'gameRef': gameRef,
       'price': price,
       'toRent': toRent,
+      'publicId': publicId,
     }.withoutNulls,
   );
 
@@ -108,12 +116,13 @@ class MyGamesRecordDocumentEquality implements Equality<MyGamesRecord> {
     return e1?.gameRef == e2?.gameRef &&
         listEquality.equals(e1?.availableDates, e2?.availableDates) &&
         e1?.price == e2?.price &&
-        e1?.toRent == e2?.toRent;
+        e1?.toRent == e2?.toRent &&
+        e1?.publicId == e2?.publicId;
   }
 
   @override
   int hash(MyGamesRecord? e) => const ListEquality()
-      .hash([e?.gameRef, e?.availableDates, e?.price, e?.toRent]);
+      .hash([e?.gameRef, e?.availableDates, e?.price, e?.toRent, e?.publicId]);
 
   @override
   bool isValidKey(Object? o) => o is MyGamesRecord;

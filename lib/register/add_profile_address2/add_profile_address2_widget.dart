@@ -1,10 +1,11 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
+import 'package:calendar/app_state.dart' as calendar_app_state;
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -37,49 +38,49 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
       r'''$.street''',
     ).toString().toString());
     _model.streetFocusNode ??= FocusNode();
-    _model.streetFocusNode!.addListener(() => setState(() {}));
+    _model.streetFocusNode!.addListener(() => safeSetState(() {}));
     _model.numberTextController ??= TextEditingController(
         text: getJsonField(
       functions.separateAddressFromPlace(FFAppState().userAddress),
       r'''$.number''',
     ).toString().toString());
     _model.numberFocusNode ??= FocusNode();
-    _model.numberFocusNode!.addListener(() => setState(() {}));
+    _model.numberFocusNode!.addListener(() => safeSetState(() {}));
     _model.complementTextController ??= TextEditingController();
     _model.complementFocusNode ??= FocusNode();
-    _model.complementFocusNode!.addListener(() => setState(() {}));
+    _model.complementFocusNode!.addListener(() => safeSetState(() {}));
     _model.neighborhoodTextController ??= TextEditingController(
         text: getJsonField(
       functions.separateAddressFromPlace(FFAppState().userAddress),
       r'''$.neighborhood''',
     ).toString().toString());
     _model.neighborhoodFocusNode ??= FocusNode();
-    _model.neighborhoodFocusNode!.addListener(() => setState(() {}));
+    _model.neighborhoodFocusNode!.addListener(() => safeSetState(() {}));
     _model.referencePointTextController ??= TextEditingController();
     _model.referencePointFocusNode ??= FocusNode();
-    _model.referencePointFocusNode!.addListener(() => setState(() {}));
+    _model.referencePointFocusNode!.addListener(() => safeSetState(() {}));
     _model.zipCodeTextController ??= TextEditingController(
         text: getJsonField(
       functions.separateAddressFromPlace(FFAppState().userAddress),
       r'''$.zip''',
     ).toString().toString());
     _model.zipCodeFocusNode ??= FocusNode();
-    _model.zipCodeFocusNode!.addListener(() => setState(() {}));
+    _model.zipCodeFocusNode!.addListener(() => safeSetState(() {}));
     _model.cityTextController ??= TextEditingController(
         text: getJsonField(
       functions.separateAddressFromPlace(FFAppState().userAddress),
       r'''$.city''',
     ).toString().toString());
     _model.cityFocusNode ??= FocusNode();
-    _model.cityFocusNode!.addListener(() => setState(() {}));
+    _model.cityFocusNode!.addListener(() => safeSetState(() {}));
     _model.stateTextController ??= TextEditingController(
         text: getJsonField(
       functions.separateAddressFromPlace(FFAppState().userAddress),
       r'''$.state''',
     ).toString().toString());
     _model.stateFocusNode ??= FocusNode();
-    _model.stateFocusNode!.addListener(() => setState(() {}));
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    _model.stateFocusNode!.addListener(() => safeSetState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -92,14 +93,13 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
+    context.watch<calendar_app_state.FFAppState>();
 
     return Title(
         title: 'addProfileAddress2',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: Colors.white,
@@ -1110,7 +1110,12 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                         child: FFButtonWidget(
                           onPressed: () async {
                             logFirebaseEvent(
-                                'ADD_PROFILE_ADDRESS2_PRÓXIMA_ETAPA_BTN_O');
+                                'ADD_PROFILE_ADDRESS2_PRXIMA_ETAPA_BTN_ON');
+                            logFirebaseEvent('Button_custom_action');
+                            _model.geohash = await actions.getGeohash(
+                              context,
+                              FFAppState().userAddressLatLng!,
+                            );
                             logFirebaseEvent('Button_backend_call');
 
                             await currentUserReference!.update({
@@ -1130,25 +1135,39 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                     city: _model.cityTextController.text,
                                     state: _model.stateTextController.text,
                                     coordinates: FFAppState().userAddressLatLng,
+                                    lng: functions.getLatLngSeparated(
+                                        false, FFAppState().userAddressLatLng!),
+                                    lat: functions.getLatLngSeparated(
+                                        true, FFAppState().userAddressLatLng!),
+                                    geohash: _model.geohash,
                                   ),
                                   clearUnsetFields: true,
                                 ),
+                                firstTimeLogin: true,
+                                favoritedGamesCount: 0,
+                                wishlistCount: 0,
+                                rentedFromCount: 0,
+                                rentedToCount: 0,
+                                amountEarned: 0.0,
+                                isStore: false,
+                                rating: 5.0,
+                                wantToRentTo: false,
+                                askedToRentTo: false,
                               ),
                               ...mapToFirestore(
                                 {
                                   'completedRegisterPages':
                                       FieldValue.arrayUnion([2]),
+                                  'wishlist': FFAppState().wishlist,
+                                  'favoriteList': FFAppState().favoritedGames,
                                 },
                               ),
                             });
-                            logFirebaseEvent('Button_custom_action');
-                            await actions.getGeohash(
-                              context,
-                              FFAppState().userAddressLatLng!,
-                            );
                             logFirebaseEvent('Button_navigate_to');
 
-                            context.pushNamed('addProfilePicture');
+                            context.pushNamed('HomePage');
+
+                            safeSetState(() {});
                           },
                           text: 'Próxima Etapa',
                           options: FFButtonOptions(

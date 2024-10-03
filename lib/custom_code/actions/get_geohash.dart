@@ -3,7 +3,7 @@ import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
 import '/backend/schema/enums/enums.dart';
 import '/backend/supabase/supabase.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'index.dart'; // Imports other custom actions
 import '/flutter_flow/custom_functions.dart'; // Imports custom functions
@@ -16,24 +16,25 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 final geo = GeoFlutterFire();
 
-Future getGeohash(
+Future<String> getGeohash(
   BuildContext context,
   LatLng latLng,
 ) async {
-  var user = FirebaseAuth.instance.currentUser;
-  if (user != null) {
-    // Generate the GeoFirePoint
-    GeoFirePoint geoData = geo.point(
-      latitude: latLng.latitude,
-      longitude: latLng.longitude,
-    );
+  // var user = FirebaseAuth.instance.currentUser;
+//  if (user != null) {
+  // Generate the GeoFirePoint
+  GeoFirePoint geoData = geo.point(
+    latitude: latLng.latitude,
+    longitude: latLng.longitude,
+  );
 
-    String geohash = geoData.hash;
+  String geohash = geoData.hash;
+  return geohash;
 
-    await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
-      'address.geohash': geohash,
-    }).catchError((error) {
-      print("Error updating document: $error");
-    });
-  }
+  // await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
+  //   'address.geohash': geohash,
+  // }).catchError((error) {
+  //   print("Error updating document: $error");
+  // });
+  //}
 }

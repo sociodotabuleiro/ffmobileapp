@@ -46,6 +46,13 @@ enum Categories {
   wargame,
 }
 
+enum FilterType {
+  value,
+  age,
+  distance,
+  time,
+}
+
 extension FFEnumExtensions<T extends Enum> on T {
   String serialize() => name;
 }
@@ -67,6 +74,8 @@ T? deserializeEnum<T>(String? value) {
       return NotificationTypes.values.deserialize(value) as T?;
     case (Categories):
       return Categories.values.deserialize(value) as T?;
+    case (FilterType):
+      return FilterType.values.deserialize(value) as T?;
     default:
       return null;
   }

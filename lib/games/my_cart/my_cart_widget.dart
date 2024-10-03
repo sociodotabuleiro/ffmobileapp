@@ -1,12 +1,10 @@
-import '/components/cart_card/cart_card_widget.dart';
-import '/components/nav_bar_widget.dart';
+import '/components/nav_bar/nav_bar_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'my_cart_model.dart';
 export 'my_cart_model.dart';
 
@@ -36,8 +34,8 @@ class _MyCartWidgetState extends State<MyCartWidget>
       vsync: this,
       length: 1,
       initialIndex: 0,
-    )..addListener(() => setState(() {}));
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    )..addListener(() => safeSetState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -49,15 +47,11 @@ class _MyCartWidgetState extends State<MyCartWidget>
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Title(
         title: 'Carrinho',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -154,7 +148,7 @@ class _MyCartWidgetState extends State<MyCartWidget>
                                         _model.textController.text,
                                       );
 
-                                      setState(() {});
+                                      safeSetState(() {});
                                     },
                                     autofocus: false,
                                     textInputAction: TextInputAction.search,
@@ -277,35 +271,13 @@ class _MyCartWidgetState extends State<MyCartWidget>
                             physics: const NeverScrollableScrollPhysics(),
                             children: [
                               KeepAliveWidgetWrapper(
-                                builder: (context) => Builder(
-                                  builder: (context) {
-                                    final myGames =
-                                        FFAppState().myCart.toList();
-                                    if (myGames.isEmpty) {
-                                      return Center(
-                                        child: Image.asset(
-                                          'assets/images/logo_text.png',
-                                        ),
-                                      );
-                                    }
-
-                                    return SingleChildScrollView(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: List.generate(myGames.length,
-                                            (myGamesIndex) {
-                                          final myGamesItem =
-                                              myGames[myGamesIndex];
-                                          return CartCardWidget(
-                                            key: Key(
-                                                'Key49h_${myGamesIndex}_of_${myGames.length}'),
-                                          );
-                                        }),
-                                      ),
-                                    );
-                                  },
+                                builder: (context) => const SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [],
+                                  ),
                                 ),
                               ),
                             ],
@@ -316,7 +288,7 @@ class _MyCartWidgetState extends State<MyCartWidget>
                   ),
                   wrapWithModel(
                     model: _model.navBarModel,
-                    updateCallback: () => setState(() {}),
+                    updateCallback: () => safeSetState(() {}),
                     child: const NavBarWidget(),
                   ),
                 ],

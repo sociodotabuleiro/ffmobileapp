@@ -1,10 +1,11 @@
 import '/backend/schema/structs/index.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/register/confirm_prompt_avatar/confirm_prompt_avatar_widget.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:webviewx_plus/webviewx_plus.dart';
 import 'add_profile_picture_model.dart';
 export 'add_profile_picture_model.dart';
 
@@ -30,23 +31,23 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
         parameters: {'screen_name': 'addProfilePicture'});
     _model.racaTextController ??= TextEditingController();
     _model.racaFocusNode ??= FocusNode();
-    _model.racaFocusNode!.addListener(() => setState(() {}));
+    _model.racaFocusNode!.addListener(() => safeSetState(() {}));
     _model.generoTextController ??= TextEditingController();
     _model.generoFocusNode ??= FocusNode();
-    _model.generoFocusNode!.addListener(() => setState(() {}));
+    _model.generoFocusNode!.addListener(() => safeSetState(() {}));
     _model.idadeTextController ??= TextEditingController();
     _model.idadeFocusNode ??= FocusNode();
-    _model.idadeFocusNode!.addListener(() => setState(() {}));
+    _model.idadeFocusNode!.addListener(() => safeSetState(() {}));
     _model.epocaTextController ??= TextEditingController();
     _model.epocaFocusNode ??= FocusNode();
-    _model.epocaFocusNode!.addListener(() => setState(() {}));
+    _model.epocaFocusNode!.addListener(() => safeSetState(() {}));
     _model.aparenciaFisicaTextController ??= TextEditingController();
     _model.aparenciaFisicaFocusNode ??= FocusNode();
-    _model.aparenciaFisicaFocusNode!.addListener(() => setState(() {}));
+    _model.aparenciaFisicaFocusNode!.addListener(() => safeSetState(() {}));
     _model.vestimentasTextController ??= TextEditingController();
     _model.vestimentasFocusNode ??= FocusNode();
-    _model.vestimentasFocusNode!.addListener(() => setState(() {}));
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    _model.vestimentasFocusNode!.addListener(() => safeSetState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -62,9 +63,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
         title: 'addProfilePicture',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: Colors.white,
@@ -837,25 +836,32 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  24.0, 0.0, 24.0, 0.0),
-                              child: Text(
-                                'You are a fictional character in a fantastic world, a ${_model.generoTextController.text} ${_model.racaTextController.text}, ${_model.idadeTextController.text} years old,  living in ${_model.epocaTextController.text} epoch with the following physical traits: ${_model.aparenciaFisicaTextController.text}  with the following vestiments: ${_model.vestimentasTextController.text}',
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      fontFamily: FlutterFlowTheme.of(context)
-                                          .bodyMediumFamily,
-                                      fontSize: 16.0,
-                                      letterSpacing: 0.0,
-                                      useGoogleFonts: GoogleFonts.asMap()
-                                          .containsKey(
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMediumFamily),
-                                    ),
+                            if (responsiveVisibility(
+                              context: context,
+                              phone: false,
+                              tablet: false,
+                              tabletLandscape: false,
+                              desktop: false,
+                            ))
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    24.0, 0.0, 24.0, 0.0),
+                                child: Text(
+                                  'You are a fictional character in a fantastic world, a ${_model.generoTextController.text} ${_model.racaTextController.text}, ${_model.idadeTextController.text} years old,  living in ${_model.epocaTextController.text} epoch with the following physical traits: ${_model.aparenciaFisicaTextController.text}  with the following vestiments: ${_model.vestimentasTextController.text}',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: FlutterFlowTheme.of(context)
+                                            .bodyMediumFamily,
+                                        fontSize: 16.0,
+                                        letterSpacing: 0.0,
+                                        useGoogleFonts: GoogleFonts.asMap()
+                                            .containsKey(
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMediumFamily),
+                                      ),
+                                ),
                               ),
-                            ),
                           ],
                         ),
                       ),
@@ -890,34 +896,33 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                     enableDrag: false,
                                     context: context,
                                     builder: (context) {
-                                      return GestureDetector(
-                                        onTap: () => _model
-                                                .unfocusNode.canRequestFocus
-                                            ? FocusScope.of(context)
-                                                .requestFocus(
-                                                    _model.unfocusNode)
-                                            : FocusScope.of(context).unfocus(),
-                                        child: Padding(
-                                          padding:
-                                              MediaQuery.viewInsetsOf(context),
-                                          child: SizedBox(
-                                            height: 500.0,
-                                            child: ConfirmPromptAvatarWidget(
-                                              configs: AvatarSettingStruct(
-                                                raca: _model
-                                                    .racaTextController.text,
-                                                genero: _model
-                                                    .generoTextController.text,
-                                                idade: _model
-                                                    .idadeTextController.text,
-                                                epoca: _model
-                                                    .epocaTextController.text,
-                                                aparenciafisica: _model
-                                                    .aparenciaFisicaTextController
-                                                    .text,
-                                                vestimentas: _model
-                                                    .vestimentasTextController
-                                                    .text,
+                                      return WebViewAware(
+                                        child: GestureDetector(
+                                          onTap: () =>
+                                              FocusScope.of(context).unfocus(),
+                                          child: Padding(
+                                            padding: MediaQuery.viewInsetsOf(
+                                                context),
+                                            child: SizedBox(
+                                              height: 500.0,
+                                              child: ConfirmPromptAvatarWidget(
+                                                configs: AvatarSettingStruct(
+                                                  raca: _model
+                                                      .racaTextController.text,
+                                                  genero: _model
+                                                      .generoTextController
+                                                      .text,
+                                                  idade: _model
+                                                      .idadeTextController.text,
+                                                  epoca: _model
+                                                      .epocaTextController.text,
+                                                  aparenciafisica: _model
+                                                      .aparenciaFisicaTextController
+                                                      .text,
+                                                  vestimentas: _model
+                                                      .vestimentasTextController
+                                                      .text,
+                                                ),
                                               ),
                                             ),
                                           ),

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 class Payment01Model extends FlutterFlowModel<Payment01Widget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // State field(s) for CheckboxListTile widget.
   bool? checkboxListTileValue1;
   // State field(s) for TextField widget.
@@ -26,7 +25,6 @@ class Payment01Model extends FlutterFlowModel<Payment01Widget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     textFieldFocusNode?.dispose();
     textController?.dispose();
   }

@@ -10,7 +10,6 @@ class AddProfileAddress2Model
 
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   // State field(s) for street widget.
   FocusNode? streetFocusNode;
@@ -76,6 +75,8 @@ class AddProfileAddress2Model
   FocusNode? stateFocusNode;
   TextEditingController? stateTextController;
   String? Function(BuildContext, String?)? stateTextControllerValidator;
+  // Stores action output result for [Custom Action - getGeohash] action in Button widget.
+  String? geohash;
 
   @override
   void initState(BuildContext context) {
@@ -86,7 +87,6 @@ class AddProfileAddress2Model
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     streetFocusNode?.dispose();
     streetTextController?.dispose();
 

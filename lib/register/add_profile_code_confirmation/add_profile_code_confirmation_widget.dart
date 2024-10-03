@@ -1,9 +1,9 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'add_profile_code_confirmation_model.dart';
@@ -30,7 +30,7 @@ class _AddProfileCodeConfirmationWidgetState
 
     logFirebaseEvent('screen_view',
         parameters: {'screen_name': 'addProfileCodeConfirmation'});
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -46,9 +46,7 @@ class _AddProfileCodeConfirmationWidgetState
         title: 'addProfileCodeConfirmation',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -162,12 +160,6 @@ class _AddProfileCodeConfirmationWidgetState
                               inactiveColor:
                                   FlutterFlowTheme.of(context).alternate,
                               selectedColor:
-                                  FlutterFlowTheme.of(context).primary,
-                              activeFillColor:
-                                  FlutterFlowTheme.of(context).primaryText,
-                              inactiveFillColor:
-                                  FlutterFlowTheme.of(context).alternate,
-                              selectedFillColor:
                                   FlutterFlowTheme.of(context).primary,
                             ),
                             controller: _model.pinCodeController,

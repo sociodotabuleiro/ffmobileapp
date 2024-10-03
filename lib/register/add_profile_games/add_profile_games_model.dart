@@ -6,7 +6,6 @@ import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 class AddProfileGamesModel extends FlutterFlowModel<AddProfileGamesWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   // State field(s) for dateOfBirth widget.
   FocusNode? dateOfBirthFocusNode;
@@ -19,7 +18,6 @@ class AddProfileGamesModel extends FlutterFlowModel<AddProfileGamesWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     dateOfBirthFocusNode?.dispose();
     dateOfBirthTextController?.dispose();
   }

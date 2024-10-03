@@ -28,4 +28,10 @@ export '/games/my_games/my_games_widget.dart' show MyGamesWidget;
 export '/games/my_cart/my_cart_widget.dart' show MyCartWidget;
 export '/payment/payment01/payment01_widget.dart' show Payment01Widget;
 export '/payment/checkout/checkout_widget.dart' show CheckoutWidget;
-export '/save_actions/save_actions_widget.dart' show SaveActionsWidget;
+export '/extra/save_actions/save_actions_widget.dart' show SaveActionsWidget;
+export '/games/add_games/add_games_widget.dart' show AddGamesWidget;
+export '/profile/login_ludopedia/login_ludopedia_widget.dart'
+    show LoginLudopediaWidget;
+export '/delivery_status/delivery_status_widget.dart' show DeliveryStatusWidget;
+export '/termandconditions/termandconditions_widget.dart'
+    show TermandconditionsWidget;

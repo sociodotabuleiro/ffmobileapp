@@ -1,8 +1,8 @@
 import '/flutter_flow/flutter_flow_credit_card_form.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,7 +30,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
     _model.textController ??= TextEditingController();
     _model.textFieldFocusNode ??= FocusNode();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -46,9 +46,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
         title: 'payment01',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
@@ -146,7 +144,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                                           value: _model
                                               .checkboxListTileValue1 ??= true,
                                           onChanged: (newValue) async {
-                                            setState(() =>
+                                            safeSetState(() =>
                                                 _model.checkboxListTileValue1 =
                                                     newValue!);
                                           },
@@ -348,7 +346,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                                           value: _model
                                               .checkboxListTileValue2 ??= false,
                                           onChanged: (newValue) async {
-                                            setState(() =>
+                                            safeSetState(() =>
                                                 _model.checkboxListTileValue2 =
                                                     newValue!);
                                           },
@@ -448,7 +446,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                                           value: _model
                                               .checkboxListTileValue3 ??= false,
                                           onChanged: (newValue) async {
-                                            setState(() =>
+                                            safeSetState(() =>
                                                 _model.checkboxListTileValue3 =
                                                     newValue!);
                                           },
@@ -505,6 +503,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                               text: 'Apple Pay',
                               icon: const FaIcon(
                                 FontAwesomeIcons.apple,
+                                size: 15.0,
                               ),
                               options: FFButtonOptions(
                                 width: 270.0,
@@ -540,7 +539,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                               onPressed: () {
                                 print('Button pressed ...');
                               },
-                              text: 'Pay Now',
+                              text: 'Pagar agora',
                               options: FFButtonOptions(
                                 width: 270.0,
                                 height: 50.0,
@@ -578,6 +577,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                               text: 'Pay w/Paypal',
                               icon: const FaIcon(
                                 FontAwesomeIcons.paypal,
+                                size: 15.0,
                               ),
                               options: FFButtonOptions(
                                 width: 270.0,

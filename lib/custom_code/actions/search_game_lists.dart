@@ -3,13 +3,15 @@ import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
 import '/backend/schema/enums/enums.dart';
 import '/backend/supabase/supabase.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'index.dart'; // Imports other custom actions
 import '/flutter_flow/custom_functions.dart'; // Imports custom functions
 import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
+
+import 'package:diacritic/diacritic.dart';
 
 Future<List<DocumentReference>> searchGameLists(String gameName) async {
   // Get the Firestore instance
@@ -19,8 +21,11 @@ Future<List<DocumentReference>> searchGameLists(String gameName) async {
     // Create a query to search for documents with the searched string in their name
     final query = firestoreInstance
         .collection('games')
-        .where('name', isGreaterThanOrEqualTo: gameName)
-        .where('name', isLessThanOrEqualTo: gameName + '\uf8ff');
+        .where('name_normalized',
+            isGreaterThanOrEqualTo: removeDiacritics(gameName.toLowerCase()))
+        .where('name_normalized',
+            isLessThanOrEqualTo:
+                removeDiacritics(gameName.toLowerCase()) + '\uf8ff');
 
     // Execute the query and get the results
     final querySnapshot = await query.get();

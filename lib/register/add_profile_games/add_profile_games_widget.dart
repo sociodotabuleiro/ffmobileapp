@@ -1,8 +1,8 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'add_profile_games_model.dart';
@@ -29,8 +29,8 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
         parameters: {'screen_name': 'addProfileGames'});
     _model.dateOfBirthTextController ??= TextEditingController();
     _model.dateOfBirthFocusNode ??= FocusNode();
-    _model.dateOfBirthFocusNode!.addListener(() => setState(() {}));
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    _model.dateOfBirthFocusNode!.addListener(() => safeSetState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -46,9 +46,7 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
         title: 'addProfileGames',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: Colors.white,
@@ -292,7 +290,7 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                               child: FFButtonWidget(
                                 onPressed: () async {
                                   logFirebaseEvent(
-                                      'ADD_PROFILE_GAMES_PRÓXIMA_ETAPA_BTN_ON_T');
+                                      'ADD_PROFILE_GAMES_PRXIMA_ETAPA_BTN_ON_TA');
                                   logFirebaseEvent('Button_validate_form');
                                   if (_model.formKey.currentState == null ||
                                       !_model.formKey.currentState!

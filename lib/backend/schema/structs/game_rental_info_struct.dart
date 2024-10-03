@@ -3,8 +3,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
+import '/backend/schema/util/schema_util.dart';
 import '/backend/schema/enums/enums.dart';
 
+import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 class GameRentalInfoStruct extends FFFirebaseStruct {
@@ -13,11 +15,15 @@ class GameRentalInfoStruct extends FFFirebaseStruct {
     DateTime? rentalDate,
     DateTime? dueDate,
     RentalStatus? status,
+    DateTime? currentStatusTime,
+    List<DateTime>? pastTimes,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _gameID = gameID,
         _rentalDate = rentalDate,
         _dueDate = dueDate,
         _status = status,
+        _currentStatusTime = currentStatusTime,
+        _pastTimes = pastTimes,
         super(firestoreUtilData);
 
   // "gameID" field.
@@ -48,12 +54,32 @@ class GameRentalInfoStruct extends FFFirebaseStruct {
 
   bool hasStatus() => _status != null;
 
+  // "currentStatusTime" field.
+  DateTime? _currentStatusTime;
+  DateTime? get currentStatusTime => _currentStatusTime;
+  set currentStatusTime(DateTime? val) => _currentStatusTime = val;
+
+  bool hasCurrentStatusTime() => _currentStatusTime != null;
+
+  // "pastTimes" field.
+  List<DateTime>? _pastTimes;
+  List<DateTime> get pastTimes => _pastTimes ?? const [];
+  set pastTimes(List<DateTime>? val) => _pastTimes = val;
+
+  void updatePastTimes(Function(List<DateTime>) updateFn) {
+    updateFn(_pastTimes ??= []);
+  }
+
+  bool hasPastTimes() => _pastTimes != null;
+
   static GameRentalInfoStruct fromMap(Map<String, dynamic> data) =>
       GameRentalInfoStruct(
         gameID: data['gameID'] as DocumentReference?,
         rentalDate: data['rentalDate'] as DateTime?,
         dueDate: data['dueDate'] as DateTime?,
         status: deserializeEnum<RentalStatus>(data['status']),
+        currentStatusTime: data['currentStatusTime'] as DateTime?,
+        pastTimes: getDataList(data['pastTimes']),
       );
 
   static GameRentalInfoStruct? maybeFromMap(dynamic data) => data is Map
@@ -65,6 +91,8 @@ class GameRentalInfoStruct extends FFFirebaseStruct {
         'rentalDate': _rentalDate,
         'dueDate': _dueDate,
         'status': _status?.serialize(),
+        'currentStatusTime': _currentStatusTime,
+        'pastTimes': _pastTimes,
       }.withoutNulls;
 
   @override
@@ -84,6 +112,15 @@ class GameRentalInfoStruct extends FFFirebaseStruct {
         'status': serializeParam(
           _status,
           ParamType.Enum,
+        ),
+        'currentStatusTime': serializeParam(
+          _currentStatusTime,
+          ParamType.DateTime,
+        ),
+        'pastTimes': serializeParam(
+          _pastTimes,
+          ParamType.DateTime,
+          isList: true,
         ),
       }.withoutNulls;
 
@@ -110,6 +147,16 @@ class GameRentalInfoStruct extends FFFirebaseStruct {
           ParamType.Enum,
           false,
         ),
+        currentStatusTime: deserializeParam(
+          data['currentStatusTime'],
+          ParamType.DateTime,
+          false,
+        ),
+        pastTimes: deserializeParam<DateTime>(
+          data['pastTimes'],
+          ParamType.DateTime,
+          true,
+        ),
       );
 
   @override
@@ -117,16 +164,19 @@ class GameRentalInfoStruct extends FFFirebaseStruct {
 
   @override
   bool operator ==(Object other) {
+    const listEquality = ListEquality();
     return other is GameRentalInfoStruct &&
         gameID == other.gameID &&
         rentalDate == other.rentalDate &&
         dueDate == other.dueDate &&
-        status == other.status;
+        status == other.status &&
+        currentStatusTime == other.currentStatusTime &&
+        listEquality.equals(pastTimes, other.pastTimes);
   }
 
   @override
-  int get hashCode =>
-      const ListEquality().hash([gameID, rentalDate, dueDate, status]);
+  int get hashCode => const ListEquality().hash(
+      [gameID, rentalDate, dueDate, status, currentStatusTime, pastTimes]);
 }
 
 GameRentalInfoStruct createGameRentalInfoStruct({
@@ -134,6 +184,7 @@ GameRentalInfoStruct createGameRentalInfoStruct({
   DateTime? rentalDate,
   DateTime? dueDate,
   RentalStatus? status,
+  DateTime? currentStatusTime,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -144,6 +195,7 @@ GameRentalInfoStruct createGameRentalInfoStruct({
       rentalDate: rentalDate,
       dueDate: dueDate,
       status: status,
+      currentStatusTime: currentStatusTime,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

@@ -1,11 +1,11 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_debounce/easy_debounce.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -51,7 +51,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
       vsync: this,
       length: 3,
       initialIndex: 0,
-    )..addListener(() => setState(() {}));
+    )..addListener(() => safeSetState(() {}));
     _model.descriptionTextController ??= TextEditingController();
     _model.descriptionFocusNode ??= FocusNode();
 
@@ -91,7 +91,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
     _model.heightTextController ??= TextEditingController();
     _model.heightFocusNode ??= FocusNode();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {
           _model.descriptionTextController?.text = 'Descrição';
           _model.nameTextController?.text = 'Nome do Jogo';
           _model.playerCountTextController?.text = 'Quantidade de Jogadores';
@@ -121,9 +121,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
         title: 'Lista de Jogos',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -434,16 +432,15 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                       .fromSTEB(
                                                           8.0, 4.0, 8.0, 4.0),
                                                   child: Text(
-                                                    (currentUserDocument?.notifications
-                                                                        .toList() ??
-                                                                    []).isNotEmpty
-                                                        ? (currentUserDocument
-                                                                    ?.notificacoes
-                                                                    .toList() ??
-                                                                [])
-                                                            .length
-                                                            .toString()
-                                                        : ' ',
+                                                    valueOrDefault<String>(
+                                                      ((currentUserDocument
+                                                                      ?.notifications
+                                                                      .toList() ??
+                                                                  [])
+                                                              .isNotEmpty)
+                                                          .toString(),
+                                                      '0',
+                                                    ),
                                                     style:
                                                         FlutterFlowTheme.of(
                                                                 context)
@@ -453,8 +450,10 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                                   FlutterFlowTheme.of(
                                                                           context)
                                                                       .bodyMediumFamily,
-                                                              color: (currentUserDocument?.notifications.toList() ??
-                                                                              []).isNotEmpty
+                                                              color: ((currentUserDocument?.notifications.toList() ??
+                                                                              [])
+                                                                          .isNotEmpty) ==
+                                                                      true
                                                                   ? FlutterFlowTheme.of(
                                                                           context)
                                                                       .secondaryBackground
@@ -1036,13 +1035,13 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                             'searchField_update_page_state');
                                                         _model.isSearching =
                                                             true;
-                                                        setState(() {});
+                                                        safeSetState(() {});
                                                       } else {
                                                         logFirebaseEvent(
                                                             'searchField_update_page_state');
                                                         _model.isSearching =
                                                             false;
-                                                        setState(() {});
+                                                        safeSetState(() {});
                                                       }
                                                     },
                                                   ),
@@ -1180,7 +1179,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                     .text,
                                               );
 
-                                              setState(() {});
+                                              safeSetState(() {});
                                             },
                                           ),
                                         ],
@@ -1301,7 +1300,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                           'Card_update_page_state');
                                                       _model.gameView =
                                                           cardGamesRecord;
-                                                      setState(() {});
+                                                      safeSetState(() {});
                                                     },
                                                     child: Card(
                                                       clipBehavior: Clip
@@ -1506,7 +1505,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                     'Card_update_page_state');
                                                 _model.gameView =
                                                     listViewGamesRecord;
-                                                setState(() {});
+                                                safeSetState(() {});
                                               },
                                               child: Card(
                                                 clipBehavior:

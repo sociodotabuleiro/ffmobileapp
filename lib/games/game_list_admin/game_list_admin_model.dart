@@ -13,7 +13,6 @@ class GameListAdminModel extends FlutterFlowModel<GameListAdminWidget> {
 
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   // State field(s) for searchField widget.
   FocusNode? searchFieldFocusNode;
   TextEditingController? searchFieldTextController;
@@ -90,7 +89,6 @@ class GameListAdminModel extends FlutterFlowModel<GameListAdminWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     searchFieldFocusNode?.dispose();
     searchFieldTextController?.dispose();
 

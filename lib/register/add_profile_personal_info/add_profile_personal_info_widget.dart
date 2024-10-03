@@ -2,11 +2,11 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/schema/enums/enums.dart';
 import '/flutter_flow/flutter_flow_choice_chips.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'add_profile_personal_info_model.dart';
@@ -40,20 +40,23 @@ class _AddProfilePersonalInfoWidgetState
         parameters: {'screen_name': 'addProfilePersonalInfo'});
     _model.firstNameTextController ??= TextEditingController();
     _model.firstNameFocusNode ??= FocusNode();
-    _model.firstNameFocusNode!.addListener(() => setState(() {}));
+    _model.firstNameFocusNode!.addListener(() => safeSetState(() {}));
     _model.lastNameTextController ??= TextEditingController();
     _model.lastNameFocusNode ??= FocusNode();
-    _model.lastNameFocusNode!.addListener(() => setState(() {}));
+    _model.lastNameFocusNode!.addListener(() => safeSetState(() {}));
     _model.dateOfBirthTextController ??= TextEditingController();
     _model.dateOfBirthFocusNode ??= FocusNode();
-    _model.dateOfBirthFocusNode!.addListener(() => setState(() {}));
+    _model.dateOfBirthFocusNode!.addListener(() => safeSetState(() {}));
     _model.cpfTextController ??= TextEditingController();
     _model.cpfFocusNode ??= FocusNode();
-    _model.cpfFocusNode!.addListener(() => setState(() {}));
+    _model.cpfFocusNode!.addListener(() => safeSetState(() {}));
     _model.rgTextController ??= TextEditingController();
     _model.rgFocusNode ??= FocusNode();
-    _model.rgFocusNode!.addListener(() => setState(() {}));
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    _model.rgFocusNode!.addListener(() => safeSetState(() {}));
+    _model.phoneNumberTextController ??= TextEditingController();
+    _model.phoneNumberFocusNode ??= FocusNode();
+    _model.phoneNumberFocusNode!.addListener(() => safeSetState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -69,9 +72,7 @@ class _AddProfilePersonalInfoWidgetState
         title: 'addProfilePersonalInfo',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: Colors.white,
@@ -588,7 +589,6 @@ class _AddProfilePersonalInfoWidgetState
                                       validator: _model
                                           .cpfTextControllerValidator
                                           .asValidator(context),
-                                      inputFormatters: [_model.cpfMask],
                                     ),
                                     TextFormField(
                                       controller: _model.rgTextController,
@@ -692,7 +692,6 @@ class _AddProfilePersonalInfoWidgetState
                                       validator: _model
                                           .rgTextControllerValidator
                                           .asValidator(context),
-                                      inputFormatters: [_model.rgMask],
                                     ),
                                     Text(
                                       'Gênero',
@@ -715,8 +714,9 @@ class _AddProfilePersonalInfoWidgetState
                                         ChipData('Outro')
                                       ],
                                       onChanged: (val) async {
-                                        setState(() => _model.choiceChipsValue =
-                                            val?.firstOrNull);
+                                        safeSetState(() =>
+                                            _model.choiceChipsValue =
+                                                val?.firstOrNull);
                                         logFirebaseEvent(
                                             'ADD_PROFILE_PERSONAL_INFO_ChoiceChips_c0');
                                         logFirebaseEvent(
@@ -732,7 +732,7 @@ class _AddProfilePersonalInfoWidgetState
                                             return Gender.other;
                                           }
                                         }();
-                                        setState(() {});
+                                        safeSetState(() {});
                                       },
                                       selectedChipStyle: ChipStyle(
                                         backgroundColor: const Color(0x4C39D2C0),
@@ -794,6 +794,111 @@ class _AddProfilePersonalInfoWidgetState
                                       thickness: 2.0,
                                       color: Color(0xFFE5E7EB),
                                     ),
+                                    TextFormField(
+                                      controller:
+                                          _model.phoneNumberTextController,
+                                      focusNode: _model.phoneNumberFocusNode,
+                                      autofocus: true,
+                                      textCapitalization:
+                                          TextCapitalization.words,
+                                      obscureText: false,
+                                      decoration: InputDecoration(
+                                        labelText: 'Telefone',
+                                        labelStyle: FlutterFlowTheme.of(context)
+                                            .labelLarge
+                                            .override(
+                                              fontFamily: 'Outfit',
+                                              color: const Color(0xFF606A85),
+                                              fontSize: 16.0,
+                                              letterSpacing: 0.0,
+                                              fontWeight: FontWeight.w500,
+                                              useGoogleFonts:
+                                                  GoogleFonts.asMap()
+                                                      .containsKey('Outfit'),
+                                            ),
+                                        hintStyle: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .override(
+                                              fontFamily: 'Outfit',
+                                              color: const Color(0xFF606A85),
+                                              fontSize: 14.0,
+                                              letterSpacing: 0.0,
+                                              fontWeight: FontWeight.w500,
+                                              useGoogleFonts:
+                                                  GoogleFonts.asMap()
+                                                      .containsKey('Outfit'),
+                                            ),
+                                        errorStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              fontFamily: 'Figtree',
+                                              color: const Color(0xFFFF5963),
+                                              fontSize: 12.0,
+                                              letterSpacing: 0.0,
+                                              fontWeight: FontWeight.w600,
+                                              useGoogleFonts:
+                                                  GoogleFonts.asMap()
+                                                      .containsKey('Figtree'),
+                                            ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                            color: Color(0xFFE5E7EB),
+                                            width: 2.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                            color: Color(0xFF6F61EF),
+                                            width: 2.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                        ),
+                                        errorBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                            color: Color(0xFFFF5963),
+                                            width: 2.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                        ),
+                                        focusedErrorBorder: OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                            color: Color(0xFFFF5963),
+                                            width: 2.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                        ),
+                                        filled: true,
+                                        fillColor: (_model.phoneNumberFocusNode
+                                                    ?.hasFocus ??
+                                                false)
+                                            ? const Color(0x4D9489F5)
+                                            : Colors.white,
+                                        contentPadding:
+                                            const EdgeInsetsDirectional.fromSTEB(
+                                                16.0, 20.0, 16.0, 20.0),
+                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyLarge
+                                          .override(
+                                            fontFamily: 'Figtree',
+                                            color: const Color(0xFF15161E),
+                                            fontSize: 16.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.w600,
+                                            useGoogleFonts: GoogleFonts.asMap()
+                                                .containsKey('Figtree'),
+                                          ),
+                                      cursorColor: const Color(0xFF6F61EF),
+                                      validator: _model
+                                          .phoneNumberTextControllerValidator
+                                          .asValidator(context),
+                                      inputFormatters: [_model.phoneNumberMask],
+                                    ),
                                   ]
                                       .divide(const SizedBox(height: 12.0))
                                       .addToEnd(const SizedBox(height: 32.0)),
@@ -815,7 +920,7 @@ class _AddProfilePersonalInfoWidgetState
                         child: FFButtonWidget(
                           onPressed: () async {
                             logFirebaseEvent(
-                                'ADD_PROFILE_PERSONAL_INFO_PRÓXIMA_ETAPA_');
+                                'ADD_PROFILE_PERSONAL_INFO_PRXIMA_ETAPA_B');
                             logFirebaseEvent('Button_validate_form');
                             if (_model.formKey.currentState == null ||
                                 !_model.formKey.currentState!.validate()) {
@@ -826,7 +931,7 @@ class _AddProfilePersonalInfoWidgetState
                             await widget.userRef!.update({
                               ...createUsersRecordData(
                                 fullName:
-                                    '${_model.firstNameTextController.text}${_model.lastNameTextController.text}',
+                                    '${_model.firstNameTextController.text} ${_model.lastNameTextController.text}',
                                 firstName: _model.firstNameTextController.text,
                                 lastName: _model.lastNameTextController.text,
                                 cpf: _model.cpfTextController.text,
@@ -839,6 +944,20 @@ class _AddProfilePersonalInfoWidgetState
                                 displayName:
                                     _model.firstNameTextController.text,
                                 createdTime: getCurrentTimestamp,
+                                phoneNumber:
+                                    _model.phoneNumberTextController.text,
+                                firstTimeLogin: true,
+                                completedRegister: false,
+                                favoritedGamesCount: 0,
+                                wishlistCount: 0,
+                                cartCount: 0,
+                                rentedFromCount: 0,
+                                rentedToCount: 0,
+                                amountEarned: 0.0,
+                                isStore: false,
+                                rating: 3.0,
+                                askedToRentTo: false,
+                                stayLoggedIn: true,
                               ),
                               ...mapToFirestore(
                                 {

@@ -1,10 +1,11 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
+import 'package:calendar/app_state.dart' as calendar_app_state;
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +39,7 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
     super.initState();
     _model = createModel(context, () => ConfirmPromptAvatarModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -51,6 +52,7 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
+    context.watch<calendar_app_state.FFAppState>();
 
     return Container(
       width: 300.0,
@@ -203,7 +205,7 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                             if (_model.storageURL != 'ERROR') {
                               logFirebaseEvent('Button_update_app_state');
                               FFAppState().profileUrlImage = _model.storageURL!;
-                              setState(() {});
+                              safeSetState(() {});
                               logFirebaseEvent('Button_backend_call');
 
                               await currentUserReference!.update({
@@ -267,7 +269,7 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                             );
                           }
 
-                          setState(() {});
+                          safeSetState(() {});
                         },
                         text: 'Confirmar',
                         options: FFButtonOptions(
@@ -304,7 +306,7 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                         onPressed: () async {
                           logFirebaseEvent(
                               'CONFIRM_PROMPT_AVATAR_VOLTAR_BTN_ON_TAP');
-                          logFirebaseEvent('Button_close_dialog,_drawer,_etc');
+                          logFirebaseEvent('Button_close_dialog_drawer_etc');
                           Navigator.pop(context);
                         },
                         text: 'Voltar',

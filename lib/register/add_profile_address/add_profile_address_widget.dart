@@ -1,9 +1,10 @@
 import '/flutter_flow/flutter_flow_place_picker.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:webviewx_plus/webviewx_plus.dart';
 import 'add_profile_address_model.dart';
 export 'add_profile_address_model.dart';
 
@@ -27,7 +28,7 @@ class _AddProfileAddressWidgetState extends State<AddProfileAddressWidget> {
 
     logFirebaseEvent('screen_view',
         parameters: {'screen_name': 'addProfileAddress'});
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -43,9 +44,7 @@ class _AddProfileAddressWidgetState extends State<AddProfileAddressWidget> {
         title: 'addProfileAddress',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: Colors.white,
@@ -160,7 +159,7 @@ class _AddProfileAddressWidgetState extends State<AddProfileAddressWidget> {
                                           webGoogleMapsApiKey:
                                               'AIzaSyD1_SP_0qjllKecO4u0CrKHAFSzUKwYAts',
                                           onSelect: (place) async {
-                                            setState(() => _model
+                                            safeSetState(() => _model
                                                 .placePickerValue = place);
                                           },
                                           defaultText: 'Selecionar Endereço',
@@ -252,7 +251,7 @@ class _AddProfileAddressWidgetState extends State<AddProfileAddressWidget> {
                         child: FFButtonWidget(
                           onPressed: () async {
                             logFirebaseEvent(
-                                'ADD_PROFILE_ADDRESS_PRÓXIMA_ETAPA_BTN_ON');
+                                'ADD_PROFILE_ADDRESS_PRXIMA_ETAPA_BTN_ON_');
                             logFirebaseEvent('Button_validate_form');
                             if (_model.formKey.currentState == null ||
                                 !_model.formKey.currentState!.validate()) {
@@ -262,17 +261,19 @@ class _AddProfileAddressWidgetState extends State<AddProfileAddressWidget> {
                               await showDialog(
                                 context: context,
                                 builder: (alertDialogContext) {
-                                  return AlertDialog(
-                                    title: const Text('Selecione seu endereço!'),
-                                    content: const Text(
-                                        'Por favor selecione seu endereço!'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () =>
-                                            Navigator.pop(alertDialogContext),
-                                        child: const Text('Ok'),
-                                      ),
-                                    ],
+                                  return WebViewAware(
+                                    child: AlertDialog(
+                                      title: const Text('Selecione seu endereço!'),
+                                      content: const Text(
+                                          'Por favor selecione seu endereço!'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(alertDialogContext),
+                                          child: const Text('Ok'),
+                                        ),
+                                      ],
+                                    ),
                                   );
                                 },
                               );
@@ -283,7 +284,7 @@ class _AddProfileAddressWidgetState extends State<AddProfileAddressWidget> {
                                 _model.placePickerValue.address;
                             FFAppState().userAddressLatLng =
                                 _model.placePickerValue.latLng;
-                            setState(() {});
+                            safeSetState(() {});
                             logFirebaseEvent('Button_navigate_to');
 
                             context.pushNamed('addProfileAddress2');

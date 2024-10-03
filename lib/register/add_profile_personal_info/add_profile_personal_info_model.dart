@@ -14,7 +14,6 @@ class AddProfilePersonalInfoModel
 
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   // State field(s) for firstName widget.
   FocusNode? firstNameFocusNode;
@@ -40,9 +39,6 @@ class AddProfilePersonalInfoModel
       return 'Por favor digite o sobrenome';
     }
 
-    if (!RegExp(kTextValidatorUsernameRegex).hasMatch(val)) {
-      return 'Must start with a letter and can only contain letters, digits and - or _.';
-    }
     return null;
   }
 
@@ -66,7 +62,6 @@ class AddProfilePersonalInfoModel
   // State field(s) for cpf widget.
   FocusNode? cpfFocusNode;
   TextEditingController? cpfTextController;
-  final cpfMask = MaskTextInputFormatter(mask: '###.###.###-##');
   String? Function(BuildContext, String?)? cpfTextControllerValidator;
   String? _cpfTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
@@ -79,7 +74,6 @@ class AddProfilePersonalInfoModel
   // State field(s) for rg widget.
   FocusNode? rgFocusNode;
   TextEditingController? rgTextController;
-  final rgMask = MaskTextInputFormatter(mask: 'AA ##.###.###');
   String? Function(BuildContext, String?)? rgTextControllerValidator;
   // State field(s) for ChoiceChips widget.
   FormFieldController<List<String>>? choiceChipsValueController;
@@ -87,6 +81,11 @@ class AddProfilePersonalInfoModel
       choiceChipsValueController?.value?.firstOrNull;
   set choiceChipsValue(String? val) =>
       choiceChipsValueController?.value = val != null ? [val] : [];
+  // State field(s) for phone_number widget.
+  FocusNode? phoneNumberFocusNode;
+  TextEditingController? phoneNumberTextController;
+  final phoneNumberMask = MaskTextInputFormatter(mask: '+55(##)# ####-####');
+  String? Function(BuildContext, String?)? phoneNumberTextControllerValidator;
 
   @override
   void initState(BuildContext context) {
@@ -98,7 +97,6 @@ class AddProfilePersonalInfoModel
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     firstNameFocusNode?.dispose();
     firstNameTextController?.dispose();
 
@@ -113,5 +111,8 @@ class AddProfilePersonalInfoModel
 
     rgFocusNode?.dispose();
     rgTextController?.dispose();
+
+    phoneNumberFocusNode?.dispose();
+    phoneNumberTextController?.dispose();
   }
 }

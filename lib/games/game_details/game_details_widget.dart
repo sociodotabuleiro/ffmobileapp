@@ -1,21 +1,26 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_toggle_icon.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/games/my_game_config_sheet/my_game_config_sheet_widget.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
+import 'package:calendar/app_state.dart' as calendar_app_state;
 import 'package:smooth_page_indicator/smooth_page_indicator.dart'
     as smooth_page_indicator;
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:octo_image/octo_image.dart';
 import 'package:provider/provider.dart';
+import 'package:webviewx_plus/webviewx_plus.dart';
 import 'game_details_model.dart';
 export 'game_details_model.dart';
 
@@ -47,6 +52,23 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
     _model = createModel(context, () => GameDetailsModel());
 
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'gameDetails'});
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      logFirebaseEvent('GAME_DETAILS_gameDetails_ON_INIT_STATE');
+      if ((currentUserDocument?.wishlist.toList() ?? [])
+          .contains(widget.gameObject?.reference)) {
+        logFirebaseEvent('gameDetails_update_page_state');
+        _model.wishlisted = true;
+        safeSetState(() {});
+      }
+      if ((currentUserDocument?.favoriteList.toList() ?? [])
+          .contains(widget.gameObject?.reference)) {
+        logFirebaseEvent('gameDetails_update_page_state');
+        _model.favorited = true;
+        safeSetState(() {});
+      }
+    });
+
     animationsMap.addAll({
       'imageOnPageLoadAnimation': AnimationInfo(
         trigger: AnimationTrigger.onPageLoad,
@@ -250,6 +272,32 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
           ),
         ],
       ),
+      'toggleIconOnActionTriggerAnimation1': AnimationInfo(
+        trigger: AnimationTrigger.onActionTrigger,
+        applyInitialState: true,
+        effectsBuilder: () => [
+          ScaleEffect(
+            curve: Curves.elasticOut,
+            delay: 0.0.ms,
+            duration: 600.0.ms,
+            begin: const Offset(-1.0, -1.0),
+            end: const Offset(1.0, 1.0),
+          ),
+        ],
+      ),
+      'toggleIconOnActionTriggerAnimation2': AnimationInfo(
+        trigger: AnimationTrigger.onActionTrigger,
+        applyInitialState: true,
+        effectsBuilder: () => [
+          ScaleEffect(
+            curve: Curves.elasticOut,
+            delay: 0.0.ms,
+            duration: 600.0.ms,
+            begin: const Offset(-1.0, -1.0),
+            end: const Offset(1.0, 1.0),
+          ),
+        ],
+      ),
       'dividerOnPageLoadAnimation2': AnimationInfo(
         trigger: AnimationTrigger.onPageLoad,
         effectsBuilder: () => [
@@ -289,8 +337,14 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
         ],
       ),
     });
+    setupAnimations(
+      animationsMap.values.where((anim) =>
+          anim.trigger == AnimationTrigger.onActionTrigger ||
+          !anim.applyInitialState),
+      this,
+    );
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -303,14 +357,13 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
+    context.watch<calendar_app_state.FFAppState>();
 
     return Title(
         title: ':gameName',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -354,8 +407,9 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                             ),
                           ),
                         ),
-                        if (functions.checkGameRefInJson(FFAppState().myGames,
-                                widget.gameObject!.reference) ==
+                        if (FFAppState()
+                                .myGamesRef
+                                .contains(widget.gameObject?.reference) ==
                             true)
                           Padding(
                             padding: const EdgeInsetsDirectional.fromSTEB(
@@ -375,19 +429,18 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                   enableDrag: false,
                                   context: context,
                                   builder: (context) {
-                                    return GestureDetector(
-                                      onTap: () => _model
-                                              .unfocusNode.canRequestFocus
-                                          ? FocusScope.of(context)
-                                              .requestFocus(_model.unfocusNode)
-                                          : FocusScope.of(context).unfocus(),
-                                      child: Padding(
-                                        padding:
-                                            MediaQuery.viewInsetsOf(context),
-                                        child: MyGameConfigSheetWidget(
-                                          gameRef:
-                                              widget.gameObject!.reference,
-                                          gameName: widget.gameObject!.name,
+                                    return WebViewAware(
+                                      child: GestureDetector(
+                                        onTap: () =>
+                                            FocusScope.of(context).unfocus(),
+                                        child: Padding(
+                                          padding:
+                                              MediaQuery.viewInsetsOf(context),
+                                          child: MyGameConfigSheetWidget(
+                                            gameRef:
+                                                widget.gameObject!.reference,
+                                            gameName: widget.gameObject!.name,
+                                          ),
                                         ),
                                       ),
                                     );
@@ -523,7 +576,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                                             milliseconds: 500),
                                                         curve: Curves.ease,
                                                       );
-                                                      setState(() {});
+                                                      safeSetState(() {});
                                                     },
                                                     effect: smooth_page_indicator
                                                         .ExpandingDotsEffect(
@@ -697,7 +750,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                       FontAwesomeIcons.clock,
                                       color:
                                           FlutterFlowTheme.of(context).primary,
-                                      size: 24.0,
+                                      size: 22.0,
                                     ),
                                     Text(
                                       valueOrDefault<String>(
@@ -844,7 +897,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                       'GAME_DETAILS_PAGE_Text_88j0pnkr_ON_TAP');
                                   logFirebaseEvent('Text_update_page_state');
                                   _model.lerMais = true;
-                                  setState(() {});
+                                  safeSetState(() {});
                                 },
                                 child: Text(
                                   'Ler mais',
@@ -879,7 +932,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                       'GAME_DETAILS_PAGE_Text_9j25wwop_ON_TAP');
                                   logFirebaseEvent('Text_update_page_state');
                                   _model.lerMais = false;
-                                  setState(() {});
+                                  safeSetState(() {});
                                 },
                                 child: Text(
                                   'Esconder...',
@@ -908,26 +961,57 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                               animationsMap['dividerOnPageLoadAnimation1']!),
                           Row(
                             mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Column(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  InkWell(
-                                    splashColor: Colors.transparent,
-                                    focusColor: Colors.transparent,
-                                    hoverColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    onTap: () async {
+                                  ToggleIcon(
+                                    onPressed: () async {
+                                      safeSetState(() =>
+                                          _model.favorited = !_model.favorited);
                                       logFirebaseEvent(
-                                          'GAME_DETAILS_PAGE_Icon_hw50ghin_ON_TAP');
+                                          'GAME_DETAILS_ToggleIcon_xn6vd37u_ON_TOGG');
+                                      if (_model.favorited == true) {
+                                        logFirebaseEvent(
+                                            'ToggleIcon_alert_dialog');
+                                        await showDialog(
+                                          context: context,
+                                          builder: (alertDialogContext) {
+                                            return WebViewAware(
+                                              child: AlertDialog(
+                                                content: const Text(
+                                                    'favorited era true na condition'),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            alertDialogContext),
+                                                    child: const Text('Ok'),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      }
                                     },
-                                    child: Icon(
-                                      Icons.star_outlined,
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryText,
+                                    value: _model.favorited,
+                                    onIcon: Icon(
+                                      Icons.star,
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
                                       size: 32.0,
                                     ),
+                                    offIcon: Icon(
+                                      Icons.star_border,
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                      size: 32.0,
+                                    ),
+                                  ).animateOnActionTrigger(
+                                    animationsMap[
+                                        'toggleIconOnActionTriggerAnimation1']!,
                                   ),
                                   Padding(
                                     padding: const EdgeInsetsDirectional.fromSTEB(
@@ -976,32 +1060,61 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                               Column(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  InkWell(
-                                    splashColor: Colors.transparent,
-                                    focusColor: Colors.transparent,
-                                    hoverColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    onTap: () async {
+                                  ToggleIcon(
+                                    onPressed: () async {
+                                      safeSetState(() => _model.wishlisted =
+                                          !_model.wishlisted);
                                       logFirebaseEvent(
-                                          'GAME_DETAILS_PAGE_Icon_vbbsqn8o_ON_TAP');
-                                      logFirebaseEvent('Icon_backend_call');
-
-                                      await widget.gameObject!.reference
-                                          .update({
-                                        ...mapToFirestore(
-                                          {
-                                            'timesWishlisted':
-                                                FieldValue.increment(1),
+                                          'GAME_DETAILS_ToggleIcon_rk2oqrln_ON_TOGG');
+                                      if (_model.wishlisted == true) {
+                                        logFirebaseEvent(
+                                            'ToggleIcon_alert_dialog');
+                                        await showDialog(
+                                          context: context,
+                                          builder: (alertDialogContext) {
+                                            return WebViewAware(
+                                              child: AlertDialog(
+                                                content: const Text(
+                                                    'wishlisted era true na condition'),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            alertDialogContext),
+                                                    child: const Text('Ok'),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
                                           },
-                                        ),
-                                      });
+                                        );
+                                        logFirebaseEvent(
+                                            'ToggleIcon_widget_animation');
+                                        if (animationsMap[
+                                                'toggleIconOnActionTriggerAnimation2'] !=
+                                            null) {
+                                          await animationsMap[
+                                                  'toggleIconOnActionTriggerAnimation2']!
+                                              .controller
+                                              .forward(from: 0.0);
+                                        }
+                                      }
                                     },
-                                    child: Icon(
-                                      Icons.favorite_sharp,
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryText,
+                                    value: _model.wishlisted,
+                                    onIcon: Icon(
+                                      Icons.favorite,
+                                      color: FlutterFlowTheme.of(context).error,
                                       size: 32.0,
                                     ),
+                                    offIcon: Icon(
+                                      Icons.favorite_border,
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                      size: 32.0,
+                                    ),
+                                  ).animateOnActionTrigger(
+                                    animationsMap[
+                                        'toggleIconOnActionTriggerAnimation2']!,
                                   ),
                                   Padding(
                                     padding: const EdgeInsetsDirectional.fromSTEB(
@@ -1052,7 +1165,10 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                 children: [
                                   FaIcon(
                                     FontAwesomeIcons.dollarSign,
-                                    color: FlutterFlowTheme.of(context).success,
+                                    color: widget.gameObject!.timesRented > 0
+                                        ? FlutterFlowTheme.of(context).success
+                                        : FlutterFlowTheme.of(context)
+                                            .primaryText,
                                     size: 32.0,
                                   ),
                                   Padding(
@@ -1108,197 +1224,207 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                             color: FlutterFlowTheme.of(context).alternate,
                           ).animateOnPageLoad(
                               animationsMap['dividerOnPageLoadAnimation2']!),
-                          Builder(
-                            builder: (context) {
-                              final categoriesList =
-                                  widget.gameObject?.categories.toList() ??
-                                      [];
+                          if (responsiveVisibility(
+                            context: context,
+                            phone: false,
+                            tablet: false,
+                            tabletLandscape: false,
+                            desktop: false,
+                          ))
+                            Builder(
+                              builder: (context) {
+                                final categoriesList =
+                                    widget.gameObject?.categories.toList() ??
+                                        [];
 
-                              return SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: List.generate(categoriesList.length,
-                                      (categoriesListIndex) {
-                                    final categoriesListItem =
-                                        categoriesList[categoriesListIndex];
-                                    return Container(
-                                      decoration: const BoxDecoration(),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(24.0),
-                                        child: Image.network(
-                                          'https://picsum.photos/seed/169/600',
-                                          width: 50.0,
-                                          height: 50.0,
-                                          fit: BoxFit.cover,
+                                return SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children:
+                                        List.generate(categoriesList.length,
+                                            (categoriesListIndex) {
+                                      final categoriesListItem =
+                                          categoriesList[categoriesListIndex];
+                                      return Container(
+                                        decoration: const BoxDecoration(),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(24.0),
+                                          child: Image.network(
+                                            'https://picsum.photos/seed/169/600',
+                                            width: 50.0,
+                                            height: 50.0,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  }).divide(const SizedBox(width: 15.0)),
-                                ),
-                              );
-                            },
-                          ),
-                          Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                0.0, 16.0, 0.0, 0.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Text(
-                                  'Mídias',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .bodyMediumFamily,
-                                        letterSpacing: 0.0,
-                                        useGoogleFonts: GoogleFonts.asMap()
-                                            .containsKey(
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMediumFamily),
-                                      ),
-                                ),
-                                SizedBox(
-                                  width: double.infinity,
-                                  height: 180.0,
-                                  child: CarouselSlider(
-                                    items: [
-                                      ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        child: Image.network(
-                                          'https://picsum.photos/seed/1/600',
-                                          width: 300.0,
-                                          height: 200.0,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        child: Image.network(
-                                          'https://picsum.photos/seed/695/600',
-                                          width: 300.0,
-                                          height: 200.0,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        child: Image.network(
-                                          'https://picsum.photos/seed/607/600',
-                                          width: 300.0,
-                                          height: 200.0,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        child: Image.network(
-                                          'https://picsum.photos/seed/741/600',
-                                          width: 300.0,
-                                          height: 200.0,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ],
-                                    carouselController:
-                                        _model.carouselController ??=
-                                            CarouselController(),
-                                    options: CarouselOptions(
-                                      initialPage: 1,
-                                      viewportFraction: 0.5,
-                                      disableCenter: true,
-                                      enlargeCenterPage: true,
-                                      enlargeFactor: 0.25,
-                                      enableInfiniteScroll: true,
-                                      scrollDirection: Axis.horizontal,
-                                      autoPlay: false,
-                                      onPageChanged: (index, _) =>
-                                          _model.carouselCurrentIndex = index,
-                                    ),
+                                      );
+                                    }).divide(const SizedBox(width: 15.0)),
                                   ),
-                                ),
-                              ],
+                                );
+                              },
                             ),
-                          ),
+                          if ((widget.gameObject?.galleryURLs != null &&
+                                  (widget.gameObject?.galleryURLs)!
+                                      .isNotEmpty) ==
+                              true)
+                            Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 16.0, 0.0, 0.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Text(
+                                    'Mídias',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          fontFamily:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMediumFamily,
+                                          letterSpacing: 0.0,
+                                          useGoogleFonts: GoogleFonts.asMap()
+                                              .containsKey(
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMediumFamily),
+                                        ),
+                                  ),
+                                  Builder(
+                                    builder: (context) {
+                                      final imagesUrls = widget
+                                              .gameObject?.galleryURLs
+                                              .toList() ??
+                                          [];
+
+                                      return SizedBox(
+                                        width: double.infinity,
+                                        height: 180.0,
+                                        child: CarouselSlider.builder(
+                                          itemCount: imagesUrls.length,
+                                          itemBuilder:
+                                              (context, imagesUrlsIndex, _) {
+                                            final imagesUrlsItem =
+                                                imagesUrls[imagesUrlsIndex];
+                                            return ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              child: Image.network(
+                                                imagesUrlsItem,
+                                                width: 300.0,
+                                                height: 200.0,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            );
+                                          },
+                                          carouselController:
+                                              _model.carouselController ??=
+                                                  CarouselController(),
+                                          options: CarouselOptions(
+                                            initialPage: max(0,
+                                                min(1, imagesUrls.length - 1)),
+                                            viewportFraction: 0.5,
+                                            disableCenter: true,
+                                            enlargeCenterPage: true,
+                                            enlargeFactor: 0.25,
+                                            enableInfiniteScroll: true,
+                                            scrollDirection: Axis.horizontal,
+                                            autoPlay: false,
+                                            onPageChanged: (index, _) => _model
+                                                .carouselCurrentIndex = index,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
                           Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 32.0, 0.0, 0.0),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Clique aqui para ler os reviews dos jogos',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMediumFamily,
-                                            letterSpacing: 0.0,
-                                            useGoogleFonts: GoogleFonts.asMap()
-                                                .containsKey(
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMediumFamily),
-                                          ),
-                                    ),
-                                    FFButtonWidget(
-                                      onPressed: () {
-                                        print('Button pressed ...');
-                                      },
-                                      text: 'Reviews',
-                                      icon: const Icon(
-                                        Icons.rate_review_sharp,
-                                        size: 15.0,
-                                      ),
-                                      options: FFButtonOptions(
-                                        height: 40.0,
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            24.0, 0.0, 24.0, 0.0),
-                                        iconPadding:
-                                            const EdgeInsetsDirectional.fromSTEB(
-                                                0.0, 0.0, 0.0, 0.0),
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondary,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .titleSmall
+                              if (responsiveVisibility(
+                                context: context,
+                                phone: false,
+                                tablet: false,
+                                tabletLandscape: false,
+                                desktop: false,
+                              ))
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 32.0, 0.0, 0.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Clique aqui para ler os reviews dos jogos',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
                                             .override(
                                               fontFamily:
                                                   FlutterFlowTheme.of(context)
-                                                      .titleSmallFamily,
-                                              color: Colors.white,
+                                                      .bodyMediumFamily,
                                               letterSpacing: 0.0,
                                               useGoogleFonts: GoogleFonts
                                                       .asMap()
                                                   .containsKey(
                                                       FlutterFlowTheme.of(
                                                               context)
-                                                          .titleSmallFamily),
+                                                          .bodyMediumFamily),
                                             ),
-                                        elevation: 3.0,
-                                        borderSide: const BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1.0,
-                                        ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
                                       ),
-                                    ),
-                                  ].divide(const SizedBox(height: 10.0)),
+                                      FFButtonWidget(
+                                        onPressed: () {
+                                          print('Button pressed ...');
+                                        },
+                                        text: 'Reviews',
+                                        icon: const Icon(
+                                          Icons.rate_review_sharp,
+                                          size: 15.0,
+                                        ),
+                                        options: FFButtonOptions(
+                                          height: 40.0,
+                                          padding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  24.0, 0.0, 24.0, 0.0),
+                                          iconPadding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 0.0, 0.0),
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondary,
+                                          textStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .titleSmall
+                                              .override(
+                                                fontFamily:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleSmallFamily,
+                                                color: Colors.white,
+                                                letterSpacing: 0.0,
+                                                useGoogleFonts: GoogleFonts
+                                                        .asMap()
+                                                    .containsKey(
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .titleSmallFamily),
+                                              ),
+                                          elevation: 3.0,
+                                          borderSide: const BorderSide(
+                                            color: Colors.transparent,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                      ),
+                                    ].divide(const SizedBox(height: 10.0)),
+                                  ),
                                 ),
-                              ),
                             ],
                           ),
                         ],
@@ -1306,9 +1432,13 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                     ),
                   ),
                 ),
-                if (functions.checkGameRefInJson(
-                        FFAppState().myGames, widget.gameObject!.reference) ==
-                    false)
+                if (valueOrDefault<bool>(
+                  FFAppState()
+                          .myGamesRef
+                          .contains(widget.gameObject?.reference) ==
+                      false,
+                  false,
+                ))
                   Padding(
                     padding:
                         const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 24.0),
@@ -1350,12 +1480,17 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                     Text(
                                       valueOrDefault<String>(
                                         formatNumber(
-                                          widget.gameObject?.averagePrice,
+                                          valueOrDefault<double>(
+                                                widget
+                                                    .gameObject?.averagePrice,
+                                                0.0,
+                                              ) /
+                                              5,
                                           formatType: FormatType.decimal,
                                           decimalType: DecimalType.commaDecimal,
                                           currency: 'R\$',
                                         ),
-                                        '0',
+                                        'R\$0,00',
                                       ),
                                       style: FlutterFlowTheme.of(context)
                                           .titleLarge
@@ -1415,9 +1550,15 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                 ),
                               ],
                             ),
-                            FFButtonWidget(
-                              onPressed:
-                                  (widget.gameObject?.availableToRent == false)
+                            if (FFAppConstants.cities2Rent.contains(
+                                    functions.normalizeString(
+                                        currentUserDocument!.address.city)) ==
+                                true)
+                              AuthUserStreamWidget(
+                                builder: (context) => FFButtonWidget(
+                                  onPressed: (widget
+                                              .gameObject?.availableToRent ==
+                                          false)
                                       ? null
                                       : () async {
                                           logFirebaseEvent(
@@ -1438,51 +1579,56 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                             },
                                           );
                                         },
-                              text: widget.gameObject?.availableToRent == true
-                                  ? 'Alugar'
-                                  : 'Indisponível',
-                              options: FFButtonOptions(
-                                width: 130.0,
-                                height: 50.0,
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 0.0),
-                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 0.0),
-                                color:
-                                    widget.gameObject?.availableToRent == true
+                                  text: widget.gameObject?.availableToRent ==
+                                          true
+                                      ? 'Alugar'
+                                      : 'Indisponível',
+                                  options: FFButtonOptions(
+                                    width: 130.0,
+                                    height: 50.0,
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 0.0),
+                                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 0.0),
+                                    color: widget
+                                                .gameObject?.availableToRent ==
+                                            true
                                         ? FlutterFlowTheme.of(context).primary
                                         : FlutterFlowTheme.of(context)
                                             .secondaryText,
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .titleSmall
-                                    .override(
-                                      fontFamily: FlutterFlowTheme.of(context)
-                                          .titleSmallFamily,
-                                      color:
-                                          widget.gameObject?.availableToRent ==
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .override(
+                                          fontFamily:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmallFamily,
+                                          color: widget.gameObject
+                                                      ?.availableToRent ==
                                                   true
                                               ? FlutterFlowTheme.of(context)
                                                   .secondaryBackground
                                               : FlutterFlowTheme.of(context)
                                                   .primaryText,
-                                      letterSpacing: 0.0,
-                                      useGoogleFonts: GoogleFonts.asMap()
-                                          .containsKey(
-                                              FlutterFlowTheme.of(context)
-                                                  .titleSmallFamily),
+                                          letterSpacing: 0.0,
+                                          useGoogleFonts: GoogleFonts.asMap()
+                                              .containsKey(
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmallFamily),
+                                        ),
+                                    elevation: 3.0,
+                                    borderSide: const BorderSide(
+                                      color: Colors.transparent,
+                                      width: 1.0,
                                     ),
-                                elevation: 3.0,
-                                borderSide: const BorderSide(
-                                  color: Colors.transparent,
-                                  width: 1.0,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    disabledColor: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    disabledTextColor:
+                                        FlutterFlowTheme.of(context)
+                                            .primaryBackground,
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(8.0),
-                                disabledColor:
-                                    FlutterFlowTheme.of(context).secondaryText,
-                                disabledTextColor: FlutterFlowTheme.of(context)
-                                    .primaryBackground,
                               ),
-                            ),
                           ],
                         ),
                       ),

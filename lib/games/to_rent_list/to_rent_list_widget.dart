@@ -1,20 +1,24 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
-import '/backend/stripe/payment_manager.dart';
-import '/components/game_to_rent_widget.dart';
-import '/components/nav_bar_widget.dart';
+import '/components/game_to_rent/game_to_rent_widget.dart';
+import '/components/nav_bar/nav_bar_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/custom_code/actions/index.dart' as actions;
+import 'package:calendar/app_state.dart' as calendar_app_state;
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:webviewx_plus/webviewx_plus.dart';
 import 'to_rent_list_model.dart';
 export 'to_rent_list_model.dart';
 
 class ToRentListWidget extends StatefulWidget {
+  /// This page should return all the users that are renting the game choosen in
+  /// the last page, by distance. It should bring information about the game to
+  /// be rented
   const ToRentListWidget({
     super.key,
     this.gameObject,
@@ -37,19 +41,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
     _model = createModel(context, () => ToRentListModel());
 
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'toRentList'});
-    // On page load action.
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      logFirebaseEvent('TO_RENT_LIST_toRentList_ON_INIT_STATE');
-      logFirebaseEvent('toRentList_custom_action');
-      _model.searchedList = await actions.filterByGeoHash(
-        context,
-        currentUserDocument!.address.coordinates!,
-        1500.0,
-        widget.gameObject!,
-      );
-    });
-
-    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -61,38 +53,51 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+    context.watch<calendar_app_state.FFAppState>();
+
     return Title(
         title: 'toRentList',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => _model.unfocusNode.canRequestFocus
-              ? FocusScope.of(context).requestFocus(_model.unfocusNode)
-              : FocusScope.of(context).unfocus(),
+          onTap: () => FocusScope.of(context).unfocus(),
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-            appBar: AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-              automaticallyImplyLeading: false,
-              leading: FlutterFlowIconButton(
-                borderColor: Colors.transparent,
-                borderRadius: 30.0,
-                borderWidth: 1.0,
-                buttonSize: 60.0,
-                icon: Icon(
-                  Icons.arrow_back_rounded,
-                  color: FlutterFlowTheme.of(context).secondaryText,
-                  size: 30.0,
+            appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(40.0),
+              child: AppBar(
+                backgroundColor:
+                    FlutterFlowTheme.of(context).secondaryBackground,
+                automaticallyImplyLeading: false,
+                leading: Align(
+                  alignment: const AlignmentDirectional(-1.0, 0.0),
+                  child: Padding(
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 0.0),
+                    child: FlutterFlowIconButton(
+                      borderColor: Colors.transparent,
+                      borderRadius: 30.0,
+                      borderWidth: 1.0,
+                      buttonSize: 60.0,
+                      icon: Icon(
+                        Icons.arrow_back_rounded,
+                        color: FlutterFlowTheme.of(context).secondaryText,
+                        size: 30.0,
+                      ),
+                      onPressed: () async {
+                        logFirebaseEvent(
+                            'TO_RENT_LIST_arrow_back_rounded_ICN_ON_T');
+                        logFirebaseEvent('IconButton_navigate_back');
+                        context.pop();
+                      },
+                    ),
+                  ),
                 ),
-                onPressed: () async {
-                  logFirebaseEvent('TO_RENT_LIST_arrow_back_rounded_ICN_ON_T');
-                  logFirebaseEvent('IconButton_navigate_back');
-                  context.pop();
-                },
+                actions: const [],
+                centerTitle: true,
+                elevation: 0.0,
               ),
-              actions: const [],
-              centerTitle: true,
-              elevation: 0.0,
             ),
             body: Container(
               width: MediaQuery.sizeOf(context).width * 1.0,
@@ -103,61 +108,105 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 0.0, 0.0),
-                    child: Text(
-                      'Jogos disponíveis',
-                      style:
-                          FlutterFlowTheme.of(context).headlineMedium.override(
-                                fontFamily: FlutterFlowTheme.of(context)
-                                    .headlineMediumFamily,
-                                letterSpacing: 0.0,
-                                useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                    FlutterFlowTheme.of(context)
-                                        .headlineMediumFamily),
-                              ),
-                    ),
-                  ),
-                  Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(24.0, 4.0, 0.0, 0.0),
-                    child: Text(
-                      'Abaixo estão os jogos disponíveis para alugar',
-                      textAlign: TextAlign.start,
-                      style: FlutterFlowTheme.of(context).labelMedium.override(
-                            fontFamily:
-                                FlutterFlowTheme.of(context).labelMediumFamily,
-                            letterSpacing: 0.0,
-                            useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                FlutterFlowTheme.of(context).labelMediumFamily),
+                  Align(
+                    alignment: const AlignmentDirectional(0.0, -1.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Align(
+                          alignment: const AlignmentDirectional(-1.0, -1.0),
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                24.0, 0.0, 0.0, 0.0),
+                            child: Text(
+                              'Jogos disponíveis',
+                              style: FlutterFlowTheme.of(context)
+                                  .headlineMedium
+                                  .override(
+                                    fontFamily: FlutterFlowTheme.of(context)
+                                        .headlineMediumFamily,
+                                    letterSpacing: 0.0,
+                                    useGoogleFonts: GoogleFonts.asMap()
+                                        .containsKey(
+                                            FlutterFlowTheme.of(context)
+                                                .headlineMediumFamily),
+                                  ),
+                            ),
                           ),
+                        ),
+                        Align(
+                          alignment: const AlignmentDirectional(-1.0, -1.0),
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                24.0, 4.0, 0.0, 0.0),
+                            child: Text(
+                              'Abaixo estão os jogos disponíveis para alugar',
+                              textAlign: TextAlign.start,
+                              style: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .override(
+                                    fontFamily: FlutterFlowTheme.of(context)
+                                        .labelMediumFamily,
+                                    letterSpacing: 0.0,
+                                    useGoogleFonts: GoogleFonts.asMap()
+                                        .containsKey(
+                                            FlutterFlowTheme.of(context)
+                                                .labelMediumFamily),
+                                  ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
-                    child: Builder(
-                      builder: (context) {
-                        final usersToRent =
-                            _model.searchedList!.map((e) => e).toList();
-
-                        return SingleChildScrollView(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: List.generate(usersToRent.length,
-                                (usersToRentIndex) {
-                              final usersToRentItem =
-                                  usersToRent[usersToRentIndex];
-                              return GameToRentWidget(
-                                key: Key(
-                                    'Key6gb_${usersToRentIndex}_of_${usersToRent.length}'),
-                                userRef: usersToRentItem,
+                  Align(
+                    alignment: const AlignmentDirectional(0.0, -1.0),
+                    child: Container(
+                      width: MediaQuery.sizeOf(context).width * 1.0,
+                      height: MediaQuery.sizeOf(context).height * 0.6,
+                      decoration: const BoxDecoration(),
+                      child: Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
+                        child: Builder(
+                          builder: (context) {
+                            final userListFromGame =
+                                widget.gameObject?.availableAt.toList() ?? [];
+                            if (userListFromGame.isEmpty) {
+                              return Center(
+                                child: Image.asset(
+                                  'assets/images/logo_text.png',
+                                  fit: BoxFit.contain,
+                                ),
                               );
-                            }).divide(const SizedBox(height: 12.0)),
-                          ),
-                        );
-                      },
+                            }
+
+                            return RefreshIndicator(
+                              onRefresh: () async {},
+                              child: ListView.separated(
+                                padding: EdgeInsets.zero,
+                                scrollDirection: Axis.vertical,
+                                itemCount: userListFromGame.length,
+                                separatorBuilder: (_, __) =>
+                                    const SizedBox(height: 16.0),
+                                itemBuilder: (context, userListFromGameIndex) {
+                                  final userListFromGameItem =
+                                      userListFromGame[userListFromGameIndex];
+                                  return Container(
+                                    decoration: const BoxDecoration(),
+                                    child: GameToRentWidget(
+                                      key: Key(
+                                          'Keyew5_${userListFromGameIndex}_of_${userListFromGame.length}'),
+                                      userRef: userListFromGameItem,
+                                      gameRef: widget.gameObject!.reference,
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                     ),
                   ),
                   Padding(
@@ -165,7 +214,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                         const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
-                      height: 100.0,
+                      height: MediaQuery.sizeOf(context).height * 0.08,
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
@@ -175,65 +224,266 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Align(
-                              alignment: const AlignmentDirectional(0.0, 0.0),
+                              alignment: const AlignmentDirectional(0.0, 1.0),
                               child: Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 16.0, 0.0, 0.0),
+                                    0.0, 8.0, 0.0, 0.0),
                                 child: FFButtonWidget(
                                   onPressed: () async {
                                     logFirebaseEvent(
                                         'TO_RENT_LIST_PAGE_PAGAR_BTN_ON_TAP');
-                                    logFirebaseEvent('Button_stripe_payment');
-                                    final paymentResponse =
-                                        await processStripePayment(
-                                      context,
-                                      amount: 1000,
-                                      currency: 'BRL',
-                                      customerEmail: currentUserEmail,
-                                      customerName: valueOrDefault(
-                                          currentUserDocument?.fullName, ''),
-                                      description: currentUserUid,
-                                      allowGooglePay: false,
-                                      allowApplePay: false,
-                                      buttonColor: FlutterFlowTheme.of(context)
-                                          .secondary,
-                                      buttonTextColor:
-                                          FlutterFlowTheme.of(context)
-                                              .secondaryBackground,
-                                    );
-                                    if (paymentResponse.paymentId == null &&
-                                        paymentResponse.errorMessage != null) {
-                                      showSnackbar(
-                                        context,
-                                        'Error: ${paymentResponse.errorMessage}',
+                                    logFirebaseEvent('Button_alert_dialog');
+                                    var confirmDialogResponse =
+                                        await showDialog<bool>(
+                                              context: context,
+                                              builder: (alertDialogContext) {
+                                                return WebViewAware(
+                                                  child: AlertDialog(
+                                                    title: const Text(
+                                                        'Método de Pagamento'),
+                                                    content: const Text(
+                                                        'Qual método de pagamento você deseja usar?'),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                alertDialogContext,
+                                                                false),
+                                                        child: const Text('Pix'),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                alertDialogContext,
+                                                                true),
+                                                        child: const Text('Cartão'),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            ) ??
+                                            false;
+                                    if (confirmDialogResponse) {
+                                      logFirebaseEvent('Button_backend_call');
+                                      _model.createdBillingcard =
+                                          await CreateBillingCardCall.call(
+                                        acct:
+                                            '\$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDA0ODk0MjU6OiRhYWNoXzRkOWJlY2Q2LWMyNGItNGI0MC05YTExLTlhYTE0NTdkZDgwNg==',
+                                        customer: valueOrDefault(
+                                            currentUserDocument?.asaasClientId,
+                                            ''),
+                                        value: 35.0,
+                                        description: 'Jogo',
+                                        externalReference: '123456',
                                       );
-                                    }
-                                    _model.paymentId =
-                                        paymentResponse.paymentId ?? '';
 
-                                    if (_model.paymentId != '0') {
-                                      logFirebaseEvent('Button_show_snack_bar');
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                            'Pagamento realizado!',
-                                            style: TextStyle(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondaryBackground,
+                                      if ((_model
+                                              .createdBillingcard?.succeeded ??
+                                          true)) {
+                                        logFirebaseEvent(
+                                            'Button_show_snack_bar');
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Pagameto iniciado',
+                                              style: TextStyle(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                              ),
                                             ),
+                                            duration:
+                                                const Duration(milliseconds: 4000),
+                                            backgroundColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .secondary,
                                           ),
-                                          duration:
-                                              const Duration(milliseconds: 4000),
-                                          backgroundColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .secondary,
-                                        ),
+                                        );
+                                        logFirebaseEvent('Button_launch_u_r_l');
+                                        await launchURL(getJsonField(
+                                          (_model.createdBillingcard
+                                                  ?.jsonBody ??
+                                              ''),
+                                          r'''$.paymentLink''',
+                                        ).toString());
+                                        logFirebaseEvent('Button_backend_call');
+                                        _model.paymentstatuscard =
+                                            await PaymentStatusCall.call(
+                                          acct:
+                                              '\$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDA0ODk0MjU6OiRhYWNoXzRkOWJlY2Q2LWMyNGItNGI0MC05YTExLTlhYTE0NTdkZDgwNg==',
+                                          paymentId: getJsonField(
+                                            (_model.createdBillingcard
+                                                    ?.jsonBody ??
+                                                ''),
+                                            r'''$.id''',
+                                          ).toString(),
+                                        );
+
+                                        if ((_model
+                                                .paymentstatuscard?.succeeded ??
+                                            true)) {
+                                          logFirebaseEvent(
+                                              'Button_alert_dialog');
+                                          await showDialog(
+                                            context: context,
+                                            builder: (alertDialogContext) {
+                                              return WebViewAware(
+                                                child: AlertDialog(
+                                                  title:
+                                                      const Text('Aluguel Efetuado!'),
+                                                  content: const Text(
+                                                      'Aluguel Efetuado com Sucesso!'),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              alertDialogContext),
+                                                      child: const Text('Ok'),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        } else {
+                                          logFirebaseEvent(
+                                              'Button_alert_dialog');
+                                          await showDialog(
+                                            context: context,
+                                            builder: (alertDialogContext) {
+                                              return WebViewAware(
+                                                child: AlertDialog(
+                                                  title: const Text(
+                                                      'Erro no pagamento!'),
+                                                  content: const Text(
+                                                      'Erro ao efetuar Pagamento'),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              alertDialogContext),
+                                                      child: const Text('Ok'),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        }
+                                      }
+                                    } else {
+                                      logFirebaseEvent('Button_backend_call');
+                                      _model.createdBillingPix =
+                                          await CreateBillingPixCall.call(
+                                        acct:
+                                            '\$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDA0ODk0MjU6OiRhYWNoXzRkOWJlY2Q2LWMyNGItNGI0MC05YTExLTlhYTE0NTdkZDgwNg==',
+                                        customer: valueOrDefault(
+                                            currentUserDocument?.asaasClientId,
+                                            ''),
+                                        value: 35.0,
+                                        description: 'Jogo',
+                                        externalReference: '123674',
                                       );
+
+                                      if ((_model
+                                              .createdBillingPix?.succeeded ??
+                                          true)) {
+                                        logFirebaseEvent(
+                                            'Button_show_snack_bar');
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Pagameto iniciado',
+                                              style: TextStyle(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                              ),
+                                            ),
+                                            duration:
+                                                const Duration(milliseconds: 4000),
+                                            backgroundColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .secondary,
+                                          ),
+                                        );
+                                        logFirebaseEvent('Button_launch_u_r_l');
+                                        await launchURL(getJsonField(
+                                          (_model.createdBillingPix?.jsonBody ??
+                                              ''),
+                                          r'''$.paymentLink''',
+                                        ).toString());
+                                        logFirebaseEvent('Button_backend_call');
+                                        _model.paymentstatuspix =
+                                            await PaymentStatusCall.call(
+                                          acct:
+                                              '\$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDA0ODk0MjU6OiRhYWNoXzRkOWJlY2Q2LWMyNGItNGI0MC05YTExLTlhYTE0NTdkZDgwNg==',
+                                          paymentId: getJsonField(
+                                            (_model.createdBillingPix
+                                                    ?.jsonBody ??
+                                                ''),
+                                            r'''$.id''',
+                                          ).toString(),
+                                        );
+
+                                        if ((_model
+                                                .paymentstatuspix?.succeeded ??
+                                            true)) {
+                                          logFirebaseEvent(
+                                              'Button_alert_dialog');
+                                          await showDialog(
+                                            context: context,
+                                            builder: (alertDialogContext) {
+                                              return WebViewAware(
+                                                child: AlertDialog(
+                                                  title:
+                                                      const Text('Aluguel Efetuado!'),
+                                                  content: const Text(
+                                                      'Aluguel Efetuado com Sucesso!'),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              alertDialogContext),
+                                                      child: const Text('Ok'),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        } else {
+                                          logFirebaseEvent(
+                                              'Button_alert_dialog');
+                                          await showDialog(
+                                            context: context,
+                                            builder: (alertDialogContext) {
+                                              return WebViewAware(
+                                                child: AlertDialog(
+                                                  title: const Text(
+                                                      'Erro no pagamento!'),
+                                                  content: const Text(
+                                                      'Erro ao efetuar Pagamento'),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              alertDialogContext),
+                                                      child: const Text('Ok'),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        }
+                                      }
                                     }
 
-                                    setState(() {});
+                                    safeSetState(() {});
                                   },
                                   text: 'Pagar',
                                   options: FFButtonOptions(
@@ -275,7 +525,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                     alignment: const AlignmentDirectional(0.0, 1.0),
                     child: wrapWithModel(
                       model: _model.navBarModel,
-                      updateCallback: () => setState(() {}),
+                      updateCallback: () => safeSetState(() {}),
                       child: const NavBarWidget(),
                     ),
                   ),

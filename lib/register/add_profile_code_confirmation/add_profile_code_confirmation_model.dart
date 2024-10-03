@@ -7,7 +7,6 @@ class AddProfileCodeConfirmationModel
     extends FlutterFlowModel<AddProfileCodeConfirmationWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   // State field(s) for PinCode widget.
   TextEditingController? pinCodeController;
@@ -20,7 +19,6 @@ class AddProfileCodeConfirmationModel
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     pinCodeController?.dispose();
   }
 }

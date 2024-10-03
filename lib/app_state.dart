@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '/backend/backend.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:csv/csv.dart';
 import 'package:synchronized/synchronized.dart';
@@ -44,44 +45,50 @@ class FFAppState extends ChangeNotifier {
               _firstSessionlogin;
     });
     await _safeInitAsync(() async {
-      if (await secureStorage.read(key: 'ff_wishlistedGames') != null) {
+      _myGamesId = (await secureStorage.getStringList('ff_myGamesId'))
+              ?.map((path) => path.ref)
+              .toList() ??
+          _myGamesId;
+    });
+    await _safeInitAsync(() async {
+      _myGamesRef = (await secureStorage.getStringList('ff_myGamesRef'))
+              ?.map((path) => path.ref)
+              .toList() ??
+          _myGamesRef;
+    });
+    await _safeInitAsync(() async {
+      _SdtWalletId =
+          await secureStorage.getString('ff_SdtWalletId') ?? _SdtWalletId;
+    });
+    await _safeInitAsync(() async {
+      if (await secureStorage.read(key: 'ff_SdTPix') != null) {
         try {
-          _wishlistedGames = jsonDecode(
-              await secureStorage.getString('ff_wishlistedGames') ?? '');
+          final serializedData =
+              await secureStorage.getString('ff_SdTPix') ?? '{}';
+          _SdTPix =
+              PixKeyStruct.fromSerializableMap(jsonDecode(serializedData));
         } catch (e) {
-          print("Can't decode persisted json. Error: $e.");
+          print("Can't decode persisted data type. Error: $e.");
         }
       }
     });
     await _safeInitAsync(() async {
-      if (await secureStorage.read(key: 'ff_favoritedGames') != null) {
-        try {
-          _favoritedGames = jsonDecode(
-              await secureStorage.getString('ff_favoritedGames') ?? '');
-        } catch (e) {
-          print("Can't decode persisted json. Error: $e.");
-        }
-      }
+      _favoritedGames = (await secureStorage.getStringList('ff_favoritedGames'))
+              ?.map((path) => path.ref)
+              .toList() ??
+          _favoritedGames;
     });
     await _safeInitAsync(() async {
-      if (await secureStorage.read(key: 'ff_myGames') != null) {
-        try {
-          _myGames =
-              jsonDecode(await secureStorage.getString('ff_myGames') ?? '');
-        } catch (e) {
-          print("Can't decode persisted json. Error: $e.");
-        }
-      }
+      _wishlist = (await secureStorage.getStringList('ff_wishlist'))
+              ?.map((path) => path.ref)
+              .toList() ??
+          _wishlist;
     });
     await _safeInitAsync(() async {
-      if (await secureStorage.read(key: 'ff_myCart') != null) {
-        try {
-          _myCart =
-              jsonDecode(await secureStorage.getString('ff_myCart') ?? '');
-        } catch (e) {
-          print("Can't decode persisted json. Error: $e.");
-        }
-      }
+      _myGames = (await secureStorage.getStringList('ff_myGames'))
+              ?.map((path) => path.ref)
+              .toList() ??
+          _myGames;
     });
   }
 
@@ -183,48 +190,372 @@ class FFAppState extends ChangeNotifier {
     secureStorage.delete(key: 'ff_firstSessionlogin');
   }
 
-  dynamic _wishlistedGames;
-  dynamic get wishlistedGames => _wishlistedGames;
-  set wishlistedGames(dynamic value) {
-    _wishlistedGames = value;
-    secureStorage.setString('ff_wishlistedGames', jsonEncode(value));
+  double _minValuePriceFilter = 0.0;
+  double get minValuePriceFilter => _minValuePriceFilter;
+  set minValuePriceFilter(double value) {
+    _minValuePriceFilter = value;
   }
 
-  void deleteWishlistedGames() {
-    secureStorage.delete(key: 'ff_wishlistedGames');
+  double _maxValuePriceFilter = 0.0;
+  double get maxValuePriceFilter => _maxValuePriceFilter;
+  set maxValuePriceFilter(double value) {
+    _maxValuePriceFilter = value;
   }
 
-  dynamic _favoritedGames;
-  dynamic get favoritedGames => _favoritedGames;
-  set favoritedGames(dynamic value) {
+  List<DocumentReference> _myGamesId = [];
+  List<DocumentReference> get myGamesId => _myGamesId;
+  set myGamesId(List<DocumentReference> value) {
+    _myGamesId = value;
+    secureStorage.setStringList(
+        'ff_myGamesId', value.map((x) => x.path).toList());
+  }
+
+  void deleteMyGamesId() {
+    secureStorage.delete(key: 'ff_myGamesId');
+  }
+
+  void addToMyGamesId(DocumentReference value) {
+    myGamesId.add(value);
+    secureStorage.setStringList(
+        'ff_myGamesId', _myGamesId.map((x) => x.path).toList());
+  }
+
+  void removeFromMyGamesId(DocumentReference value) {
+    myGamesId.remove(value);
+    secureStorage.setStringList(
+        'ff_myGamesId', _myGamesId.map((x) => x.path).toList());
+  }
+
+  void removeAtIndexFromMyGamesId(int index) {
+    myGamesId.removeAt(index);
+    secureStorage.setStringList(
+        'ff_myGamesId', _myGamesId.map((x) => x.path).toList());
+  }
+
+  void updateMyGamesIdAtIndex(
+    int index,
+    DocumentReference Function(DocumentReference) updateFn,
+  ) {
+    myGamesId[index] = updateFn(_myGamesId[index]);
+    secureStorage.setStringList(
+        'ff_myGamesId', _myGamesId.map((x) => x.path).toList());
+  }
+
+  void insertAtIndexInMyGamesId(int index, DocumentReference value) {
+    myGamesId.insert(index, value);
+    secureStorage.setStringList(
+        'ff_myGamesId', _myGamesId.map((x) => x.path).toList());
+  }
+
+  List<DocumentReference> _myGamesRef = [];
+  List<DocumentReference> get myGamesRef => _myGamesRef;
+  set myGamesRef(List<DocumentReference> value) {
+    _myGamesRef = value;
+    secureStorage.setStringList(
+        'ff_myGamesRef', value.map((x) => x.path).toList());
+  }
+
+  void deleteMyGamesRef() {
+    secureStorage.delete(key: 'ff_myGamesRef');
+  }
+
+  void addToMyGamesRef(DocumentReference value) {
+    myGamesRef.add(value);
+    secureStorage.setStringList(
+        'ff_myGamesRef', _myGamesRef.map((x) => x.path).toList());
+  }
+
+  void removeFromMyGamesRef(DocumentReference value) {
+    myGamesRef.remove(value);
+    secureStorage.setStringList(
+        'ff_myGamesRef', _myGamesRef.map((x) => x.path).toList());
+  }
+
+  void removeAtIndexFromMyGamesRef(int index) {
+    myGamesRef.removeAt(index);
+    secureStorage.setStringList(
+        'ff_myGamesRef', _myGamesRef.map((x) => x.path).toList());
+  }
+
+  void updateMyGamesRefAtIndex(
+    int index,
+    DocumentReference Function(DocumentReference) updateFn,
+  ) {
+    myGamesRef[index] = updateFn(_myGamesRef[index]);
+    secureStorage.setStringList(
+        'ff_myGamesRef', _myGamesRef.map((x) => x.path).toList());
+  }
+
+  void insertAtIndexInMyGamesRef(int index, DocumentReference value) {
+    myGamesRef.insert(index, value);
+    secureStorage.setStringList(
+        'ff_myGamesRef', _myGamesRef.map((x) => x.path).toList());
+  }
+
+  PurchaseComponentsStruct _purchaseData = PurchaseComponentsStruct();
+  PurchaseComponentsStruct get purchaseData => _purchaseData;
+  set purchaseData(PurchaseComponentsStruct value) {
+    _purchaseData = value;
+  }
+
+  void updatePurchaseDataStruct(Function(PurchaseComponentsStruct) updateFn) {
+    updateFn(_purchaseData);
+  }
+
+  DocumentReference? _ownerRefPurchase;
+  DocumentReference? get ownerRefPurchase => _ownerRefPurchase;
+  set ownerRefPurchase(DocumentReference? value) {
+    _ownerRefPurchase = value;
+  }
+
+  DateTime? _dueDatePurchase;
+  DateTime? get dueDatePurchase => _dueDatePurchase;
+  set dueDatePurchase(DateTime? value) {
+    _dueDatePurchase = value;
+  }
+
+  DocumentReference? _game = FirebaseFirestore.instance
+      .doc('/users/9M9Fpivtwvgz0zs1hFwG5tl99Oo2/myGames/Y5NZriREx7uCghsfTmpE');
+  DocumentReference? get game => _game;
+  set game(DocumentReference? value) {
+    _game = value;
+  }
+
+  List<String> _fbTimestamp = ['\t1725246000', '\t1725332400', '\t1725418800'];
+  List<String> get fbTimestamp => _fbTimestamp;
+  set fbTimestamp(List<String> value) {
+    _fbTimestamp = value;
+  }
+
+  void addToFbTimestamp(String value) {
+    fbTimestamp.add(value);
+  }
+
+  void removeFromFbTimestamp(String value) {
+    fbTimestamp.remove(value);
+  }
+
+  void removeAtIndexFromFbTimestamp(int index) {
+    fbTimestamp.removeAt(index);
+  }
+
+  void updateFbTimestampAtIndex(
+    int index,
+    String Function(String) updateFn,
+  ) {
+    fbTimestamp[index] = updateFn(_fbTimestamp[index]);
+  }
+
+  void insertAtIndexInFbTimestamp(int index, String value) {
+    fbTimestamp.insert(index, value);
+  }
+
+  DeliveryDataStruct _deliveryData = DeliveryDataStruct();
+  DeliveryDataStruct get deliveryData => _deliveryData;
+  set deliveryData(DeliveryDataStruct value) {
+    _deliveryData = value;
+  }
+
+  void updateDeliveryDataStruct(Function(DeliveryDataStruct) updateFn) {
+    updateFn(_deliveryData);
+  }
+
+  String _SdtWalletId = 'ac106fd5-2b59-4c05-b6b9-0db299574d87';
+  String get SdtWalletId => _SdtWalletId;
+  set SdtWalletId(String value) {
+    _SdtWalletId = value;
+    secureStorage.setString('ff_SdtWalletId', value);
+  }
+
+  void deleteSdtWalletId() {
+    secureStorage.delete(key: 'ff_SdtWalletId');
+  }
+
+  PixKeyStruct _SdTPix = PixKeyStruct.fromSerializableMap(jsonDecode(
+      '{\"id\":\"51dd3178-7f2c-4210-b98c-eab575b0a6bd\",\"key\":\"b1484262-4f12-4d82-9406-5bea18c1119e\",\"type\":\"EVP\",\"status\":\"ACTIVE\",\"dateCreated\":\"2024-09-24 19:50:31\",\"canBeDeleted\":\"true\",\"qrCode\":\"{\\\"encodedImage\\\":\\\"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\\\",\\\"payload\\\":\\\"00020126580014br.gov.bcb.pix0136b1484262-4f12-4d82-9406-5bea18c1119e5204000053039865802BR5925BFF COMERCIO E SERVICOS L6008Campinas62290525SOCIODOT00000365848308ASA6304B316\\\",\\\"qrCodeImage\\\":\\\"https://firebasestorage.googleapis.com/v0/b/sociodotabuleiro-jogos/o/public%2Fimg%2Fsystem%2FqrCode.png?alt=media&token=d3a81b46-4408-4db1-97cb-7c657698fb8b\\\"}\"}'));
+  PixKeyStruct get SdTPix => _SdTPix;
+  set SdTPix(PixKeyStruct value) {
+    _SdTPix = value;
+    secureStorage.setString('ff_SdTPix', value.serialize());
+  }
+
+  void deleteSdTPix() {
+    secureStorage.delete(key: 'ff_SdTPix');
+  }
+
+  void updateSdTPixStruct(Function(PixKeyStruct) updateFn) {
+    updateFn(_SdTPix);
+    secureStorage.setString('ff_SdTPix', _SdTPix.serialize());
+  }
+
+  String _currentHmacAuth = '';
+  String get currentHmacAuth => _currentHmacAuth;
+  set currentHmacAuth(String value) {
+    _currentHmacAuth = value;
+  }
+
+  List<DocumentReference> _favoritedGames = [];
+  List<DocumentReference> get favoritedGames => _favoritedGames;
+  set favoritedGames(List<DocumentReference> value) {
     _favoritedGames = value;
-    secureStorage.setString('ff_favoritedGames', jsonEncode(value));
+    secureStorage.setStringList(
+        'ff_favoritedGames', value.map((x) => x.path).toList());
   }
 
   void deleteFavoritedGames() {
     secureStorage.delete(key: 'ff_favoritedGames');
   }
 
-  dynamic _myGames;
-  dynamic get myGames => _myGames;
-  set myGames(dynamic value) {
+  void addToFavoritedGames(DocumentReference value) {
+    favoritedGames.add(value);
+    secureStorage.setStringList(
+        'ff_favoritedGames', _favoritedGames.map((x) => x.path).toList());
+  }
+
+  void removeFromFavoritedGames(DocumentReference value) {
+    favoritedGames.remove(value);
+    secureStorage.setStringList(
+        'ff_favoritedGames', _favoritedGames.map((x) => x.path).toList());
+  }
+
+  void removeAtIndexFromFavoritedGames(int index) {
+    favoritedGames.removeAt(index);
+    secureStorage.setStringList(
+        'ff_favoritedGames', _favoritedGames.map((x) => x.path).toList());
+  }
+
+  void updateFavoritedGamesAtIndex(
+    int index,
+    DocumentReference Function(DocumentReference) updateFn,
+  ) {
+    favoritedGames[index] = updateFn(_favoritedGames[index]);
+    secureStorage.setStringList(
+        'ff_favoritedGames', _favoritedGames.map((x) => x.path).toList());
+  }
+
+  void insertAtIndexInFavoritedGames(int index, DocumentReference value) {
+    favoritedGames.insert(index, value);
+    secureStorage.setStringList(
+        'ff_favoritedGames', _favoritedGames.map((x) => x.path).toList());
+  }
+
+  List<DocumentReference> _wishlist = [];
+  List<DocumentReference> get wishlist => _wishlist;
+  set wishlist(List<DocumentReference> value) {
+    _wishlist = value;
+    secureStorage.setStringList(
+        'ff_wishlist', value.map((x) => x.path).toList());
+  }
+
+  void deleteWishlist() {
+    secureStorage.delete(key: 'ff_wishlist');
+  }
+
+  void addToWishlist(DocumentReference value) {
+    wishlist.add(value);
+    secureStorage.setStringList(
+        'ff_wishlist', _wishlist.map((x) => x.path).toList());
+  }
+
+  void removeFromWishlist(DocumentReference value) {
+    wishlist.remove(value);
+    secureStorage.setStringList(
+        'ff_wishlist', _wishlist.map((x) => x.path).toList());
+  }
+
+  void removeAtIndexFromWishlist(int index) {
+    wishlist.removeAt(index);
+    secureStorage.setStringList(
+        'ff_wishlist', _wishlist.map((x) => x.path).toList());
+  }
+
+  void updateWishlistAtIndex(
+    int index,
+    DocumentReference Function(DocumentReference) updateFn,
+  ) {
+    wishlist[index] = updateFn(_wishlist[index]);
+    secureStorage.setStringList(
+        'ff_wishlist', _wishlist.map((x) => x.path).toList());
+  }
+
+  void insertAtIndexInWishlist(int index, DocumentReference value) {
+    wishlist.insert(index, value);
+    secureStorage.setStringList(
+        'ff_wishlist', _wishlist.map((x) => x.path).toList());
+  }
+
+  List<DocumentReference> _myGames = [];
+  List<DocumentReference> get myGames => _myGames;
+  set myGames(List<DocumentReference> value) {
     _myGames = value;
-    secureStorage.setString('ff_myGames', jsonEncode(value));
+    secureStorage.setStringList(
+        'ff_myGames', value.map((x) => x.path).toList());
   }
 
   void deleteMyGames() {
     secureStorage.delete(key: 'ff_myGames');
   }
 
-  dynamic _myCart;
-  dynamic get myCart => _myCart;
-  set myCart(dynamic value) {
-    _myCart = value;
-    secureStorage.setString('ff_myCart', jsonEncode(value));
+  void addToMyGames(DocumentReference value) {
+    myGames.add(value);
+    secureStorage.setStringList(
+        'ff_myGames', _myGames.map((x) => x.path).toList());
   }
 
-  void deleteMyCart() {
-    secureStorage.delete(key: 'ff_myCart');
+  void removeFromMyGames(DocumentReference value) {
+    myGames.remove(value);
+    secureStorage.setStringList(
+        'ff_myGames', _myGames.map((x) => x.path).toList());
+  }
+
+  void removeAtIndexFromMyGames(int index) {
+    myGames.removeAt(index);
+    secureStorage.setStringList(
+        'ff_myGames', _myGames.map((x) => x.path).toList());
+  }
+
+  void updateMyGamesAtIndex(
+    int index,
+    DocumentReference Function(DocumentReference) updateFn,
+  ) {
+    myGames[index] = updateFn(_myGames[index]);
+    secureStorage.setStringList(
+        'ff_myGames', _myGames.map((x) => x.path).toList());
+  }
+
+  void insertAtIndexInMyGames(int index, DocumentReference value) {
+    myGames.insert(index, value);
+    secureStorage.setStringList(
+        'ff_myGames', _myGames.map((x) => x.path).toList());
+  }
+
+  List<GameToAddStruct> _gamesToAdd = [];
+  List<GameToAddStruct> get gamesToAdd => _gamesToAdd;
+  set gamesToAdd(List<GameToAddStruct> value) {
+    _gamesToAdd = value;
+  }
+
+  void addToGamesToAdd(GameToAddStruct value) {
+    gamesToAdd.add(value);
+  }
+
+  void removeFromGamesToAdd(GameToAddStruct value) {
+    gamesToAdd.remove(value);
+  }
+
+  void removeAtIndexFromGamesToAdd(int index) {
+    gamesToAdd.removeAt(index);
+  }
+
+  void updateGamesToAddAtIndex(
+    int index,
+    GameToAddStruct Function(GameToAddStruct) updateFn,
+  ) {
+    gamesToAdd[index] = updateFn(_gamesToAdd[index]);
+  }
+
+  void insertAtIndexInGamesToAdd(int index, GameToAddStruct value) {
+    gamesToAdd.insert(index, value);
   }
 }
 

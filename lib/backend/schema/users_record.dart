@@ -143,21 +143,6 @@ class UsersRecord extends FirestoreRecord {
   int get rentedToCount => _rentedToCount ?? 0;
   bool hasRentedToCount() => _rentedToCount != null;
 
-  // "rentedTo" field.
-  List<DocumentReference>? _rentedTo;
-  List<DocumentReference> get rentedTo => _rentedTo ?? const [];
-  bool hasRentedTo() => _rentedTo != null;
-
-  // "rentedFrom" field.
-  List<DocumentReference>? _rentedFrom;
-  List<DocumentReference> get rentedFrom => _rentedFrom ?? const [];
-  bool hasRentedFrom() => _rentedFrom != null;
-
-  // "notificacoes" field.
-  List<DocumentReference>? _notificacoes;
-  List<DocumentReference> get notificacoes => _notificacoes ?? const [];
-  bool hasNotificacoes() => _notificacoes != null;
-
   // "amountEarned" field.
   double? _amountEarned;
   double get amountEarned => _amountEarned ?? 0.0;
@@ -182,6 +167,87 @@ class UsersRecord extends FirestoreRecord {
   List<int>? _completedRegisterPages;
   List<int> get completedRegisterPages => _completedRegisterPages ?? const [];
   bool hasCompletedRegisterPages() => _completedRegisterPages != null;
+
+  // "reviews" field.
+  List<UserReviewStruct>? _reviews;
+  List<UserReviewStruct> get reviews => _reviews ?? const [];
+  bool hasReviews() => _reviews != null;
+
+  // "readNotifications" field.
+  List<DocumentReference>? _readNotifications;
+  List<DocumentReference> get readNotifications =>
+      _readNotifications ?? const [];
+  bool hasReadNotifications() => _readNotifications != null;
+
+  // "rating" field.
+  double? _rating;
+  double get rating => _rating ?? 0.0;
+  bool hasRating() => _rating != null;
+
+  // "authorizationCode" field.
+  String? _authorizationCode;
+  String get authorizationCode => _authorizationCode ?? '';
+  bool hasAuthorizationCode() => _authorizationCode != null;
+
+  // "rentedTo" field.
+  List<DocumentReference>? _rentedTo;
+  List<DocumentReference> get rentedTo => _rentedTo ?? const [];
+  bool hasRentedTo() => _rentedTo != null;
+
+  // "rentedFrom" field.
+  List<DocumentReference>? _rentedFrom;
+  List<DocumentReference> get rentedFrom => _rentedFrom ?? const [];
+  bool hasRentedFrom() => _rentedFrom != null;
+
+  // "rentedToIds" field.
+  List<DocumentReference>? _rentedToIds;
+  List<DocumentReference> get rentedToIds => _rentedToIds ?? const [];
+  bool hasRentedToIds() => _rentedToIds != null;
+
+  // "rentedFromIds" field.
+  List<DocumentReference>? _rentedFromIds;
+  List<DocumentReference> get rentedFromIds => _rentedFromIds ?? const [];
+  bool hasRentedFromIds() => _rentedFromIds != null;
+
+  // "walletId" field.
+  String? _walletId;
+  String get walletId => _walletId ?? '';
+  bool hasWalletId() => _walletId != null;
+
+  // "cardOnUse" field.
+  CardStruct? _cardOnUse;
+  CardStruct get cardOnUse => _cardOnUse ?? CardStruct();
+  bool hasCardOnUse() => _cardOnUse != null;
+
+  // "asaasClientId" field.
+  String? _asaasClientId;
+  String get asaasClientId => _asaasClientId ?? '';
+  bool hasAsaasClientId() => _asaasClientId != null;
+
+  // "wantToRentTo" field.
+  bool? _wantToRentTo;
+  bool get wantToRentTo => _wantToRentTo ?? false;
+  bool hasWantToRentTo() => _wantToRentTo != null;
+
+  // "askedToRentTo" field.
+  bool? _askedToRentTo;
+  bool get askedToRentTo => _askedToRentTo ?? false;
+  bool hasAskedToRentTo() => _askedToRentTo != null;
+
+  // "apiKey" field.
+  String? _apiKey;
+  String get apiKey => _apiKey ?? '';
+  bool hasApiKey() => _apiKey != null;
+
+  // "wishlist" field.
+  List<DocumentReference>? _wishlist;
+  List<DocumentReference> get wishlist => _wishlist ?? const [];
+  bool hasWishlist() => _wishlist != null;
+
+  // "favoriteList" field.
+  List<DocumentReference>? _favoriteList;
+  List<DocumentReference> get favoriteList => _favoriteList ?? const [];
+  bool hasFavoriteList() => _favoriteList != null;
 
   void _initializeFields() {
     _fullName = snapshotData['fullName'] as String?;
@@ -216,15 +282,31 @@ class UsersRecord extends FirestoreRecord {
     _cartCount = castToType<int>(snapshotData['cartCount']);
     _rentedFromCount = castToType<int>(snapshotData['rentedFromCount']);
     _rentedToCount = castToType<int>(snapshotData['rentedToCount']);
-    _rentedTo = getDataList(snapshotData['rentedTo']);
-    _rentedFrom = getDataList(snapshotData['rentedFrom']);
-    _notificacoes = getDataList(snapshotData['notificacoes']);
     _amountEarned = castToType<double>(snapshotData['amountEarned']);
     _favoriteUsers = getDataList(snapshotData['favoriteUsers']);
     _isStore = snapshotData['isStore'] as bool?;
     _notifications = getDataList(snapshotData['notifications']);
     _completedRegisterPages =
         getDataList(snapshotData['completedRegisterPages']);
+    _reviews = getStructList(
+      snapshotData['reviews'],
+      UserReviewStruct.fromMap,
+    );
+    _readNotifications = getDataList(snapshotData['readNotifications']);
+    _rating = castToType<double>(snapshotData['rating']);
+    _authorizationCode = snapshotData['authorizationCode'] as String?;
+    _rentedTo = getDataList(snapshotData['rentedTo']);
+    _rentedFrom = getDataList(snapshotData['rentedFrom']);
+    _rentedToIds = getDataList(snapshotData['rentedToIds']);
+    _rentedFromIds = getDataList(snapshotData['rentedFromIds']);
+    _walletId = snapshotData['walletId'] as String?;
+    _cardOnUse = CardStruct.maybeFromMap(snapshotData['cardOnUse']);
+    _asaasClientId = snapshotData['asaasClientId'] as String?;
+    _wantToRentTo = snapshotData['wantToRentTo'] as bool?;
+    _askedToRentTo = snapshotData['askedToRentTo'] as bool?;
+    _apiKey = snapshotData['apiKey'] as String?;
+    _wishlist = getDataList(snapshotData['wishlist']);
+    _favoriteList = getDataList(snapshotData['favoriteList']);
   }
 
   static CollectionReference get collection =>
@@ -285,6 +367,14 @@ Map<String, dynamic> createUsersRecordData({
   int? rentedToCount,
   double? amountEarned,
   bool? isStore,
+  double? rating,
+  String? authorizationCode,
+  String? walletId,
+  CardStruct? cardOnUse,
+  String? asaasClientId,
+  bool? wantToRentTo,
+  bool? askedToRentTo,
+  String? apiKey,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -312,11 +402,22 @@ Map<String, dynamic> createUsersRecordData({
       'rentedToCount': rentedToCount,
       'amountEarned': amountEarned,
       'isStore': isStore,
+      'rating': rating,
+      'authorizationCode': authorizationCode,
+      'walletId': walletId,
+      'cardOnUse': CardStruct().toMap(),
+      'asaasClientId': asaasClientId,
+      'wantToRentTo': wantToRentTo,
+      'askedToRentTo': askedToRentTo,
+      'apiKey': apiKey,
     }.withoutNulls,
   );
 
   // Handle nested data for "address" field.
   addAddressStructData(firestoreData, address, 'address');
+
+  // Handle nested data for "cardOnUse" field.
+  addCardStructData(firestoreData, cardOnUse, 'cardOnUse');
 
   return firestoreData;
 }
@@ -354,15 +455,28 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.cartCount == e2?.cartCount &&
         e1?.rentedFromCount == e2?.rentedFromCount &&
         e1?.rentedToCount == e2?.rentedToCount &&
-        listEquality.equals(e1?.rentedTo, e2?.rentedTo) &&
-        listEquality.equals(e1?.rentedFrom, e2?.rentedFrom) &&
-        listEquality.equals(e1?.notificacoes, e2?.notificacoes) &&
         e1?.amountEarned == e2?.amountEarned &&
         listEquality.equals(e1?.favoriteUsers, e2?.favoriteUsers) &&
         e1?.isStore == e2?.isStore &&
         listEquality.equals(e1?.notifications, e2?.notifications) &&
         listEquality.equals(
-            e1?.completedRegisterPages, e2?.completedRegisterPages);
+            e1?.completedRegisterPages, e2?.completedRegisterPages) &&
+        listEquality.equals(e1?.reviews, e2?.reviews) &&
+        listEquality.equals(e1?.readNotifications, e2?.readNotifications) &&
+        e1?.rating == e2?.rating &&
+        e1?.authorizationCode == e2?.authorizationCode &&
+        listEquality.equals(e1?.rentedTo, e2?.rentedTo) &&
+        listEquality.equals(e1?.rentedFrom, e2?.rentedFrom) &&
+        listEquality.equals(e1?.rentedToIds, e2?.rentedToIds) &&
+        listEquality.equals(e1?.rentedFromIds, e2?.rentedFromIds) &&
+        e1?.walletId == e2?.walletId &&
+        e1?.cardOnUse == e2?.cardOnUse &&
+        e1?.asaasClientId == e2?.asaasClientId &&
+        e1?.wantToRentTo == e2?.wantToRentTo &&
+        e1?.askedToRentTo == e2?.askedToRentTo &&
+        e1?.apiKey == e2?.apiKey &&
+        listEquality.equals(e1?.wishlist, e2?.wishlist) &&
+        listEquality.equals(e1?.favoriteList, e2?.favoriteList);
   }
 
   @override
@@ -392,14 +506,27 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.cartCount,
         e?.rentedFromCount,
         e?.rentedToCount,
-        e?.rentedTo,
-        e?.rentedFrom,
-        e?.notificacoes,
         e?.amountEarned,
         e?.favoriteUsers,
         e?.isStore,
         e?.notifications,
-        e?.completedRegisterPages
+        e?.completedRegisterPages,
+        e?.reviews,
+        e?.readNotifications,
+        e?.rating,
+        e?.authorizationCode,
+        e?.rentedTo,
+        e?.rentedFrom,
+        e?.rentedToIds,
+        e?.rentedFromIds,
+        e?.walletId,
+        e?.cardOnUse,
+        e?.asaasClientId,
+        e?.wantToRentTo,
+        e?.askedToRentTo,
+        e?.apiKey,
+        e?.wishlist,
+        e?.favoriteList
       ]);
 
   @override

@@ -9,7 +9,6 @@ class AddProfilePictureModel extends FlutterFlowModel<AddProfilePictureWidget> {
 
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   // State field(s) for raca widget.
   FocusNode? racaFocusNode;
@@ -42,7 +41,6 @@ class AddProfilePictureModel extends FlutterFlowModel<AddProfilePictureWidget> {
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     racaFocusNode?.dispose();
     racaTextController?.dispose();
 

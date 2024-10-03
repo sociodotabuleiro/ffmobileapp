@@ -7,7 +7,6 @@ import '/backend/backend.dart';
 import '/auth/base_auth_user_provider.dart';
 
 import '/index.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 export 'package:go_router/go_router.dart';
@@ -220,6 +219,27 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'saveActions',
           path: '/saveActions',
           builder: (context, params) => const SaveActionsWidget(),
+        ),
+        FFRoute(
+          name: 'AddGames',
+          path: '/addGames',
+          requireAuth: true,
+          builder: (context, params) => const AddGamesWidget(),
+        ),
+        FFRoute(
+          name: 'loginLudopedia',
+          path: '/loginLudopedia',
+          builder: (context, params) => const LoginLudopediaWidget(),
+        ),
+        FFRoute(
+          name: 'deliveryStatus',
+          path: '/deliveryStatus',
+          builder: (context, params) => const DeliveryStatusWidget(),
+        ),
+        FFRoute(
+          name: 'termandconditions',
+          path: '/termandconditions',
+          builder: (context, params) => const TermandconditionsWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -406,15 +426,11 @@ class FFRoute {
                 )
               : builder(context, ffParams);
           final child = appStateNotifier.loading
-              ? Center(
-                  child: SizedBox(
-                    width: 50.0,
-                    height: 50.0,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        FlutterFlowTheme.of(context).primary,
-                      ),
-                    ),
+              ? Container(
+                  color: Colors.transparent,
+                  child: Image.asset(
+                    'assets/images/IconMake1.png',
+                    fit: BoxFit.contain,
                   ),
                 )
               : page;

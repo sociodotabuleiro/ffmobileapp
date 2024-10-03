@@ -58,17 +58,18 @@ dynamic separateAddressFromPlace(String address) {
   return addressDetails;
 }
 
-DocumentReference? refFromWishlistArray(
+DocumentReference? refFromCollectionArray(
   dynamic jsonObject,
   DocumentReference targetRef,
   DocumentReference userRef,
+  String collection,
 ) {
   for (var entry in jsonObject.entries) {
     if (entry.value is DocumentReference && entry.value == targetRef) {
       return FirebaseFirestore.instance
           .collection('users')
           .doc(userRef.id)
-          .collection('wishlist')
+          .collection(collection)
           .doc(entry.key);
     }
   }
@@ -87,4 +88,145 @@ bool checkGameRefInJson(
   final gameRefString = gameRef.path;
   final jsonMap = json.decode(json.encode(jsonList));
   return jsonMap.containsValue(gameRefString);
+}
+
+List<DateTime>? getOnlyLaterDates(
+  List<DateTime> dates,
+  String choosenDate,
+) {
+  // Parse the choosenDate string to a DateTime object
+  DateFormat dateFormat = DateFormat('d/M/y');
+  DateTime chosenDateTime = dateFormat.parse(choosenDate);
+
+  // Create a function that inputs a list of DateTime objects and returns the list of dates that are later than the chosen date.
+  List<DateTime> laterDates = [];
+  for (DateTime date in dates) {
+    if (date.isAfter(chosenDateTime) || date.isAtSameMomentAs(chosenDateTime)) {
+      laterDates.add(date);
+    }
+  }
+  return laterDates.isEmpty ? null : laterDates;
+}
+
+int getDaysBetween2Dates(
+  String date1,
+  String date2,
+) {
+  // get 2 dates in format d/M/y and return how many days between them
+  final dateFormat = DateFormat('d/M/y');
+  final parsedDate1 = dateFormat.parse(date1);
+  final parsedDate2 = dateFormat.parse(date2);
+  final difference = parsedDate2.difference(parsedDate1);
+  return difference.inDays;
+}
+
+double priceForDays(
+  String date1,
+  String date2,
+  double price,
+) {
+  final int days = getDaysBetween2Dates(date1, date2);
+  return (days + 1) * price;
+}
+
+double getLatLngSeparated(
+  bool isLatitude,
+  LatLng latlng,
+) {
+  // create a function to return lat if islatitude is true, and return lng if it is false, using the input latlng
+  if (isLatitude) {
+    return latlng.latitude;
+  } else {
+    return latlng.longitude;
+  }
+}
+
+String getCurrentTimeInIso8601(int minutesToAdd) {
+  // Get the current time
+  DateTime currentTime = DateTime.now();
+
+  // Add the specified number of minutes
+  DateTime newTime = currentTime.add(Duration(minutes: minutesToAdd));
+
+  // Format as ISO 8601 string
+  String iso8601String = DateFormat("yyyy-MM-ddTHH:mm:ss").format(newTime);
+
+  // Calculate and format the timezone offset
+  String timezoneOffset = newTime.timeZoneOffset.isNegative ? "-" : "+";
+  timezoneOffset += newTime.timeZoneOffset.inHours
+          .abs()
+          .toString()
+          .padLeft(2, '0') +
+      ":" +
+      (newTime.timeZoneOffset.inMinutes.abs() % 60).toString().padLeft(2, '0');
+
+  // Return the final ISO 8601 formatted string with timezone
+  return "$iso8601String$timezoneOffset";
+}
+
+List<DateTime> convertUnixStringsToDateTime(List<String> unixList) {
+  // Initialize an empty list to hold the converted DateTime objects
+  List<DateTime> dateTimeList = [];
+
+  // Loop through the Unix time strings stored in FFAppState().fbTimestamp
+  for (String unixString in unixList) {
+    // Convert the Unix time string back to an integer
+    int unixTime = int.parse(unixString);
+
+    // Convert the Unix time (in seconds) to a DateTime object
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(unixTime * 1000);
+
+    // Add the DateTime object to the list
+    dateTimeList.add(dateTime);
+  }
+
+  // Return the list of DateTime objects
+  return dateTimeList;
+}
+
+String generateLalamoveSttop(
+  String lat,
+  String lng,
+  String street,
+  String number,
+  String neighborhood,
+  String city,
+  String state,
+  String zip,
+) {
+  String address = "$street, $number - $neighborhood, $city - $state, $zip";
+
+  // Creating a JSON-like formatted string using the received data
+  return '''
+  {
+    "coordinates": {
+      "lat": "$lat",
+      "lng": "$lng"
+    },
+    "address": "$address"
+  }
+  ''';
+}
+
+String normalizeString(String string2beNormalized) {
+  // create a function to receive a string in pt_BR, and normalize it to be all lowercase and no diacritics
+  return string2beNormalized
+      .toLowerCase()
+      .replaceAll(RegExp(r'[áàãâä]'), 'a')
+      .replaceAll(RegExp(r'[éèêë]'), 'e')
+      .replaceAll(RegExp(r'[íìîï]'), 'i')
+      .replaceAll(RegExp(r'[óòõôö]'), 'o')
+      .replaceAll(RegExp(r'[úùûü]'), 'u')
+      .replaceAll(RegExp(r'[ç]'), 'c');
+}
+
+List<DateTime> createListofDateTime30DaysFromToday() {
+  // create List of DateTime that is composed by 30 days from the current day. The date is important, the time is not.
+  List<DateTime> dateList = [];
+  DateTime currentDate = DateTime.now();
+  for (int i = 0; i < 30; i++) {
+    dateList.add(
+        DateTime(currentDate.year, currentDate.month, currentDate.day + i));
+  }
+  return dateList;
 }

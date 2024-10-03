@@ -15,5 +15,6 @@ abstract class FFAppConstants {
     'https://firebasestorage.googleapis.com/v0/b/sociodotabuleiro-jogos/o/public%2Fimg%2Fcategories%2Frolagem_de_dados.png?alt=media&token=3fa4e391-f025-4695-b79a-f68bda3002b4',
     'https://firebasestorage.googleapis.com/v0/b/sociodotabuleiro-jogos/o/public%2Fimg%2Fcategories%2Fwargame.png?alt=media&token=ecbd59a1-1268-43a1-a558-ef72e81fb370'
   ];
-  static const double valorEntrega = 10.0;
+  static const double entrega = 10.0;
+  static const List<String> cities2Rent = ['campinas'];
 }

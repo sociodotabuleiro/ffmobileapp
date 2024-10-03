@@ -3,7 +3,7 @@ import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
 import '/backend/schema/enums/enums.dart';
 import '/backend/supabase/supabase.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'index.dart'; // Imports other custom widgets
 import '/custom_code/actions/index.dart'; // Imports custom actions
@@ -33,6 +33,7 @@ class RangeSliderWidget extends StatefulWidget {
     this.labelFontSize = 16.0,
     this.valueFontSize = 16.0,
     required this.isEnabled,
+    required this.filterType,
   });
 
   final double? width;
@@ -53,6 +54,7 @@ class RangeSliderWidget extends StatefulWidget {
   final double labelFontSize;
   final double valueFontSize;
   final bool isEnabled;
+  final FilterType filterType;
 
   @override
   _RangeSliderWidgetState createState() => _RangeSliderWidgetState();
@@ -158,11 +160,15 @@ class _RangeSliderWidgetState extends State<RangeSliderWidget> {
                 ? (RangeValues values) {
                     setState(() {
                       _currentRangeValues = values;
-                      //FFAppState().start = values.start;
-                      //FFAppState().end = values.end;
                       if (!widget.showRangeLabels) {
                         _updateLabels();
                       }
+                      FFAppState().update(() {
+                        FFAppState().minValuePriceFilter = values.start;
+                      });
+                      FFAppState().update(() {
+                        FFAppState().maxValuePriceFilter = values.end;
+                      });
                     });
                   }
                 : null,
@@ -171,6 +177,12 @@ class _RangeSliderWidgetState extends State<RangeSliderWidget> {
                     setState(() {
                       _currentRangeValues = values;
                       _updateLabels();
+                      FFAppState().update(() {
+                        FFAppState().minValuePriceFilter = values.start;
+                      });
+                      FFAppState().update(() {
+                        FFAppState().maxValuePriceFilter = values.end;
+                      });
                     });
                   }
                 : null,

@@ -3,15 +3,13 @@ import '/backend/backend.dart';
 import '/backend/schema/structs/index.dart';
 import '/backend/schema/enums/enums.dart';
 import '/backend/supabase/supabase.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'index.dart'; // Imports other custom actions
 import '/flutter_flow/custom_functions.dart'; // Imports custom functions
 import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
-
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:io';
@@ -21,9 +19,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 Future<String> downloadPictureAndSaveInFirebaseStorage(
     String pictureUrl) async {
-  await Firebase.initializeApp();
   // Get the current user
-  fb_auth.User? user = FirebaseAuth.instance.currentUser;
+  fb_auth.User? user = fb_auth.FirebaseAuth.instance.currentUser;
   if (user == null) {
     print('No user is currently logged in.');
     return 'No user is currently logged in.';
@@ -53,11 +50,9 @@ Future<String> downloadPictureAndSaveInFirebaseStorage(
       String downloadUrl = await storageRef.getDownloadURL();
       return downloadUrl;
     } on FirebaseException catch (e) {
-      print('Error occurred while uploading: $e');
-      return 'Error occurred while uploading: $e';
+      return 'Error occurred while uploading: ${e.message}';
     }
   } else {
-    print('Failed to download image');
-    return 'Failed to download image';
+    return 'Failed to download image: ${response.statusCode}';
   }
 }

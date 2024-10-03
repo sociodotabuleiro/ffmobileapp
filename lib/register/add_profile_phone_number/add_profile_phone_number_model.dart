@@ -7,7 +7,6 @@ class AddProfilePhoneNumberModel
     extends FlutterFlowModel<AddProfilePhoneNumberWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final unfocusNode = FocusNode();
   final formKey = GlobalKey<FormState>();
   // State field(s) for phoneNumber widget.
   FocusNode? phoneNumberFocusNode;
@@ -20,7 +19,6 @@ class AddProfilePhoneNumberModel
 
   @override
   void dispose() {
-    unfocusNode.dispose();
     phoneNumberFocusNode?.dispose();
     phoneNumberTextController?.dispose();
   }

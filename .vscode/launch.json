@@ -1,0 +1,86 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "ffcode",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug"
+        },
+        {
+            "name": "ffcode (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "ffcode (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "calendar_iagfh0",
+            "cwd": "dependencies\\calendar_iagfh0",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "calendar_iagfh0 (profile mode)",
+            "cwd": "dependencies\\calendar_iagfh0",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "calendar_iagfh0 (release mode)",
+            "cwd": "dependencies\\calendar_iagfh0",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "ff_commons",
+            "cwd": "dependencies\\ff_commons",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "ff_commons (profile mode)",
+            "cwd": "dependencies\\ff_commons",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "ff_commons (release mode)",
+            "cwd": "dependencies\\ff_commons",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "ff_theme",
+            "cwd": "dependencies\\ff_theme",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "ff_theme (profile mode)",
+            "cwd": "dependencies\\ff_theme",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "ff_theme (release mode)",
+            "cwd": "dependencies\\ff_theme",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

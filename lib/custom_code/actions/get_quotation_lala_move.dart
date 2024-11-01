@@ -18,7 +18,7 @@ import 'package:http/http.dart' as http;
 // Constants for URLs and headers
 const lalamoveUrl = 'https://rest.lalamove.com/v3/quotations';
 const hmacUrl = 'https://generatehmac-667069547103.us-central1.run.app';
-const accessCode =
+const internal_access_code =
     'jq3uaqXXne5c431XFeLmLusHkQD0EqDn'; // Your secret access code
 
 Future<dynamic> getQuotationLalaMove(
@@ -58,6 +58,7 @@ Future<dynamic> getQuotationLalaMove(
 
     // Step 1: Fetch HMAC authorization token
     final authorizationToken = await getAuthorizationToken(
+      internal_access_code,
       timestamp,
       'POST',
       '/v3/quotations',
@@ -69,12 +70,15 @@ Future<dynamic> getQuotationLalaMove(
       return null;
     }
 
+    print('Authorization Token: $authorizationToken');
+    print('Request Body: $requestBody');
     // Step 2: Make the Lalamove API request with the authorization token
     final response = await http.post(
       Uri.parse(lalamoveUrl),
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': authorizationToken,
+        'Authorization': 'hmac ' + authorizationToken,
+        'market': 'BR',
       },
       body: requestBody,
     );
@@ -88,6 +92,7 @@ Future<dynamic> getQuotationLalaMove(
 
 // Helper function to get HMAC authorization token
 Future<String?> getAuthorizationToken(
+  String access_code,
   String timestamp,
   String method,
   String path,
@@ -96,6 +101,7 @@ Future<String?> getAuthorizationToken(
   try {
     // Create the request body for the HMAC generation service
     final hmacRequestBody = jsonEncode({
+      'internal_access_code': access_code,
       'timestamp': timestamp,
       'method': method,
       'path': path,
@@ -105,10 +111,7 @@ Future<String?> getAuthorizationToken(
     // Send the request to get the HMAC signature
     final response = await http.post(
       Uri.parse(hmacUrl),
-      headers: {
-        'Content-Type': 'application/json',
-        'access_code': accessCode,
-      },
+      headers: {'Content-Type': 'application/json'},
       body: hmacRequestBody,
     );
 

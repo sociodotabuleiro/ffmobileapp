@@ -178,25 +178,29 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
                         width: 280.0,
                         height: 70.0,
                         decoration: const BoxDecoration(),
-                        child: Text(
-                          valueOrDefault<String>(
-                            _model.gameDescription,
-                            'Descrição do Jogo',
-                          ).maybeHandleOverflow(
-                            maxChars: 140,
-                            replacement: '…',
+                        child: Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 15.0, 0.0),
+                          child: Text(
+                            valueOrDefault<String>(
+                              _model.gameDescription,
+                              'Descrição do Jogo',
+                            ).maybeHandleOverflow(
+                              maxChars: 140,
+                              replacement: '…',
+                            ),
+                            style: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .override(
+                                  fontFamily: FlutterFlowTheme.of(context)
+                                      .labelMediumFamily,
+                                  fontSize: 12.0,
+                                  letterSpacing: 0.0,
+                                  useGoogleFonts: GoogleFonts.asMap()
+                                      .containsKey(FlutterFlowTheme.of(context)
+                                          .labelMediumFamily),
+                                ),
                           ),
-                          style: FlutterFlowTheme.of(context)
-                              .labelMedium
-                              .override(
-                                fontFamily: FlutterFlowTheme.of(context)
-                                    .labelMediumFamily,
-                                fontSize: 12.0,
-                                letterSpacing: 0.0,
-                                useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                    FlutterFlowTheme.of(context)
-                                        .labelMediumFamily),
-                              ),
                         ),
                       ),
                     ),

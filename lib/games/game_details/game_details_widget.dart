@@ -2,15 +2,16 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
-import '/flutter_flow/flutter_flow_toggle_icon.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/games/my_game_config_sheet/my_game_config_sheet_widget.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
-import 'package:calendar/app_state.dart' as calendar_app_state;
+import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart'
     as smooth_page_indicator;
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -67,6 +68,24 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
         _model.favorited = true;
         safeSetState(() {});
       }
+      if (FFAppState().myGamesGameRef.contains(widget.gameObject?.reference) ==
+          true) {
+        logFirebaseEvent('gameDetails_update_page_state');
+        _model.myGameRef = null;
+        safeSetState(() {});
+      }
+      logFirebaseEvent('gameDetails_update_page_state');
+      _model.timesFavorited = valueOrDefault<int>(
+        widget.gameObject?.timesFavorited,
+        0,
+      );
+      safeSetState(() {});
+      logFirebaseEvent('gameDetails_update_page_state');
+      _model.timesWishlisted = valueOrDefault<int>(
+        widget.gameObject?.timesWishlisted,
+        0,
+      );
+      safeSetState(() {});
     });
 
     animationsMap.addAll({
@@ -272,7 +291,19 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
           ),
         ],
       ),
-      'toggleIconOnActionTriggerAnimation1': AnimationInfo(
+      'conditionalBuilderOnPageLoadAnimation1': AnimationInfo(
+        trigger: AnimationTrigger.onPageLoad,
+        effectsBuilder: () => [
+          MoveEffect(
+            curve: Curves.easeInOut,
+            delay: 0.0.ms,
+            duration: 600.0.ms,
+            begin: const Offset(-44.99999999999999, 0.0),
+            end: const Offset(0.0, 0.0),
+          ),
+        ],
+      ),
+      'iconButtonOnActionTriggerAnimation1': AnimationInfo(
         trigger: AnimationTrigger.onActionTrigger,
         applyInitialState: true,
         effectsBuilder: () => [
@@ -285,7 +316,45 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
           ),
         ],
       ),
-      'toggleIconOnActionTriggerAnimation2': AnimationInfo(
+      'iconButtonOnActionTriggerAnimation2': AnimationInfo(
+        trigger: AnimationTrigger.onActionTrigger,
+        applyInitialState: true,
+        effectsBuilder: () => [
+          ScaleEffect(
+            curve: Curves.elasticOut,
+            delay: 0.0.ms,
+            duration: 600.0.ms,
+            begin: const Offset(-1.0, -1.0),
+            end: const Offset(1.0, 1.0),
+          ),
+        ],
+      ),
+      'conditionalBuilderOnPageLoadAnimation2': AnimationInfo(
+        trigger: AnimationTrigger.onPageLoad,
+        effectsBuilder: () => [
+          MoveEffect(
+            curve: Curves.easeInOut,
+            delay: 0.0.ms,
+            duration: 600.0.ms,
+            begin: const Offset(-44.99999999999999, 0.0),
+            end: const Offset(0.0, 0.0),
+          ),
+        ],
+      ),
+      'iconButtonOnActionTriggerAnimation3': AnimationInfo(
+        trigger: AnimationTrigger.onActionTrigger,
+        applyInitialState: true,
+        effectsBuilder: () => [
+          ScaleEffect(
+            curve: Curves.elasticOut,
+            delay: 0.0.ms,
+            duration: 600.0.ms,
+            begin: const Offset(-1.0, -1.0),
+            end: const Offset(1.0, 1.0),
+          ),
+        ],
+      ),
+      'iconButtonOnActionTriggerAnimation4': AnimationInfo(
         trigger: AnimationTrigger.onActionTrigger,
         applyInitialState: true,
         effectsBuilder: () => [
@@ -357,7 +426,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
-    context.watch<calendar_app_state.FFAppState>();
+    context.watch<calendar_iagfh0_app_state.FFAppState>();
 
     return Title(
         title: ':gameName',
@@ -408,7 +477,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                           ),
                         ),
                         if (FFAppState()
-                                .myGamesRef
+                                .myGamesGameRef
                                 .contains(widget.gameObject?.reference) ==
                             true)
                           Padding(
@@ -422,11 +491,15 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                               onTap: () async {
                                 logFirebaseEvent(
                                     'GAME_DETAILS_PAGE_Icon_9h1tjnup_ON_TAP');
+                                logFirebaseEvent('Icon_custom_action');
+                                _model.myGamesRef =
+                                    await actions.getMyGamesRefFromGamesId(
+                                  widget.gameObject!.reference,
+                                );
                                 logFirebaseEvent('Icon_bottom_sheet');
                                 await showModalBottomSheet(
                                   isScrollControlled: true,
                                   backgroundColor: Colors.transparent,
-                                  enableDrag: false,
                                   context: context,
                                   builder: (context) {
                                     return WebViewAware(
@@ -436,16 +509,25 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                         child: Padding(
                                           padding:
                                               MediaQuery.viewInsetsOf(context),
-                                          child: MyGameConfigSheetWidget(
-                                            gameRef:
-                                                widget.gameObject!.reference,
-                                            gameName: widget.gameObject!.name,
+                                          child: SizedBox(
+                                            height: MediaQuery.sizeOf(context)
+                                                    .height *
+                                                0.25,
+                                            child: MyGameConfigSheetWidget(
+                                              gameRef:
+                                                  widget.gameObject!.reference,
+                                              gameName:
+                                                  widget.gameObject!.name,
+                                              myGameRef: _model.myGamesRef!,
+                                            ),
                                           ),
                                         ),
                                       ),
                                     );
                                   },
                                 ).then((value) => safeSetState(() {}));
+
+                                safeSetState(() {});
                               },
                               child: Icon(
                                 Icons.settings_outlined,
@@ -966,60 +1048,91 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                               Column(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  ToggleIcon(
-                                    onPressed: () async {
-                                      safeSetState(() =>
-                                          _model.favorited = !_model.favorited);
-                                      logFirebaseEvent(
-                                          'GAME_DETAILS_ToggleIcon_xn6vd37u_ON_TOGG');
-                                      if (_model.favorited == true) {
-                                        logFirebaseEvent(
-                                            'ToggleIcon_alert_dialog');
-                                        await showDialog(
-                                          context: context,
-                                          builder: (alertDialogContext) {
-                                            return WebViewAware(
-                                              child: AlertDialog(
-                                                content: const Text(
-                                                    'favorited era true na condition'),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            alertDialogContext),
-                                                    child: const Text('Ok'),
-                                                  ),
-                                                ],
-                                              ),
-                                            );
+                                  Builder(
+                                    builder: (context) {
+                                      if (_model.favorited) {
+                                        return FlutterFlowIconButton(
+                                          buttonSize: 45.0,
+                                          icon: Icon(
+                                            Icons.star,
+                                            color: FlutterFlowTheme.of(context)
+                                                .primary,
+                                            size: 32.0,
+                                          ),
+                                          onPressed: () async {
+                                            logFirebaseEvent(
+                                                'GAME_DETAILS_favoriteIconButtonOn_ON_TAP');
+                                            logFirebaseEvent(
+                                                'favoriteIconButtonOn_update_page_state');
+                                            _model.favorited = false;
+                                            safeSetState(() {});
+                                            logFirebaseEvent(
+                                                'favoriteIconButtonOn_widget_animation');
+                                            if (animationsMap[
+                                                    'iconButtonOnActionTriggerAnimation1'] !=
+                                                null) {
+                                              await animationsMap[
+                                                      'iconButtonOnActionTriggerAnimation1']!
+                                                  .controller
+                                                  .forward(from: 0.0);
+                                            }
+                                            logFirebaseEvent(
+                                                'favoriteIconButtonOn_update_page_state');
+                                            _model.timesFavorited =
+                                                _model.timesFavorited + -1;
+                                            safeSetState(() {});
                                           },
+                                        ).animateOnActionTrigger(
+                                          animationsMap[
+                                              'iconButtonOnActionTriggerAnimation1']!,
+                                        );
+                                      } else {
+                                        return FlutterFlowIconButton(
+                                          borderRadius: 32.0,
+                                          buttonSize: 45.0,
+                                          icon: Icon(
+                                            Icons.star_border,
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                            size: 32.0,
+                                          ),
+                                          onPressed: () async {
+                                            logFirebaseEvent(
+                                                'GAME_DETAILS_favoriteIconButtonOff_ON_TA');
+                                            logFirebaseEvent(
+                                                'favoriteIconButtonOff_update_page_state');
+                                            _model.favorited = true;
+                                            safeSetState(() {});
+                                            logFirebaseEvent(
+                                                'favoriteIconButtonOff_widget_animation');
+                                            if (animationsMap[
+                                                    'iconButtonOnActionTriggerAnimation2'] !=
+                                                null) {
+                                              await animationsMap[
+                                                      'iconButtonOnActionTriggerAnimation2']!
+                                                  .controller
+                                                  .forward(from: 0.0);
+                                            }
+                                            logFirebaseEvent(
+                                                'favoriteIconButtonOff_update_page_state');
+                                            _model.timesFavorited =
+                                                _model.timesFavorited + 1;
+                                            safeSetState(() {});
+                                          },
+                                        ).animateOnActionTrigger(
+                                          animationsMap[
+                                              'iconButtonOnActionTriggerAnimation2']!,
                                         );
                                       }
                                     },
-                                    value: _model.favorited,
-                                    onIcon: Icon(
-                                      Icons.star,
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      size: 32.0,
-                                    ),
-                                    offIcon: Icon(
-                                      Icons.star_border,
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      size: 32.0,
-                                    ),
-                                  ).animateOnActionTrigger(
-                                    animationsMap[
-                                        'toggleIconOnActionTriggerAnimation1']!,
-                                  ),
+                                  ).animateOnPageLoad(animationsMap[
+                                      'conditionalBuilderOnPageLoadAnimation1']!),
                                   Padding(
                                     padding: const EdgeInsetsDirectional.fromSTEB(
                                         0.0, 8.0, 0.0, 0.0),
                                     child: Text(
                                       valueOrDefault<String>(
-                                        widget.gameObject?.timesFavorited
-                                            .toString(),
+                                        _model.timesFavorited.toString(),
                                         '0',
                                       ),
                                       style: FlutterFlowTheme.of(context)
@@ -1060,69 +1173,94 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                               Column(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  ToggleIcon(
-                                    onPressed: () async {
-                                      safeSetState(() => _model.wishlisted =
-                                          !_model.wishlisted);
-                                      logFirebaseEvent(
-                                          'GAME_DETAILS_ToggleIcon_rk2oqrln_ON_TOGG');
-                                      if (_model.wishlisted == true) {
-                                        logFirebaseEvent(
-                                            'ToggleIcon_alert_dialog');
-                                        await showDialog(
-                                          context: context,
-                                          builder: (alertDialogContext) {
-                                            return WebViewAware(
-                                              child: AlertDialog(
-                                                content: const Text(
-                                                    'wishlisted era true na condition'),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.pop(
-                                                            alertDialogContext),
-                                                    child: const Text('Ok'),
-                                                  ),
-                                                ],
-                                              ),
-                                            );
+                                  Builder(
+                                    builder: (context) {
+                                      if (_model.wishlisted) {
+                                        return FlutterFlowIconButton(
+                                          borderColor: Colors.transparent,
+                                          borderRadius: 32.0,
+                                          buttonSize: 45.0,
+                                          icon: Icon(
+                                            Icons.favorite_rounded,
+                                            color: FlutterFlowTheme.of(context)
+                                                .error,
+                                            size: 32.0,
+                                          ),
+                                          onPressed: () async {
+                                            logFirebaseEvent(
+                                                'GAME_DETAILS_wishlistedIconButtonOn_ON_T');
+                                            logFirebaseEvent(
+                                                'wishlistedIconButtonOn_update_page_state');
+                                            _model.wishlisted = false;
+                                            safeSetState(() {});
+                                            logFirebaseEvent(
+                                                'wishlistedIconButtonOn_widget_animation');
+                                            if (animationsMap[
+                                                    'iconButtonOnActionTriggerAnimation3'] !=
+                                                null) {
+                                              await animationsMap[
+                                                      'iconButtonOnActionTriggerAnimation3']!
+                                                  .controller
+                                                  .forward(from: 0.0);
+                                            }
+                                            logFirebaseEvent(
+                                                'wishlistedIconButtonOn_update_page_state');
+                                            _model.timesWishlisted =
+                                                _model.timesWishlisted + -1;
+                                            safeSetState(() {});
                                           },
+                                        ).animateOnActionTrigger(
+                                          animationsMap[
+                                              'iconButtonOnActionTriggerAnimation3']!,
                                         );
-                                        logFirebaseEvent(
-                                            'ToggleIcon_widget_animation');
-                                        if (animationsMap[
-                                                'toggleIconOnActionTriggerAnimation2'] !=
-                                            null) {
-                                          await animationsMap[
-                                                  'toggleIconOnActionTriggerAnimation2']!
-                                              .controller
-                                              .forward(from: 0.0);
-                                        }
+                                      } else {
+                                        return FlutterFlowIconButton(
+                                          borderColor: Colors.transparent,
+                                          borderRadius: 32.0,
+                                          buttonSize: 45.0,
+                                          icon: Icon(
+                                            Icons.favorite_border,
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryText,
+                                            size: 32.0,
+                                          ),
+                                          onPressed: () async {
+                                            logFirebaseEvent(
+                                                'GAME_DETAILS_wishlistedIconButtonOff_ON_');
+                                            logFirebaseEvent(
+                                                'wishlistedIconButtonOff_update_page_stat');
+                                            _model.wishlisted = true;
+                                            safeSetState(() {});
+                                            logFirebaseEvent(
+                                                'wishlistedIconButtonOff_widget_animation');
+                                            if (animationsMap[
+                                                    'iconButtonOnActionTriggerAnimation4'] !=
+                                                null) {
+                                              await animationsMap[
+                                                      'iconButtonOnActionTriggerAnimation4']!
+                                                  .controller
+                                                  .forward(from: 0.0);
+                                            }
+                                            logFirebaseEvent(
+                                                'wishlistedIconButtonOff_update_page_stat');
+                                            _model.timesWishlisted =
+                                                _model.timesWishlisted + 1;
+                                            safeSetState(() {});
+                                          },
+                                        ).animateOnActionTrigger(
+                                          animationsMap[
+                                              'iconButtonOnActionTriggerAnimation4']!,
+                                        );
                                       }
                                     },
-                                    value: _model.wishlisted,
-                                    onIcon: Icon(
-                                      Icons.favorite,
-                                      color: FlutterFlowTheme.of(context).error,
-                                      size: 32.0,
-                                    ),
-                                    offIcon: Icon(
-                                      Icons.favorite_border,
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      size: 32.0,
-                                    ),
-                                  ).animateOnActionTrigger(
-                                    animationsMap[
-                                        'toggleIconOnActionTriggerAnimation2']!,
-                                  ),
+                                  ).animateOnPageLoad(animationsMap[
+                                      'conditionalBuilderOnPageLoadAnimation2']!),
                                   Padding(
                                     padding: const EdgeInsetsDirectional.fromSTEB(
                                         0.0, 8.0, 0.0, 0.0),
                                     child: Text(
                                       valueOrDefault<String>(
-                                        widget.gameObject?.timesWishlisted
-                                            .toString(),
+                                        _model.timesWishlisted.toString(),
                                         '0',
                                       ),
                                       style: FlutterFlowTheme.of(context)
@@ -1320,7 +1458,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                           },
                                           carouselController:
                                               _model.carouselController ??=
-                                                  CarouselController(),
+                                                  CarouselSliderController(),
                                           options: CarouselOptions(
                                             initialPage: max(0,
                                                 min(1, imagesUrls.length - 1)),
@@ -1434,7 +1572,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                 ),
                 if (valueOrDefault<bool>(
                   FFAppState()
-                          .myGamesRef
+                          .myGamesGameRef
                           .contains(widget.gameObject?.reference) ==
                       false,
                   false,
@@ -1563,24 +1701,35 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                       : () async {
                                           logFirebaseEvent(
                                               'GAME_DETAILS_PAGE_rentButton_ON_TAP');
-                                          logFirebaseEvent(
-                                              'rentButton_navigate_to');
+                                          if ((widget.gameObject
+                                                      ?.availableToRent ==
+                                                  true) &&
+                                              FFDevEnvironmentValues()
+                                                  .isRentingAvailable) {
+                                            logFirebaseEvent(
+                                                'rentButton_navigate_to');
 
-                                          context.pushNamed(
-                                            'toRentList',
-                                            queryParameters: {
-                                              'gameObject': serializeParam(
-                                                widget.gameObject,
-                                                ParamType.Document,
-                                              ),
-                                            }.withoutNulls,
-                                            extra: <String, dynamic>{
-                                              'gameObject': widget.gameObject,
-                                            },
-                                          );
+                                            context.pushNamed(
+                                              'toRentList',
+                                              queryParameters: {
+                                                'gameObject': serializeParam(
+                                                  widget.gameObject,
+                                                  ParamType.Document,
+                                                ),
+                                              }.withoutNulls,
+                                              extra: <String, dynamic>{
+                                                'gameObject':
+                                                    widget.gameObject,
+                                              },
+                                            );
+                                          } else {
+                                            return;
+                                          }
                                         },
-                                  text: widget.gameObject?.availableToRent ==
-                                          true
+                                  text: (widget.gameObject?.availableToRent ==
+                                              true) &&
+                                          FFDevEnvironmentValues()
+                                              .isRentingAvailable
                                       ? 'Alugar'
                                       : 'Indisponível',
                                   options: FFButtonOptions(
@@ -1590,9 +1739,11 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                         0.0, 0.0, 0.0, 0.0),
                                     iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 0.0),
-                                    color: widget
-                                                .gameObject?.availableToRent ==
-                                            true
+                                    color: (widget.gameObject
+                                                    ?.availableToRent ==
+                                                true) &&
+                                            FFDevEnvironmentValues()
+                                                .isRentingAvailable
                                         ? FlutterFlowTheme.of(context).primary
                                         : FlutterFlowTheme.of(context)
                                             .secondaryText,
@@ -1602,9 +1753,11 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                           fontFamily:
                                               FlutterFlowTheme.of(context)
                                                   .titleSmallFamily,
-                                          color: widget.gameObject
-                                                      ?.availableToRent ==
-                                                  true
+                                          color: (widget.gameObject
+                                                          ?.availableToRent ==
+                                                      true) &&
+                                                  FFDevEnvironmentValues()
+                                                      .isRentingAvailable
                                               ? FlutterFlowTheme.of(context)
                                                   .secondaryBackground
                                               : FlutterFlowTheme.of(context)

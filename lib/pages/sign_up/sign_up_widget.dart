@@ -693,7 +693,12 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                 buttonSize: 50.0,
                                 icon: FaIcon(
                                   FontAwesomeIcons.google,
-                                  color: FlutterFlowTheme.of(context).secondary,
+                                  color: (Theme.of(context).brightness ==
+                                              Brightness.light) ==
+                                          true
+                                      ? FlutterFlowTheme.of(context).tertiary
+                                      : FlutterFlowTheme.of(context)
+                                          .primaryText,
                                   size: 33.0,
                                 ),
                                 onPressed: () async {
@@ -728,7 +733,12 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                 buttonSize: 65.0,
                                 icon: Icon(
                                   Icons.facebook,
-                                  color: FlutterFlowTheme.of(context).secondary,
+                                  color: (Theme.of(context).brightness ==
+                                              Brightness.light) ==
+                                          true
+                                      ? FlutterFlowTheme.of(context).tertiary
+                                      : FlutterFlowTheme.of(context)
+                                          .primaryText,
                                   size: 45.0,
                                 ),
                                 onPressed: () {
@@ -818,8 +828,13 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                     .override(
                                       fontFamily: FlutterFlowTheme.of(context)
                                           .titleSmallFamily,
-                                      color:
-                                          FlutterFlowTheme.of(context).tertiary,
+                                      color: (Theme.of(context).brightness ==
+                                                  Brightness.light) ==
+                                              true
+                                          ? FlutterFlowTheme.of(context)
+                                              .tertiary
+                                          : FlutterFlowTheme.of(context)
+                                              .primaryText,
                                       letterSpacing: 0.0,
                                       useGoogleFonts: GoogleFonts.asMap()
                                           .containsKey(
@@ -835,8 +850,12 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                   .override(
                                     fontFamily: FlutterFlowTheme.of(context)
                                         .titleSmallFamily,
-                                    color:
-                                        FlutterFlowTheme.of(context).tertiary,
+                                    color: (Theme.of(context).brightness ==
+                                                Brightness.light) ==
+                                            true
+                                        ? FlutterFlowTheme.of(context).tertiary
+                                        : FlutterFlowTheme.of(context)
+                                            .primaryText,
                                     letterSpacing: 0.0,
                                     useGoogleFonts: GoogleFonts.asMap()
                                         .containsKey(

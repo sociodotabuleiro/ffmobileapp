@@ -20,12 +20,9 @@ Future<String> generateHMAC(
   String bodyFinal = body ?? "";
   final response = await http.post(
     Uri.parse('https://generatehmac-667069547103.us-central1.run.app'),
-    headers: {
-      'Content-Type': 'application/json',
-      'access_code': 'jq3uaqXXne5c431XFeLmLusHkQD0EqDn'
-    },
+    headers: {'Content-Type': 'application/json'},
     body: jsonEncode({
-      'userId': userId,
+      'internal_access_code': 'jq3uaqXXne5c431XFeLmLusHkQD0EqDn',
       'timestamp': DateTime.now().millisecondsSinceEpoch,
       'method': method,
       'path': path,

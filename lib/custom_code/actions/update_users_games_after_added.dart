@@ -85,8 +85,8 @@ Future<List<DocumentReference>> updateUsersGamesAfterAdded(
     ...FFAppState().myGamesId,
     ...myGamesIds,
   ];
-  FFAppState().myGamesRef = [
-    ...FFAppState().myGamesRef,
+  FFAppState().myGamesGameRef = [
+    ...FFAppState().myGamesGameRef,
     ...myGamesRefs,
   ];
 

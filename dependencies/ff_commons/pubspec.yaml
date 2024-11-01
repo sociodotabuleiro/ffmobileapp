@@ -16,7 +16,7 @@ dependencies:
   sociodotabuleiro:
     path: ../../
   equatable: 2.0.5
-  http: 1.2.1
+  http: 1.2.2
   mime_type: 1.0.0
 
 flutter:

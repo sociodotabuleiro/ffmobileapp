@@ -186,6 +186,12 @@ class GamesRecord extends FirestoreRecord {
   int get releaseYear => _releaseYear ?? 0;
   bool hasReleaseYear() => _releaseYear != null;
 
+  // "availableAtMyGamesRef" field.
+  List<DocumentReference>? _availableAtMyGamesRef;
+  List<DocumentReference> get availableAtMyGamesRef =>
+      _availableAtMyGamesRef ?? const [];
+  bool hasAvailableAtMyGamesRef() => _availableAtMyGamesRef != null;
+
   void _initializeFields() {
     _gameID = snapshotData['gameID'] as String?;
     _name = snapshotData['name'] as String?;
@@ -227,6 +233,7 @@ class GamesRecord extends FirestoreRecord {
     _playerCountMax = castToType<int>(snapshotData['playerCountMax']);
     _playerCountMin = castToType<int>(snapshotData['playerCountMin']);
     _releaseYear = castToType<int>(snapshotData['releaseYear']);
+    _availableAtMyGamesRef = getDataList(snapshotData['availableAtMyGamesRef']);
   }
 
   static CollectionReference get collection =>
@@ -358,7 +365,9 @@ class GamesRecordDocumentEquality implements Equality<GamesRecord> {
         e1?.playTime == e2?.playTime &&
         e1?.playerCountMax == e2?.playerCountMax &&
         e1?.playerCountMin == e2?.playerCountMin &&
-        e1?.releaseYear == e2?.releaseYear;
+        e1?.releaseYear == e2?.releaseYear &&
+        listEquality.equals(
+            e1?.availableAtMyGamesRef, e2?.availableAtMyGamesRef);
   }
 
   @override
@@ -396,7 +405,8 @@ class GamesRecordDocumentEquality implements Equality<GamesRecord> {
         e?.playTime,
         e?.playerCountMax,
         e?.playerCountMin,
-        e?.releaseYear
+        e?.releaseYear,
+        e?.availableAtMyGamesRef
       ]);
 
   @override

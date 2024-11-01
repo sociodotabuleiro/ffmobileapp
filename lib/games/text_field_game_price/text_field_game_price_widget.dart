@@ -1,9 +1,12 @@
 import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
+import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'text_field_game_price_model.dart';
 export 'text_field_game_price_model.dart';
 
@@ -36,18 +39,25 @@ class _TextFieldGamePriceWidgetState extends State<TextFieldGamePriceWidget> {
     super.initState();
     _model = createModel(context, () => TextFieldGamePriceModel());
 
-    _model.textController ??= TextEditingController(
-        text: valueOrDefault<String>(
-      formatNumber(
-        widget.gameToAdd!.rentValue * 0.2,
-        formatType: FormatType.decimal,
-        decimalType: DecimalType.commaDecimal,
-        currency: 'R\$',
-      ),
-      '0',
-    ));
+    _model.textController ??= TextEditingController();
     _model.textFieldFocusNode ??= FocusNode();
-
+    _model.textFieldFocusNode!.addListener(
+      () async {
+        logFirebaseEvent('TEXT_FIELD_GAME_PRICE_TextField_qpi4dcf4');
+        if (_model.textController.text != '') {
+          logFirebaseEvent('TextField_update_app_state');
+          FFAppState().updateGamesToAddAtIndex(
+            widget.indexGameToAdd!,
+            (e) => e
+              ..rentValue =
+                  functions.stringToDouble(_model.textController.text),
+          );
+          safeSetState(() {});
+        } else {
+          return;
+        }
+      },
+    );
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
@@ -60,6 +70,9 @@ class _TextFieldGamePriceWidgetState extends State<TextFieldGamePriceWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+    context.watch<calendar_iagfh0_app_state.FFAppState>();
+
     return Container(
       width: 200.0,
       decoration: const BoxDecoration(),
@@ -73,15 +86,35 @@ class _TextFieldGamePriceWidgetState extends State<TextFieldGamePriceWidget> {
             const Duration(milliseconds: 2000),
             () async {
               logFirebaseEvent('TEXT_FIELD_GAME_PRICE_TextField_qpi4dcf4');
+              if (_model.textController.text != '') {
+                logFirebaseEvent('TextField_update_app_state');
+                FFAppState().updateGamesToAddAtIndex(
+                  widget.indexGameToAdd!,
+                  (e) => e
+                    ..rentValue =
+                        functions.stringToDouble(_model.textController.text),
+                );
+                safeSetState(() {});
+              } else {
+                return;
+              }
+            },
+          ),
+          onFieldSubmitted: (_) async {
+            logFirebaseEvent('TEXT_FIELD_GAME_PRICE_TextField_qpi4dcf4');
+            if (_model.textController.text != '') {
               logFirebaseEvent('TextField_update_app_state');
               FFAppState().updateGamesToAddAtIndex(
                 widget.indexGameToAdd!,
-                (e) =>
-                    e..rentValue = double.tryParse(_model.textController.text),
+                (e) => e
+                  ..rentValue =
+                      functions.stringToDouble(_model.textController.text),
               );
               safeSetState(() {});
-            },
-          ),
+            } else {
+              return;
+            }
+          },
           autofocus: true,
           obscureText: false,
           decoration: InputDecoration(
@@ -92,6 +125,15 @@ class _TextFieldGamePriceWidgetState extends State<TextFieldGamePriceWidget> {
                   useGoogleFonts: GoogleFonts.asMap().containsKey(
                       FlutterFlowTheme.of(context).labelMediumFamily),
                 ),
+            hintText: valueOrDefault<String>(
+              formatNumber(
+                FFAppState().gamesToAdd[widget.indexGameToAdd!].rentValue,
+                formatType: FormatType.decimal,
+                decimalType: DecimalType.commaDecimal,
+                currency: 'R\$',
+              ),
+              '0',
+            ),
             hintStyle: FlutterFlowTheme.of(context).labelMedium.override(
                   fontFamily: FlutterFlowTheme.of(context).labelMediumFamily,
                   letterSpacing: 0.0,

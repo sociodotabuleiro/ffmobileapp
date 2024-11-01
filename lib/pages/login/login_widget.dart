@@ -782,8 +782,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     .override(
                                       fontFamily: FlutterFlowTheme.of(context)
                                           .titleSmallFamily,
-                                      color:
-                                          FlutterFlowTheme.of(context).tertiary,
+                                      color: (Theme.of(context).brightness ==
+                                                  Brightness.light) ==
+                                              true
+                                          ? FlutterFlowTheme.of(context)
+                                              .tertiary
+                                          : FlutterFlowTheme.of(context)
+                                              .primaryText,
                                       letterSpacing: 0.0,
                                       useGoogleFonts: GoogleFonts.asMap()
                                           .containsKey(
@@ -811,8 +816,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     .override(
                                       fontFamily: FlutterFlowTheme.of(context)
                                           .titleSmallFamily,
-                                      color:
-                                          FlutterFlowTheme.of(context).tertiary,
+                                      color: (Theme.of(context).brightness ==
+                                                  Brightness.light) ==
+                                              true
+                                          ? FlutterFlowTheme.of(context)
+                                              .tertiary
+                                          : FlutterFlowTheme.of(context)
+                                              .primaryText,
                                       letterSpacing: 0.0,
                                       useGoogleFonts: GoogleFonts.asMap()
                                           .containsKey(

@@ -4,7 +4,8 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/games/text_field_game_price/text_field_game_price_widget.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
-import 'package:calendar/app_state.dart' as calendar_app_state;
+import '/flutter_flow/random_data_util.dart' as random_data;
+import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -61,7 +62,7 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
-    context.watch<calendar_app_state.FFAppState>();
+    context.watch<calendar_iagfh0_app_state.FFAppState>();
 
     return Container(
       width: MediaQuery.sizeOf(context).width * 1.0,
@@ -72,6 +73,7 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             width: MediaQuery.sizeOf(context).width * 1.0,
@@ -365,59 +367,140 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                 FFButtonWidget(
                   onPressed: () async {
                     logFirebaseEvent('ADD_PRICE_ADD_GAME_FINALIZAR_BTN_ON_TAP');
-                    while (_model.currentCount <= _model.finalCount) {
+                    final firestoreBatch = FirebaseFirestore.instance.batch();
+                    try {
+                      while (_model.currentCount < _model.finalCount) {
+                        logFirebaseEvent('Button_backend_call');
+
+                        var myGamesRecordReference =
+                            MyGamesRecord.createDoc(currentUserReference!);
+                        firestoreBatch.set(myGamesRecordReference, {
+                          ...createMyGamesRecordData(
+                            gameRef: FFAppState()
+                                .gamesToAdd[_model.currentCount]
+                                .gameRef,
+                            price: FFAppState()
+                                .gamesToAdd[_model.currentCount]
+                                .rentValue,
+                            toRent: FFAppState()
+                                .gamesToAdd[_model.currentCount]
+                                .isAvailableToRent,
+                            publicId:
+                                '${FFAppState().gamesToAdd[_model.currentCount].gameRef?.id}${random_data.randomString(
+                              5,
+                              5,
+                              true,
+                              true,
+                              true,
+                            )}',
+                          ),
+                          ...mapToFirestore(
+                            {
+                              'availableDates': functions
+                                  .createListofDateTime30DaysFromToday(),
+                            },
+                          ),
+                        });
+                        _model.myGameDocument =
+                            MyGamesRecord.getDocumentFromData({
+                          ...createMyGamesRecordData(
+                            gameRef: FFAppState()
+                                .gamesToAdd[_model.currentCount]
+                                .gameRef,
+                            price: FFAppState()
+                                .gamesToAdd[_model.currentCount]
+                                .rentValue,
+                            toRent: FFAppState()
+                                .gamesToAdd[_model.currentCount]
+                                .isAvailableToRent,
+                            publicId:
+                                '${FFAppState().gamesToAdd[_model.currentCount].gameRef?.id}${random_data.randomString(
+                              5,
+                              5,
+                              true,
+                              true,
+                              true,
+                            )}',
+                          ),
+                          ...mapToFirestore(
+                            {
+                              'availableDates': functions
+                                  .createListofDateTime30DaysFromToday(),
+                            },
+                          ),
+                        }, myGamesRecordReference);
+                        if (FFAppState()
+                                .gamesToAdd[_model.currentCount]
+                                .isAvailableToRent ==
+                            true) {
+                          logFirebaseEvent('Button_backend_call');
+
+                          firestoreBatch.update(
+                              FFAppState()
+                                  .gamesToAdd[_model.currentCount]
+                                  .gameRef!,
+                              {
+                                ...createGamesRecordData(
+                                  availableToRent: true,
+                                ),
+                                ...mapToFirestore(
+                                  {
+                                    'quantityAvailable':
+                                        FieldValue.increment(1),
+                                    'availableAt': FieldValue.arrayUnion(
+                                        [currentUserReference]),
+                                    'availableAtGeoHash':
+                                        FieldValue.arrayUnion([
+                                      valueOrDefault<String>(
+                                        currentUserDocument?.address.geohash,
+                                        '0',
+                                      )
+                                    ]),
+                                    'availableAtLatLng': FieldValue.arrayUnion([
+                                      currentUserDocument?.address.coordinates
+                                          ?.toGeoPoint()
+                                    ]),
+                                    'availableAtMyGamesRef':
+                                        FieldValue.arrayUnion(
+                                            [_model.myGameDocument?.reference]),
+                                  },
+                                ),
+                              });
+                        }
+                        logFirebaseEvent('Button_update_component_state');
+                        _model.currentCount = _model.currentCount + 1;
+                        safeSetState(() {});
+                      }
                       logFirebaseEvent('Button_alert_dialog');
                       await showDialog(
                         context: context,
                         builder: (alertDialogContext) {
                           return WebViewAware(
                             child: AlertDialog(
-                              title: Text(FFAppState()
-                                  .gamesToAdd[_model.currentCount]
-                                  .gameRef!
-                                  .id),
-                              content: Text(FFAppState()
-                                  .gamesToAdd[_model.currentCount]
-                                  .rentValue
-                                  .toString()),
+                              title: const Text('Sucesso!'),
+                              content: const Text(
+                                  'Seus jogos foram adicionados com sucesso!'),
                               actions: [
                                 TextButton(
                                   onPressed: () =>
                                       Navigator.pop(alertDialogContext),
-                                  child: Text(FFAppState()
-                                      .gamesToAdd[_model.currentCount]
-                                      .isAvailableToRent
-                                      .toString()),
+                                  child: const Text('Ok'),
                                 ),
                               ],
                             ),
                           );
                         },
                       );
-                      logFirebaseEvent('Button_update_component_state');
-                      _model.currentCount = _model.currentCount + 1;
-                      safeSetState(() {});
+                      logFirebaseEvent('Button_update_app_state');
+                      FFAppState().gamesToAdd = [];
+                      logFirebaseEvent('Button_navigate_to');
+
+                      context.pushNamed('AddGames');
+                    } finally {
+                      await firestoreBatch.commit();
                     }
-                    logFirebaseEvent('Button_alert_dialog');
-                    await showDialog(
-                      context: context,
-                      builder: (alertDialogContext) {
-                        return WebViewAware(
-                          child: AlertDialog(
-                            title: const Text('Sucesso!'),
-                            content: const Text(
-                                'Seus jogos foram adicionados com sucesso!'),
-                            actions: [
-                              TextButton(
-                                onPressed: () =>
-                                    Navigator.pop(alertDialogContext),
-                                child: const Text('Ok'),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
+
+                    safeSetState(() {});
                   },
                   text: 'Finalizar',
                   options: FFButtonOptions(

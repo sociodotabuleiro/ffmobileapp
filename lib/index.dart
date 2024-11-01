@@ -32,6 +32,7 @@ export '/extra/save_actions/save_actions_widget.dart' show SaveActionsWidget;
 export '/games/add_games/add_games_widget.dart' show AddGamesWidget;
 export '/profile/login_ludopedia/login_ludopedia_widget.dart'
     show LoginLudopediaWidget;
-export '/delivery_status/delivery_status_widget.dart' show DeliveryStatusWidget;
-export '/termandconditions/termandconditions_widget.dart'
+export '/payment/delivery_status/delivery_status_widget.dart'
+    show DeliveryStatusWidget;
+export '/pages/termandconditions/termandconditions_widget.dart'
     show TermandconditionsWidget;

@@ -241,7 +241,7 @@ class _AddGamesWidgetState extends State<AddGamesWidget>
                           child: TabBar(
                             labelColor: FlutterFlowTheme.of(context).primary,
                             unselectedLabelColor:
-                                FlutterFlowTheme.of(context).secondaryText,
+                                FlutterFlowTheme.of(context).primary,
                             labelPadding: const EdgeInsetsDirectional.fromSTEB(
                                 8.0, 0.0, 8.0, 0.0),
                             labelStyle: FlutterFlowTheme.of(context)
@@ -571,32 +571,51 @@ class _AddGamesWidgetState extends State<AddGamesWidget>
                     child: FFButtonWidget(
                       onPressed: () async {
                         logFirebaseEvent('ADD_GAMES_PAGE_SALVAR_BTN_ON_TAP');
-                        logFirebaseEvent('Button_bottom_sheet');
-                        await showModalBottomSheet(
-                          isScrollControlled: true,
-                          backgroundColor:
-                              FlutterFlowTheme.of(context).alternate,
-                          isDismissible: false,
-                          enableDrag: false,
-                          context: context,
-                          builder: (context) {
-                            return WebViewAware(
-                              child: GestureDetector(
-                                onTap: () => FocusScope.of(context).unfocus(),
-                                child: Padding(
-                                  padding: MediaQuery.viewInsetsOf(context),
-                                  child: SizedBox(
-                                    height:
-                                        MediaQuery.sizeOf(context).height * 0.6,
-                                    child: ConfirmAddGamesWidget(
-                                      choosenGames: _model.markedGames,
+                        if (_model.markedGames.isNotEmpty) {
+                          logFirebaseEvent('Button_bottom_sheet');
+                          await showModalBottomSheet(
+                            isScrollControlled: true,
+                            backgroundColor:
+                                FlutterFlowTheme.of(context).alternate,
+                            isDismissible: false,
+                            enableDrag: false,
+                            context: context,
+                            builder: (context) {
+                              return WebViewAware(
+                                child: GestureDetector(
+                                  onTap: () => FocusScope.of(context).unfocus(),
+                                  child: Padding(
+                                    padding: MediaQuery.viewInsetsOf(context),
+                                    child: SizedBox(
+                                      height:
+                                          MediaQuery.sizeOf(context).height *
+                                              0.6,
+                                      child: ConfirmAddGamesWidget(
+                                        choosenGames: _model.markedGames,
+                                      ),
                                     ),
                                   ),
                                 ),
+                              );
+                            },
+                          ).then((value) => safeSetState(() {}));
+                        } else {
+                          logFirebaseEvent('Button_show_snack_bar');
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: const Text(
+                                'Por favor selecione pelo menos 1 jogo.',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
-                            );
-                          },
-                        ).then((value) => safeSetState(() {}));
+                              duration: const Duration(milliseconds: 4000),
+                              backgroundColor:
+                                  FlutterFlowTheme.of(context).secondary,
+                            ),
+                          );
+                        }
                       },
                       text: 'Salvar',
                       options: FFButtonOptions(

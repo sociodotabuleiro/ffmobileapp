@@ -129,50 +129,56 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                                     child: Padding(
                                       padding: const EdgeInsetsDirectional.fromSTEB(
                                           12.0, 0.0, 0.0, 0.0),
-                                      child: Theme(
-                                        data: ThemeData(
-                                          checkboxTheme: CheckboxThemeData(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(25),
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        child: Theme(
+                                          data: ThemeData(
+                                            checkboxTheme: CheckboxThemeData(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(25),
+                                              ),
                                             ),
+                                            unselectedWidgetColor:
+                                                const Color(0xFF95A1AC),
                                           ),
-                                          unselectedWidgetColor:
-                                              const Color(0xFF95A1AC),
-                                        ),
-                                        child: CheckboxListTile(
-                                          value: _model
-                                              .checkboxListTileValue1 ??= true,
-                                          onChanged: (newValue) async {
-                                            safeSetState(() =>
-                                                _model.checkboxListTileValue1 =
-                                                    newValue!);
-                                          },
-                                          title: Text(
-                                            'Credit Card',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  fontFamily:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMediumFamily,
-                                                  letterSpacing: 0.0,
-                                                  useGoogleFonts: GoogleFonts
-                                                          .asMap()
-                                                      .containsKey(
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMediumFamily),
-                                                ),
+                                          child: CheckboxListTile(
+                                            value: _model
+                                                    .checkboxListTileValue1 ??=
+                                                true,
+                                            onChanged: (newValue) async {
+                                              safeSetState(() => _model
+                                                      .checkboxListTileValue1 =
+                                                  newValue!);
+                                            },
+                                            title: Text(
+                                              'Credit Card',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMediumFamily,
+                                                        letterSpacing: 0.0,
+                                                        useGoogleFonts: GoogleFonts
+                                                                .asMap()
+                                                            .containsKey(
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMediumFamily),
+                                                      ),
+                                            ),
+                                            tileColor: const Color(0xFFF5F5F5),
+                                            activeColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .primary,
+                                            dense: true,
+                                            controlAffinity:
+                                                ListTileControlAffinity
+                                                    .trailing,
                                           ),
-                                          tileColor: const Color(0xFFF5F5F5),
-                                          activeColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
-                                          dense: true,
-                                          controlAffinity:
-                                              ListTileControlAffinity.trailing,
                                         ),
                                       ),
                                     ),
@@ -331,50 +337,56 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                                     child: Padding(
                                       padding: const EdgeInsetsDirectional.fromSTEB(
                                           12.0, 0.0, 0.0, 0.0),
-                                      child: Theme(
-                                        data: ThemeData(
-                                          checkboxTheme: CheckboxThemeData(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(25),
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        child: Theme(
+                                          data: ThemeData(
+                                            checkboxTheme: CheckboxThemeData(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(25),
+                                              ),
                                             ),
+                                            unselectedWidgetColor:
+                                                const Color(0xFF95A1AC),
                                           ),
-                                          unselectedWidgetColor:
-                                              const Color(0xFF95A1AC),
-                                        ),
-                                        child: CheckboxListTile(
-                                          value: _model
-                                              .checkboxListTileValue2 ??= false,
-                                          onChanged: (newValue) async {
-                                            safeSetState(() =>
-                                                _model.checkboxListTileValue2 =
-                                                    newValue!);
-                                          },
-                                          title: Text(
-                                            'Paypal',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  fontFamily:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMediumFamily,
-                                                  letterSpacing: 0.0,
-                                                  useGoogleFonts: GoogleFonts
-                                                          .asMap()
-                                                      .containsKey(
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMediumFamily),
-                                                ),
+                                          child: CheckboxListTile(
+                                            value: _model
+                                                    .checkboxListTileValue2 ??=
+                                                false,
+                                            onChanged: (newValue) async {
+                                              safeSetState(() => _model
+                                                      .checkboxListTileValue2 =
+                                                  newValue!);
+                                            },
+                                            title: Text(
+                                              'Paypal',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMediumFamily,
+                                                        letterSpacing: 0.0,
+                                                        useGoogleFonts: GoogleFonts
+                                                                .asMap()
+                                                            .containsKey(
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMediumFamily),
+                                                      ),
+                                            ),
+                                            tileColor: const Color(0xFFF5F5F5),
+                                            activeColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .primary,
+                                            dense: true,
+                                            controlAffinity:
+                                                ListTileControlAffinity
+                                                    .trailing,
                                           ),
-                                          tileColor: const Color(0xFFF5F5F5),
-                                          activeColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
-                                          dense: true,
-                                          controlAffinity:
-                                              ListTileControlAffinity.trailing,
                                         ),
                                       ),
                                     ),
@@ -431,50 +443,56 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                                     child: Padding(
                                       padding: const EdgeInsetsDirectional.fromSTEB(
                                           12.0, 0.0, 0.0, 0.0),
-                                      child: Theme(
-                                        data: ThemeData(
-                                          checkboxTheme: CheckboxThemeData(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(25),
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        child: Theme(
+                                          data: ThemeData(
+                                            checkboxTheme: CheckboxThemeData(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(25),
+                                              ),
                                             ),
+                                            unselectedWidgetColor:
+                                                const Color(0xFF95A1AC),
                                           ),
-                                          unselectedWidgetColor:
-                                              const Color(0xFF95A1AC),
-                                        ),
-                                        child: CheckboxListTile(
-                                          value: _model
-                                              .checkboxListTileValue3 ??= false,
-                                          onChanged: (newValue) async {
-                                            safeSetState(() =>
-                                                _model.checkboxListTileValue3 =
-                                                    newValue!);
-                                          },
-                                          title: Text(
-                                            'Apple Pay',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  fontFamily:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMediumFamily,
-                                                  letterSpacing: 0.0,
-                                                  useGoogleFonts: GoogleFonts
-                                                          .asMap()
-                                                      .containsKey(
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMediumFamily),
-                                                ),
+                                          child: CheckboxListTile(
+                                            value: _model
+                                                    .checkboxListTileValue3 ??=
+                                                false,
+                                            onChanged: (newValue) async {
+                                              safeSetState(() => _model
+                                                      .checkboxListTileValue3 =
+                                                  newValue!);
+                                            },
+                                            title: Text(
+                                              'Apple Pay',
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMediumFamily,
+                                                        letterSpacing: 0.0,
+                                                        useGoogleFonts: GoogleFonts
+                                                                .asMap()
+                                                            .containsKey(
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMediumFamily),
+                                                      ),
+                                            ),
+                                            tileColor: const Color(0xFFF5F5F5),
+                                            activeColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .primary,
+                                            dense: true,
+                                            controlAffinity:
+                                                ListTileControlAffinity
+                                                    .trailing,
                                           ),
-                                          tileColor: const Color(0xFFF5F5F5),
-                                          activeColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
-                                          dense: true,
-                                          controlAffinity:
-                                              ListTileControlAffinity.trailing,
                                         ),
                                       ),
                                     ),

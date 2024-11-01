@@ -1638,7 +1638,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                       .primaryText,
                                               unselectedLabelColor:
                                                   FlutterFlowTheme.of(context)
-                                                      .secondaryText,
+                                                      .primaryText,
                                               labelStyle:
                                                   FlutterFlowTheme.of(context)
                                                       .labelMedium

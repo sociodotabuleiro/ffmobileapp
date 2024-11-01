@@ -21,8 +21,16 @@ class GameDetailsModel extends FlutterFlowModel<GameDetailsWidget> {
 
   bool wishlisted = false;
 
+  DocumentReference? myGameRef;
+
+  int timesFavorited = 0;
+
+  int timesWishlisted = 0;
+
   ///  State fields for stateful widgets in this page.
 
+  // Stores action output result for [Custom Action - getMyGamesRefFromGamesId] action in Icon widget.
+  DocumentReference? myGamesRef;
   // State field(s) for PageView widget.
   PageController? pageViewController;
 
@@ -32,7 +40,7 @@ class GameDetailsModel extends FlutterFlowModel<GameDetailsWidget> {
       ? pageViewController!.page!.round()
       : 0;
   // State field(s) for Carousel widget.
-  CarouselController? carouselController;
+  CarouselSliderController? carouselController;
   int carouselCurrentIndex = 1;
 
   @override

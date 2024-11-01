@@ -7,8 +7,8 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'dart:async';
 import '/custom_code/actions/index.dart' as actions;
-import '/flutter_flow/random_data_util.dart' as random_data;
-import 'package:calendar/app_state.dart' as calendar_app_state;
+import 'package:badges/badges.dart' as badges;
+import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
@@ -59,29 +59,50 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           }(),
         );
       }
-      if (valueOrDefault<bool>(currentUserDocument?.completedRegister, false)) {
-        if (FFAppState().firstSessionlogin == true) {
-          logFirebaseEvent('HomePage_update_app_state');
-          FFAppState().firstSessionlogin = false;
-          FFAppState().userAddress =
-              '${currentUserDocument?.address.street}, ${currentUserDocument?.address.number}';
-          FFAppState().userAddressLatLng =
-              currentUserDocument?.address.coordinates;
-          safeSetState(() {});
-          if (((currentUserDocument?.favoriteUsers.toList() ?? [])
-                  .isNotEmpty) ==
-              true) {
-            // setFollowingUsers
-            logFirebaseEvent('HomePage_setFollowingUsers');
-            FFAppState().followingUsers =
-                (currentUserDocument?.favoriteUsers.toList() ?? [])
-                    .toList()
-                    .cast<DocumentReference>();
-            safeSetState(() {});
-          }
-        }
+      logFirebaseEvent('HomePage_update_app_state');
+      FFAppState().firstSessionlogin = false;
+      FFAppState().userAddress =
+          '${currentUserDocument?.address.street}, ${currentUserDocument?.address.number}';
+      FFAppState().userAddressLatLng =
+          currentUserDocument?.address.coordinates;
+      safeSetState(() {});
+      logFirebaseEvent('HomePage_firestore_query');
+      _model.featuredGamesMocked = await queryGamesRecordOnce(
+        queryBuilder: (gamesRecord) => gamesRecord.where(
+          'bggRating',
+          isGreaterThan: 7.0,
+        ),
+        limit: 5,
+      );
+      logFirebaseEvent('HomePage_update_app_state');
+      FFAppState().featuredGames = _model.featuredGamesMocked!
+          .map((e) => e.reference)
+          .toList()
+          .toList()
+          .cast<DocumentReference>();
+      safeSetState(() {});
+      if (((currentUserDocument?.favoriteUsers.toList() ?? []).isNotEmpty) ==
+          true) {
+        // setFollowingUsers
+        logFirebaseEvent('HomePage_setFollowingUsers');
+        FFAppState().followingUsers =
+            (currentUserDocument?.favoriteUsers.toList() ?? [])
+                .toList()
+                .cast<DocumentReference>();
+        safeSetState(() {});
       }
+      logFirebaseEvent('HomePage_update_app_state');
+      FFAppState().firstSessionlogin = false;
+      safeSetState(() {});
       if ((FFAppState().myGamesId.isNotEmpty) == false) {
+        logFirebaseEvent('HomePage_update_app_state');
+        FFAppState().deleteMyGamesId();
+        FFAppState().myGamesId = [];
+
+        FFAppState().deleteMyGamesGameRef();
+        FFAppState().myGamesGameRef = [];
+
+        safeSetState(() {});
         logFirebaseEvent('HomePage_custom_action');
         await actions.fetchMyGames(
           context,
@@ -90,7 +111,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       }
       if (((currentUserDocument?.wishlist.toList() ?? []).isNotEmpty) ==
           true) {
-        logFirebaseEvent('HomePage_update_app_state');
+        // updateWishlist
+        logFirebaseEvent('HomePage_updateWishlist');
         FFAppState().wishlist = (currentUserDocument?.wishlist.toList() ?? [])
             .toList()
             .cast<DocumentReference>();
@@ -98,7 +120,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       }
       if (((currentUserDocument?.favoriteList.toList() ?? []).isNotEmpty) ==
           true) {
-        logFirebaseEvent('HomePage_update_app_state');
+        // updateFavoriteList
+        logFirebaseEvent('HomePage_updateFavoriteList');
         FFAppState().favoritedGames =
             (currentUserDocument?.favoriteList.toList() ?? [])
                 .toList()
@@ -177,6 +200,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             wantToRentTo: false,
             askedToRentTo: true,
           ));
+          return;
         }
       } else {
         return;
@@ -196,7 +220,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
-    context.watch<calendar_app_state.FFAppState>();
+    context.watch<calendar_iagfh0_app_state.FFAppState>();
 
     return Title(
         title: 'Página Inicial',
@@ -266,9 +290,16 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                 fontFamily:
                                                     FlutterFlowTheme.of(context)
                                                         .headlineSmallFamily,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .tertiary,
+                                                color: (Theme.of(context)
+                                                                .brightness ==
+                                                            Brightness.light) ==
+                                                        true
+                                                    ? FlutterFlowTheme.of(
+                                                            context)
+                                                        .tertiary
+                                                    : FlutterFlowTheme.of(
+                                                            context)
+                                                        .primaryText,
                                                 letterSpacing: 0.0,
                                                 useGoogleFonts: GoogleFonts
                                                         .asMap()
@@ -281,202 +312,250 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                     ),
 
                                     // Adicionar Jogo do Dia?
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 16.0, 0.0, 0.0),
-                                      child: Builder(
-                                        builder: (context) {
-                                          final featuredGames = List.generate(
-                                              random_data.randomInteger(3, 5),
-                                              (index) =>
-                                                  random_data.randomString(
-                                                    5,
-                                                    15,
-                                                    true,
-                                                    true,
-                                                    false,
-                                                  )).toList().take(5).toList();
+                                    if ((_model.featuredGamesMocked != null &&
+                                            (_model.featuredGamesMocked)!
+                                                .isNotEmpty) ==
+                                        true)
+                                      Padding(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 16.0, 0.0, 0.0),
+                                        child: Builder(
+                                          builder: (context) {
+                                            final featuredGames = FFAppState()
+                                                .featuredGames
+                                                .toList()
+                                                .take(5)
+                                                .toList();
 
-                                          return SizedBox(
-                                            width: 350.0,
-                                            height: MediaQuery.sizeOf(context)
-                                                    .height *
-                                                0.24,
-                                            child: CarouselSlider.builder(
-                                              itemCount: featuredGames.length,
-                                              itemBuilder: (context,
-                                                  featuredGamesIndex, _) {
-                                                final featuredGamesItem =
-                                                    featuredGames[
-                                                        featuredGamesIndex];
-                                                return InkWell(
-                                                  splashColor:
-                                                      Colors.transparent,
-                                                  focusColor:
-                                                      Colors.transparent,
-                                                  hoverColor:
-                                                      Colors.transparent,
-                                                  highlightColor:
-                                                      Colors.transparent,
-                                                  onTap: () async {
-                                                    logFirebaseEvent(
-                                                        'HOME_PAGE_PAGE_Container_0suivf96_ON_TAP');
-                                                    logFirebaseEvent(
-                                                        'Container_navigate_to');
+                                            return SizedBox(
+                                              width: 350.0,
+                                              height: MediaQuery.sizeOf(context)
+                                                      .height *
+                                                  0.24,
+                                              child: CarouselSlider.builder(
+                                                itemCount: featuredGames.length,
+                                                itemBuilder: (context,
+                                                    featuredGamesIndex, _) {
+                                                  final featuredGamesItem =
+                                                      featuredGames[
+                                                          featuredGamesIndex];
+                                                  return StreamBuilder<
+                                                      GamesRecord>(
+                                                    stream:
+                                                        GamesRecord.getDocument(
+                                                            featuredGamesItem),
+                                                    builder:
+                                                        (context, snapshot) {
+                                                      // Customize what your widget looks like when it's loading.
+                                                      if (!snapshot.hasData) {
+                                                        return Center(
+                                                          child: SizedBox(
+                                                            width: 50.0,
+                                                            height: 50.0,
+                                                            child:
+                                                                CircularProgressIndicator(
+                                                              valueColor:
+                                                                  AlwaysStoppedAnimation<
+                                                                      Color>(
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primary,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        );
+                                                      }
 
-                                                    context.pushNamed(
-                                                        'toRentList');
-                                                  },
-                                                  child: Container(
-                                                    height: MediaQuery.sizeOf(
-                                                                context)
-                                                            .height *
-                                                        0.074,
-                                                    decoration: const BoxDecoration(),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      children: [
-                                                        SizedBox(
-                                                          width:
-                                                              MediaQuery.sizeOf(
-                                                                          context)
+                                                      final containerGamesRecord =
+                                                          snapshot.data!;
+
+                                                      return Container(
+                                                        height:
+                                                            MediaQuery.sizeOf(
+                                                                        context)
+                                                                    .height *
+                                                                0.074,
+                                                        decoration:
+                                                            const BoxDecoration(),
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          children: [
+                                                            SizedBox(
+                                                              width: MediaQuery
+                                                                          .sizeOf(
+                                                                              context)
                                                                       .width *
                                                                   0.35,
-                                                          height:
-                                                              MediaQuery.sizeOf(
-                                                                          context)
+                                                              height: MediaQuery
+                                                                          .sizeOf(
+                                                                              context)
                                                                       .height *
                                                                   0.2,
-                                                          child: Stack(
-                                                            children: [
-                                                              Card(
-                                                                clipBehavior: Clip
-                                                                    .antiAliasWithSaveLayer,
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .secondaryBackground,
-                                                                elevation: 8.0,
-                                                                shape:
-                                                                    RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              8.0),
-                                                                ),
-                                                                child:
-                                                                    ClipRRect(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              8.0),
-                                                                  child: Image
-                                                                      .network(
-                                                                    'https://cf.geekdo-images.com/-a8h6S4RTvdHWED9VqGNYQ__imagepage/img/V67RTZLhUKkB0uZGVBzD2eNDK1s=/fit-in/900x600/filters:no_upscale():strip_icc()/pic8143604.png',
-                                                                    width: MediaQuery.sizeOf(context)
-                                                                            .width *
-                                                                        0.35,
-                                                                    height:
-                                                                        MediaQuery.sizeOf(context).height *
-                                                                            0.2,
-                                                                    fit: BoxFit
-                                                                        .contain,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Align(
-                                                                alignment:
-                                                                    const AlignmentDirectional(
-                                                                        1.0,
-                                                                        -1.0),
-                                                                child:
-                                                                    FlutterFlowIconButton(
-                                                                  borderRadius:
-                                                                      20.0,
-                                                                  buttonSize:
-                                                                      32.0,
-                                                                  fillColor: const Color(
-                                                                      0x94000000),
-                                                                  icon: FaIcon(
-                                                                    FontAwesomeIcons
-                                                                        .externalLinkAlt,
+                                                              child: Stack(
+                                                                children: [
+                                                                  Card(
+                                                                    clipBehavior:
+                                                                        Clip.antiAliasWithSaveLayer,
                                                                     color: FlutterFlowTheme.of(
                                                                             context)
-                                                                        .info,
-                                                                    size: 16.0,
+                                                                        .secondaryBackground,
+                                                                    elevation:
+                                                                        8.0,
+                                                                    shape:
+                                                                        RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              8.0),
+                                                                    ),
+                                                                    child:
+                                                                        ClipRRect(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              8.0),
+                                                                      child: Image
+                                                                          .network(
+                                                                        containerGamesRecord
+                                                                            .thumbnailUrl,
+                                                                        width: MediaQuery.sizeOf(context).width *
+                                                                            0.35,
+                                                                        height: MediaQuery.sizeOf(context).height *
+                                                                            0.2,
+                                                                        fit: BoxFit
+                                                                            .contain,
+                                                                      ),
+                                                                    ),
                                                                   ),
-                                                                  onPressed:
-                                                                      () {
-                                                                    print(
-                                                                        'IconButton pressed ...');
-                                                                  },
-                                                                ),
+                                                                  Align(
+                                                                    alignment:
+                                                                        const AlignmentDirectional(
+                                                                            1.0,
+                                                                            -1.0),
+                                                                    child:
+                                                                        FlutterFlowIconButton(
+                                                                      borderRadius:
+                                                                          20.0,
+                                                                      buttonSize:
+                                                                          32.0,
+                                                                      fillColor:
+                                                                          const Color(
+                                                                              0x94000000),
+                                                                      icon:
+                                                                          FaIcon(
+                                                                        FontAwesomeIcons
+                                                                            .externalLinkAlt,
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .info,
+                                                                        size:
+                                                                            16.0,
+                                                                      ),
+                                                                      onPressed:
+                                                                          () async {
+                                                                        logFirebaseEvent(
+                                                                            'HOME_externalLinkAlt_ICN_ON_TAP');
+                                                                        logFirebaseEvent(
+                                                                            'IconButton_navigate_to');
+
+                                                                        context
+                                                                            .pushNamed(
+                                                                          'gameDetails',
+                                                                          pathParameters:
+                                                                              {
+                                                                            'gameName':
+                                                                                serializeParam(
+                                                                              containerGamesRecord.name,
+                                                                              ParamType.String,
+                                                                            ),
+                                                                          }.withoutNulls,
+                                                                          queryParameters:
+                                                                              {
+                                                                            'gameObject':
+                                                                                serializeParam(
+                                                                              containerGamesRecord,
+                                                                              ParamType.Document,
+                                                                            ),
+                                                                          }.withoutNulls,
+                                                                          extra: <String,
+                                                                              dynamic>{
+                                                                            'gameObject':
+                                                                                containerGamesRecord,
+                                                                          },
+                                                                        );
+                                                                      },
+                                                                    ),
+                                                                  ),
+                                                                ],
                                                               ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          featuredGamesItem,
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMediumFamily,
-                                                                color: const Color(
-                                                                    0xFF26062B),
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                useGoogleFonts: GoogleFonts
-                                                                        .asMap()
-                                                                    .containsKey(
+                                                            ),
+                                                            Text(
+                                                              containerGamesRecord
+                                                                  .name,
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyMedium
+                                                                  .override(
+                                                                    fontFamily:
                                                                         FlutterFlowTheme.of(context)
-                                                                            .bodyMediumFamily),
-                                                              ),
+                                                                            .bodyMediumFamily,
+                                                                    color: (Theme.of(context).brightness == Brightness.light) ==
+                                                                            true
+                                                                        ? FlutterFlowTheme.of(context)
+                                                                            .tertiary
+                                                                        : FlutterFlowTheme.of(context)
+                                                                            .primaryText,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    useGoogleFonts: GoogleFonts
+                                                                            .asMap()
+                                                                        .containsKey(
+                                                                            FlutterFlowTheme.of(context).bodyMediumFamily),
+                                                                  ),
+                                                            ),
+                                                          ],
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                );
-                                              },
-                                              carouselController:
-                                                  _model.carouselController ??=
-                                                      CarouselController(),
-                                              options: CarouselOptions(
-                                                initialPage: max(
-                                                    0,
-                                                    min(
-                                                        1,
-                                                        featuredGames.length -
-                                                            1)),
-                                                viewportFraction: 0.5,
-                                                disableCenter: false,
-                                                enlargeCenterPage: true,
-                                                enlargeFactor: 0.25,
-                                                enableInfiniteScroll: true,
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                autoPlay: true,
-                                                autoPlayAnimationDuration:
-                                                    const Duration(milliseconds: 800),
-                                                autoPlayInterval: const Duration(
-                                                    milliseconds: (800 + 4000)),
-                                                autoPlayCurve: Curves.linear,
-                                                pauseAutoPlayInFiniteScroll:
-                                                    true,
-                                                onPageChanged: (index, _) =>
-                                                    _model.carouselCurrentIndex =
-                                                        index,
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                carouselController: _model
+                                                        .carouselController ??=
+                                                    CarouselSliderController(),
+                                                options: CarouselOptions(
+                                                  initialPage: max(
+                                                      0,
+                                                      min(
+                                                          1,
+                                                          featuredGames.length -
+                                                              1)),
+                                                  viewportFraction: 0.5,
+                                                  disableCenter: false,
+                                                  enlargeCenterPage: true,
+                                                  enlargeFactor: 0.25,
+                                                  enableInfiniteScroll: true,
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  autoPlay: true,
+                                                  autoPlayAnimationDuration:
+                                                      const Duration(
+                                                          milliseconds: 800),
+                                                  autoPlayInterval: const Duration(
+                                                      milliseconds:
+                                                          (800 + 4000)),
+                                                  autoPlayCurve: Curves.linear,
+                                                  pauseAutoPlayInFiniteScroll:
+                                                      true,
+                                                  onPageChanged: (index, _) =>
+                                                      _model.carouselCurrentIndex =
+                                                          index,
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        },
+                                            );
+                                          },
+                                        ),
                                       ),
-                                    ),
                                   ],
                                 ),
                               ),
@@ -840,6 +919,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               children: [
                                 Row(
                                   mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Align(
                                       alignment:
@@ -870,32 +951,59 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                     ),
                                   ],
                                 ),
-                                Builder(
-                                  builder: (context) {
-                                    if (((currentUserDocument?.notifications
-                                                    .toList() ??
-                                                [])
-                                            .isNotEmpty) ==
-                                        true) {
-                                      return Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 0.0, 16.0, 0.0),
-                                        child: Icon(
-                                          Icons.notifications_rounded,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          size: 32.0,
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 16.0, 0.0),
+                                  child: AuthUserStreamWidget(
+                                    builder: (context) => badges.Badge(
+                                      badgeContent: Text(
+                                        valueOrDefault<String>(
+                                          (currentUserDocument?.notifications
+                                                      .toList() ??
+                                                  [])
+                                              .length
+                                              .toString(),
+                                          '0',
                                         ),
-                                      );
-                                    } else {
-                                      return Icon(
-                                        Icons.notifications_none_rounded,
+                                        style: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .override(
+                                              fontFamily:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmallFamily,
+                                              color: Colors.white,
+                                              fontSize: 12.0,
+                                              letterSpacing: 0.0,
+                                              useGoogleFonts: GoogleFonts
+                                                      .asMap()
+                                                  .containsKey(
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleSmallFamily),
+                                            ),
+                                      ),
+                                      showBadge: (currentUserDocument
+                                                      ?.notifications
+                                                      .toList() ??
+                                                  []).isNotEmpty,
+                                      shape: badges.BadgeShape.circle,
+                                      badgeColor:
+                                          FlutterFlowTheme.of(context).primary,
+                                      elevation: 4.0,
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          8.0, 8.0, 8.0, 8.0),
+                                      position: badges.BadgePosition.topEnd(),
+                                      animationType:
+                                          badges.BadgeAnimationType.scale,
+                                      toAnimate: true,
+                                      child: Icon(
+                                        Icons.notifications_sharp,
                                         color: FlutterFlowTheme.of(context)
-                                            .secondaryText,
+                                            .primaryText,
                                         size: 32.0,
-                                      );
-                                    }
-                                  },
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
@@ -909,7 +1017,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
                                   child: Image.asset(
-                                    'assets/images/logo.png',
+                                    'assets/images/logo_text.png',
                                     width:
                                         MediaQuery.sizeOf(context).width * 1.0,
                                     height:

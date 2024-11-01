@@ -58,25 +58,6 @@ dynamic separateAddressFromPlace(String address) {
   return addressDetails;
 }
 
-DocumentReference? refFromCollectionArray(
-  dynamic jsonObject,
-  DocumentReference targetRef,
-  DocumentReference userRef,
-  String collection,
-) {
-  for (var entry in jsonObject.entries) {
-    if (entry.value is DocumentReference && entry.value == targetRef) {
-      return FirebaseFirestore.instance
-          .collection('users')
-          .doc(userRef.id)
-          .collection(collection)
-          .doc(entry.key);
-    }
-  }
-  // If no match found, return null
-  return null;
-}
-
 bool checkGameRefInJson(
   dynamic jsonList,
   DocumentReference gameRef,
@@ -229,4 +210,18 @@ List<DateTime> createListofDateTime30DaysFromToday() {
         DateTime(currentDate.year, currentDate.month, currentDate.day + i));
   }
   return dateList;
+}
+
+double stringToDouble(String stringValue) {
+  // return the string casted as double, could be that the string is masked with currency letter, so treat this case and the decimal separator is comma
+  // Remove any non-numeric characters from the string
+  String cleanedString = stringValue.replaceAll(RegExp(r'[^0-9,]'), '');
+
+  // Replace comma with dot for decimal separator
+  cleanedString = cleanedString.replaceAll(',', '.');
+
+  // Parse the cleaned string to double
+  double result = double.parse(cleanedString);
+
+  return result;
 }

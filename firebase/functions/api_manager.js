@@ -1,13 +1,79 @@
 const axios = require("axios").default;
 const qs = require("qs");
 
+async function _getQuotationLalaMoveCall(context, ffVariables) {
+  if (!context.auth) {
+    return _unauthenticatedResponse;
+  }
+  var authToken =
+    ffVariables["authToken"] ??
+    "274358006c2ee90d6931b7f2c400c14ab69f74568166c2478a456ec282a3af5c0f040152cc0f3010d23256d1369d10319e49df12ccc0962f17625ad49b9132832ab2b8528f66b39ee600197a8d3def7db0e8bbc0fff8e09a96b5e34c68e2dd29684de20a38a6e196738b1e092a403e508f94a3310a7d00bdf94d9540a67bebd6";
+  var latSender = ffVariables["latSender"];
+  var lngSender = ffVariables["lngSender"];
+  var latReceiver = ffVariables["latReceiver"];
+  var lngReceiver = ffVariables["lngReceiver"];
+  var addressSender = ffVariables["addressSender"];
+  var addressReceiver = ffVariables["addressReceiver"];
+
+  var url = `https://getquotationlalamove-667069547103.us-central1.run.app`;
+  var headers = {};
+  var params = {};
+  var ffApiRequestBody = `
+{
+  "auth_token": "${authToken}",
+  "body": {
+    "data": {
+      "serviceType": "LALAGO",
+      "language": "pt_BR",
+      "stops": [
+        {
+          "coordinates": {
+            "lat": "${latSender}",
+            "lng": "${lngSender}"
+          },
+          "address": "${addressSender}"
+        },
+        {
+          "coordinates": {
+            "lat": "${latReceiver}",
+            "lng": "${lngReceiver}"
+          },
+          "address": "${addressReceiver}"
+        }
+      ],
+      "item": {
+        "quantity": "1",
+        "weight": "LESS_THAN_3KG"
+      }
+    }
+  }
+}`;
+
+  return makeApiRequest({
+    method: "post",
+    url,
+    headers,
+    params,
+    body: createBody({
+      headers,
+      params,
+      body: ffApiRequestBody,
+      bodyType: "JSON",
+    }),
+    returnBody: true,
+    isStreamingApi: false,
+  });
+}
+
 /// Helper functions to route to the appropriate API Call.
 
 async function makeApiCall(context, data) {
   var callName = data["callName"] || "";
   var variables = data["variables"] || {};
 
-  const callMap = {};
+  const callMap = {
+    GetQuotationLalaMoveCall: _getQuotationLalaMoveCall,
+  };
 
   if (!(callName in callMap)) {
     return {

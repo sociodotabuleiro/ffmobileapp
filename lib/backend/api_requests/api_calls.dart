@@ -1,4 +1,5 @@
 import 'dart:convert';
+import '../cloud_functions/cloud_functions.dart';
 
 import 'package:flutter/foundation.dart';
 
@@ -7,7 +8,7 @@ import 'package:ff_commons/api_requests/api_manager.dart';
 
 export 'package:ff_commons/api_requests/api_manager.dart' show ApiCallResponse;
 
-const _kPrivateApiFunctionName = 'ffPrivateApiCall';
+const _kPrivateApiFunctionName = 'ffGetQuotation';
 
 /// Start boxDelivery Group Code
 
@@ -670,6 +671,46 @@ class GetPixCodeCall {
       alwaysAllowBody: false,
     );
   }
+}
+
+class GetQuotationLalaMoveCall {
+  static Future<ApiCallResponse> call({
+    String? authToken,
+    String? latSender = '',
+    String? lngSender = '',
+    String? latReceiver = '',
+    String? lngReceiver = '',
+    String? addressSender = '',
+    String? addressReceiver = '',
+  }) async {
+    final response = await makeCloudCall(
+      _kPrivateApiFunctionName,
+      {
+        'callName': 'GetQuotationLalaMoveCall',
+        'variables': {
+          'authToken': authToken,
+          'latSender': latSender,
+          'lngSender': lngSender,
+          'latReceiver': latReceiver,
+          'lngReceiver': lngReceiver,
+          'addressSender': addressSender,
+          'addressReceiver': addressReceiver,
+        },
+      },
+    );
+    return ApiCallResponse.fromCloudCallResponse(response);
+  }
+
+  static String? totalPrice(dynamic response) =>
+      castToType<String>(getJsonField(
+        response,
+        r'''$.data.priceBreakdown.total''',
+      ));
+  static String? quotationId(dynamic response) =>
+      castToType<String>(getJsonField(
+        response,
+        r'''$.data.quotationId''',
+      ));
 }
 
 class ApiPagingParams {

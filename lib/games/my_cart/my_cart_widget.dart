@@ -237,7 +237,7 @@ class _MyCartWidgetState extends State<MyCartWidget>
                           child: TabBar(
                             labelColor: FlutterFlowTheme.of(context).primary,
                             unselectedLabelColor:
-                                FlutterFlowTheme.of(context).secondaryText,
+                                FlutterFlowTheme.of(context).primary,
                             labelPadding: const EdgeInsetsDirectional.fromSTEB(
                                 8.0, 0.0, 8.0, 0.0),
                             labelStyle: FlutterFlowTheme.of(context)

@@ -1,9 +1,68 @@
+import '/backend/backend.dart';
 import '/components/nav_bar/nav_bar_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'my_games_widget.dart' show MyGamesWidget;
 import 'package:flutter/material.dart';
 
 class MyGamesModel extends FlutterFlowModel<MyGamesWidget> {
+  ///  Local state fields for this page.
+
+  int currentIndexFavorites = 0;
+
+  int finalIndexFavoriites = 0;
+
+  List<GamesRecord> favoritedGamesDocList = [];
+  void addToFavoritedGamesDocList(GamesRecord item) =>
+      favoritedGamesDocList.add(item);
+  void removeFromFavoritedGamesDocList(GamesRecord item) =>
+      favoritedGamesDocList.remove(item);
+  void removeAtIndexFromFavoritedGamesDocList(int index) =>
+      favoritedGamesDocList.removeAt(index);
+  void insertAtIndexInFavoritedGamesDocList(int index, GamesRecord item) =>
+      favoritedGamesDocList.insert(index, item);
+  void updateFavoritedGamesDocListAtIndex(
+          int index, Function(GamesRecord) updateFn) =>
+      favoritedGamesDocList[index] = updateFn(favoritedGamesDocList[index]);
+
+  List<String> favoritedGamesNames = [];
+  void addToFavoritedGamesNames(String item) => favoritedGamesNames.add(item);
+  void removeFromFavoritedGamesNames(String item) =>
+      favoritedGamesNames.remove(item);
+  void removeAtIndexFromFavoritedGamesNames(int index) =>
+      favoritedGamesNames.removeAt(index);
+  void insertAtIndexInFavoritedGamesNames(int index, String item) =>
+      favoritedGamesNames.insert(index, item);
+  void updateFavoritedGamesNamesAtIndex(int index, Function(String) updateFn) =>
+      favoritedGamesNames[index] = updateFn(favoritedGamesNames[index]);
+
+  int currentIndexWishlist = 0;
+
+  int finalIndexWishlist = 0;
+
+  List<DocumentReference> wishlistGamesDocList = [];
+  void addToWishlistGamesDocList(DocumentReference item) =>
+      wishlistGamesDocList.add(item);
+  void removeFromWishlistGamesDocList(DocumentReference item) =>
+      wishlistGamesDocList.remove(item);
+  void removeAtIndexFromWishlistGamesDocList(int index) =>
+      wishlistGamesDocList.removeAt(index);
+  void insertAtIndexInWishlistGamesDocList(int index, DocumentReference item) =>
+      wishlistGamesDocList.insert(index, item);
+  void updateWishlistGamesDocListAtIndex(
+          int index, Function(DocumentReference) updateFn) =>
+      wishlistGamesDocList[index] = updateFn(wishlistGamesDocList[index]);
+
+  List<String> wishlistGamesNames = [];
+  void addToWishlistGamesNames(String item) => wishlistGamesNames.add(item);
+  void removeFromWishlistGamesNames(String item) =>
+      wishlistGamesNames.remove(item);
+  void removeAtIndexFromWishlistGamesNames(int index) =>
+      wishlistGamesNames.removeAt(index);
+  void insertAtIndexInWishlistGamesNames(int index, String item) =>
+      wishlistGamesNames.insert(index, item);
+  void updateWishlistGamesNamesAtIndex(int index, Function(String) updateFn) =>
+      wishlistGamesNames[index] = updateFn(wishlistGamesNames[index]);
+
   ///  State fields for stateful widgets in this page.
 
   // State field(s) for TextField widget.
@@ -17,6 +76,10 @@ class MyGamesModel extends FlutterFlowModel<MyGamesWidget> {
   int get tabBarCurrentIndex =>
       tabBarController != null ? tabBarController!.index : 0;
 
+  // Stores action output result for [Backend Call - Read Document] action in Tab widget.
+  GamesRecord? gamesDocument;
+  // Stores action output result for [Backend Call - Read Document] action in Tab widget.
+  GamesRecord? gamesDocumentWishlist;
   // Model for navBar component.
   late NavBarModel navBarModel;
 

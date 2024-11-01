@@ -1,3 +1,4 @@
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'add_price_add_game_widget.dart' show AddPriceAddGameWidget;
 import 'package:flutter/material.dart';
@@ -41,6 +42,9 @@ class AddPriceAddGameModel extends FlutterFlowModel<AddPriceAddGameWidget> {
   Map<DocumentReference, bool> checkboxValueMap = {};
   List<DocumentReference> get checkboxCheckedItems =>
       checkboxValueMap.entries.where((e) => e.value).map((e) => e.key).toList();
+
+  // Stores action output result for [Backend Call - Create Document] action in Button widget.
+  MyGamesRecord? myGameDocument;
 
   @override
   void initState(BuildContext context) {}

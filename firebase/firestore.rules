@@ -29,20 +29,6 @@ service cloud.firestore {
       allow delete: if false;
     }
 
-    match /users/{parent}/favoritedGames/{document} {
-      allow create: if request.auth.uid == parent;
-      allow read: if true;
-      allow write: if request.auth.uid == parent;
-      allow delete: if request.auth.uid == parent;
-    }
-
-    match /users/{parent}/wishlist/{document} {
-      allow create: if request.auth.uid == parent;
-      allow read: if true;
-      allow write: if request.auth.uid == parent;
-      allow delete: if request.auth.uid == parent;
-    }
-
     match /users/{parent}/cart/{document} {
       allow create: if request.auth.uid == parent;
       allow read: if true;

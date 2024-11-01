@@ -1,4 +1,5 @@
 import '/backend/api_requests/api_calls.dart';
+import '/backend/backend.dart';
 import '/components/nav_bar/nav_bar_widget.dart';
 import '/components/side_nav02/side_nav02_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -11,10 +12,12 @@ class HomePageModel extends FlutterFlowModel<HomePageWidget> {
 
   // Stores action output result for [Backend Call - API (createClientAsaas)] action in HomePage widget.
   ApiCallResponse? apiResultpfd;
+  // Stores action output result for [Firestore Query - Query a collection] action in HomePage widget.
+  List<GamesRecord>? featuredGamesMocked;
   // Stores action output result for [Backend Call - API (insertOrRetrieveToken)] action in HomePage widget.
   ApiCallResponse? apiResult37t;
   // State field(s) for Carousel widget.
-  CarouselController? carouselController;
+  CarouselSliderController? carouselController;
   int carouselCurrentIndex = 1;
 
   // Model for navBar component.

@@ -1,7 +1,9 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/games/add_price_add_game/add_price_add_game_widget.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -187,31 +189,25 @@ class _ConfirmAddGamesWidgetState extends State<ConfirmAddGamesWidget> {
               ),
               FFButtonWidget(
                 onPressed: () async {
-                  logFirebaseEvent('CONFIRM_ADD_GAMES_ADICONAR_BTN_ON_TAP');
-                  logFirebaseEvent('Button_alert_dialog');
-                  await showDialog(
-                    context: context,
-                    builder: (alertDialogContext) {
-                      return WebViewAware(
-                        child: AlertDialog(
-                          title: Text(_model.currentIndex!.toString()),
-                          content: Text(_model.finalIndex!.toString()),
-                          actions: [
-                            TextButton(
-                              onPressed: () =>
-                                  Navigator.pop(alertDialogContext),
-                              child: const Text('Ok'),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                  while (_model.currentIndex! <= _model.finalIndex!) {
+                  logFirebaseEvent('CONFIRM_ADD_GAMES_ADICIONAR_BTN_ON_TAP');
+                  logFirebaseEvent('Button_update_app_state');
+                  FFAppState().gamesToAdd = [];
+                  safeSetState(() {});
+                  while (_model.currentIndex! < _model.finalIndex!) {
+                    logFirebaseEvent('Button_backend_call');
+                    _model.document = await GamesRecord.getDocumentOnce(
+                        widget.choosenGames![_model.currentIndex!]);
                     logFirebaseEvent('Button_update_app_state');
                     FFAppState().addToGamesToAdd(GameToAddStruct(
                       gameRef: widget.choosenGames?[_model.currentIndex!],
-                      rentValue: 0.0,
+                      rentValue: valueOrDefault<double>(
+                        _model.document!.averagePrice * 0.2,
+                        0.0,
+                      ),
+                      isAvailableToRent: FFAppConstants.cities2Rent.contains(
+                              functions.normalizeString(
+                                  currentUserDocument!.address.city)) ==
+                          true,
                     ));
                     safeSetState(() {});
                     logFirebaseEvent('Button_update_component_state');
@@ -239,8 +235,10 @@ class _ConfirmAddGamesWidgetState extends State<ConfirmAddGamesWidget> {
                       );
                     },
                   ).then((value) => safeSetState(() {}));
+
+                  safeSetState(() {});
                 },
-                text: 'Adiconar',
+                text: 'Adicionar',
                 options: FFButtonOptions(
                   height: 40.0,
                   padding: const EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),

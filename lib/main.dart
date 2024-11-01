@@ -6,20 +6,25 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 import 'auth/firebase_auth/firebase_user_provider.dart';
 import 'auth/firebase_auth/auth_util.dart';
 
+import 'backend/push_notifications/push_notifications_util.dart';
 import '/backend/supabase/supabase.dart';
 import 'backend/firebase/firebase_config.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
+import 'package:flutter/foundation.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
-import 'backend/stripe/payment_manager.dart';
-
-import 'package:calendar/app_state.dart' as calendar_app_state;
+import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   GoRouter.optionURLReflectsImperativeAPIs = true;
   usePathUrlStrategy();
+
+  final environmentValues = FFDevEnvironmentValues();
+  await environmentValues.initialize();
+
   await initFirebase();
 
   await SupaFlow.initialize();
@@ -29,10 +34,12 @@ void main() async {
   final appState = FFAppState(); // Initialize FFAppState
   await appState.initializePersistedState();
 
-  final calendarAppState = calendar_app_state.FFAppState();
-  await calendarAppState.initializePersistedState();
+  final calendarIagfh0appstate = calendar_iagfh0_app_state.FFAppState();
+  await calendarIagfh0appstate.initializePersistedState();
 
-  await initializeStripe();
+  if (!kIsWeb) {
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  }
 
   runApp(MultiProvider(
     providers: [
@@ -40,7 +47,7 @@ void main() async {
         create: (context) => appState,
       ),
       ChangeNotifierProvider(
-        create: (context) => calendarAppState,
+        create: (context) => calendarIagfh0appstate,
       ),
     ],
     child: const MyApp(),
@@ -69,6 +76,7 @@ class _MyAppState extends State<MyApp> {
   late Stream<BaseAuthUser> userStream;
 
   final authUserSub = authenticatedUserStream.listen((_) {});
+  final fcmTokenSub = fcmTokenUserStream.listen((_) {});
 
   @override
   void initState() {
@@ -90,7 +98,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     authUserSub.cancel();
-
+    fcmTokenSub.cancel();
     super.dispose();
   }
 
@@ -112,6 +120,8 @@ class _MyAppState extends State<MyApp> {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
+        FallbackMaterialLocalizationDelegate(),
+        FallbackCupertinoLocalizationDelegate(),
       ],
       locale: _locale,
       supportedLocales: const [

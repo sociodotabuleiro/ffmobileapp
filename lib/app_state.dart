@@ -51,10 +51,10 @@ class FFAppState extends ChangeNotifier {
           _myGamesId;
     });
     await _safeInitAsync(() async {
-      _myGamesRef = (await secureStorage.getStringList('ff_myGamesRef'))
+      _myGamesGameRef = (await secureStorage.getStringList('ff_myGamesGameRef'))
               ?.map((path) => path.ref)
               .toList() ??
-          _myGamesRef;
+          _myGamesGameRef;
     });
     await _safeInitAsync(() async {
       _SdtWalletId =
@@ -85,10 +85,10 @@ class FFAppState extends ChangeNotifier {
           _wishlist;
     });
     await _safeInitAsync(() async {
-      _myGames = (await secureStorage.getStringList('ff_myGames'))
+      _featuredGames = (await secureStorage.getStringList('ff_featuredGames'))
               ?.map((path) => path.ref)
               .toList() ??
-          _myGames;
+          _featuredGames;
     });
   }
 
@@ -247,49 +247,49 @@ class FFAppState extends ChangeNotifier {
         'ff_myGamesId', _myGamesId.map((x) => x.path).toList());
   }
 
-  List<DocumentReference> _myGamesRef = [];
-  List<DocumentReference> get myGamesRef => _myGamesRef;
-  set myGamesRef(List<DocumentReference> value) {
-    _myGamesRef = value;
+  List<DocumentReference> _myGamesGameRef = [];
+  List<DocumentReference> get myGamesGameRef => _myGamesGameRef;
+  set myGamesGameRef(List<DocumentReference> value) {
+    _myGamesGameRef = value;
     secureStorage.setStringList(
-        'ff_myGamesRef', value.map((x) => x.path).toList());
+        'ff_myGamesGameRef', value.map((x) => x.path).toList());
   }
 
-  void deleteMyGamesRef() {
-    secureStorage.delete(key: 'ff_myGamesRef');
+  void deleteMyGamesGameRef() {
+    secureStorage.delete(key: 'ff_myGamesGameRef');
   }
 
-  void addToMyGamesRef(DocumentReference value) {
-    myGamesRef.add(value);
+  void addToMyGamesGameRef(DocumentReference value) {
+    myGamesGameRef.add(value);
     secureStorage.setStringList(
-        'ff_myGamesRef', _myGamesRef.map((x) => x.path).toList());
+        'ff_myGamesGameRef', _myGamesGameRef.map((x) => x.path).toList());
   }
 
-  void removeFromMyGamesRef(DocumentReference value) {
-    myGamesRef.remove(value);
+  void removeFromMyGamesGameRef(DocumentReference value) {
+    myGamesGameRef.remove(value);
     secureStorage.setStringList(
-        'ff_myGamesRef', _myGamesRef.map((x) => x.path).toList());
+        'ff_myGamesGameRef', _myGamesGameRef.map((x) => x.path).toList());
   }
 
-  void removeAtIndexFromMyGamesRef(int index) {
-    myGamesRef.removeAt(index);
+  void removeAtIndexFromMyGamesGameRef(int index) {
+    myGamesGameRef.removeAt(index);
     secureStorage.setStringList(
-        'ff_myGamesRef', _myGamesRef.map((x) => x.path).toList());
+        'ff_myGamesGameRef', _myGamesGameRef.map((x) => x.path).toList());
   }
 
-  void updateMyGamesRefAtIndex(
+  void updateMyGamesGameRefAtIndex(
     int index,
     DocumentReference Function(DocumentReference) updateFn,
   ) {
-    myGamesRef[index] = updateFn(_myGamesRef[index]);
+    myGamesGameRef[index] = updateFn(_myGamesGameRef[index]);
     secureStorage.setStringList(
-        'ff_myGamesRef', _myGamesRef.map((x) => x.path).toList());
+        'ff_myGamesGameRef', _myGamesGameRef.map((x) => x.path).toList());
   }
 
-  void insertAtIndexInMyGamesRef(int index, DocumentReference value) {
-    myGamesRef.insert(index, value);
+  void insertAtIndexInMyGamesGameRef(int index, DocumentReference value) {
+    myGamesGameRef.insert(index, value);
     secureStorage.setStringList(
-        'ff_myGamesRef', _myGamesRef.map((x) => x.path).toList());
+        'ff_myGamesGameRef', _myGamesGameRef.map((x) => x.path).toList());
   }
 
   PurchaseComponentsStruct _purchaseData = PurchaseComponentsStruct();
@@ -484,51 +484,6 @@ class FFAppState extends ChangeNotifier {
         'ff_wishlist', _wishlist.map((x) => x.path).toList());
   }
 
-  List<DocumentReference> _myGames = [];
-  List<DocumentReference> get myGames => _myGames;
-  set myGames(List<DocumentReference> value) {
-    _myGames = value;
-    secureStorage.setStringList(
-        'ff_myGames', value.map((x) => x.path).toList());
-  }
-
-  void deleteMyGames() {
-    secureStorage.delete(key: 'ff_myGames');
-  }
-
-  void addToMyGames(DocumentReference value) {
-    myGames.add(value);
-    secureStorage.setStringList(
-        'ff_myGames', _myGames.map((x) => x.path).toList());
-  }
-
-  void removeFromMyGames(DocumentReference value) {
-    myGames.remove(value);
-    secureStorage.setStringList(
-        'ff_myGames', _myGames.map((x) => x.path).toList());
-  }
-
-  void removeAtIndexFromMyGames(int index) {
-    myGames.removeAt(index);
-    secureStorage.setStringList(
-        'ff_myGames', _myGames.map((x) => x.path).toList());
-  }
-
-  void updateMyGamesAtIndex(
-    int index,
-    DocumentReference Function(DocumentReference) updateFn,
-  ) {
-    myGames[index] = updateFn(_myGames[index]);
-    secureStorage.setStringList(
-        'ff_myGames', _myGames.map((x) => x.path).toList());
-  }
-
-  void insertAtIndexInMyGames(int index, DocumentReference value) {
-    myGames.insert(index, value);
-    secureStorage.setStringList(
-        'ff_myGames', _myGames.map((x) => x.path).toList());
-  }
-
   List<GameToAddStruct> _gamesToAdd = [];
   List<GameToAddStruct> get gamesToAdd => _gamesToAdd;
   set gamesToAdd(List<GameToAddStruct> value) {
@@ -556,6 +511,86 @@ class FFAppState extends ChangeNotifier {
 
   void insertAtIndexInGamesToAdd(int index, GameToAddStruct value) {
     gamesToAdd.insert(index, value);
+  }
+
+  List<DocumentReference> _featuredGames = [];
+  List<DocumentReference> get featuredGames => _featuredGames;
+  set featuredGames(List<DocumentReference> value) {
+    _featuredGames = value;
+    secureStorage.setStringList(
+        'ff_featuredGames', value.map((x) => x.path).toList());
+  }
+
+  void deleteFeaturedGames() {
+    secureStorage.delete(key: 'ff_featuredGames');
+  }
+
+  void addToFeaturedGames(DocumentReference value) {
+    featuredGames.add(value);
+    secureStorage.setStringList(
+        'ff_featuredGames', _featuredGames.map((x) => x.path).toList());
+  }
+
+  void removeFromFeaturedGames(DocumentReference value) {
+    featuredGames.remove(value);
+    secureStorage.setStringList(
+        'ff_featuredGames', _featuredGames.map((x) => x.path).toList());
+  }
+
+  void removeAtIndexFromFeaturedGames(int index) {
+    featuredGames.removeAt(index);
+    secureStorage.setStringList(
+        'ff_featuredGames', _featuredGames.map((x) => x.path).toList());
+  }
+
+  void updateFeaturedGamesAtIndex(
+    int index,
+    DocumentReference Function(DocumentReference) updateFn,
+  ) {
+    featuredGames[index] = updateFn(_featuredGames[index]);
+    secureStorage.setStringList(
+        'ff_featuredGames', _featuredGames.map((x) => x.path).toList());
+  }
+
+  void insertAtIndexInFeaturedGames(int index, DocumentReference value) {
+    featuredGames.insert(index, value);
+    secureStorage.setStringList(
+        'ff_featuredGames', _featuredGames.map((x) => x.path).toList());
+  }
+
+  DocumentReference? _choosenRentUserRef;
+  DocumentReference? get choosenRentUserRef => _choosenRentUserRef;
+  set choosenRentUserRef(DocumentReference? value) {
+    _choosenRentUserRef = value;
+  }
+
+  List<DateTime> _choosenRentDates = [];
+  List<DateTime> get choosenRentDates => _choosenRentDates;
+  set choosenRentDates(List<DateTime> value) {
+    _choosenRentDates = value;
+  }
+
+  void addToChoosenRentDates(DateTime value) {
+    choosenRentDates.add(value);
+  }
+
+  void removeFromChoosenRentDates(DateTime value) {
+    choosenRentDates.remove(value);
+  }
+
+  void removeAtIndexFromChoosenRentDates(int index) {
+    choosenRentDates.removeAt(index);
+  }
+
+  void updateChoosenRentDatesAtIndex(
+    int index,
+    DateTime Function(DateTime) updateFn,
+  ) {
+    choosenRentDates[index] = updateFn(_choosenRentDates[index]);
+  }
+
+  void insertAtIndexInChoosenRentDates(int index, DateTime value) {
+    choosenRentDates.insert(index, value);
   }
 }
 

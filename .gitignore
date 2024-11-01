@@ -3,8 +3,8 @@
 .packages
 .pub-cache/
 build/
-.flutter-plugins
-.flutter-plugins-dependencies
+#.flutter-plugins
+#.flutter-plugins-dependencies
 .idea/
 .vscode/
 
@@ -15,11 +15,11 @@ ios/ServiceDefinitions.json
 ios/Runner/GeneratedPluginRegistrant.*
 
 # Android
-android/.gradle/
+#android/.gradle/
 android/app/build/
-android/local.properties
-android/app/google-services.json
-android/key.properties
+#android/local.properties
+#android/app/google-services.json
+#android/key.properties
 
 # Web
 web/firebase-messaging-sw.js
@@ -29,11 +29,11 @@ web/flutter_service_worker.js
 web/canvaskit/
 
 # Firebase / Google Services
-firebase/
-**/firebase/
-**/firebase_config.json
-**/google-services.json
-**/serviceAccountKey.json
+#firebase/
+#**/firebase/
+#**/firebase_config.json
+#**/google-services.json
+#**/serviceAccountKey.json
 
 # IDE files
 *.iml

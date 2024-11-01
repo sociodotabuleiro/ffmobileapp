@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
@@ -20,6 +24,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
+import '/auth/get_fcm_token.dart';
 
 import 'home_page_model.dart';
 export 'home_page_model.dart';
@@ -41,7 +46,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     super.initState();
     _model = createModel(context, () => HomePageModel());
 
+     // Check and add FCM token
+    _initializeFcmToken();
+
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'HomePage'});
+
+
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('HOME_PAGE_PAGE_HomePage_ON_INIT_STATE');
@@ -213,6 +223,16 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
+  }
+
+    Future<void> _initializeFcmToken() async {
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    if (fcmToken != null) {
+      await addFcmTokenIfNotExists(
+        fcmToken,
+        Platform.isIOS ? 'iOS' : 'Android',
+      );
+    }
   }
 
   @override

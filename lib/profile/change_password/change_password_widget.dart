@@ -1,9 +1,14 @@
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:local_auth/local_auth.dart'; // For biometric authentication
+import 'package:firebase_auth/firebase_auth.dart'; // For Firebase auth
+
 import 'change_password_model.dart';
 export 'change_password_model.dart';
 
@@ -17,16 +22,15 @@ class ChangePasswordWidget extends StatefulWidget {
 
 class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
   late ChangePasswordModel _model;
-
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final LocalAuthentication localAuth = LocalAuthentication(); // Biometric auth
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => ChangePasswordModel());
 
-    logFirebaseEvent('screen_view',
-        parameters: {'screen_name': 'changePassword'});
+    logFirebaseEvent('screen_view', parameters: {'screen_name': 'changePassword'});
     _model.passwordTextController ??= TextEditingController();
     _model.passwordFocusNode ??= FocusNode();
 
@@ -39,8 +43,86 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
   @override
   void dispose() {
     _model.dispose();
-
     super.dispose();
+  }
+
+  Future<void> _changePassword(String newPassword) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+
+    if (user != null) {
+      bool didAuthenticate = false;
+
+      // Attempt biometric authentication
+      try {
+        didAuthenticate = await localAuth.authenticate(
+          localizedReason: 'Autentique a biometria para modificar a senha!',
+          options: const AuthenticationOptions(biometricOnly: true),
+        );
+      } catch (e) {
+        print('Autenticação biométrica falhou: $e');
+      }
+
+      if (didAuthenticate) {
+        // Biometric authentication succeeded, update password directly
+        await user.updatePassword(newPassword);
+        print('Senha modificada com sucesso via biometria!');
+        logFirebaseEvent(
+        'password_changed',
+        parameters: {'method': 'biometric'},
+      );
+      } else {
+        // Prompt for current password if biometrics fail or aren't available
+        String? currentPassword = await _promptForPassword(context);
+        if (currentPassword != null && currentPassword.isNotEmpty) {
+          try {
+            AuthCredential credential = EmailAuthProvider.credential(
+              email: user.email!,
+              password: currentPassword,
+            );
+            await user.reauthenticateWithCredential(credential);
+            await user.updatePassword(newPassword);
+            print('Senha modificada com sucesso!');
+            logFirebaseEvent(
+            'password_changed',
+            parameters: {'method': 'password'},
+          );
+          } on FirebaseAuthException catch (e) {
+            print('Erro: $e');
+          }
+        } else {
+          print('Entrada de senha cancelada ou vazia');
+        }
+      }
+    } else {
+      print('Nenhum usuário esta logado');
+    }
+  }
+
+  Future<String?> _promptForPassword(BuildContext context) async {
+    final TextEditingController passwordController = TextEditingController();
+
+    return showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Insira senha atual'),
+        content: TextField(
+          controller: passwordController,
+          obscureText: true,
+          decoration: InputDecoration(hintText: 'Senha atual'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(null), // Cancel dialog
+            child: Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(passwordController.text),
+            child: Text('Confirmar'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -53,6 +135,37 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+            appBar: AppBar(
+              backgroundColor: FlutterFlowTheme.of(context).primary,
+              automaticallyImplyLeading: false,
+              leading: FlutterFlowIconButton(
+                borderColor: Colors.transparent,
+                borderRadius: 30,
+                buttonSize: 48,
+                icon: Icon(
+                  Icons.arrow_back_rounded,
+                  color: FlutterFlowTheme.of(context).info,
+                  size: 25,
+                ),
+                onPressed: () async {
+                  logFirebaseEvent('CHANGE_PASSWORD_arrow_back_rounded_ICN_O');
+                  logFirebaseEvent('IconButton_navigate_back');
+                  context.safePop();
+                },
+              ),
+              title: Text(
+                'Modificar a senha',
+                style: FlutterFlowTheme.of(context).titleSmall.override(
+                      fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
+                      letterSpacing: 0.0,
+                      useGoogleFonts: GoogleFonts.asMap().containsKey(
+                          FlutterFlowTheme.of(context).titleSmallFamily),
+                    ),
+              ),
+              actions: [],
+              centerTitle: false,
+              elevation: 0,
+            ),
             body: SafeArea(
               top: true,
               child: Row(
@@ -61,166 +174,48 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                   Expanded(
                     flex: 8,
                     child: Container(
-                      width: 100.0,
+                      width: 100,
                       height: double.infinity,
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
-                      alignment: const AlignmentDirectional(0.0, -1.0),
+                      alignment: AlignmentDirectional(0, -1),
                       child: SingleChildScrollView(
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              width: double.infinity,
-                              height: 140.0,
-                              decoration: BoxDecoration(
-                                color: FlutterFlowTheme.of(context)
-                                    .secondaryBackground,
-                                borderRadius: const BorderRadius.only(
-                                  bottomLeft: Radius.circular(16.0),
-                                  bottomRight: Radius.circular(16.0),
-                                  topLeft: Radius.circular(0.0),
-                                  topRight: Radius.circular(0.0),
-                                ),
-                              ),
-                              alignment: const AlignmentDirectional(-1.0, 0.0),
-                              child: Align(
-                                alignment: const AlignmentDirectional(0.0, 0.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.asset(
-                                    'assets/images/logo_sdt.png',
-                                    width: 200.0,
-                                    height: 200.0,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                            ),
                             Align(
-                              alignment: const AlignmentDirectional(0.0, 0.0),
+                              alignment: AlignmentDirectional(0, 0),
                               child: Padding(
-                                padding: const EdgeInsets.all(32.0),
+                                padding: EdgeInsets.all(32),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'Trocar a senha',
-                                      style: FlutterFlowTheme.of(context)
-                                          .displaySmall
-                                          .override(
-                                            fontFamily:
-                                                FlutterFlowTheme.of(context)
-                                                    .displaySmallFamily,
-                                            letterSpacing: 0.0,
-                                            useGoogleFonts: GoogleFonts.asMap()
-                                                .containsKey(
-                                                    FlutterFlowTheme.of(context)
-                                                        .displaySmallFamily),
-                                          ),
-                                    ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 12.0, 0.0, 24.0),
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 12, 0, 24),
                                       child: Text(
                                         'Digite a nova senha',
                                         style: FlutterFlowTheme.of(context)
-                                            .labelMedium
-                                            .override(
-                                              fontFamily:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMediumFamily,
-                                              letterSpacing: 0.0,
-                                              useGoogleFonts: GoogleFonts
-                                                      .asMap()
-                                                  .containsKey(
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .labelMediumFamily),
-                                            ),
+                                            .labelMedium,
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 0.0, 0.0, 16.0),
-                                      child: SizedBox(
-                                        width: 370.0,
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 0, 0, 16),
+                                      child: Container(
+                                        width: 370,
                                         child: TextFormField(
                                           controller:
                                               _model.passwordTextController,
                                           focusNode: _model.passwordFocusNode,
                                           autofocus: true,
-                                          autofillHints: const [
-                                            AutofillHints.password
-                                          ],
                                           obscureText:
                                               !_model.passwordVisibility,
                                           decoration: InputDecoration(
-                                            labelText: 'Password',
-                                            labelStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelMedium
-                                                    .override(
-                                                      fontFamily:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelMediumFamily,
-                                                      letterSpacing: 0.0,
-                                                      useGoogleFonts: GoogleFonts
-                                                              .asMap()
-                                                          .containsKey(
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .labelMediumFamily),
-                                                    ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryBackground,
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                            ),
-                                            errorBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .error,
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                            ),
-                                            focusedErrorBorder:
-                                                OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .error,
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                            ),
-                                            filled: true,
-                                            fillColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primaryBackground,
+                                            labelText: 'Senha',
                                             suffixIcon: InkWell(
                                               onTap: () => safeSetState(
                                                 () => _model
@@ -237,24 +232,10 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .secondaryText,
-                                                size: 24.0,
+                                                size: 24,
                                               ),
                                             ),
                                           ),
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMediumFamily,
-                                                letterSpacing: 0.0,
-                                                useGoogleFonts: GoogleFonts
-                                                        .asMap()
-                                                    .containsKey(
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMediumFamily),
-                                              ),
                                           validator: _model
                                               .passwordTextControllerValidator
                                               .asValidator(context),
@@ -262,84 +243,20 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 0.0, 0.0, 16.0),
-                                      child: SizedBox(
-                                        width: 370.0,
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 0, 0, 16),
+                                      child: Container(
+                                        width: 370,
                                         child: TextFormField(
                                           controller: _model
                                               .passwordConfirmTextController,
                                           focusNode:
                                               _model.passwordConfirmFocusNode,
                                           autofocus: true,
-                                          autofillHints: const [
-                                            AutofillHints.password
-                                          ],
                                           obscureText:
                                               !_model.passwordConfirmVisibility,
                                           decoration: InputDecoration(
-                                            labelText: 'Confirm Password',
-                                            labelStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelMedium
-                                                    .override(
-                                                      fontFamily:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelMediumFamily,
-                                                      letterSpacing: 0.0,
-                                                      useGoogleFonts: GoogleFonts
-                                                              .asMap()
-                                                          .containsKey(
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .labelMediumFamily),
-                                                    ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryBackground,
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                            ),
-                                            errorBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .error,
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                            ),
-                                            focusedErrorBorder:
-                                                OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .error,
-                                                width: 2.0,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                            ),
-                                            filled: true,
-                                            fillColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primaryBackground,
+                                            labelText: 'Confirmar Senha',
                                             suffixIcon: InkWell(
                                               onTap: () => safeSetState(
                                                 () => _model
@@ -357,25 +274,10 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .secondaryText,
-                                                size: 24.0,
+                                                size: 24,
                                               ),
                                             ),
                                           ),
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMediumFamily,
-                                                letterSpacing: 0.0,
-                                                useGoogleFonts: GoogleFonts
-                                                        .asMap()
-                                                    .containsKey(
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMediumFamily),
-                                              ),
-                                          minLines: 1,
                                           validator: _model
                                               .passwordConfirmTextControllerValidator
                                               .asValidator(context),
@@ -383,47 +285,34 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 0.0, 0.0, 16.0),
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 0, 0, 16),
                                       child: FFButtonWidget(
                                         onPressed: () {
-                                          print('Button pressed ...');
+                                          // Password change logic
+                                          String newPassword =
+                                              _model.passwordTextController.text;
+                                          if (newPassword ==
+                                              _model
+                                                  .passwordConfirmTextController
+                                                  .text) {
+                                            _changePassword(newPassword);
+                                          } else {
+                                            print('Senhas não são iguais');
+                                          }
                                         },
                                         text: 'Trocar senha',
                                         options: FFButtonOptions(
-                                          width: 370.0,
-                                          height: 44.0,
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 0.0, 0.0),
-                                          iconPadding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 0.0, 0.0),
+                                          width: 370,
+                                          height: 44,
                                           color: FlutterFlowTheme.of(context)
                                               .primary,
                                           textStyle: FlutterFlowTheme.of(
                                                   context)
                                               .titleSmall
-                                              .override(
-                                                fontFamily:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleSmallFamily,
-                                                color: Colors.white,
-                                                letterSpacing: 0.0,
-                                                useGoogleFonts: GoogleFonts
-                                                        .asMap()
-                                                    .containsKey(
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .titleSmallFamily),
-                                              ),
-                                          elevation: 3.0,
-                                          borderSide: const BorderSide(
-                                            color: Colors.transparent,
-                                            width: 1.0,
-                                          ),
+                                              .copyWith(color: Colors.white),
                                           borderRadius:
-                                              BorderRadius.circular(12.0),
+                                              BorderRadius.circular(12),
                                         ),
                                       ),
                                     ),
@@ -436,32 +325,6 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                       ),
                     ),
                   ),
-                  if (responsiveVisibility(
-                    context: context,
-                    phone: false,
-                    tablet: false,
-                  ))
-                    Expanded(
-                      flex: 6,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Container(
-                          width: 100.0,
-                          height: double.infinity,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                            image: const DecorationImage(
-                              fit: BoxFit.cover,
-                              image: CachedNetworkImageProvider(
-                                'https://images.unsplash.com/photo-1514924013411-cbf25faa35bb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1380&q=80',
-                              ),
-                            ),
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                        ),
-                      ),
-                    ),
                 ],
               ),
             ),

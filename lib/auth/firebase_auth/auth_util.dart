@@ -1,9 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../auth_manager.dart';
 import '../base_auth_user_provider.dart';
 import '../../flutter_flow/flutter_flow_util.dart';
 
@@ -57,7 +55,7 @@ final authenticatedUserStream = FirebaseAuth.instance
               .handleError((_) {}),
     )
     .map((user) {
-  currentUserDocument = user;
+  currentUserDocument = user as UsersRecord?;
 
   return currentUserDocument;
 }).asBroadcastStream();

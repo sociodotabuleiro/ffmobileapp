@@ -45,7 +45,7 @@ class _GameToRentCopyWidgetState extends State<GameToRentCopyWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('GAME_TO_RENT_COPY_gameToRentCopy_ON_INIT');
       logFirebaseEvent('gameToRentCopy_backend_call');
-      _model.user = await UsersRecord.getDocumentOnce(widget.userRef!);
+      _model.user = (await UsersRecord.getDocumentOnce(widget.userRef!)) as UsersRecord?;
       logFirebaseEvent('gameToRentCopy_firestore_query');
       _model.game2rent = await queryMyGamesRecordOnce(
         parent: widget.userRef,

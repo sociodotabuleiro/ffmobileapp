@@ -9,9 +9,18 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:sociodotabuleiro/main.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
+
+FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
+
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget( MyApp(
+        analytics: analytics,
+        observer: observer,));
   });
 }

@@ -48,7 +48,7 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('GAME_TO_RENT_gameToRent_ON_INIT_STATE');
       logFirebaseEvent('gameToRent_backend_call');
-      _model.userObject = await UsersRecord.getDocumentOnce(widget.userRef!);
+      _model.userObject = (await UsersRecord.getDocumentOnce(widget.userRef!)) as UsersRecord?;
       logFirebaseEvent('gameToRent_custom_action');
       _model.distanceCalculated = await actions.distanceBetween2Points(
         currentUserDocument!.address.lat,
@@ -67,7 +67,7 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
       ).then((s) => s.firstOrNull);
       logFirebaseEvent('gameToRent_backend_call');
       _model.authUserObject =
-          await UsersRecord.getDocumentOnce(currentUserReference!);
+          (await UsersRecord.getDocumentOnce(currentUserReference!)) as UsersRecord?;
       logFirebaseEvent('gameToRent_custom_action');
       _model.quotationJson = await actions.getQuotationLalaMove(
         _model.userObject!.address.lat.toString(),

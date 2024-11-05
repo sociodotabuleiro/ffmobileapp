@@ -4,6 +4,14 @@ import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'nav_bar_model.dart';
 export 'nav_bar_model.dart';
+import '/backend/backend.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+
+
 
 class NavBarWidget extends StatefulWidget {
   const NavBarWidget({super.key});

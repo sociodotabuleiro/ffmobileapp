@@ -30,6 +30,7 @@ import 'package:firebase_analytics/observer.dart';
 
 import '/auth/get_fcm_token.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   GoRouter.optionURLReflectsImperativeAPIs = true;

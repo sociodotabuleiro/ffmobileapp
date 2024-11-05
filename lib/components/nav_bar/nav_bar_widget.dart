@@ -1,11 +1,7 @@
-import '/auth/firebase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'package:badges/badges.dart' as badges;
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'nav_bar_model.dart';
 export 'nav_bar_model.dart';
 
@@ -47,7 +43,7 @@ class _NavBarWidgetState extends State<NavBarWidget> {
       height: 70.0,
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).primary,
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(0.0),
           bottomRight: Radius.circular(0.0),
           topLeft: Radius.circular(16.0),
@@ -116,41 +112,12 @@ class _NavBarWidgetState extends State<NavBarWidget> {
                   size: 32.0,
                 ),
                 onPressed: () async {
-                  logFirebaseEvent('NAV_BAR_COMP_cartButton_ON_TAP');
-                  logFirebaseEvent('cartButton_navigate_to');
+                  logFirebaseEvent('NAV_BAR_COMP_requestsButton_ON_TAP');
+                  logFirebaseEvent('requestsButton_navigate_to');
 
                   context.pushNamed('deliveryStatus');
                 },
               ),
-              if ((valueOrDefault(currentUserDocument?.cartCount, 0) != null) &&
-                      (valueOrDefault(currentUserDocument?.cartCount, 0) > 0)
-                  ? true
-                  : false)
-                AuthUserStreamWidget(
-                  builder: (context) => badges.Badge(
-                    badgeContent: Text(
-                      valueOrDefault(currentUserDocument?.cartCount, 0)
-                          .toString(),
-                      style: FlutterFlowTheme.of(context).titleSmall.override(
-                            fontFamily:
-                                FlutterFlowTheme.of(context).titleSmallFamily,
-                            color: Colors.white,
-                            fontSize: 16.0,
-                            letterSpacing: 0.0,
-                            useGoogleFonts: GoogleFonts.asMap().containsKey(
-                                FlutterFlowTheme.of(context).titleSmallFamily),
-                          ),
-                    ),
-                    showBadge: true,
-                    shape: badges.BadgeShape.circle,
-                    badgeColor: FlutterFlowTheme.of(context).secondary,
-                    elevation: 4.0,
-                    padding: EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
-                    position: badges.BadgePosition.topEnd(),
-                    animationType: badges.BadgeAnimationType.scale,
-                    toAnimate: true,
-                  ),
-                ),
             ],
           ),
           FlutterFlowIconButton(

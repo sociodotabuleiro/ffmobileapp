@@ -10,6 +10,7 @@ export '../base_auth_user_provider.dart';
 class SociodotabuleiroFirebaseUser extends BaseAuthUser {
   SociodotabuleiroFirebaseUser(this.user);
   User? user;
+  @override
   bool get loggedIn => user != null;
 
   @override
@@ -74,3 +75,4 @@ Stream<BaseAuthUser> sociodotabuleiroFirebaseUserStream() =>
         return currentUser!;
       },
     );
+

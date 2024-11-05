@@ -1,16 +1,11 @@
-import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:octo_image/octo_image.dart';
-import 'package:provider/provider.dart';
 import 'gamelist_card_my_games_model.dart';
 export 'gamelist_card_my_games_model.dart';
 
@@ -48,9 +43,9 @@ class _GamelistCardMyGamesWidgetState extends State<GamelistCardMyGamesWidget> {
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('GAMELIST_CARD_MY_GAMES_gamelistCardMyGam');
-      if (widget!.gameRef != null) {
+      if (widget.gameRef != null) {
         logFirebaseEvent('gamelistCardMyGames_backend_call');
-        _model.gameByRef = await GamesRecord.getDocumentOnce(widget!.gameRef!);
+        _model.gameByRef = await GamesRecord.getDocumentOnce(widget.gameRef!);
         logFirebaseEvent('gamelistCardMyGames_update_component_sta');
         _model.gameObject = _model.gameByRef;
         _model.gamePicUrl = _model.gameByRef?.thumbnailUrl;
@@ -58,23 +53,23 @@ class _GamelistCardMyGamesWidgetState extends State<GamelistCardMyGamesWidget> {
         _model.gameDescription = _model.gameByRef?.description;
         _model.gamePrice = _model.gameByRef?.averagePrice;
         _model.gameRating = _model.gameByRef?.rating;
-        _model.playersCount = _model.gameByRef?.playerCountMax?.toString();
-        _model.playtime = _model.gameByRef?.playTime?.toString();
+        _model.playersCount = _model.gameByRef?.playerCountMax.toString();
+        _model.playtime = _model.gameByRef?.playTime.toString();
         _model.ageRecommendation =
-            _model.gameByRef?.ageRecommendation?.toString();
+            _model.gameByRef?.ageRecommendation.toString();
         safeSetState(() {});
       } else {
         logFirebaseEvent('gamelistCardMyGames_update_component_sta');
-        _model.gameObject = widget!.gameObject;
-        _model.gamePicUrl = widget!.gameObject?.thumbnailUrl;
-        _model.gameName = widget!.gameObject?.name;
-        _model.gameDescription = widget!.gameObject?.description;
-        _model.gamePrice = widget!.gameObject?.averagePrice;
-        _model.gameRating = widget!.gameObject?.rating;
-        _model.playersCount = widget!.gameObject?.playerCountMax?.toString();
-        _model.playtime = widget!.gameObject?.playTime?.toString();
+        _model.gameObject = widget.gameObject;
+        _model.gamePicUrl = widget.gameObject?.thumbnailUrl;
+        _model.gameName = widget.gameObject?.name;
+        _model.gameDescription = widget.gameObject?.description;
+        _model.gamePrice = widget.gameObject?.averagePrice;
+        _model.gameRating = widget.gameObject?.rating;
+        _model.playersCount = widget.gameObject?.playerCountMax.toString();
+        _model.playtime = widget.gameObject?.playTime.toString();
         _model.ageRecommendation =
-            widget!.gameObject?.ageRecommendation?.toString();
+            widget.gameObject?.ageRecommendation.toString();
         safeSetState(() {});
       }
     });
@@ -92,7 +87,7 @@ class _GamelistCardMyGamesWidgetState extends State<GamelistCardMyGamesWidget> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<MyGamesRecord>(
-      stream: MyGamesRecord.getDocument(widget!.myGameRef!),
+      stream: MyGamesRecord.getDocument(widget.myGameRef!),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -148,34 +143,34 @@ class _GamelistCardMyGamesWidgetState extends State<GamelistCardMyGamesWidget> {
             child: Stack(
               children: [
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 12.0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 12.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             16.0, 8.0, 16.0, 12.0),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16.0),
                           child: CachedNetworkImage(
-                            fadeInDuration: Duration(milliseconds: 500),
-                            fadeOutDuration: Duration(milliseconds: 500),
+                            fadeInDuration: const Duration(milliseconds: 500),
+                            fadeOutDuration: const Duration(milliseconds: 500),
                             imageUrl: _model.gamePicUrl!,
                             width: MediaQuery.sizeOf(context).width * 0.25,
                             height: 75.0,
                             fit: BoxFit.cover,
-                            alignment: Alignment(0.0, 0.0),
+                            alignment: const Alignment(0.0, 0.0),
                           ),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         width: MediaQuery.sizeOf(context).width * 1.0,
                         height: 80.0,
                         child: Stack(
                           children: [
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   16.0, 0.0, 16.0, 4.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
@@ -203,10 +198,10 @@ class _GamelistCardMyGamesWidgetState extends State<GamelistCardMyGamesWidget> {
                                         ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         16.0, 0.0, 0.0, 0.0),
                                     child: Text(
-                                      '${containerMyGamesRecord.price.toString()}',
+                                      containerMyGamesRecord.price.toString(),
                                       style: FlutterFlowTheme.of(context)
                                           .titleLarge
                                           .override(
@@ -226,16 +221,16 @@ class _GamelistCardMyGamesWidgetState extends State<GamelistCardMyGamesWidget> {
                               ),
                             ),
                             Align(
-                              alignment: AlignmentDirectional(0.0, 0.0),
+                              alignment: const AlignmentDirectional(0.0, 0.0),
                               child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     16.0, 0.0, 16.0, 4.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Align(
-                                      alignment: AlignmentDirectional(0.0, 0.0),
+                                      alignment: const AlignmentDirectional(0.0, 0.0),
                                       child: Text(
                                         valueOrDefault<String>(
                                           _model.gameDescription,
@@ -261,7 +256,7 @@ class _GamelistCardMyGamesWidgetState extends State<GamelistCardMyGamesWidget> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           16.0, 4.0, 4.0, 0.0),
                                       child: Text(
                                         valueOrDefault<String>(
@@ -300,9 +295,9 @@ class _GamelistCardMyGamesWidgetState extends State<GamelistCardMyGamesWidget> {
                               ),
                             ),
                             Align(
-                              alignment: AlignmentDirectional(0.0, 1.0),
+                              alignment: const AlignmentDirectional(0.0, 1.0),
                               child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     16.0, 16.0, 16.0, 4.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
@@ -320,7 +315,7 @@ class _GamelistCardMyGamesWidgetState extends State<GamelistCardMyGamesWidget> {
                                         ),
                                         Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   8.0, 0.0, 0.0, 0.0),
                                           child: Text(
                                             valueOrDefault<String>(
@@ -357,7 +352,7 @@ class _GamelistCardMyGamesWidgetState extends State<GamelistCardMyGamesWidget> {
                                         ),
                                         Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   8.0, 0.0, 0.0, 0.0),
                                           child: Text(
                                             valueOrDefault<String>(
@@ -394,7 +389,7 @@ class _GamelistCardMyGamesWidgetState extends State<GamelistCardMyGamesWidget> {
                                         ),
                                         Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   8.0, 0.0, 0.0, 0.0),
                                           child: Text(
                                             valueOrDefault<String>(

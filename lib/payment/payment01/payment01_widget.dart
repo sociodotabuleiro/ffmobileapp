@@ -6,7 +6,6 @@ import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'payment01_model.dart';
 export 'payment01_model.dart';
 
@@ -77,7 +76,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                           FlutterFlowTheme.of(context).bodyMediumFamily),
                     ),
               ),
-              actions: [],
+              actions: const [],
               centerTitle: true,
               elevation: 0.0,
             ),
@@ -88,12 +87,12 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                 children: [
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 16.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 16.0, 0.0),
                     child: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).secondaryBackground,
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             blurRadius: 5.0,
                             color: Color(0x44111417),
@@ -106,18 +105,18 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.all(4.0),
+                        padding: const EdgeInsets.all(4.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   8.0, 4.0, 8.0, 4.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0.0, 2.0, 0.0, 0.0),
                                     child: Icon(
                                       Icons.credit_card_rounded,
@@ -128,7 +127,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                                   ),
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           12.0, 0.0, 0.0, 0.0),
                                       child: Material(
                                         color: Colors.transparent,
@@ -141,7 +140,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                                               ),
                                             ),
                                             unselectedWidgetColor:
-                                                Color(0xFF95A1AC),
+                                                const Color(0xFF95A1AC),
                                           ),
                                           child: CheckboxListTile(
                                             value: _model
@@ -171,7 +170,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                                                                     .bodyMediumFamily),
                                                       ),
                                             ),
-                                            tileColor: Color(0xFFF5F5F5),
+                                            tileColor: const Color(0xFFF5F5F5),
                                             activeColor:
                                                 FlutterFlowTheme.of(context)
                                                     .primary,
@@ -189,7 +188,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                             ),
                             if (_model.checkboxListTileValue1 ?? true)
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     12.0, 8.0, 12.0, 0.0),
                                 child: TextFormField(
                                   controller: _model.textController,
@@ -250,7 +249,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                               ),
                             if (_model.checkboxListTileValue1 ?? true)
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     12.0, 0.0, 12.0, 0.0),
                                 child: FlutterFlowCreditCardForm(
                                   formKey: _model.creditCardFormKey,
@@ -296,12 +295,12 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                   ),
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 16.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 16.0, 0.0),
                     child: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).secondaryBackground,
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             blurRadius: 5.0,
                             color: Color(0x44111417),
@@ -314,18 +313,18 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.all(4.0),
+                        padding: const EdgeInsets.all(4.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   8.0, 4.0, 8.0, 4.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0.0, 2.0, 0.0, 0.0),
                                     child: FaIcon(
                                       FontAwesomeIcons.ccPaypal,
@@ -336,7 +335,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                                   ),
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           12.0, 0.0, 0.0, 0.0),
                                       child: Material(
                                         color: Colors.transparent,
@@ -349,7 +348,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                                               ),
                                             ),
                                             unselectedWidgetColor:
-                                                Color(0xFF95A1AC),
+                                                const Color(0xFF95A1AC),
                                           ),
                                           child: CheckboxListTile(
                                             value: _model
@@ -379,7 +378,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                                                                     .bodyMediumFamily),
                                                       ),
                                             ),
-                                            tileColor: Color(0xFFF5F5F5),
+                                            tileColor: const Color(0xFFF5F5F5),
                                             activeColor:
                                                 FlutterFlowTheme.of(context)
                                                     .primary,
@@ -402,12 +401,12 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                   ),
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 16.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(16.0, 12.0, 16.0, 0.0),
                     child: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).secondaryBackground,
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             blurRadius: 5.0,
                             color: Color(0x44111417),
@@ -420,18 +419,18 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.all(4.0),
+                        padding: const EdgeInsets.all(4.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   8.0, 4.0, 8.0, 4.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0.0, 2.0, 0.0, 0.0),
                                     child: FaIcon(
                                       FontAwesomeIcons.ccApplePay,
@@ -442,7 +441,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                                   ),
                                   Expanded(
                                     child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           12.0, 0.0, 0.0, 0.0),
                                       child: Material(
                                         color: Colors.transparent,
@@ -455,7 +454,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                                               ),
                                             ),
                                             unselectedWidgetColor:
-                                                Color(0xFF95A1AC),
+                                                const Color(0xFF95A1AC),
                                           ),
                                           child: CheckboxListTile(
                                             value: _model
@@ -485,7 +484,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                                                                     .bodyMediumFamily),
                                                       ),
                                             ),
-                                            tileColor: Color(0xFFF5F5F5),
+                                            tileColor: const Color(0xFFF5F5F5),
                                             activeColor:
                                                 FlutterFlowTheme.of(context)
                                                     .primary,
@@ -509,7 +508,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                   Expanded(
                     child: Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 24.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 24.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -520,16 +519,16 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                                 print('Button pressed ...');
                               },
                               text: 'Apple Pay',
-                              icon: FaIcon(
+                              icon: const FaIcon(
                                 FontAwesomeIcons.apple,
                                 size: 15.0,
                               ),
                               options: FFButtonOptions(
                                 width: 270.0,
                                 height: 50.0,
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
-                                iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
                                 color: FlutterFlowTheme.of(context).primaryText,
                                 textStyle: FlutterFlowTheme.of(context)
@@ -546,7 +545,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                                                   .titleSmallFamily),
                                     ),
                                 elevation: 2.0,
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.transparent,
                                   width: 1.0,
                                 ),
@@ -562,9 +561,9 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                               options: FFButtonOptions(
                                 width: 270.0,
                                 height: 50.0,
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
-                                iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
                                 color: FlutterFlowTheme.of(context).primaryText,
                                 textStyle: FlutterFlowTheme.of(context)
@@ -581,7 +580,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                                                   .titleSmallFamily),
                                     ),
                                 elevation: 2.0,
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.transparent,
                                   width: 1.0,
                                 ),
@@ -594,16 +593,16 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                                 print('Button pressed ...');
                               },
                               text: 'Pay w/Paypal',
-                              icon: FaIcon(
+                              icon: const FaIcon(
                                 FontAwesomeIcons.paypal,
                                 size: 15.0,
                               ),
                               options: FFButtonOptions(
                                 width: 270.0,
                                 height: 50.0,
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
-                                iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
                                 color: FlutterFlowTheme.of(context).primaryText,
                                 textStyle: FlutterFlowTheme.of(context)
@@ -620,7 +619,7 @@ class _Payment01WidgetState extends State<Payment01Widget> {
                                                   .titleSmallFamily),
                                     ),
                                 elevation: 2.0,
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                   color: Colors.transparent,
                                   width: 1.0,
                                 ),

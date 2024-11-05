@@ -6,9 +6,7 @@ import '/components/nav_bar/nav_bar_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:convert';
 import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -67,16 +65,16 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
             appBar: PreferredSize(
-              preferredSize: Size.fromHeight(40.0),
+              preferredSize: const Size.fromHeight(40.0),
               child: AppBar(
                 backgroundColor:
                     FlutterFlowTheme.of(context).secondaryBackground,
                 automaticallyImplyLeading: false,
                 leading: Align(
-                  alignment: AlignmentDirectional(-1.0, 0.0),
+                  alignment: const AlignmentDirectional(-1.0, 0.0),
                   child: Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 0.0),
                     child: FlutterFlowIconButton(
                       borderColor: Colors.transparent,
                       borderRadius: 30.0,
@@ -96,7 +94,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                     ),
                   ),
                 ),
-                actions: [],
+                actions: const [],
                 centerTitle: true,
                 elevation: 0.0,
               ),
@@ -104,21 +102,21 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
             body: Container(
               width: MediaQuery.sizeOf(context).width * 1.0,
               height: MediaQuery.sizeOf(context).height * 1.0,
-              decoration: BoxDecoration(),
+              decoration: const BoxDecoration(),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Align(
-                    alignment: AlignmentDirectional(0.0, -1.0),
+                    alignment: const AlignmentDirectional(0.0, -1.0),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Align(
-                          alignment: AlignmentDirectional(-1.0, -1.0),
+                          alignment: const AlignmentDirectional(-1.0, -1.0),
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 24.0, 0.0, 0.0, 0.0),
                             child: Text(
                               'Jogos disponíveis',
@@ -137,9 +135,9 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                           ),
                         ),
                         Align(
-                          alignment: AlignmentDirectional(-1.0, -1.0),
+                          alignment: const AlignmentDirectional(-1.0, -1.0),
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 24.0, 4.0, 0.0, 0.0),
                             child: Text(
                               'Abaixo estão os jogos disponíveis para alugar',
@@ -162,18 +160,18 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                     ),
                   ),
                   Align(
-                    alignment: AlignmentDirectional(0.0, -1.0),
+                    alignment: const AlignmentDirectional(0.0, -1.0),
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       height: MediaQuery.sizeOf(context).height * 0.6,
-                      decoration: BoxDecoration(),
+                      decoration: const BoxDecoration(),
                       child: Padding(
                         padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
                         child: Builder(
                           builder: (context) {
                             final userListFromGame =
-                                widget!.gameObject?.availableAt?.toList() ?? [];
+                                widget.gameObject?.availableAt.toList() ?? [];
                             if (userListFromGame.isEmpty) {
                               return Center(
                                 child: Image.asset(
@@ -190,17 +188,17 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                 scrollDirection: Axis.vertical,
                                 itemCount: userListFromGame.length,
                                 separatorBuilder: (_, __) =>
-                                    SizedBox(height: 16.0),
+                                    const SizedBox(height: 16.0),
                                 itemBuilder: (context, userListFromGameIndex) {
                                   final userListFromGameItem =
                                       userListFromGame[userListFromGameIndex];
                                   return Container(
-                                    decoration: BoxDecoration(),
+                                    decoration: const BoxDecoration(),
                                     child: GameToRentWidget(
                                       key: Key(
                                           'Keyew5_${userListFromGameIndex}_of_${userListFromGame.length}'),
                                       userRef: userListFromGameItem,
-                                      gameRef: widget!.gameObject!.reference,
+                                      gameRef: widget.gameObject!.reference,
                                     ),
                                   );
                                 },
@@ -213,7 +211,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                   ),
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       height: MediaQuery.sizeOf(context).height * 0.08,
@@ -226,9 +224,9 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Align(
-                              alignment: AlignmentDirectional(0.0, 1.0),
+                              alignment: const AlignmentDirectional(0.0, 1.0),
                               child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 8.0, 0.0, 0.0),
                                 child: FFButtonWidget(
                                   onPressed: () async {
@@ -241,9 +239,9 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                               builder: (alertDialogContext) {
                                                 return WebViewAware(
                                                   child: AlertDialog(
-                                                    title: Text(
+                                                    title: const Text(
                                                         'Método de Pagamento'),
-                                                    content: Text(
+                                                    content: const Text(
                                                         'Qual método de pagamento você deseja usar?'),
                                                     actions: [
                                                       TextButton(
@@ -251,14 +249,14 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                                             Navigator.pop(
                                                                 alertDialogContext,
                                                                 false),
-                                                        child: Text('Pix'),
+                                                        child: const Text('Pix'),
                                                       ),
                                                       TextButton(
                                                         onPressed: () =>
                                                             Navigator.pop(
                                                                 alertDialogContext,
                                                                 true),
-                                                        child: Text('Cartão'),
+                                                        child: const Text('Cartão'),
                                                       ),
                                                     ],
                                                   ),
@@ -297,7 +295,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                               ),
                                             ),
                                             duration:
-                                                Duration(milliseconds: 4000),
+                                                const Duration(milliseconds: 4000),
                                             backgroundColor:
                                                 FlutterFlowTheme.of(context)
                                                     .secondary,
@@ -334,15 +332,15 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                               return WebViewAware(
                                                 child: AlertDialog(
                                                   title:
-                                                      Text('Aluguel Efetuado!'),
-                                                  content: Text(
+                                                      const Text('Aluguel Efetuado!'),
+                                                  content: const Text(
                                                       'Aluguel Efetuado com Sucesso!'),
                                                   actions: [
                                                     TextButton(
                                                       onPressed: () =>
                                                           Navigator.pop(
                                                               alertDialogContext),
-                                                      child: Text('Ok'),
+                                                      child: const Text('Ok'),
                                                     ),
                                                   ],
                                                 ),
@@ -357,16 +355,16 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                             builder: (alertDialogContext) {
                                               return WebViewAware(
                                                 child: AlertDialog(
-                                                  title: Text(
+                                                  title: const Text(
                                                       'Erro no pagamento!'),
-                                                  content: Text(
+                                                  content: const Text(
                                                       'Erro ao efetuar Pagamento'),
                                                   actions: [
                                                     TextButton(
                                                       onPressed: () =>
                                                           Navigator.pop(
                                                               alertDialogContext),
-                                                      child: Text('Ok'),
+                                                      child: const Text('Ok'),
                                                     ),
                                                   ],
                                                 ),
@@ -406,7 +404,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                               ),
                                             ),
                                             duration:
-                                                Duration(milliseconds: 4000),
+                                                const Duration(milliseconds: 4000),
                                             backgroundColor:
                                                 FlutterFlowTheme.of(context)
                                                     .secondary,
@@ -442,15 +440,15 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                               return WebViewAware(
                                                 child: AlertDialog(
                                                   title:
-                                                      Text('Aluguel Efetuado!'),
-                                                  content: Text(
+                                                      const Text('Aluguel Efetuado!'),
+                                                  content: const Text(
                                                       'Aluguel Efetuado com Sucesso!'),
                                                   actions: [
                                                     TextButton(
                                                       onPressed: () =>
                                                           Navigator.pop(
                                                               alertDialogContext),
-                                                      child: Text('Ok'),
+                                                      child: const Text('Ok'),
                                                     ),
                                                   ],
                                                 ),
@@ -465,16 +463,16 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                             builder: (alertDialogContext) {
                                               return WebViewAware(
                                                 child: AlertDialog(
-                                                  title: Text(
+                                                  title: const Text(
                                                       'Erro no pagamento!'),
-                                                  content: Text(
+                                                  content: const Text(
                                                       'Erro ao efetuar Pagamento'),
                                                   actions: [
                                                     TextButton(
                                                       onPressed: () =>
                                                           Navigator.pop(
                                                               alertDialogContext),
-                                                      child: Text('Ok'),
+                                                      child: const Text('Ok'),
                                                     ),
                                                   ],
                                                 ),
@@ -490,9 +488,9 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                   text: 'Pagar',
                                   options: FFButtonOptions(
                                     height: 40.0,
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         24.0, 0.0, 24.0, 0.0),
-                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 0.0),
                                     color: FlutterFlowTheme.of(context).primary,
                                     textStyle: FlutterFlowTheme.of(context)
@@ -509,7 +507,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                                       .titleSmallFamily),
                                         ),
                                     elevation: 3.0,
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Colors.transparent,
                                       width: 1.0,
                                     ),
@@ -524,11 +522,11 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                     ),
                   ),
                   Align(
-                    alignment: AlignmentDirectional(0.0, 1.0),
+                    alignment: const AlignmentDirectional(0.0, 1.0),
                     child: wrapWithModel(
                       model: _model.navBarModel,
                       updateCallback: () => safeSetState(() {}),
-                      child: NavBarWidget(),
+                      child: const NavBarWidget(),
                     ),
                   ),
                 ],

@@ -4,12 +4,10 @@ import '/components/nav_bar/nav_bar_widget.dart';
 import '/components/transfer_status/transfer_status_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:provider/provider.dart';
 import 'delivery_status_model.dart';
 export 'delivery_status_model.dart';
 
@@ -62,7 +60,7 @@ class _DeliveryStatusWidgetState extends State<DeliveryStatusWidget> {
                 borderRadius: 30.0,
                 borderWidth: 1.0,
                 buttonSize: 40.0,
-                icon: Icon(
+                icon: const Icon(
                   Icons.arrow_back_rounded,
                   color: Colors.white,
                   size: 30.0,
@@ -74,7 +72,7 @@ class _DeliveryStatusWidgetState extends State<DeliveryStatusWidget> {
                 },
               ),
               title: Align(
-                alignment: AlignmentDirectional(0.0, 0.0),
+                alignment: const AlignmentDirectional(0.0, 0.0),
                 child: Text(
                   'Pedidos',
                   style: FlutterFlowTheme.of(context).headlineMedium.override(
@@ -88,14 +86,14 @@ class _DeliveryStatusWidgetState extends State<DeliveryStatusWidget> {
                       ),
                 ),
               ),
-              actions: [],
+              actions: const [],
               centerTitle: false,
               elevation: 2.0,
             ),
             body: Container(
               width: MediaQuery.sizeOf(context).width * 1.0,
               height: MediaQuery.sizeOf(context).height * 1.0,
-              decoration: BoxDecoration(),
+              decoration: const BoxDecoration(),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -108,7 +106,7 @@ class _DeliveryStatusWidgetState extends State<DeliveryStatusWidget> {
                     ),
                     child: Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(15.0, 15.0, 15.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(15.0, 15.0, 15.0, 0.0),
                       child: PagedListView<DocumentSnapshot<Object?>?,
                           RentalsRecord>.separated(
                         pagingController: _model.setListViewController(
@@ -119,7 +117,7 @@ class _DeliveryStatusWidgetState extends State<DeliveryStatusWidget> {
                         shrinkWrap: true,
                         reverse: false,
                         scrollDirection: Axis.vertical,
-                        separatorBuilder: (_, __) => SizedBox(height: 15.0),
+                        separatorBuilder: (_, __) => const SizedBox(height: 15.0),
                         builderDelegate:
                             PagedChildBuilderDelegate<RentalsRecord>(
                           // Customize what your widget looks like when it's loading the first page.
@@ -154,7 +152,7 @@ class _DeliveryStatusWidgetState extends State<DeliveryStatusWidget> {
                             return Container(
                               width: MediaQuery.sizeOf(context).width * 1.0,
                               height: 290.0,
-                              decoration: BoxDecoration(),
+                              decoration: const BoxDecoration(),
                               child: TransferStatusWidget(
                                 key: Key(
                                     'Key68d_${listViewIndex}_of_${_model.listViewPagingController!.itemList!.length}'),
@@ -169,7 +167,7 @@ class _DeliveryStatusWidgetState extends State<DeliveryStatusWidget> {
                   wrapWithModel(
                     model: _model.navBarModel,
                     updateCallback: () => safeSetState(() {}),
-                    child: NavBarWidget(),
+                    child: const NavBarWidget(),
                   ),
                 ],
               ),

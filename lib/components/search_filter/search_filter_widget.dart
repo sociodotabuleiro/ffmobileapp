@@ -52,7 +52,7 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
         color: FlutterFlowTheme.of(context).secondaryBackground,
       ),
       child: Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 24.0),
+        padding: const EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 24.0),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,14 +60,14 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
             Container(
               width: double.infinity,
               height: 100.0,
-              decoration: BoxDecoration(),
+              decoration: const BoxDecoration(),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
+                        const EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
@@ -79,7 +79,7 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(8.0),
                             child: FaIcon(
                               FontAwesomeIcons.dollarSign,
                               color: FlutterFlowTheme.of(context).secondaryText,
@@ -89,7 +89,7 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
                         ),
                         Expanded(
                           child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 12.0, 0.0, 0.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
@@ -109,7 +109,7 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
                                                     .labelLargeFamily),
                                       ),
                                 ),
-                                Container(
+                                SizedBox(
                                   width: 250.0,
                                   height: 45.0,
                                   child: custom_widgets.RangeSliderWidget(
@@ -147,10 +147,10 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
                     ),
                   ),
                   Align(
-                    alignment: AlignmentDirectional(1.0, 0.0),
+                    alignment: const AlignmentDirectional(1.0, 0.0),
                     child: Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 16.0, 0.0),
                       child: Text(
                         'Min: R\$${valueOrDefault<String>(
                           FFAppState().minValuePriceFilter.toString(),
@@ -177,9 +177,9 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
             Container(
               width: double.infinity,
               height: 100.0,
-              decoration: BoxDecoration(),
+              decoration: const BoxDecoration(),
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
@@ -191,7 +191,7 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
                         borderRadius: BorderRadius.circular(40.0),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Icon(
                           Icons.family_restroom,
                           color: FlutterFlowTheme.of(context).secondaryText,
@@ -202,7 +202,7 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
                     Expanded(
                       child: Padding(
                         padding:
-                            EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
+                            const EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -232,9 +232,9 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
             Container(
               width: double.infinity,
               height: 100.0,
-              decoration: BoxDecoration(),
+              decoration: const BoxDecoration(),
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
@@ -246,7 +246,7 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
                         borderRadius: BorderRadius.circular(40.0),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Icon(
                           Icons.social_distance,
                           color: FlutterFlowTheme.of(context).secondaryText,
@@ -257,7 +257,7 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
                     Expanded(
                       child: Padding(
                         padding:
-                            EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
+                            const EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -287,9 +287,9 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
             Container(
               width: double.infinity,
               height: 100.0,
-              decoration: BoxDecoration(),
+              decoration: const BoxDecoration(),
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
@@ -301,7 +301,7 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
                         borderRadius: BorderRadius.circular(40.0),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: FaIcon(
                           FontAwesomeIcons.clock,
                           color: FlutterFlowTheme.of(context).secondaryText,
@@ -312,7 +312,7 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
                     Expanded(
                       child: Padding(
                         padding:
-                            EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
+                            const EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -339,7 +339,7 @@ class _SearchFilterWidgetState extends State<SearchFilterWidget> {
                 ),
               ),
             ),
-          ].divide(SizedBox(height: 15.0)),
+          ].divide(const SizedBox(height: 15.0)),
         ),
       ),
     );

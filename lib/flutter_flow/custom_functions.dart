@@ -225,3 +225,13 @@ double stringToDouble(String stringValue) {
 
   return result;
 }
+
+String unifyAddress(AddressStruct addressObject) {
+  // function to return Address proprieties as a string to be used by other funtions to recover Lat and Lng
+  return '$addressObject.street $addressObject.number, $addressObject.city - $addressObject.state, $addressObject.country, $addressObject.zip';
+}
+
+int countCharacters(String string) {
+  // function to count all characters from a string and return the value
+  return string.length;
+}

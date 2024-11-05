@@ -154,6 +154,10 @@ final parametersBuilderMap =
   'loginLudopedia': ParameterData.none(),
   'deliveryStatus': ParameterData.none(),
   'termandconditions': ParameterData.none(),
+  'changePassword': ParameterData.none(),
+  'Settings1Notifications': ParameterData.none(),
+  'Settings2EditProfile': ParameterData.none(),
+  'SettingsListAddress': ParameterData.none(),
 };
 
 Map<String, dynamic> getInitialParameterData(Map<String, dynamic> data) {

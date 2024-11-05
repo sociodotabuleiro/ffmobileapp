@@ -243,6 +243,26 @@ GoRouter createRouter(AppStateNotifier appStateNotifier, {List<NavigatorObserver
           name: 'termandconditions',
           path: '/termandconditions',
           builder: (context, params) => const TermandconditionsWidget(),
+        ),
+        FFRoute(
+          name: 'changePassword',
+          path: '/changePassword',
+          builder: (context, params) => const ChangePasswordWidget(),
+        ),
+        FFRoute(
+          name: 'Settings1Notifications',
+          path: '/settings1Notifications',
+          builder: (context, params) => const Settings1NotificationsWidget(),
+        ),
+        FFRoute(
+          name: 'Settings2EditProfile',
+          path: '/settings2EditProfile',
+          builder: (context, params) => const Settings2EditProfileWidget(),
+        ),
+        FFRoute(
+          name: 'SettingsListAddress',
+          path: '/settingsListAddress',
+          builder: (context, params) => const SettingsListAddressWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

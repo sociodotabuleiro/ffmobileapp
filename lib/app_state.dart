@@ -592,6 +592,70 @@ class FFAppState extends ChangeNotifier {
   void insertAtIndexInChoosenRentDates(int index, DateTime value) {
     choosenRentDates.insert(index, value);
   }
+
+  DocumentReference? _renterRef;
+  DocumentReference? get renterRef => _renterRef;
+  set renterRef(DocumentReference? value) {
+    _renterRef = value;
+  }
+
+  List<QuotationsStruct> _quotations = [];
+  List<QuotationsStruct> get quotations => _quotations;
+  set quotations(List<QuotationsStruct> value) {
+    _quotations = value;
+  }
+
+  void addToQuotations(QuotationsStruct value) {
+    quotations.add(value);
+  }
+
+  void removeFromQuotations(QuotationsStruct value) {
+    quotations.remove(value);
+  }
+
+  void removeAtIndexFromQuotations(int index) {
+    quotations.removeAt(index);
+  }
+
+  void updateQuotationsAtIndex(
+    int index,
+    QuotationsStruct Function(QuotationsStruct) updateFn,
+  ) {
+    quotations[index] = updateFn(_quotations[index]);
+  }
+
+  void insertAtIndexInQuotations(int index, QuotationsStruct value) {
+    quotations.insert(index, value);
+  }
+
+  List<DocumentReference> _notifications = [];
+  List<DocumentReference> get notifications => _notifications;
+  set notifications(List<DocumentReference> value) {
+    _notifications = value;
+  }
+
+  void addToNotifications(DocumentReference value) {
+    notifications.add(value);
+  }
+
+  void removeFromNotifications(DocumentReference value) {
+    notifications.remove(value);
+  }
+
+  void removeAtIndexFromNotifications(int index) {
+    notifications.removeAt(index);
+  }
+
+  void updateNotificationsAtIndex(
+    int index,
+    DocumentReference Function(DocumentReference) updateFn,
+  ) {
+    notifications[index] = updateFn(_notifications[index]);
+  }
+
+  void insertAtIndexInNotifications(int index, DocumentReference value) {
+    notifications.insert(index, value);
+  }
 }
 
 void _safeInit(Function() initializeField) {

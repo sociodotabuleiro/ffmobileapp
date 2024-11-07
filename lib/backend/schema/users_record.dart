@@ -158,11 +158,6 @@ class UsersRecord extends FirestoreRecord {
   bool get isStore => _isStore ?? false;
   bool hasIsStore() => _isStore != null;
 
-  // "notifications" field.
-  List<DocumentReference>? _notifications;
-  List<DocumentReference> get notifications => _notifications ?? const [];
-  bool hasNotifications() => _notifications != null;
-
   // "completedRegisterPages" field.
   List<int>? _completedRegisterPages;
   List<int> get completedRegisterPages => _completedRegisterPages ?? const [];
@@ -290,7 +285,6 @@ class UsersRecord extends FirestoreRecord {
     _amountEarned = castToType<double>(snapshotData['amountEarned']);
     _favoriteUsers = getDataList(snapshotData['favoriteUsers']);
     _isStore = snapshotData['isStore'] as bool?;
-    _notifications = getDataList(snapshotData['notifications']);
     _completedRegisterPages =
         getDataList(snapshotData['completedRegisterPages']);
     _reviews = getStructList(
@@ -467,7 +461,6 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.amountEarned == e2?.amountEarned &&
         listEquality.equals(e1?.favoriteUsers, e2?.favoriteUsers) &&
         e1?.isStore == e2?.isStore &&
-        listEquality.equals(e1?.notifications, e2?.notifications) &&
         listEquality.equals(
             e1?.completedRegisterPages, e2?.completedRegisterPages) &&
         listEquality.equals(e1?.reviews, e2?.reviews) &&
@@ -519,7 +512,6 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.amountEarned,
         e?.favoriteUsers,
         e?.isStore,
-        e?.notifications,
         e?.completedRegisterPages,
         e?.reviews,
         e?.readNotifications,

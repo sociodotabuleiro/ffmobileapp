@@ -1,17 +1,17 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import '/games/calendar_choose_date_rent/calendar_choose_date_rent_widget.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
+import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
 import 'package:collection/collection.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
 import 'game_to_rent_model.dart';
 export 'game_to_rent_model.dart';
@@ -21,10 +21,12 @@ class GameToRentWidget extends StatefulWidget {
     super.key,
     required this.userRef,
     required this.gameRef,
+    required this.gameName,
   });
 
   final DocumentReference? userRef;
   final DocumentReference? gameRef;
+  final String? gameName;
 
   @override
   State<GameToRentWidget> createState() => _GameToRentWidgetState();
@@ -48,7 +50,12 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('GAME_TO_RENT_gameToRent_ON_INIT_STATE');
       logFirebaseEvent('gameToRent_backend_call');
-      _model.userObject = (await UsersRecord.getDocumentOnce(widget.userRef!)) as UsersRecord?;
+      _model.userObject = await UsersRecord.getDocumentOnce(widget.userRef!);
+      logFirebaseEvent('gameToRent_update_component_state');
+      _model.quotation = QuotationsStruct(
+        renterRef: _model.userObject?.reference,
+      );
+      safeSetState(() {});
       logFirebaseEvent('gameToRent_custom_action');
       _model.distanceCalculated = await actions.distanceBetween2Points(
         currentUserDocument!.address.lat,
@@ -79,6 +86,18 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
       );
       logFirebaseEvent('gameToRent_update_component_state');
       _model.isLoaded = true;
+      _model.updateQuotationStruct(
+        (e) => e
+          ..quotationsData =
+              LalamoveQuotationDataStruct.maybeFromMap(_model.quotationJson),
+      );
+      safeSetState(() {});
+      logFirebaseEvent('gameToRent_update_app_state');
+      FFAppState().addToQuotations(QuotationsStruct(
+        renterRef: widget.userRef,
+        quotationsData:
+            LalamoveQuotationDataStruct.maybeFromMap(_model.quotationJson),
+      ));
       safeSetState(() {});
     });
 
@@ -94,348 +113,287 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-      child: Material(
-        color: Colors.transparent,
-        elevation: 8.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
+    context.watch<FFAppState>();
+    context.watch<calendar_iagfh0_app_state.FFAppState>();
+
+    return Container(
+      width: MediaQuery.sizeOf(context).width * 0.95,
+      height: 96.0,
+      constraints: const BoxConstraints(
+        maxWidth: 570.0,
+      ),
+      decoration: BoxDecoration(
+        color: FlutterFlowTheme.of(context).secondaryBackground,
+        borderRadius: BorderRadius.circular(8.0),
+        border: Border.all(
+          color: FlutterFlowTheme.of(context).secondaryText,
+          width: 0.1,
         ),
-        child: Container(
-          width: MediaQuery.sizeOf(context).width * 1.0,
-          height: 176.0,
-          constraints: const BoxConstraints(
-            maxWidth: 570.0,
-          ),
-          decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).secondaryBackground,
-            borderRadius: BorderRadius.circular(8.0),
-            border: Border.all(
-              color: FlutterFlowTheme.of(context).alternate,
-              width: 2.0,
-            ),
-          ),
-          child: Align(
-            alignment: const AlignmentDirectional(-1.0, -1.0),
-            child: Builder(
-              builder: (context) {
-                if (_model.isLoaded) {
-                  return Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(16.0, 8.0, 16.0, 8.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Align(
-                          alignment: const AlignmentDirectional(0.0, -1.0),
-                          child: Row(
+      ),
+      child: Align(
+        alignment: const AlignmentDirectional(-1.0, -1.0),
+        child: Builder(
+          builder: (context) {
+            if (_model.isLoaded) {
+              return Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Align(
+                      alignment: const AlignmentDirectional(-1.0, 0.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Column(
                             mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Column(
-                                mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Distância',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMediumFamily,
-                                          fontSize: 14.0,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.w600,
-                                          useGoogleFonts: GoogleFonts.asMap()
-                                              .containsKey(
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMediumFamily),
-                                        ),
+                              Align(
+                                alignment: const AlignmentDirectional(-1.0, 0.0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: Image.network(
+                                    'https://picsum.photos/seed/977/600',
+                                    width: 45.0,
+                                    height: 45.0,
+                                    fit: BoxFit.cover,
                                   ),
-                                  Text(
-                                    'Rating do locador',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMediumFamily,
-                                          fontSize: 14.0,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.w600,
-                                          useGoogleFonts: GoogleFonts.asMap()
-                                              .containsKey(
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMediumFamily),
-                                        ),
-                                  ),
-                                  Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          const Icon(
-                                            Icons.attach_money_outlined,
-                                            color: Color(0xFF0E9E43),
-                                            size: 16.0,
-                                          ),
-                                          Text(
-                                            'Valor diária',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  fontFamily:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMediumFamily,
-                                                  fontSize: 14.0,
-                                                  letterSpacing: 0.0,
-                                                  fontWeight: FontWeight.w600,
-                                                  useGoogleFonts: GoogleFonts
-                                                          .asMap()
-                                                      .containsKey(
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMediumFamily),
-                                                ),
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          const Icon(
-                                            Icons.attach_money_outlined,
-                                            color: Color(0xFF0E9E43),
-                                            size: 16.0,
-                                          ),
-                                          Text(
-                                            'Valor Entrega',
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  fontFamily:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMediumFamily,
-                                                  fontSize: 14.0,
-                                                  letterSpacing: 0.0,
-                                                  fontWeight: FontWeight.w600,
-                                                  useGoogleFonts: GoogleFonts
-                                                          .asMap()
-                                                      .containsKey(
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMediumFamily),
-                                                ),
-                                          ),
-                                        ],
-                                      ),
-                                    ].divide(const SizedBox(height: 5.0)),
-                                  ),
-                                ].divide(const SizedBox(height: 5.0)),
-                              ),
-                              Container(
-                                decoration: const BoxDecoration(),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 0.0, 0.0, 0.0),
-                                      child: RatingBarIndicator(
-                                        itemBuilder: (context, index) => FaIcon(
-                                          FontAwesomeIcons.mapMarkerAlt,
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondary,
-                                        ),
-                                        direction: Axis.horizontal,
-                                        rating: _model.distanceCalculated!,
-                                        unratedColor:
-                                            FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                        itemCount: 5,
-                                        itemSize: 18.0,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 0.0, 0.0, 0.0),
-                                      child: RatingBarIndicator(
-                                        itemBuilder: (context, index) => Icon(
-                                          Icons.star,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                        ),
-                                        direction: Axis.horizontal,
-                                        rating: valueOrDefault<double>(
-                                          _model.userObject?.rating ?? 0.0,
-                                          0.0,
-                                        ),
-                                        unratedColor:
-                                            FlutterFlowTheme.of(context)
-                                                .secondaryText,
-                                        itemCount: 5,
-                                        itemSize: 18.0,
-                                      ),
-                                    ),
-                                    Column(
-                                      mainAxisSize: MainAxisSize.max,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Text(
-                                          valueOrDefault<String>(
-                                            formatNumber(
-                                              _model.myGamesObject?.price,
-                                              formatType: FormatType.decimal,
-                                              decimalType:
-                                                  DecimalType.commaDecimal,
-                                              currency: 'R\$',
-                                            ),
-                                            '0',
-                                          ),
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMediumFamily,
-                                                fontSize: 14.0,
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.w600,
-                                                useGoogleFonts: GoogleFonts
-                                                        .asMap()
-                                                    .containsKey(
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMediumFamily),
-                                              ),
-                                        ),
-                                        Text(
-                                          'R\$${valueOrDefault<String>(
-                                            getJsonField(
-                                              _model.quotationJson,
-                                              r'''$.data.priceBreakdown.total''',
-                                            )?.toString(),
-                                            '0',
-                                          )}',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMediumFamily,
-                                                fontSize: 14.0,
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.w600,
-                                                useGoogleFonts: GoogleFonts
-                                                        .asMap()
-                                                    .containsKey(
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMediumFamily),
-                                              ),
-                                        ),
-                                      ].divide(const SizedBox(height: 5.0)),
-                                    ),
-                                  ].divide(const SizedBox(height: 5.0)),
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                        Align(
-                          alignment: const AlignmentDirectional(0.0, 0.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              FFButtonWidget(
-                                onPressed: () async {
-                                  logFirebaseEvent(
-                                      'GAME_TO_RENT_ESCOLHER_DATAS_BTN_ON_TAP');
-                                  logFirebaseEvent('Button_bottom_sheet');
-                                  await showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    backgroundColor: Colors.transparent,
-                                    enableDrag: false,
-                                    context: context,
-                                    builder: (context) {
-                                      return WebViewAware(
-                                        child: Padding(
-                                          padding:
-                                              MediaQuery.viewInsetsOf(context),
-                                          child: SizedBox(
-                                            height: MediaQuery.sizeOf(context)
-                                                    .height *
-                                                1.0,
-                                            child: CalendarChooseDateRentWidget(
-                                              availableDates: _model
-                                                  .myGamesObject!
-                                                  .availableDates,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ).then((value) => safeSetState(() {}));
-                                },
-                                text: 'Escolher datas',
-                                options: FFButtonOptions(
-                                  height: 40.0,
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      16.0, 0.0, 16.0, 0.0),
-                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 0.0),
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .titleSmall
+                              if (_model.userObject?.isStore == true)
+                                Text(
+                                  _model.userObject!.firstName,
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
                                       .override(
                                         fontFamily: FlutterFlowTheme.of(context)
-                                            .titleSmallFamily,
-                                        color: Colors.white,
+                                            .bodyMediumFamily,
                                         letterSpacing: 0.0,
                                         useGoogleFonts: GoogleFonts.asMap()
                                             .containsKey(
                                                 FlutterFlowTheme.of(context)
-                                                    .titleSmallFamily),
+                                                    .bodyMediumFamily),
                                       ),
-                                  elevation: 0.0,
-                                  borderRadius: BorderRadius.circular(8.0),
                                 ),
+                              RatingBarIndicator(
+                                itemBuilder: (context, index) => Icon(
+                                  Icons.star,
+                                  color: FlutterFlowTheme.of(context).warning,
+                                ),
+                                direction: Axis.horizontal,
+                                rating: valueOrDefault<double>(
+                                  _model.userObject?.rating ?? 0.0,
+                                  0.0,
+                                ),
+                                unratedColor:
+                                    FlutterFlowTheme.of(context).secondaryText,
+                                itemCount: 5,
+                                itemSize: 18.0,
                               ),
                             ],
                           ),
-                        ),
-                      ].divide(const SizedBox(height: 12.0)),
-                    ),
-                  );
-                } else {
-                  return const Align(
-                    alignment: AlignmentDirectional(0.0, 0.0),
-                    child: SizedBox(
-                      width: 100.0,
-                      height: 100.0,
-                      child: custom_widgets.LoadingIndicator(
-                        width: 100.0,
-                        height: 100.0,
+                          Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.attach_money_outlined,
+                                    color: Color(0xFF0E9E43),
+                                    size: 16.0,
+                                  ),
+                                  Text(
+                                    valueOrDefault<String>(
+                                      formatNumber(
+                                        _model.myGamesObject?.price,
+                                        formatType: FormatType.decimal,
+                                        decimalType: DecimalType.commaDecimal,
+                                        currency: 'R\$',
+                                      ),
+                                      '0',
+                                    ),
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          fontFamily:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMediumFamily,
+                                          color: const Color(0xFF0E9E43),
+                                          fontSize: 14.0,
+                                          letterSpacing: 0.0,
+                                          fontWeight: FontWeight.w600,
+                                          useGoogleFonts: GoogleFonts.asMap()
+                                              .containsKey(
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMediumFamily),
+                                        ),
+                                  ),
+                                ].divide(const SizedBox(width: 4.0)),
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  const Icon(
+                                    Icons.motorcycle_sharp,
+                                    color: Color(0xFF0E9E43),
+                                    size: 16.0,
+                                  ),
+                                  Text(
+                                    'R\$${valueOrDefault<String>(
+                                      getJsonField(
+                                        _model.quotationJson,
+                                        r'''$.data.priceBreakdown.total''',
+                                      )?.toString(),
+                                      '0',
+                                    )}',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          fontFamily:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMediumFamily,
+                                          color: const Color(0xFF0E9E43),
+                                          fontSize: 14.0,
+                                          letterSpacing: 0.0,
+                                          fontWeight: FontWeight.w600,
+                                          useGoogleFonts: GoogleFonts.asMap()
+                                              .containsKey(
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMediumFamily),
+                                        ),
+                                  ),
+                                ].divide(const SizedBox(width: 4.0)),
+                              ),
+                            ].divide(const SizedBox(height: 5.0)),
+                          ),
+                          Align(
+                            alignment: const AlignmentDirectional(0.0, 1.0),
+                            child: InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                logFirebaseEvent(
+                                    'GAME_TO_RENT_Container_xihcs5uz_ON_TAP');
+                                logFirebaseEvent('Container_bottom_sheet');
+                                await showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  enableDrag: false,
+                                  context: context,
+                                  builder: (context) {
+                                    return WebViewAware(
+                                      child: Padding(
+                                        padding:
+                                            MediaQuery.viewInsetsOf(context),
+                                        child: SizedBox(
+                                          height: MediaQuery.sizeOf(context)
+                                                  .height *
+                                              1.0,
+                                          child: CalendarChooseDateRentWidget(
+                                            availableDates: _model
+                                                .myGamesObject!.availableDates,
+                                            renterRef: widget.userRef!,
+                                            myGames: _model.myGamesObject!,
+                                            gameName: widget.gameName!,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ).then((value) => safeSetState(() {}));
+                              },
+                              child: Container(
+                                width: 115.0,
+                                height: 70.0,
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context)
+                                      .secondaryBackground,
+                                ),
+                                child: Align(
+                                  alignment: const AlignmentDirectional(0.0, 0.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Align(
+                                        alignment:
+                                            const AlignmentDirectional(0.0, 0.0),
+                                        child: Icon(
+                                          Icons.calendar_month,
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondary,
+                                          size: 44.0,
+                                        ),
+                                      ),
+                                      Align(
+                                        alignment:
+                                            const AlignmentDirectional(0.0, 0.0),
+                                        child: Text(
+                                          'Escolher datas',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMediumFamily,
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondary,
+                                                letterSpacing: 0.0,
+                                                fontWeight: FontWeight.w800,
+                                                decoration:
+                                                    TextDecoration.underline,
+                                                useGoogleFonts: GoogleFonts
+                                                        .asMap()
+                                                    .containsKey(
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMediumFamily),
+                                              ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ]
+                            .divide(const SizedBox(width: 12.0))
+                            .addToStart(const SizedBox(width: 4.0))
+                            .addToEnd(const SizedBox(width: 4.0)),
                       ),
                     ),
-                  );
-                }
-              },
-            ),
-          ),
+                  ].divide(const SizedBox(height: 12.0)),
+                ),
+              );
+            } else {
+              return const Align(
+                alignment: AlignmentDirectional(0.0, 0.0),
+                child: SizedBox(
+                  width: 100.0,
+                  height: 100.0,
+                  child: custom_widgets.LoadingIndicator(
+                    width: 100.0,
+                    height: 100.0,
+                  ),
+                ),
+              );
+            }
+          },
         ),
       ),
     );

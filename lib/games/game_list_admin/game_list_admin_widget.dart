@@ -3,6 +3,7 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/custom_code/actions/index.dart' as actions;
+import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:provider/provider.dart';
 import 'game_list_admin_model.dart';
 export 'game_list_admin_model.dart';
 
@@ -117,6 +119,9 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+    context.watch<calendar_iagfh0_app_state.FFAppState>();
+
     return Title(
         title: 'Lista de Jogos',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
@@ -367,19 +372,20 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
-                                          AuthUserStreamWidget(
-                                            builder: (context) => Icon(
-                                              Icons.notifications_rounded,
-                                              color: (currentUserDocument
-                                                                  ?.notifications
-                                                                  .toList() ??
-                                                              []).isNotEmpty
-                                                  ? FlutterFlowTheme.of(context)
-                                                      .primary
-                                                  : FlutterFlowTheme.of(context)
-                                                      .secondaryBackground,
-                                              size: 24.0,
-                                            ),
+                                          Icon(
+                                            Icons.notifications_rounded,
+                                            color: valueOrDefault<int>(
+                                                      FFAppState()
+                                                          .notifications
+                                                          .length,
+                                                      0,
+                                                    ) >
+                                                    0
+                                                ? FlutterFlowTheme.of(context)
+                                                    .primary
+                                                : FlutterFlowTheme.of(context)
+                                                    .secondaryBackground,
+                                            size: 24.0,
                                           ),
                                           Expanded(
                                             child: Padding(
@@ -407,69 +413,69 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                               ),
                                             ),
                                           ),
-                                          AuthUserStreamWidget(
-                                            builder: (context) => Container(
-                                              height: 32.0,
-                                              decoration: BoxDecoration(
-                                                color: (currentUserDocument
-                                                                    ?.notifications
-                                                                    .toList() ??
-                                                                []).isNotEmpty
-                                                    ? FlutterFlowTheme.of(
-                                                            context)
-                                                        .primary
-                                                    : FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
-                                                borderRadius:
-                                                    BorderRadius.circular(8.0),
-                                              ),
-                                              child: Align(
-                                                alignment: const AlignmentDirectional(
-                                                    0.0, 0.0),
-                                                child: Padding(
-                                                  padding: const EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          8.0, 4.0, 8.0, 4.0),
-                                                  child: Text(
-                                                    valueOrDefault<String>(
-                                                      ((currentUserDocument
-                                                                      ?.notifications
-                                                                      .toList() ??
-                                                                  [])
-                                                              .isNotEmpty)
-                                                          .toString(),
-                                                      '0',
-                                                    ),
-                                                    style:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMediumFamily,
-                                                              color: ((currentUserDocument?.notifications.toList() ??
-                                                                              [])
-                                                                          .isNotEmpty) ==
-                                                                      true
-                                                                  ? FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .secondaryBackground
-                                                                  : FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .primaryBackground,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              useGoogleFonts: GoogleFonts
-                                                                      .asMap()
-                                                                  .containsKey(
-                                                                      FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMediumFamily),
-                                                            ),
+                                          Container(
+                                            height: 32.0,
+                                            decoration: BoxDecoration(
+                                              color: valueOrDefault<int>(
+                                                        FFAppState()
+                                                            .notifications
+                                                            .length,
+                                                        0,
+                                                      ) >
+                                                      0
+                                                  ? FlutterFlowTheme.of(context)
+                                                      .primary
+                                                  : FlutterFlowTheme.of(context)
+                                                      .primaryBackground,
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                            ),
+                                            child: Align(
+                                              alignment: const AlignmentDirectional(
+                                                  0.0, 0.0),
+                                              child: Padding(
+                                                padding: const EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        8.0, 4.0, 8.0, 4.0),
+                                                child: Text(
+                                                  valueOrDefault<String>(
+                                                    FFAppState()
+                                                        .notifications
+                                                        .length
+                                                        .toString(),
+                                                    '0',
                                                   ),
+                                                  style:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMediumFamily,
+                                                            color: valueOrDefault<
+                                                                        int>(
+                                                                      FFAppState()
+                                                                          .notifications
+                                                                          .length,
+                                                                      0,
+                                                                    ) >
+                                                                    0
+                                                                ? FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .secondaryBackground
+                                                                : FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                            letterSpacing: 0.0,
+                                                            useGoogleFonts: GoogleFonts
+                                                                    .asMap()
+                                                                .containsKey(
+                                                                    FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMediumFamily),
+                                                          ),
                                                 ),
                                               ),
                                             ),

@@ -76,6 +76,11 @@ class RentalsRecord extends FirestoreRecord {
   List<DateTime> get pastTimes => _pastTimes ?? const [];
   bool hasPastTimes() => _pastTimes != null;
 
+  // "paymentConfirmedAt" field.
+  DateTime? _paymentConfirmedAt;
+  DateTime? get paymentConfirmedAt => _paymentConfirmedAt;
+  bool hasPaymentConfirmedAt() => _paymentConfirmedAt != null;
+
   DocumentReference get parentReference => reference.parent.parent!;
 
   void _initializeFields() {
@@ -91,6 +96,7 @@ class RentalsRecord extends FirestoreRecord {
     _newDueDates = getDataList(snapshotData['newDueDates']);
     _currentStatusTime = snapshotData['currentStatusTime'] as DateTime?;
     _pastTimes = getDataList(snapshotData['pastTimes']);
+    _paymentConfirmedAt = snapshotData['paymentConfirmedAt'] as DateTime?;
   }
 
   static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
@@ -142,6 +148,7 @@ Map<String, dynamic> createRentalsRecordData({
   double? deliveryFee,
   RentalStatus? status,
   DateTime? currentStatusTime,
+  DateTime? paymentConfirmedAt,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -154,6 +161,7 @@ Map<String, dynamic> createRentalsRecordData({
       'deliveryFee': deliveryFee,
       'status': status,
       'currentStatusTime': currentStatusTime,
+      'paymentConfirmedAt': paymentConfirmedAt,
     }.withoutNulls,
   );
 
@@ -177,7 +185,8 @@ class RentalsRecordDocumentEquality implements Equality<RentalsRecord> {
         e1?.status == e2?.status &&
         listEquality.equals(e1?.newDueDates, e2?.newDueDates) &&
         e1?.currentStatusTime == e2?.currentStatusTime &&
-        listEquality.equals(e1?.pastTimes, e2?.pastTimes);
+        listEquality.equals(e1?.pastTimes, e2?.pastTimes) &&
+        e1?.paymentConfirmedAt == e2?.paymentConfirmedAt;
   }
 
   @override
@@ -193,7 +202,8 @@ class RentalsRecordDocumentEquality implements Equality<RentalsRecord> {
         e?.status,
         e?.newDueDates,
         e?.currentStatusTime,
-        e?.pastTimes
+        e?.pastTimes,
+        e?.paymentConfirmedAt
       ]);
 
   @override

@@ -26,8 +26,12 @@ class ToRentListModel extends FlutterFlowModel<ToRentListWidget> {
   void updateMyGamesListAtIndex(int index, Function(MyGamesRecord) updateFn) =>
       myGamesList[index] = updateFn(myGamesList[index]);
 
+  String? orderId;
+
   ///  State fields for stateful widgets in this page.
 
+  // Stores action output result for [Backend Call - Read Document] action in Button widget.
+  UsersRecord? renterObject;
   // Stores action output result for [Backend Call - API (createBillingCard)] action in Button widget.
   ApiCallResponse? createdBillingcard;
   // Stores action output result for [Backend Call - API (paymentStatus)] action in Button widget.
@@ -36,6 +40,14 @@ class ToRentListModel extends FlutterFlowModel<ToRentListWidget> {
   ApiCallResponse? createdBillingPix;
   // Stores action output result for [Backend Call - API (paymentStatus)] action in Button widget.
   ApiCallResponse? paymentstatuspix;
+  // Stores action output result for [Custom Action - callDriverLalamove] action in Button widget.
+  dynamic lalamoveCallRequest;
+  // Stores action output result for [Backend Call - Create Document] action in Button widget.
+  RentalsRecord? documentRenting;
+  // Stores action output result for [Backend Call - Create Document] action in Button widget.
+  RentalsRecord? documentOwner;
+  // Stores action output result for [Backend Call - Create Document] action in Button widget.
+  UsersRentalRecord? usersRentalObject;
   // Model for navBar component.
   late NavBarModel navBarModel;
 

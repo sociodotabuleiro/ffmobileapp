@@ -257,7 +257,7 @@ class _AddProfileAddressWidgetState extends State<AddProfileAddressWidget> {
                                 !_model.formKey.currentState!.validate()) {
                               return;
                             }
-                            if (_model.placePickerValue == const FFPlace()) {
+                            if (_model.placePickerValue.address == null || _model.placePickerValue.address.isEmpty || _model.placePickerValue.latLng == null){
                               await showDialog(
                                 context: context,
                                 builder: (alertDialogContext) {

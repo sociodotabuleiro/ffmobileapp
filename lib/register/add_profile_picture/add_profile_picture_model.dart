@@ -1,13 +1,6 @@
-import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import '/register/confirm_prompt_avatar/confirm_prompt_avatar_widget.dart';
 import 'add_profile_picture_widget.dart' show AddProfilePictureWidget;
-import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:webviewx_plus/webviewx_plus.dart';
 
 class AddProfilePictureModel extends FlutterFlowModel<AddProfilePictureWidget> {
   ///  Local state fields for this page.

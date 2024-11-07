@@ -24,6 +24,7 @@ class AddressStruct extends FFFirebaseStruct {
     String? geohash,
     double? lat,
     double? lng,
+    String? name,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _street = street,
         _number = number,
@@ -38,6 +39,7 @@ class AddressStruct extends FFFirebaseStruct {
         _geohash = geohash,
         _lat = lat,
         _lng = lng,
+        _name = name,
         super(firestoreUtilData);
 
   // "street" field.
@@ -135,6 +137,13 @@ class AddressStruct extends FFFirebaseStruct {
 
   bool hasLng() => _lng != null;
 
+  // "name" field.
+  String? _name;
+  String get name => _name ?? '';
+  set name(String? val) => _name = val;
+
+  bool hasName() => _name != null;
+
   static AddressStruct fromMap(Map<String, dynamic> data) => AddressStruct(
         street: data['street'] as String?,
         number: data['number'] as String?,
@@ -149,6 +158,7 @@ class AddressStruct extends FFFirebaseStruct {
         geohash: data['geohash'] as String?,
         lat: castToType<double>(data['lat']),
         lng: castToType<double>(data['lng']),
+        name: data['name'] as String?,
       );
 
   static AddressStruct? maybeFromMap(dynamic data) =>
@@ -168,6 +178,7 @@ class AddressStruct extends FFFirebaseStruct {
         'geohash': _geohash,
         'lat': _lat,
         'lng': _lng,
+        'name': _name,
       }.withoutNulls;
 
   @override
@@ -223,6 +234,10 @@ class AddressStruct extends FFFirebaseStruct {
         'lng': serializeParam(
           _lng,
           ParamType.double,
+        ),
+        'name': serializeParam(
+          _name,
+          ParamType.String,
         ),
       }.withoutNulls;
 
@@ -293,6 +308,11 @@ class AddressStruct extends FFFirebaseStruct {
           ParamType.double,
           false,
         ),
+        name: deserializeParam(
+          data['name'],
+          ParamType.String,
+          false,
+        ),
       );
 
   @override
@@ -313,7 +333,8 @@ class AddressStruct extends FFFirebaseStruct {
         coordinates == other.coordinates &&
         geohash == other.geohash &&
         lat == other.lat &&
-        lng == other.lng;
+        lng == other.lng &&
+        name == other.name;
   }
 
   @override
@@ -330,7 +351,8 @@ class AddressStruct extends FFFirebaseStruct {
         coordinates,
         geohash,
         lat,
-        lng
+        lng,
+        name
       ]);
 }
 
@@ -348,6 +370,7 @@ AddressStruct createAddressStruct({
   String? geohash,
   double? lat,
   double? lng,
+  String? name,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -367,6 +390,7 @@ AddressStruct createAddressStruct({
       geohash: geohash,
       lat: lat,
       lng: lng,
+      name: name,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

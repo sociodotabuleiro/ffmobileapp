@@ -1,20 +1,17 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/games/text_field_game_price/text_field_game_price_widget.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/flutter_flow/random_data_util.dart' as random_data;
 import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
-
 import 'add_price_add_game_model.dart';
 export 'add_price_add_game_model.dart';
 
@@ -46,9 +43,9 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
 
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      logFirebaseEvent('ADD_PRICE_ADD_GAME_addPriceAddGame_ON_IN');
+      logFirebaseEvent("ADD_PRICE_ADD_GAME_addPriceAddGame_ON_IN");
       logFirebaseEvent('addPriceAddGame_update_component_state');
-      _model.finalCount = widget!.games!.length;
+      _model.finalCount = widget.games!.length;
       safeSetState(() {});
     });
 
@@ -68,7 +65,7 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
     context.watch<calendar_iagfh0_app_state.FFAppState>();
 
     return Container(
-      width: MediaQuery.sizeOf(context).width,
+      width: MediaQuery.sizeOf(context).width * 1.0,
       height: MediaQuery.sizeOf(context).height * 0.95,
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
@@ -79,15 +76,15 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            width: MediaQuery.sizeOf(context).width,
+            width: MediaQuery.sizeOf(context).width * 1.0,
             height: MediaQuery.sizeOf(context).height * 0.15,
             decoration: BoxDecoration(
               color: FlutterFlowTheme.of(context).secondaryBackground,
             ),
             child: Align(
-              alignment: AlignmentDirectional(0, 0),
+              alignment: const AlignmentDirectional(0.0, 0.0),
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(32, 0, 32, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(32.0, 0.0, 32.0, 0.0),
                 child: Text(
                   'Adicione seus valores, caso o jogo esteja disponível para alugar',
                   textAlign: TextAlign.center,
@@ -95,7 +92,7 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                         fontFamily:
                             FlutterFlowTheme.of(context).bodyMediumFamily,
                         color: FlutterFlowTheme.of(context).secondary,
-                        fontSize: 16,
+                        fontSize: 16.0,
                         letterSpacing: 0.0,
                         fontWeight: FontWeight.bold,
                         useGoogleFonts: GoogleFonts.asMap().containsKey(
@@ -106,9 +103,9 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+            padding: const EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
             child: Container(
-              width: MediaQuery.sizeOf(context).width,
+              width: MediaQuery.sizeOf(context).width * 1.0,
               height: MediaQuery.sizeOf(context).height * 0.6,
               decoration: BoxDecoration(
                 color: FlutterFlowTheme.of(context).secondaryBackground,
@@ -118,7 +115,7 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                 children: [
                   Builder(
                     builder: (context) {
-                      final gamesList = widget!.games!.toList();
+                      final gamesList = widget.games!.toList();
 
                       return SingleChildScrollView(
                         child: Column(
@@ -134,8 +131,8 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                                 if (!snapshot.hasData) {
                                   return Center(
                                     child: SizedBox(
-                                      width: 50,
-                                      height: 50,
+                                      width: 50.0,
+                                      height: 50.0,
                                       child: CircularProgressIndicator(
                                         valueColor:
                                             AlwaysStoppedAnimation<Color>(
@@ -154,8 +151,8 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                                         .primaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 8, 0, 8),
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 8.0, 0.0, 8.0),
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -206,7 +203,7 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
-                                                                        4),
+                                                                        4.0),
                                                           ),
                                                         ),
                                                         unselectedWidgetColor:
@@ -295,8 +292,8 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                                                   ],
                                                 ),
                                                 Container(
-                                                  width: 200,
-                                                  decoration: BoxDecoration(),
+                                                  width: 200.0,
+                                                  decoration: const BoxDecoration(),
                                                   child:
                                                       TextFieldGamePriceWidget(
                                                     key: Key(
@@ -317,7 +314,7 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                                 );
                               },
                             );
-                          }).divide(SizedBox(height: 25)),
+                          }).divide(const SizedBox(height: 25.0)),
                         ),
                       );
                     },
@@ -327,7 +324,7 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
             ),
           ),
           Container(
-            width: MediaQuery.sizeOf(context).width,
+            width: MediaQuery.sizeOf(context).width * 1.0,
             height: MediaQuery.sizeOf(context).height * 0.15,
             decoration: BoxDecoration(
               color: FlutterFlowTheme.of(context).secondaryBackground,
@@ -345,9 +342,11 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                   },
                   text: 'Cancelar',
                   options: FFButtonOptions(
-                    height: 40,
-                    padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                    iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                    height: 40.0,
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                    iconPadding:
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                     color: FlutterFlowTheme.of(context).error,
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                           fontFamily:
@@ -357,12 +356,12 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                           useGoogleFonts: GoogleFonts.asMap().containsKey(
                               FlutterFlowTheme.of(context).titleSmallFamily),
                         ),
-                    elevation: 3,
-                    borderSide: BorderSide(
+                    elevation: 3.0,
+                    borderSide: const BorderSide(
                       color: Colors.transparent,
-                      width: 1,
+                      width: 1.0,
                     ),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                 ),
                 FFButtonWidget(
@@ -453,12 +452,12 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                                     'availableAtGeoHash':
                                         FieldValue.arrayUnion([
                                       valueOrDefault<String>(
-                                        currentUserDocument?.address?.geohash,
+                                        currentUserDocument?.address.geohash,
                                         '0',
                                       )
                                     ]),
                                     'availableAtLatLng': FieldValue.arrayUnion([
-                                      currentUserDocument?.address?.coordinates
+                                      currentUserDocument?.address.coordinates
                                           ?.toGeoPoint()
                                     ]),
                                     'availableAtMyGamesRef':
@@ -478,14 +477,14 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                         builder: (alertDialogContext) {
                           return WebViewAware(
                             child: AlertDialog(
-                              title: Text('Sucesso!'),
-                              content: Text(
+                              title: const Text('Sucesso!'),
+                              content: const Text(
                                   'Seus jogos foram adicionados com sucesso!'),
                               actions: [
                                 TextButton(
                                   onPressed: () =>
                                       Navigator.pop(alertDialogContext),
-                                  child: Text('Ok'),
+                                  child: const Text('Ok'),
                                 ),
                               ],
                             ),
@@ -505,10 +504,12 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                   },
                   text: 'Finalizar',
                   options: FFButtonOptions(
-                    height: 40,
-                    padding: EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                    iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                    color: Color(0xFF24965B),
+                    height: 40.0,
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                    iconPadding:
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                    color: const Color(0xFF24965B),
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                           fontFamily:
                               FlutterFlowTheme.of(context).titleSmallFamily,
@@ -517,12 +518,12 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                           useGoogleFonts: GoogleFonts.asMap().containsKey(
                               FlutterFlowTheme.of(context).titleSmallFamily),
                         ),
-                    elevation: 3,
-                    borderSide: BorderSide(
+                    elevation: 3.0,
+                    borderSide: const BorderSide(
                       color: Colors.transparent,
-                      width: 1,
+                      width: 1.0,
                     ),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                 ),
               ],

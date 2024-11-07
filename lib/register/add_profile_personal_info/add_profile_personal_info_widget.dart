@@ -6,12 +6,9 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:provider/provider.dart';
 import 'add_profile_personal_info_model.dart';
 export 'add_profile_personal_info_model.dart';
 
@@ -96,7 +93,7 @@ class _AddProfilePersonalInfoWidgetState
                             .headlineMedium
                             .override(
                               fontFamily: 'Outfit',
-                              color: Color(0xFF15161E),
+                              color: const Color(0xFF15161E),
                               fontSize: 24.0,
                               letterSpacing: 0.0,
                               fontWeight: FontWeight.w500,
@@ -121,7 +118,7 @@ class _AddProfilePersonalInfoWidgetState
                     'Por favor, complete as informações a seguir ',
                     style: FlutterFlowTheme.of(context).labelMedium.override(
                           fontFamily: 'Outfit',
-                          color: Color(0xFF606A85),
+                          color: const Color(0xFF606A85),
                           fontSize: 14.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w500,
@@ -129,9 +126,9 @@ class _AddProfilePersonalInfoWidgetState
                               GoogleFonts.asMap().containsKey('Outfit'),
                         ),
                   ),
-                ].divide(SizedBox(height: 4.0)),
+                ].divide(const SizedBox(height: 4.0)),
               ),
-              actions: [],
+              actions: const [],
               centerTitle: false,
               elevation: 0.0,
             ),
@@ -149,14 +146,14 @@ class _AddProfilePersonalInfoWidgetState
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Align(
-                            alignment: AlignmentDirectional(0.0, -1.0),
+                            alignment: const AlignmentDirectional(0.0, -1.0),
                             child: Container(
-                              constraints: BoxConstraints(
+                              constraints: const BoxConstraints(
                                 maxWidth: 770.0,
                               ),
-                              decoration: BoxDecoration(),
+                              decoration: const BoxDecoration(),
                               child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     16.0, 12.0, 16.0, 0.0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
@@ -168,7 +165,7 @@ class _AddProfilePersonalInfoWidgetState
                                           .bodyLarge
                                           .override(
                                             fontFamily: 'Figtree',
-                                            color: Color(0xFF15161E),
+                                            color: const Color(0xFF15161E),
                                             fontSize: 16.0,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.w600,
@@ -190,7 +187,7 @@ class _AddProfilePersonalInfoWidgetState
                                             .headlineMedium
                                             .override(
                                               fontFamily: 'Outfit',
-                                              color: Color(0xFF606A85),
+                                              color: const Color(0xFF606A85),
                                               fontSize: 24.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w500,
@@ -202,7 +199,7 @@ class _AddProfilePersonalInfoWidgetState
                                             .labelMedium
                                             .override(
                                               fontFamily: 'Outfit',
-                                              color: Color(0xFF606A85),
+                                              color: const Color(0xFF606A85),
                                               fontSize: 14.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w500,
@@ -214,7 +211,7 @@ class _AddProfilePersonalInfoWidgetState
                                             .bodyMedium
                                             .override(
                                               fontFamily: 'Figtree',
-                                              color: Color(0xFFFF5963),
+                                              color: const Color(0xFFFF5963),
                                               fontSize: 12.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
@@ -223,7 +220,7 @@ class _AddProfilePersonalInfoWidgetState
                                                       .containsKey('Figtree'),
                                             ),
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFFE5E7EB),
                                             width: 2.0,
                                           ),
@@ -231,7 +228,7 @@ class _AddProfilePersonalInfoWidgetState
                                               BorderRadius.circular(12.0),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFF6F61EF),
                                             width: 2.0,
                                           ),
@@ -239,7 +236,7 @@ class _AddProfilePersonalInfoWidgetState
                                               BorderRadius.circular(12.0),
                                         ),
                                         errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFFFF5963),
                                             width: 2.0,
                                           ),
@@ -247,7 +244,7 @@ class _AddProfilePersonalInfoWidgetState
                                               BorderRadius.circular(12.0),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFFFF5963),
                                             width: 2.0,
                                           ),
@@ -258,24 +255,24 @@ class _AddProfilePersonalInfoWidgetState
                                         fillColor: (_model.firstNameFocusNode
                                                     ?.hasFocus ??
                                                 false)
-                                            ? Color(0x4D9489F5)
+                                            ? const Color(0x4D9489F5)
                                             : Colors.white,
                                         contentPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
+                                            const EdgeInsetsDirectional.fromSTEB(
                                                 16.0, 20.0, 16.0, 20.0),
                                       ),
                                       style: FlutterFlowTheme.of(context)
                                           .headlineMedium
                                           .override(
                                             fontFamily: 'Outfit',
-                                            color: Color(0xFF15161E),
+                                            color: const Color(0xFF15161E),
                                             fontSize: 24.0,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.w500,
                                             useGoogleFonts: GoogleFonts.asMap()
                                                 .containsKey('Outfit'),
                                           ),
-                                      cursorColor: Color(0xFF6F61EF),
+                                      cursorColor: const Color(0xFF6F61EF),
                                       validator: _model
                                           .firstNameTextControllerValidator
                                           .asValidator(context),
@@ -293,7 +290,7 @@ class _AddProfilePersonalInfoWidgetState
                                             .headlineMedium
                                             .override(
                                               fontFamily: 'Outfit',
-                                              color: Color(0xFF606A85),
+                                              color: const Color(0xFF606A85),
                                               fontSize: 24.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w500,
@@ -305,7 +302,7 @@ class _AddProfilePersonalInfoWidgetState
                                             .labelMedium
                                             .override(
                                               fontFamily: 'Outfit',
-                                              color: Color(0xFF606A85),
+                                              color: const Color(0xFF606A85),
                                               fontSize: 14.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w500,
@@ -317,7 +314,7 @@ class _AddProfilePersonalInfoWidgetState
                                             .bodyMedium
                                             .override(
                                               fontFamily: 'Figtree',
-                                              color: Color(0xFFFF5963),
+                                              color: const Color(0xFFFF5963),
                                               fontSize: 12.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
@@ -326,7 +323,7 @@ class _AddProfilePersonalInfoWidgetState
                                                       .containsKey('Figtree'),
                                             ),
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFFE5E7EB),
                                             width: 2.0,
                                           ),
@@ -334,7 +331,7 @@ class _AddProfilePersonalInfoWidgetState
                                               BorderRadius.circular(12.0),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFF6F61EF),
                                             width: 2.0,
                                           ),
@@ -342,7 +339,7 @@ class _AddProfilePersonalInfoWidgetState
                                               BorderRadius.circular(12.0),
                                         ),
                                         errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFFFF5963),
                                             width: 2.0,
                                           ),
@@ -350,7 +347,7 @@ class _AddProfilePersonalInfoWidgetState
                                               BorderRadius.circular(12.0),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFFFF5963),
                                             width: 2.0,
                                           ),
@@ -361,24 +358,24 @@ class _AddProfilePersonalInfoWidgetState
                                         fillColor: (_model.lastNameFocusNode
                                                     ?.hasFocus ??
                                                 false)
-                                            ? Color(0x4D9489F5)
+                                            ? const Color(0x4D9489F5)
                                             : Colors.white,
                                         contentPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
+                                            const EdgeInsetsDirectional.fromSTEB(
                                                 16.0, 20.0, 16.0, 20.0),
                                       ),
                                       style: FlutterFlowTheme.of(context)
                                           .headlineMedium
                                           .override(
                                             fontFamily: 'Outfit',
-                                            color: Color(0xFF15161E),
+                                            color: const Color(0xFF15161E),
                                             fontSize: 24.0,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.w500,
                                             useGoogleFonts: GoogleFonts.asMap()
                                                 .containsKey('Outfit'),
                                           ),
-                                      cursorColor: Color(0xFF6F61EF),
+                                      cursorColor: const Color(0xFF6F61EF),
                                       validator: _model
                                           .lastNameTextControllerValidator
                                           .asValidator(context),
@@ -397,7 +394,7 @@ class _AddProfilePersonalInfoWidgetState
                                             .labelLarge
                                             .override(
                                               fontFamily: 'Outfit',
-                                              color: Color(0xFF606A85),
+                                              color: const Color(0xFF606A85),
                                               fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w500,
@@ -409,7 +406,7 @@ class _AddProfilePersonalInfoWidgetState
                                             .labelMedium
                                             .override(
                                               fontFamily: 'Outfit',
-                                              color: Color(0xFF606A85),
+                                              color: const Color(0xFF606A85),
                                               fontSize: 14.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w500,
@@ -421,7 +418,7 @@ class _AddProfilePersonalInfoWidgetState
                                             .bodyMedium
                                             .override(
                                               fontFamily: 'Figtree',
-                                              color: Color(0xFFFF5963),
+                                              color: const Color(0xFFFF5963),
                                               fontSize: 12.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
@@ -430,7 +427,7 @@ class _AddProfilePersonalInfoWidgetState
                                                       .containsKey('Figtree'),
                                             ),
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFFE5E7EB),
                                             width: 2.0,
                                           ),
@@ -438,7 +435,7 @@ class _AddProfilePersonalInfoWidgetState
                                               BorderRadius.circular(12.0),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFF6F61EF),
                                             width: 2.0,
                                           ),
@@ -446,7 +443,7 @@ class _AddProfilePersonalInfoWidgetState
                                               BorderRadius.circular(12.0),
                                         ),
                                         errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFFFF5963),
                                             width: 2.0,
                                           ),
@@ -454,7 +451,7 @@ class _AddProfilePersonalInfoWidgetState
                                               BorderRadius.circular(12.0),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFFFF5963),
                                             width: 2.0,
                                           ),
@@ -465,17 +462,17 @@ class _AddProfilePersonalInfoWidgetState
                                         fillColor: (_model.dateOfBirthFocusNode
                                                     ?.hasFocus ??
                                                 false)
-                                            ? Color(0x4D9489F5)
+                                            ? const Color(0x4D9489F5)
                                             : Colors.white,
                                         contentPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
+                                            const EdgeInsetsDirectional.fromSTEB(
                                                 16.0, 20.0, 16.0, 20.0),
                                       ),
                                       style: FlutterFlowTheme.of(context)
                                           .bodyLarge
                                           .override(
                                             fontFamily: 'Figtree',
-                                            color: Color(0xFF15161E),
+                                            color: const Color(0xFF15161E),
                                             fontSize: 16.0,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.w600,
@@ -483,7 +480,7 @@ class _AddProfilePersonalInfoWidgetState
                                                 .containsKey('Figtree'),
                                           ),
                                       keyboardType: TextInputType.datetime,
-                                      cursorColor: Color(0xFF6F61EF),
+                                      cursorColor: const Color(0xFF6F61EF),
                                       validator: _model
                                           .dateOfBirthTextControllerValidator
                                           .asValidator(context),
@@ -502,7 +499,7 @@ class _AddProfilePersonalInfoWidgetState
                                             .labelLarge
                                             .override(
                                               fontFamily: 'Outfit',
-                                              color: Color(0xFF606A85),
+                                              color: const Color(0xFF606A85),
                                               fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w500,
@@ -514,7 +511,7 @@ class _AddProfilePersonalInfoWidgetState
                                             .labelMedium
                                             .override(
                                               fontFamily: 'Outfit',
-                                              color: Color(0xFF606A85),
+                                              color: const Color(0xFF606A85),
                                               fontSize: 14.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w500,
@@ -526,7 +523,7 @@ class _AddProfilePersonalInfoWidgetState
                                             .bodyMedium
                                             .override(
                                               fontFamily: 'Figtree',
-                                              color: Color(0xFFFF5963),
+                                              color: const Color(0xFFFF5963),
                                               fontSize: 12.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
@@ -535,7 +532,7 @@ class _AddProfilePersonalInfoWidgetState
                                                       .containsKey('Figtree'),
                                             ),
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFFE5E7EB),
                                             width: 2.0,
                                           ),
@@ -543,7 +540,7 @@ class _AddProfilePersonalInfoWidgetState
                                               BorderRadius.circular(12.0),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFF6F61EF),
                                             width: 2.0,
                                           ),
@@ -551,7 +548,7 @@ class _AddProfilePersonalInfoWidgetState
                                               BorderRadius.circular(12.0),
                                         ),
                                         errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFFFF5963),
                                             width: 2.0,
                                           ),
@@ -559,7 +556,7 @@ class _AddProfilePersonalInfoWidgetState
                                               BorderRadius.circular(12.0),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFFFF5963),
                                             width: 2.0,
                                           ),
@@ -570,17 +567,17 @@ class _AddProfilePersonalInfoWidgetState
                                         fillColor:
                                             (_model.cpfFocusNode?.hasFocus ??
                                                     false)
-                                                ? Color(0x4D9489F5)
+                                                ? const Color(0x4D9489F5)
                                                 : Colors.white,
                                         contentPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
+                                            const EdgeInsetsDirectional.fromSTEB(
                                                 16.0, 20.0, 16.0, 20.0),
                                       ),
                                       style: FlutterFlowTheme.of(context)
                                           .bodyLarge
                                           .override(
                                             fontFamily: 'Figtree',
-                                            color: Color(0xFF15161E),
+                                            color: const Color(0xFF15161E),
                                             fontSize: 16.0,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.w600,
@@ -588,7 +585,7 @@ class _AddProfilePersonalInfoWidgetState
                                                 .containsKey('Figtree'),
                                           ),
                                       keyboardType: TextInputType.number,
-                                      cursorColor: Color(0xFF6F61EF),
+                                      cursorColor: const Color(0xFF6F61EF),
                                       validator: _model
                                           .cpfTextControllerValidator
                                           .asValidator(context),
@@ -606,7 +603,7 @@ class _AddProfilePersonalInfoWidgetState
                                             .labelLarge
                                             .override(
                                               fontFamily: 'Outfit',
-                                              color: Color(0xFF606A85),
+                                              color: const Color(0xFF606A85),
                                               fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w500,
@@ -618,7 +615,7 @@ class _AddProfilePersonalInfoWidgetState
                                             .labelMedium
                                             .override(
                                               fontFamily: 'Outfit',
-                                              color: Color(0xFF606A85),
+                                              color: const Color(0xFF606A85),
                                               fontSize: 14.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w500,
@@ -630,7 +627,7 @@ class _AddProfilePersonalInfoWidgetState
                                             .bodyMedium
                                             .override(
                                               fontFamily: 'Figtree',
-                                              color: Color(0xFFFF5963),
+                                              color: const Color(0xFFFF5963),
                                               fontSize: 12.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
@@ -639,7 +636,7 @@ class _AddProfilePersonalInfoWidgetState
                                                       .containsKey('Figtree'),
                                             ),
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFFE5E7EB),
                                             width: 2.0,
                                           ),
@@ -647,7 +644,7 @@ class _AddProfilePersonalInfoWidgetState
                                               BorderRadius.circular(12.0),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFF6F61EF),
                                             width: 2.0,
                                           ),
@@ -655,7 +652,7 @@ class _AddProfilePersonalInfoWidgetState
                                               BorderRadius.circular(12.0),
                                         ),
                                         errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFFFF5963),
                                             width: 2.0,
                                           ),
@@ -663,7 +660,7 @@ class _AddProfilePersonalInfoWidgetState
                                               BorderRadius.circular(12.0),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFFFF5963),
                                             width: 2.0,
                                           ),
@@ -674,24 +671,24 @@ class _AddProfilePersonalInfoWidgetState
                                         fillColor:
                                             (_model.rgFocusNode?.hasFocus ??
                                                     false)
-                                                ? Color(0x4D9489F5)
+                                                ? const Color(0x4D9489F5)
                                                 : Colors.white,
                                         contentPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
+                                            const EdgeInsetsDirectional.fromSTEB(
                                                 16.0, 20.0, 16.0, 20.0),
                                       ),
                                       style: FlutterFlowTheme.of(context)
                                           .bodyLarge
                                           .override(
                                             fontFamily: 'Figtree',
-                                            color: Color(0xFF15161E),
+                                            color: const Color(0xFF15161E),
                                             fontSize: 16.0,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.w600,
                                             useGoogleFonts: GoogleFonts.asMap()
                                                 .containsKey('Figtree'),
                                           ),
-                                      cursorColor: Color(0xFF6F61EF),
+                                      cursorColor: const Color(0xFF6F61EF),
                                       validator: _model
                                           .rgTextControllerValidator
                                           .asValidator(context),
@@ -702,7 +699,7 @@ class _AddProfilePersonalInfoWidgetState
                                           .labelMedium
                                           .override(
                                             fontFamily: 'Outfit',
-                                            color: Color(0xFF606A85),
+                                            color: const Color(0xFF606A85),
                                             fontSize: 14.0,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.w500,
@@ -711,7 +708,7 @@ class _AddProfilePersonalInfoWidgetState
                                           ),
                                     ),
                                     FlutterFlowChoiceChips(
-                                      options: [
+                                      options: const [
                                         ChipData('Feminino'),
                                         ChipData('Masculino'),
                                         ChipData('Outro')
@@ -738,12 +735,12 @@ class _AddProfilePersonalInfoWidgetState
                                         safeSetState(() {});
                                       },
                                       selectedChipStyle: ChipStyle(
-                                        backgroundColor: Color(0x4C39D2C0),
+                                        backgroundColor: const Color(0x4C39D2C0),
                                         textStyle: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
                                               fontFamily: 'Figtree',
-                                              color: Color(0xFF15161E),
+                                              color: const Color(0xFF15161E),
                                               fontSize: 14.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
@@ -751,21 +748,21 @@ class _AddProfilePersonalInfoWidgetState
                                                   GoogleFonts.asMap()
                                                       .containsKey('Figtree'),
                                             ),
-                                        iconColor: Color(0xFF15161E),
+                                        iconColor: const Color(0xFF15161E),
                                         iconSize: 18.0,
                                         elevation: 0.0,
-                                        borderColor: Color(0xFF39D2C0),
+                                        borderColor: const Color(0xFF39D2C0),
                                         borderWidth: 2.0,
                                         borderRadius:
                                             BorderRadius.circular(8.0),
                                       ),
                                       unselectedChipStyle: ChipStyle(
-                                        backgroundColor: Color(0xFFF1F4F8),
+                                        backgroundColor: const Color(0xFFF1F4F8),
                                         textStyle: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
                                               fontFamily: 'Figtree',
-                                              color: Color(0xFF606A85),
+                                              color: const Color(0xFF606A85),
                                               fontSize: 14.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
@@ -773,10 +770,10 @@ class _AddProfilePersonalInfoWidgetState
                                                   GoogleFonts.asMap()
                                                       .containsKey('Figtree'),
                                             ),
-                                        iconColor: Color(0xFF606A85),
+                                        iconColor: const Color(0xFF606A85),
                                         iconSize: 18.0,
                                         elevation: 0.0,
-                                        borderColor: Color(0xFFE5E7EB),
+                                        borderColor: const Color(0xFFE5E7EB),
                                         borderWidth: 2.0,
                                         borderRadius:
                                             BorderRadius.circular(8.0),
@@ -792,7 +789,7 @@ class _AddProfilePersonalInfoWidgetState
                                       ),
                                       wrapped: true,
                                     ),
-                                    Divider(
+                                    const Divider(
                                       height: 2.0,
                                       thickness: 2.0,
                                       color: Color(0xFFE5E7EB),
@@ -811,7 +808,7 @@ class _AddProfilePersonalInfoWidgetState
                                             .labelLarge
                                             .override(
                                               fontFamily: 'Outfit',
-                                              color: Color(0xFF606A85),
+                                              color: const Color(0xFF606A85),
                                               fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w500,
@@ -823,7 +820,7 @@ class _AddProfilePersonalInfoWidgetState
                                             .labelMedium
                                             .override(
                                               fontFamily: 'Outfit',
-                                              color: Color(0xFF606A85),
+                                              color: const Color(0xFF606A85),
                                               fontSize: 14.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w500,
@@ -835,7 +832,7 @@ class _AddProfilePersonalInfoWidgetState
                                             .bodyMedium
                                             .override(
                                               fontFamily: 'Figtree',
-                                              color: Color(0xFFFF5963),
+                                              color: const Color(0xFFFF5963),
                                               fontSize: 12.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
@@ -844,7 +841,7 @@ class _AddProfilePersonalInfoWidgetState
                                                       .containsKey('Figtree'),
                                             ),
                                         enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFFE5E7EB),
                                             width: 2.0,
                                           ),
@@ -852,7 +849,7 @@ class _AddProfilePersonalInfoWidgetState
                                               BorderRadius.circular(12.0),
                                         ),
                                         focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFF6F61EF),
                                             width: 2.0,
                                           ),
@@ -860,7 +857,7 @@ class _AddProfilePersonalInfoWidgetState
                                               BorderRadius.circular(12.0),
                                         ),
                                         errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFFFF5963),
                                             width: 2.0,
                                           ),
@@ -868,7 +865,7 @@ class _AddProfilePersonalInfoWidgetState
                                               BorderRadius.circular(12.0),
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                             color: Color(0xFFFF5963),
                                             width: 2.0,
                                           ),
@@ -879,32 +876,32 @@ class _AddProfilePersonalInfoWidgetState
                                         fillColor: (_model.phoneNumberFocusNode
                                                     ?.hasFocus ??
                                                 false)
-                                            ? Color(0x4D9489F5)
+                                            ? const Color(0x4D9489F5)
                                             : Colors.white,
                                         contentPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
+                                            const EdgeInsetsDirectional.fromSTEB(
                                                 16.0, 20.0, 16.0, 20.0),
                                       ),
                                       style: FlutterFlowTheme.of(context)
                                           .bodyLarge
                                           .override(
                                             fontFamily: 'Figtree',
-                                            color: Color(0xFF15161E),
+                                            color: const Color(0xFF15161E),
                                             fontSize: 16.0,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.w600,
                                             useGoogleFonts: GoogleFonts.asMap()
                                                 .containsKey('Figtree'),
                                           ),
-                                      cursorColor: Color(0xFF6F61EF),
+                                      cursorColor: const Color(0xFF6F61EF),
                                       validator: _model
                                           .phoneNumberTextControllerValidator
                                           .asValidator(context),
                                       inputFormatters: [_model.phoneNumberMask],
                                     ),
                                   ]
-                                      .divide(SizedBox(height: 12.0))
-                                      .addToEnd(SizedBox(height: 32.0)),
+                                      .divide(const SizedBox(height: 12.0))
+                                      .addToEnd(const SizedBox(height: 32.0)),
                                 ),
                               ),
                             ),
@@ -913,12 +910,12 @@ class _AddProfilePersonalInfoWidgetState
                       ),
                     ),
                     Container(
-                      constraints: BoxConstraints(
+                      constraints: const BoxConstraints(
                         maxWidth: 770.0,
                       ),
-                      decoration: BoxDecoration(),
+                      decoration: const BoxDecoration(),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             16.0, 12.0, 16.0, 12.0),
                         child: FFButtonWidget(
                           onPressed: () async {
@@ -931,7 +928,7 @@ class _AddProfilePersonalInfoWidgetState
                             }
                             logFirebaseEvent('Button_backend_call');
 
-                            await widget!.userRef!.update({
+                            await widget.userRef!.update({
                               ...createUsersRecordData(
                                 fullName:
                                     '${_model.firstNameTextController.text} ${_model.lastNameTextController.text}',
@@ -977,11 +974,11 @@ class _AddProfilePersonalInfoWidgetState
                           options: FFButtonOptions(
                             width: double.infinity,
                             height: 48.0,
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 24.0, 0.0, 24.0, 0.0),
-                            iconPadding: EdgeInsetsDirectional.fromSTEB(
+                            iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 0.0),
-                            color: Color(0xFF6F61EF),
+                            color: const Color(0xFF6F61EF),
                             textStyle: FlutterFlowTheme.of(context)
                                 .titleSmall
                                 .override(
@@ -994,7 +991,7 @@ class _AddProfilePersonalInfoWidgetState
                                       .containsKey('Figtree'),
                                 ),
                             elevation: 3.0,
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Colors.transparent,
                               width: 1.0,
                             ),

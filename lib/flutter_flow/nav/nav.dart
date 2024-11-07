@@ -1,24 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import '/backend/backend.dart';
-import '/backend/schema/structs/index.dart';
-import '/backend/schema/enums/enums.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
 import '/backend/push_notifications/push_notifications_handler.dart'
     show PushNotificationsHandler;
 import '/index.dart';
-import '/main.dart';
-import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/lat_lng.dart';
-import '/flutter_flow/place.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'serialization_util.dart';
 
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
@@ -84,24 +75,24 @@ GoRouter createRouter(AppStateNotifier appStateNotifier, {List<NavigatorObserver
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? HomePageWidget() : LoginWidget(),
+          appStateNotifier.loggedIn ? const HomePageWidget() : const LoginWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? HomePageWidget() : LoginWidget(),
+              appStateNotifier.loggedIn ? const HomePageWidget() : const LoginWidget(),
         ),
         FFRoute(
           name: 'HomePage',
           path: '/homePage',
           requireAuth: true,
-          builder: (context, params) => HomePageWidget(),
+          builder: (context, params) => const HomePageWidget(),
         ),
         FFRoute(
           name: 'login',
           path: '/login',
-          builder: (context, params) => LoginWidget(),
+          builder: (context, params) => const LoginWidget(),
         ),
         FFRoute(
           name: 'addProfilePersonalInfo',
@@ -118,39 +109,39 @@ GoRouter createRouter(AppStateNotifier appStateNotifier, {List<NavigatorObserver
         FFRoute(
           name: 'addProfileAddress',
           path: '/addProfileAddress',
-          builder: (context, params) => AddProfileAddressWidget(),
+          builder: (context, params) => const AddProfileAddressWidget(),
         ),
         FFRoute(
           name: 'addProfileGames',
           path: '/addProfileGames',
-          builder: (context, params) => AddProfileGamesWidget(),
+          builder: (context, params) => const AddProfileGamesWidget(),
         ),
         FFRoute(
           name: 'addProfilePicture',
           path: '/addProfilePicture',
-          builder: (context, params) => AddProfilePictureWidget(),
+          builder: (context, params) => const AddProfilePictureWidget(),
         ),
         FFRoute(
           name: 'addProfilePhoneNumber',
           path: '/addProfilePhoneNumber',
-          builder: (context, params) => AddProfilePhoneNumberWidget(),
+          builder: (context, params) => const AddProfilePhoneNumberWidget(),
         ),
         FFRoute(
           name: 'addProfileCodeConfirmation',
           path: '/addProfileCodeConfirmation',
-          builder: (context, params) => AddProfileCodeConfirmationWidget(),
+          builder: (context, params) => const AddProfileCodeConfirmationWidget(),
         ),
         FFRoute(
           name: 'gamesList',
           path: '/gamesList',
           requireAuth: true,
-          builder: (context, params) => GamesListWidget(),
+          builder: (context, params) => const GamesListWidget(),
         ),
         FFRoute(
           name: 'Profile',
           path: '/profile',
           requireAuth: true,
-          builder: (context, params) => ProfileWidget(),
+          builder: (context, params) => const ProfileWidget(),
         ),
         FFRoute(
           name: 'gameDetails',
@@ -187,71 +178,91 @@ GoRouter createRouter(AppStateNotifier appStateNotifier, {List<NavigatorObserver
         FFRoute(
           name: 'addProfileAddress2',
           path: '/addProfileAddress2',
-          builder: (context, params) => AddProfileAddress2Widget(),
+          builder: (context, params) => const AddProfileAddress2Widget(),
         ),
         FFRoute(
           name: 'signUp',
           path: '/signUp',
-          builder: (context, params) => SignUpWidget(),
+          builder: (context, params) => const SignUpWidget(),
         ),
         FFRoute(
           name: 'DashboardResponsive',
           path: '/dashboardResponsive',
-          builder: (context, params) => DashboardResponsiveWidget(),
+          builder: (context, params) => const DashboardResponsiveWidget(),
         ),
         FFRoute(
           name: 'gameListAdmin',
           path: '/gamelist',
           requireAuth: true,
-          builder: (context, params) => GameListAdminWidget(),
+          builder: (context, params) => const GameListAdminWidget(),
         ),
         FFRoute(
           name: 'myGames',
           path: '/myGames',
           requireAuth: true,
-          builder: (context, params) => MyGamesWidget(),
+          builder: (context, params) => const MyGamesWidget(),
         ),
         FFRoute(
           name: 'myCart',
           path: '/myCart',
           requireAuth: true,
-          builder: (context, params) => MyCartWidget(),
+          builder: (context, params) => const MyCartWidget(),
         ),
         FFRoute(
           name: 'payment01',
           path: '/payment01',
-          builder: (context, params) => Payment01Widget(),
+          builder: (context, params) => const Payment01Widget(),
         ),
         FFRoute(
           name: 'Checkout',
           path: '/checkout',
-          builder: (context, params) => CheckoutWidget(),
+          builder: (context, params) => const CheckoutWidget(),
         ),
         FFRoute(
           name: 'saveActions',
           path: '/saveActions',
-          builder: (context, params) => SaveActionsWidget(),
+          builder: (context, params) => const SaveActionsWidget(),
         ),
         FFRoute(
           name: 'AddGames',
           path: '/addGames',
           requireAuth: true,
-          builder: (context, params) => AddGamesWidget(),
+          builder: (context, params) => const AddGamesWidget(),
         ),
         FFRoute(
           name: 'loginLudopedia',
           path: '/loginLudopedia',
-          builder: (context, params) => LoginLudopediaWidget(),
+          builder: (context, params) => const LoginLudopediaWidget(),
         ),
         FFRoute(
           name: 'deliveryStatus',
           path: '/deliveryStatus',
-          builder: (context, params) => DeliveryStatusWidget(),
+          builder: (context, params) => const DeliveryStatusWidget(),
         ),
         FFRoute(
           name: 'termandconditions',
           path: '/termandconditions',
-          builder: (context, params) => TermandconditionsWidget(),
+          builder: (context, params) => const TermandconditionsWidget(),
+        ),
+        FFRoute(
+          name: 'changePassword',
+          path: '/changePassword',
+          builder: (context, params) => const ChangePasswordWidget(),
+        ),
+        FFRoute(
+          name: 'Settings1Notifications',
+          path: '/settings1Notifications',
+          builder: (context, params) => const Settings1NotificationsWidget(),
+        ),
+        FFRoute(
+          name: 'Settings2EditProfile',
+          path: '/settings2EditProfile',
+          builder: (context, params) => const Settings2EditProfileWidget(),
+        ),
+        FFRoute(
+          name: 'SettingsListAddress',
+          path: '/settingsListAddress',
+          builder: (context, params) => const SettingsListAddressWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -487,7 +498,7 @@ class TransitionInfo {
   final Duration duration;
   final Alignment? alignment;
 
-  static TransitionInfo appDefault() => TransitionInfo(hasTransition: false);
+  static TransitionInfo appDefault() => const TransitionInfo(hasTransition: false);
 }
 
 class RootPageContext {

@@ -50,12 +50,12 @@ class _ChoosenUserComponentWidgetState
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
+      padding: const EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
       child: Container(
         width: MediaQuery.sizeOf(context).width * 0.9,
         decoration: BoxDecoration(
           color: FlutterFlowTheme.of(context).secondaryBackground,
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               blurRadius: 4.0,
               color: Color(0x33000000),
@@ -69,7 +69,7 @@ class _ChoosenUserComponentWidgetState
           borderRadius: BorderRadius.circular(16.0),
         ),
         child: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
+          padding: const EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
@@ -96,13 +96,13 @@ class _ChoosenUserComponentWidgetState
                                       .bodyMediumFamily),
                             ),
                       ),
-                    ].divide(SizedBox(width: 8.0)),
+                    ].divide(const SizedBox(width: 8.0)),
                   ),
-                  Container(
+                  SizedBox(
                     width: 150.0,
                     child: Slider(
                       activeColor: FlutterFlowTheme.of(context).primary,
-                      inactiveColor: Color(0x33000000),
+                      inactiveColor: const Color(0x33000000),
                       min: 0.0,
                       max: 10.0,
                       value: _model.sliderValue1 ??= 7.0,
@@ -112,7 +112,7 @@ class _ChoosenUserComponentWidgetState
                       },
                     ),
                   ),
-                ].divide(SizedBox(width: 8.0)),
+                ].divide(const SizedBox(width: 8.0)),
               ),
               Row(
                 mainAxisSize: MainAxisSize.max,
@@ -121,7 +121,7 @@ class _ChoosenUserComponentWidgetState
                   Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.star,
                         color: Color(0xFFFFC107),
                         size: 24.0,
@@ -137,13 +137,13 @@ class _ChoosenUserComponentWidgetState
                                       .bodyMediumFamily),
                             ),
                       ),
-                    ].divide(SizedBox(width: 8.0)),
+                    ].divide(const SizedBox(width: 8.0)),
                   ),
-                  Container(
+                  SizedBox(
                     width: 150.0,
                     child: Slider(
-                      activeColor: Color(0xFFFFC107),
-                      inactiveColor: Color(0x33000000),
+                      activeColor: const Color(0xFFFFC107),
+                      inactiveColor: const Color(0x33000000),
                       min: 0.0,
                       max: 5.0,
                       value: _model.sliderValue2 ??= 4.0,
@@ -153,7 +153,7 @@ class _ChoosenUserComponentWidgetState
                       },
                     ),
                   ),
-                ].divide(SizedBox(width: 8.0)),
+                ].divide(const SizedBox(width: 8.0)),
               ),
               Column(
                 mainAxisSize: MainAxisSize.max,
@@ -170,7 +170,7 @@ class _ChoosenUserComponentWidgetState
                         ),
                   ),
                   FlutterFlowChoiceChips(
-                    options: [
+                    options: const [
                       ChipData('Today'),
                       ChipData('Tomorrow'),
                       ChipData('In 2 days'),
@@ -224,7 +224,7 @@ class _ChoosenUserComponentWidgetState
                     ),
                     wrapped: true,
                   ),
-                ].divide(SizedBox(height: 8.0)),
+                ].divide(const SizedBox(height: 8.0)),
               ),
               Column(
                 mainAxisSize: MainAxisSize.max,
@@ -241,7 +241,7 @@ class _ChoosenUserComponentWidgetState
                         ),
                   ),
                   FlutterFlowChoiceChips(
-                    options: [
+                    options: const [
                       ChipData('1 day'),
                       ChipData('2 days'),
                       ChipData('3 days'),
@@ -295,7 +295,7 @@ class _ChoosenUserComponentWidgetState
                     ),
                     wrapped: true,
                   ),
-                ].divide(SizedBox(height: 8.0)),
+                ].divide(const SizedBox(height: 8.0)),
               ),
               Text(
                 'Your stay: 3 nights',
@@ -357,7 +357,7 @@ class _ChoosenUserComponentWidgetState
                                       .bodyMediumFamily),
                             ),
                       ),
-                    ].divide(SizedBox(width: 8.0)),
+                    ].divide(const SizedBox(width: 8.0)),
                   ),
                   Text(
                     '\$25',
@@ -407,7 +407,7 @@ class _ChoosenUserComponentWidgetState
                   ),
                 ],
               ),
-            ].divide(SizedBox(height: 16.0)),
+            ].divide(const SizedBox(height: 16.0)),
           ),
         ),
       ),

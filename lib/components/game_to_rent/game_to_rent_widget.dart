@@ -5,7 +5,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/games/calendar_choose_date_rent/calendar_choose_date_rent_widget.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +12,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
 import 'game_to_rent_model.dart';
 export 'game_to_rent_model.dart';
@@ -50,7 +48,7 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('GAME_TO_RENT_gameToRent_ON_INIT_STATE');
       logFirebaseEvent('gameToRent_backend_call');
-      _model.userObject = await UsersRecord.getDocumentOnce(widget!.userRef!);
+      _model.userObject = (await UsersRecord.getDocumentOnce(widget.userRef!)) as UsersRecord?;
       logFirebaseEvent('gameToRent_custom_action');
       _model.distanceCalculated = await actions.distanceBetween2Points(
         currentUserDocument!.address.lat,
@@ -60,24 +58,24 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
       );
       logFirebaseEvent('gameToRent_firestore_query');
       _model.myGamesObject = await queryMyGamesRecordOnce(
-        parent: widget!.userRef,
+        parent: widget.userRef,
         queryBuilder: (myGamesRecord) => myGamesRecord.where(
           'gameRef',
-          isEqualTo: widget!.gameRef,
+          isEqualTo: widget.gameRef,
         ),
         singleRecord: true,
       ).then((s) => s.firstOrNull);
       logFirebaseEvent('gameToRent_backend_call');
       _model.authUserObject =
-          await UsersRecord.getDocumentOnce(currentUserReference!);
+          (await UsersRecord.getDocumentOnce(currentUserReference!)) as UsersRecord?;
       logFirebaseEvent('gameToRent_custom_action');
       _model.quotationJson = await actions.getQuotationLalaMove(
         _model.userObject!.address.lat.toString(),
         _model.userObject!.address.lng.toString(),
         currentUserDocument!.address.lat.toString(),
         currentUserDocument!.address.lng.toString(),
-        '${_model.userObject?.address?.street}, ${_model.userObject?.address?.number} , ${_model.userObject?.address?.complement}- ${_model.userObject?.address?.neighborhood} , ${_model.userObject?.address?.city}${_model.userObject?.address?.state}',
-        '${currentUserDocument?.address?.street}, ${currentUserDocument?.address?.number} , ${currentUserDocument?.address?.complement}- ${currentUserDocument?.address?.neighborhood} , ${currentUserDocument?.address?.city}${currentUserDocument?.address?.state}',
+        '${_model.userObject?.address.street}, ${_model.userObject?.address.number} , ${_model.userObject?.address.complement}- ${_model.userObject?.address.neighborhood} , ${_model.userObject?.address.city}${_model.userObject?.address.state}',
+        '${currentUserDocument?.address.street}, ${currentUserDocument?.address.number} , ${currentUserDocument?.address.complement}- ${currentUserDocument?.address.neighborhood} , ${currentUserDocument?.address.city}${currentUserDocument?.address.state}',
       );
       logFirebaseEvent('gameToRent_update_component_state');
       _model.isLoaded = true;
@@ -97,7 +95,7 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+      padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
       child: Material(
         color: Colors.transparent,
         elevation: 8.0,
@@ -107,7 +105,7 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
         child: Container(
           width: MediaQuery.sizeOf(context).width * 1.0,
           height: 176.0,
-          constraints: BoxConstraints(
+          constraints: const BoxConstraints(
             maxWidth: 570.0,
           ),
           decoration: BoxDecoration(
@@ -119,20 +117,20 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
             ),
           ),
           child: Align(
-            alignment: AlignmentDirectional(-1.0, -1.0),
+            alignment: const AlignmentDirectional(-1.0, -1.0),
             child: Builder(
               builder: (context) {
                 if (_model.isLoaded) {
                   return Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 8.0, 16.0, 8.0),
+                        const EdgeInsetsDirectional.fromSTEB(16.0, 8.0, 16.0, 8.0),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Align(
-                          alignment: AlignmentDirectional(0.0, -1.0),
+                          alignment: const AlignmentDirectional(0.0, -1.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -185,7 +183,7 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          Icon(
+                                          const Icon(
                                             Icons.attach_money_outlined,
                                             color: Color(0xFF0E9E43),
                                             size: 16.0,
@@ -215,7 +213,7 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
                                       Row(
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
-                                          Icon(
+                                          const Icon(
                                             Icons.attach_money_outlined,
                                             color: Color(0xFF0E9E43),
                                             size: 16.0,
@@ -242,17 +240,17 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
                                           ),
                                         ],
                                       ),
-                                    ].divide(SizedBox(height: 5.0)),
+                                    ].divide(const SizedBox(height: 5.0)),
                                   ),
-                                ].divide(SizedBox(height: 5.0)),
+                                ].divide(const SizedBox(height: 5.0)),
                               ),
                               Container(
-                                decoration: BoxDecoration(),
+                                decoration: const BoxDecoration(),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           16.0, 0.0, 0.0, 0.0),
                                       child: RatingBarIndicator(
                                         itemBuilder: (context, index) => FaIcon(
@@ -270,7 +268,7 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           16.0, 0.0, 0.0, 0.0),
                                       child: RatingBarIndicator(
                                         itemBuilder: (context, index) => Icon(
@@ -280,9 +278,7 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
                                         ),
                                         direction: Axis.horizontal,
                                         rating: valueOrDefault<double>(
-                                          _model.userObject?.rating != null
-                                              ? _model.userObject?.rating
-                                              : 0.0,
+                                          _model.userObject?.rating ?? 0.0,
                                           0.0,
                                         ),
                                         unratedColor:
@@ -350,16 +346,16 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
                                                             .bodyMediumFamily),
                                               ),
                                         ),
-                                      ].divide(SizedBox(height: 5.0)),
+                                      ].divide(const SizedBox(height: 5.0)),
                                     ),
-                                  ].divide(SizedBox(height: 5.0)),
+                                  ].divide(const SizedBox(height: 5.0)),
                                 ),
                               ),
                             ],
                           ),
                         ),
                         Align(
-                          alignment: AlignmentDirectional(0.0, 0.0),
+                          alignment: const AlignmentDirectional(0.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -379,7 +375,7 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
                                         child: Padding(
                                           padding:
                                               MediaQuery.viewInsetsOf(context),
-                                          child: Container(
+                                          child: SizedBox(
                                             height: MediaQuery.sizeOf(context)
                                                     .height *
                                                 1.0,
@@ -397,9 +393,9 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
                                 text: 'Escolher datas',
                                 options: FFButtonOptions(
                                   height: 40.0,
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       16.0, 0.0, 16.0, 0.0),
-                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 0.0),
                                   color: FlutterFlowTheme.of(context).primary,
                                   textStyle: FlutterFlowTheme.of(context)
@@ -421,13 +417,13 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
                             ],
                           ),
                         ),
-                      ].divide(SizedBox(height: 12.0)),
+                      ].divide(const SizedBox(height: 12.0)),
                     ),
                   );
                 } else {
-                  return Align(
+                  return const Align(
                     alignment: AlignmentDirectional(0.0, 0.0),
-                    child: Container(
+                    child: SizedBox(
                       width: 100.0,
                       height: 100.0,
                       child: custom_widgets.LoadingIndicator(

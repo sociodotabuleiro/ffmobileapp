@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'serialization_util.dart';
 import '../backend.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
@@ -15,8 +14,7 @@ import '../../main.dart';
 final _handledMessageIds = <String?>{};
 
 class PushNotificationsHandler extends StatefulWidget {
-  const PushNotificationsHandler({Key? key, required this.child})
-      : super(key: key);
+  const PushNotificationsHandler({super.key, required this.child});
 
   final Widget child;
 
@@ -102,7 +100,7 @@ class ParameterData {
       );
 
   static Future<ParameterData> Function(Map<String, dynamic>) none() =>
-      (data) async => ParameterData();
+      (data) async => const ParameterData();
 }
 
 final parametersBuilderMap =
@@ -156,6 +154,10 @@ final parametersBuilderMap =
   'loginLudopedia': ParameterData.none(),
   'deliveryStatus': ParameterData.none(),
   'termandconditions': ParameterData.none(),
+  'changePassword': ParameterData.none(),
+  'Settings1Notifications': ParameterData.none(),
+  'Settings2EditProfile': ParameterData.none(),
+  'SettingsListAddress': ParameterData.none(),
 };
 
 Map<String, dynamic> getInitialParameterData(Map<String, dynamic> data) {

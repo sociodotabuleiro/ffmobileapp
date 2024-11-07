@@ -1,12 +1,9 @@
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'dart:math';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'tags_categorias_model.dart';
 export 'tags_categorias_model.dart';
 
@@ -75,29 +72,29 @@ class _TagsCategoriasWidgetState extends State<TagsCategoriasWidget>
         mainAxisSize: MainAxisSize.max,
         children: [
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
+            padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
             child: Container(
               height: 32.0,
               decoration: BoxDecoration(
                 color: valueOrDefault<Color>(
-                  widget!.color,
-                  Color(0x7226062B),
+                  widget.color,
+                  const Color(0x7226062B),
                 ),
                 borderRadius: BorderRadius.circular(8.0),
                 border: Border.all(
                   color: valueOrDefault<Color>(
-                    widget!.color,
+                    widget.color,
                     FlutterFlowTheme.of(context).tertiary,
                   ),
                 ),
               ),
               child: Align(
-                alignment: AlignmentDirectional(0.0, 0.0),
+                alignment: const AlignmentDirectional(0.0, 0.0),
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
                   child: Text(
                     valueOrDefault<String>(
-                      widget!.category,
+                      widget.category,
                       'Categoria',
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -114,9 +111,9 @@ class _TagsCategoriasWidgetState extends State<TagsCategoriasWidget>
             ),
           ),
         ]
-            .divide(SizedBox(width: 8.0))
-            .addToStart(SizedBox(width: 16.0))
-            .addToEnd(SizedBox(width: 16.0)),
+            .divide(const SizedBox(width: 8.0))
+            .addToStart(const SizedBox(width: 16.0))
+            .addToEnd(const SizedBox(width: 16.0)),
       ),
     ).animateOnPageLoad(animationsMap['rowOnPageLoadAnimation']!);
   }

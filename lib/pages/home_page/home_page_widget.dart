@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
@@ -5,14 +9,11 @@ import '/components/nav_bar/nav_bar_widget.dart';
 import '/components/side_nav02/side_nav02_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:async';
-import 'dart:convert';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
+import 'package:badges/badges.dart' as badges;
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:collection/collection.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -20,9 +21,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
+import '/auth/get_fcm_token.dart';
 
 import 'home_page_model.dart';
 export 'home_page_model.dart';
+
 
 class HomePageWidget extends StatefulWidget {
   const HomePageWidget({super.key});
@@ -41,7 +44,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     super.initState();
     _model = createModel(context, () => HomePageModel());
 
+     // Check and add FCM token
+    _initializeFcmToken();
+
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'HomePage'});
+
+
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('HOME_PAGE_PAGE_HomePage_ON_INIT_STATE');
@@ -55,10 +63,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               cpfCnpj: valueOrDefault(currentUserDocument?.cpf, ''),
               email: currentUserEmail,
               mobilePhone: currentPhoneNumber,
-              address: currentUserDocument?.address?.street,
-              addressNumber: currentUserDocument?.address?.number,
-              province: currentUserDocument?.address?.neighborhood,
-              postalCode: currentUserDocument?.address?.zip,
+              address: currentUserDocument?.address.street,
+              addressNumber: currentUserDocument?.address.number,
+              province: currentUserDocument?.address.neighborhood,
+              postalCode: currentUserDocument?.address.zip,
               externalReference: currentUserReference?.id,
             );
           }(),
@@ -67,9 +75,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       logFirebaseEvent('HomePage_update_app_state');
       FFAppState().firstSessionlogin = false;
       FFAppState().userAddress =
-          '${currentUserDocument?.address?.street}, ${currentUserDocument?.address?.number}';
+          '${currentUserDocument?.address.street}, ${currentUserDocument?.address.number}';
       FFAppState().userAddressLatLng =
-          currentUserDocument?.address?.coordinates;
+          currentUserDocument?.address.coordinates;
       safeSetState(() {});
       logFirebaseEvent('HomePage_firestore_query');
       _model.featuredGamesMocked = await queryGamesRecordOnce(
@@ -86,12 +94,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           .toList()
           .cast<DocumentReference>();
       safeSetState(() {});
-      if (((currentUserDocument?.favoriteUsers?.toList() ?? []).isNotEmpty) ==
+      if (((currentUserDocument?.favoriteUsers.toList() ?? []).isNotEmpty) ==
           true) {
         // setFollowingUsers
         logFirebaseEvent('HomePage_setFollowingUsers');
         FFAppState().followingUsers =
-            (currentUserDocument?.favoriteUsers?.toList() ?? [])
+            (currentUserDocument?.favoriteUsers.toList() ?? [])
                 .toList()
                 .cast<DocumentReference>();
         safeSetState(() {});
@@ -114,21 +122,21 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           currentUserReference!,
         );
       }
-      if (((currentUserDocument?.wishlist?.toList() ?? []).isNotEmpty) ==
+      if (((currentUserDocument?.wishlist.toList() ?? []).isNotEmpty) ==
           true) {
         // updateWishlist
         logFirebaseEvent('HomePage_updateWishlist');
-        FFAppState().wishlist = (currentUserDocument?.wishlist?.toList() ?? [])
+        FFAppState().wishlist = (currentUserDocument?.wishlist.toList() ?? [])
             .toList()
             .cast<DocumentReference>();
         safeSetState(() {});
       }
-      if (((currentUserDocument?.favoriteList?.toList() ?? []).isNotEmpty) ==
+      if (((currentUserDocument?.favoriteList.toList() ?? []).isNotEmpty) ==
           true) {
         // updateFavoriteList
         logFirebaseEvent('HomePage_updateFavoriteList');
         FFAppState().favoritedGames =
-            (currentUserDocument?.favoriteList?.toList() ?? [])
+            (currentUserDocument?.favoriteList.toList() ?? [])
                 .toList()
                 .cast<DocumentReference>();
         safeSetState(() {});
@@ -143,18 +151,18 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               builder: (alertDialogContext) {
                 return WebViewAware(
                   child: AlertDialog(
-                    title: Text('Confirmação de aluguel'),
-                    content: Text('Você deseja alugar seu acervo de jogos?'),
+                    title: const Text('Confirmação de aluguel'),
+                    content: const Text('Você deseja alugar seu acervo de jogos?'),
                     actions: [
                       TextButton(
                         onPressed: () =>
                             Navigator.pop(alertDialogContext, false),
-                        child: Text('Não'),
+                        child: const Text('Não'),
                       ),
                       TextButton(
                         onPressed: () =>
                             Navigator.pop(alertDialogContext, true),
-                        child: Text('Claro, vamos nessa!'),
+                        child: const Text('Claro, vamos nessa!'),
                       ),
                     ],
                   ),
@@ -176,13 +184,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               builder: (alertDialogContext) {
                 return WebViewAware(
                   child: AlertDialog(
-                    title: Text('Sucesso!'),
-                    content: Text(
+                    title: const Text('Sucesso!'),
+                    content: const Text(
                         'Sua conta para recebindo foi criada, agora você já pode começar a alugar e receber pela nossa plataforma!'),
                     actions: [
                       TextButton(
                         onPressed: () => Navigator.pop(alertDialogContext),
-                        child: Text('Yuhuul!'),
+                        child: const Text('Yuhuul!'),
                       ),
                     ],
                   ),
@@ -215,6 +223,16 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
+    Future<void> _initializeFcmToken() async {
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    if (fcmToken != null) {
+      await addFcmTokenIfNotExists(
+        fcmToken,
+        Platform.isIOS ? 'iOS' : 'Android',
+      );
+    }
+  }
+
   @override
   void dispose() {
     _model.dispose();
@@ -236,27 +254,28 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
             drawer: Drawer(
-              elevation: 16,
+              elevation: 16.0,
               child: WebViewAware(
                 child: wrapWithModel(
                   model: _model.sideNav02Model,
                   updateCallback: () => safeSetState(() {}),
-                  child: SideNav02Widget(),
+                  child: const SideNav02Widget(),
                 ),
               ),
             ),
             body: Container(
-              width: MediaQuery.sizeOf(context).width,
-              height: MediaQuery.sizeOf(context).height * 1,
+              width: MediaQuery.sizeOf(context).width * 1.0,
+              height: MediaQuery.sizeOf(context).height * 1.0,
               decoration: BoxDecoration(
                 color: FlutterFlowTheme.of(context).secondaryBackground,
               ),
               child: Stack(
                 children: [
                   Align(
-                    alignment: AlignmentDirectional(0, 0),
+                    alignment: const AlignmentDirectional(0.0, 0.0),
                     child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 180, 0, 0),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 180.0, 0.0, 0.0),
                       child: Container(
                         width: double.infinity,
                         height: MediaQuery.sizeOf(context).height * 0.9,
@@ -270,22 +289,22 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Align(
-                              alignment: AlignmentDirectional(0, 0),
+                              alignment: const AlignmentDirectional(0.0, 0.0),
                               child: Container(
-                                width: MediaQuery.sizeOf(context).width,
+                                width: MediaQuery.sizeOf(context).width * 1.0,
                                 height:
                                     MediaQuery.sizeOf(context).height * 0.31,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   color: Color(0x1A003E86),
                                 ),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Align(
-                                      alignment: AlignmentDirectional(0, 0),
+                                      alignment: const AlignmentDirectional(0.0, 0.0),
                                       child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 8, 0, 0),
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 8.0, 0.0, 0.0),
                                         child: Text(
                                           'Jogos em Destaque',
                                           style: FlutterFlowTheme.of(context)
@@ -294,9 +313,16 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                 fontFamily:
                                                     FlutterFlowTheme.of(context)
                                                         .headlineSmallFamily,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .tertiary,
+                                                color: (Theme.of(context)
+                                                                .brightness ==
+                                                            Brightness.light) ==
+                                                        true
+                                                    ? FlutterFlowTheme.of(
+                                                            context)
+                                                        .tertiary
+                                                    : FlutterFlowTheme.of(
+                                                            context)
+                                                        .primaryText,
                                                 letterSpacing: 0.0,
                                                 useGoogleFonts: GoogleFonts
                                                         .asMap()
@@ -314,8 +340,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                 .isNotEmpty) ==
                                         true)
                                       Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 16, 0, 0),
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 16.0, 0.0, 0.0),
                                         child: Builder(
                                           builder: (context) {
                                             final featuredGames = FFAppState()
@@ -324,8 +350,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                 .take(5)
                                                 .toList();
 
-                                            return Container(
-                                              width: 350,
+                                            return SizedBox(
+                                              width: 350.0,
                                               height: MediaQuery.sizeOf(context)
                                                       .height *
                                                   0.24,
@@ -347,8 +373,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                       if (!snapshot.hasData) {
                                                         return Center(
                                                           child: SizedBox(
-                                                            width: 50,
-                                                            height: 50,
+                                                            width: 50.0,
+                                                            height: 50.0,
                                                             child:
                                                                 CircularProgressIndicator(
                                                               valueColor:
@@ -373,12 +399,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                     .height *
                                                                 0.074,
                                                         decoration:
-                                                            BoxDecoration(),
+                                                            const BoxDecoration(),
                                                         child: Column(
                                                           mainAxisSize:
                                                               MainAxisSize.max,
                                                           children: [
-                                                            Container(
+                                                            SizedBox(
                                                               width: MediaQuery
                                                                           .sizeOf(
                                                                               context)
@@ -398,12 +424,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                             context)
                                                                         .secondaryBackground,
                                                                     elevation:
-                                                                        8,
+                                                                        8.0,
                                                                     shape:
                                                                         RoundedRectangleBorder(
                                                                       borderRadius:
                                                                           BorderRadius.circular(
-                                                                              8),
+                                                                              8.0),
                                                                     ),
                                                                     child:
                                                                         ClipRRect(
@@ -440,17 +466,17 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                   ),
                                                                   Align(
                                                                     alignment:
-                                                                        AlignmentDirectional(
-                                                                            1,
-                                                                            -1),
+                                                                        const AlignmentDirectional(
+                                                                            1.0,
+                                                                            -1.0),
                                                                     child:
                                                                         FlutterFlowIconButton(
                                                                       borderRadius:
-                                                                          20,
+                                                                          20.0,
                                                                       buttonSize:
-                                                                          32,
+                                                                          32.0,
                                                                       fillColor:
-                                                                          Color(
+                                                                          const Color(
                                                                               0x94000000),
                                                                       icon:
                                                                           FaIcon(
@@ -459,7 +485,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                         color: FlutterFlowTheme.of(context)
                                                                             .info,
                                                                         size:
-                                                                            16,
+                                                                            16.0,
                                                                       ),
                                                                       onPressed:
                                                                           () async {
@@ -509,8 +535,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                     fontFamily:
                                                                         FlutterFlowTheme.of(context)
                                                                             .bodyMediumFamily,
-                                                                    color: Color(
-                                                                        0xFF26062B),
+                                                                    color: (Theme.of(context).brightness == Brightness.light) ==
+                                                                            true
+                                                                        ? FlutterFlowTheme.of(context)
+                                                                            .tertiary
+                                                                        : FlutterFlowTheme.of(context)
+                                                                            .primaryText,
                                                                     letterSpacing:
                                                                         0.0,
                                                                     fontWeight:
@@ -547,9 +577,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                       Axis.horizontal,
                                                   autoPlay: true,
                                                   autoPlayAnimationDuration:
-                                                      Duration(
+                                                      const Duration(
                                                           milliseconds: 800),
-                                                  autoPlayInterval: Duration(
+                                                  autoPlayInterval: const Duration(
                                                       milliseconds:
                                                           (800 + 4000)),
                                                   autoPlayCurve: Curves.linear,
@@ -576,7 +606,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               desktop: false,
                             ))
                               Container(
-                                width: MediaQuery.sizeOf(context).width,
+                                width: MediaQuery.sizeOf(context).width * 1.0,
                                 height:
                                     MediaQuery.sizeOf(context).height * 0.38,
                                 decoration: BoxDecoration(
@@ -595,7 +625,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                           width:
                                               MediaQuery.sizeOf(context).width *
                                                   0.5,
-                                          height: 150,
+                                          height: 150.0,
                                           decoration: BoxDecoration(
                                             color: FlutterFlowTheme.of(context)
                                                 .primary,
@@ -606,8 +636,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                 MainAxisAlignment.start,
                                             children: [
                                               Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(0, 12, 0, 0),
+                                                padding: const EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 12.0, 0.0, 0.0),
                                                 child: Text(
                                                   'Locador do mês',
                                                   style: FlutterFlowTheme.of(
@@ -635,11 +666,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                         .spaceEvenly,
                                                 children: [
                                                   Container(
-                                                    width: 60,
-                                                    height: 60,
+                                                    width: 60.0,
+                                                    height: 60.0,
                                                     clipBehavior:
                                                         Clip.antiAlias,
-                                                    decoration: BoxDecoration(
+                                                    decoration: const BoxDecoration(
                                                       shape: BoxShape.circle,
                                                     ),
                                                     child: Image.network(
@@ -647,7 +678,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                       fit: BoxFit.cover,
                                                     ),
                                                   ),
-                                                  Column(
+                                                  const Column(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
                                                     mainAxisAlignment:
@@ -657,14 +688,14 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                   ),
                                                 ],
                                               ),
-                                            ].divide(SizedBox(height: 32)),
+                                            ].divide(const SizedBox(height: 32.0)),
                                           ),
                                         ),
                                         Container(
                                           width:
                                               MediaQuery.sizeOf(context).width *
                                                   0.5,
-                                          height: 150,
+                                          height: 150.0,
                                           decoration: BoxDecoration(
                                             color: FlutterFlowTheme.of(context)
                                                 .secondary,
@@ -675,8 +706,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                 MainAxisAlignment.start,
                                             children: [
                                               Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(0, 12, 0, 0),
+                                                padding: const EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 12.0, 0.0, 0.0),
                                                 child: Text(
                                                   'Jogo do mês',
                                                   style: FlutterFlowTheme.of(
@@ -704,11 +736,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                         .spaceEvenly,
                                                 children: [
                                                   Container(
-                                                    width: 60,
-                                                    height: 60,
+                                                    width: 60.0,
+                                                    height: 60.0,
                                                     clipBehavior:
                                                         Clip.antiAlias,
-                                                    decoration: BoxDecoration(
+                                                    decoration: const BoxDecoration(
                                                       shape: BoxShape.circle,
                                                     ),
                                                     child: Image.network(
@@ -716,7 +748,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                       fit: BoxFit.cover,
                                                     ),
                                                   ),
-                                                  Column(
+                                                  const Column(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
                                                     mainAxisAlignment:
@@ -726,14 +758,14 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                   ),
                                                 ],
                                               ),
-                                            ].divide(SizedBox(height: 32)),
+                                            ].divide(const SizedBox(height: 32.0)),
                                           ),
                                         ),
                                       ],
                                     ),
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 4, 0, 0),
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 4.0, 0.0, 0.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
@@ -743,7 +775,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                             width: MediaQuery.sizeOf(context)
                                                     .width *
                                                 0.5,
-                                            height: 150,
+                                            height: 150.0,
                                             decoration: BoxDecoration(
                                               color:
                                                   FlutterFlowTheme.of(context)
@@ -755,8 +787,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                   MainAxisAlignment.start,
                                               children: [
                                                 Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(0, 12, 0, 0),
+                                                  padding: const EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 12.0, 0.0, 0.0),
                                                   child: Text(
                                                     'Luderia do Mês',
                                                     style: FlutterFlowTheme.of(
@@ -788,11 +821,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                           .spaceEvenly,
                                                   children: [
                                                     Container(
-                                                      width: 60,
-                                                      height: 60,
+                                                      width: 60.0,
+                                                      height: 60.0,
                                                       clipBehavior:
                                                           Clip.antiAlias,
-                                                      decoration: BoxDecoration(
+                                                      decoration: const BoxDecoration(
                                                         shape: BoxShape.circle,
                                                       ),
                                                       child: Image.network(
@@ -800,7 +833,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                         fit: BoxFit.cover,
                                                       ),
                                                     ),
-                                                    Column(
+                                                    const Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
                                                       mainAxisAlignment:
@@ -810,14 +843,14 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                     ),
                                                   ],
                                                 ),
-                                              ].divide(SizedBox(height: 32)),
+                                              ].divide(const SizedBox(height: 32.0)),
                                             ),
                                           ),
                                           Container(
                                             width: MediaQuery.sizeOf(context)
                                                     .width *
                                                 0.5,
-                                            height: 150,
+                                            height: 150.0,
                                             decoration: BoxDecoration(
                                               color:
                                                   FlutterFlowTheme.of(context)
@@ -829,8 +862,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                   MainAxisAlignment.start,
                                               children: [
                                                 Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(0, 12, 0, 0),
+                                                  padding: const EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 12.0, 0.0, 0.0),
                                                   child: Text(
                                                     'Categoria do Mês',
                                                     style: FlutterFlowTheme.of(
@@ -862,11 +896,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                           .spaceEvenly,
                                                   children: [
                                                     Container(
-                                                      width: 60,
-                                                      height: 60,
+                                                      width: 60.0,
+                                                      height: 60.0,
                                                       clipBehavior:
                                                           Clip.antiAlias,
-                                                      decoration: BoxDecoration(
+                                                      decoration: const BoxDecoration(
                                                         shape: BoxShape.circle,
                                                       ),
                                                       child: Image.network(
@@ -874,7 +908,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                         fit: BoxFit.cover,
                                                       ),
                                                     ),
-                                                    Column(
+                                                    const Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
                                                       mainAxisAlignment:
@@ -884,7 +918,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                     ),
                                                   ],
                                                 ),
-                                              ].divide(SizedBox(height: 32)),
+                                              ].divide(const SizedBox(height: 32.0)),
                                             ),
                                           ),
                                         ],
@@ -899,35 +933,39 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     ),
                   ),
                   Align(
-                    alignment: AlignmentDirectional(0, 1),
+                    alignment: const AlignmentDirectional(0.0, 1.0),
                     child: wrapWithModel(
                       model: _model.navBarModel,
                       updateCallback: () => safeSetState(() {}),
-                      child: NavBarWidget(),
+                      child: const NavBarWidget(),
                     ),
                   ),
                   Container(
                     height: MediaQuery.sizeOf(context).height * 0.21,
-                    decoration: BoxDecoration(),
+                    decoration: const BoxDecoration(),
                     child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 56, 0, 0),
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 56.0, 0.0, 0.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Align(
-                            alignment: AlignmentDirectional(0, 0),
+                            alignment: const AlignmentDirectional(0.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
                                   mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Align(
-                                      alignment: AlignmentDirectional(-1, -0.9),
+                                      alignment:
+                                          const AlignmentDirectional(-1.0, -0.9),
                                       child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            16, 0, 0, 0),
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 0.0, 0.0, 0.0),
                                         child: InkWell(
                                           splashColor: Colors.transparent,
                                           focusColor: Colors.transparent,
@@ -944,43 +982,66 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                             Icons.menu,
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryText,
-                                            size: 32,
+                                            size: 32.0,
                                           ),
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
-                                Builder(
-                                  builder: (context) {
-                                    if (((currentUserDocument?.notifications
-                                                    ?.toList() ??
-                                                [])
-                                            .isNotEmpty) ==
-                                        true) {
-                                      return Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 16, 0),
-                                        child: Icon(
-                                          Icons.notifications_rounded,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          size: 32,
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 16.0, 0.0),
+                                  child: AuthUserStreamWidget(
+                                    builder: (context) => badges.Badge(
+                                      badgeContent: Text(
+                                        valueOrDefault<String>(
+                                          (currentUserDocument?.notifications
+                                                      .toList() ??
+                                                  [])
+                                              .length
+                                              .toString(),
+                                          '0',
                                         ),
-                                      );
-                                    } else {
-                                      return Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 16, 0),
-                                        child: Icon(
-                                          Icons.notifications_none_rounded,
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryText,
-                                          size: 32,
-                                        ),
-                                      );
-                                    }
-                                  },
+                                        style: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .override(
+                                              fontFamily:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmallFamily,
+                                              color: Colors.white,
+                                              fontSize: 12.0,
+                                              letterSpacing: 0.0,
+                                              useGoogleFonts: GoogleFonts
+                                                      .asMap()
+                                                  .containsKey(
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleSmallFamily),
+                                            ),
+                                      ),
+                                      showBadge: (currentUserDocument
+                                                      ?.notifications
+                                                      .toList() ??
+                                                  []).isNotEmpty,
+                                      shape: badges.BadgeShape.circle,
+                                      badgeColor:
+                                          FlutterFlowTheme.of(context).primary,
+                                      elevation: 4.0,
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          8.0, 8.0, 8.0, 8.0),
+                                      position: badges.BadgePosition.topEnd(),
+                                      animationType:
+                                          badges.BadgeAnimationType.scale,
+                                      toAnimate: true,
+                                      child: Icon(
+                                        Icons.notifications_sharp,
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                        size: 32.0,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
@@ -990,12 +1051,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Align(
-                                alignment: AlignmentDirectional(0, 0),
+                                alignment: const AlignmentDirectional(0.0, 0.0),
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(8.0),
                                   child: Image.asset(
-                                    'assets/images/logo.png',
-                                    width: MediaQuery.sizeOf(context).width,
+                                    'assets/images/logo_text.png',
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 1.0,
                                     height:
                                         MediaQuery.sizeOf(context).height * 0.1,
                                     fit: BoxFit.contain,

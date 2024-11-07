@@ -6,7 +6,6 @@ import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'login_model.dart';
 export 'login_model.dart';
 
@@ -57,7 +56,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             body: Container(
               width: MediaQuery.sizeOf(context).width * 1.0,
               height: MediaQuery.sizeOf(context).height * 1.0,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color(0x00FFFFFF),
               ),
               child: Column(
@@ -79,7 +78,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       }
                     }(),
                     height: MediaQuery.sizeOf(context).height * 0.2,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(0.0),
                         bottomRight: Radius.circular(0.0),
@@ -89,7 +88,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                     ),
                     child: Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 30.0, 0.0, 0.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
                         child: Image.asset(
@@ -111,7 +110,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 0.0),
                           child: Text(
                             'Seja bem vindo!',
@@ -129,7 +128,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 4.0, 0.0, 0.0),
                           child: Text(
                             'O seu hub de jogos é aqui!',
@@ -146,7 +145,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               16.0, 16.0, 16.0, 0.0),
                           child: Container(
                             width: MediaQuery.sizeOf(context).width * 1.0,
@@ -165,9 +164,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
                                             8.0, 0.0, 8.0, 0.0),
-                                        child: Container(
+                                        child: SizedBox(
                                           width: 340.0,
                                           child: TextFormField(
                                             controller:
@@ -210,7 +209,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                     .labelMediumFamily),
                                                       ),
                                               enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
+                                                borderSide: const BorderSide(
                                                   color: Color(0xFFDDDDDD),
                                                   width: 1.0,
                                                 ),
@@ -271,9 +270,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
                                             8.0, 8.0, 8.0, 0.0),
-                                        child: Container(
+                                        child: SizedBox(
                                           width: 340.0,
                                           child: TextFormField(
                                             controller:
@@ -317,7 +316,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                     .labelMediumFamily),
                                                       ),
                                               enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
+                                                borderSide: const BorderSide(
                                                   color: Color(0xFFDDDDDD),
                                                   width: 1.0,
                                                 ),
@@ -402,7 +401,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       8.0, 16.0, 8.0, 0.0),
                                   child: FFButtonWidget(
                                     onPressed: () async {
@@ -428,10 +427,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     options: FFButtonOptions(
                                       width: 340.0,
                                       height: 40.0,
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           24.0, 0.0, 24.0, 0.0),
                                       iconPadding:
-                                          EdgeInsetsDirectional.fromSTEB(
+                                          const EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
                                       color:
                                           FlutterFlowTheme.of(context).tertiary,
@@ -449,7 +448,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                         .titleSmallFamily),
                                           ),
                                       elevation: 3.0,
-                                      borderSide: BorderSide(
+                                      borderSide: const BorderSide(
                                         color: Colors.transparent,
                                         width: 1.0,
                                       ),
@@ -460,7 +459,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       0.0, 16.0, 0.0, 0.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -472,7 +471,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                         height:
                                             MediaQuery.sizeOf(context).height *
                                                 0.05,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                           color: Color(0x00FFFFFF),
                                         ),
                                         child: Row(
@@ -544,7 +543,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       Flexible(
                                         child: Padding(
                                           padding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 0.0, 8.0, 0.0),
                                           child: Container(
                                             width: MediaQuery.sizeOf(context)
@@ -553,11 +552,11 @@ class _LoginWidgetState extends State<LoginWidget> {
                                             height: MediaQuery.sizeOf(context)
                                                     .height *
                                                 0.05,
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               color: Color(0x00FFFFFF),
                                             ),
                                             child: Align(
-                                              alignment: AlignmentDirectional(
+                                              alignment: const AlignmentDirectional(
                                                   1.0, 0.0),
                                               child: Text(
                                                 'Resetar senha',
@@ -693,7 +692,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           desktop: false,
                         ))
                           Align(
-                            alignment: AlignmentDirectional(0.0, 0.0),
+                            alignment: const AlignmentDirectional(0.0, 0.0),
                             child: Text(
                               'Ou conecte-se direto pela',
                               style: FlutterFlowTheme.of(context)
@@ -710,7 +709,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                             ),
                           ),
                         Container(
-                          decoration: BoxDecoration(),
+                          decoration: const BoxDecoration(),
                           child: Visibility(
                             visible: responsiveVisibility(
                               context: context,
@@ -726,7 +725,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 width: 250.0,
                                 height: 80.0,
                                 fit: BoxFit.contain,
-                                alignment: Alignment(-1.0, 0.0),
+                                alignment: const Alignment(-1.0, 0.0),
                               ),
                             ),
                           ),
@@ -738,7 +737,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                     child: Material(
                       color: Colors.transparent,
                       elevation: 4.0,
-                      shape: RoundedRectangleBorder(
+                      shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(16.0),
                           bottomRight: Radius.circular(16.0),
@@ -752,7 +751,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         decoration: BoxDecoration(
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             bottomLeft: Radius.circular(16.0),
                             bottomRight: Radius.circular(16.0),
                             topLeft: Radius.circular(0.0),
@@ -783,8 +782,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     .override(
                                       fontFamily: FlutterFlowTheme.of(context)
                                           .titleSmallFamily,
-                                      color:
-                                          FlutterFlowTheme.of(context).tertiary,
+                                      color: (Theme.of(context).brightness ==
+                                                  Brightness.light) ==
+                                              true
+                                          ? FlutterFlowTheme.of(context)
+                                              .tertiary
+                                          : FlutterFlowTheme.of(context)
+                                              .primaryText,
                                       letterSpacing: 0.0,
                                       useGoogleFonts: GoogleFonts.asMap()
                                           .containsKey(
@@ -812,8 +816,13 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     .override(
                                       fontFamily: FlutterFlowTheme.of(context)
                                           .titleSmallFamily,
-                                      color:
-                                          FlutterFlowTheme.of(context).tertiary,
+                                      color: (Theme.of(context).brightness ==
+                                                  Brightness.light) ==
+                                              true
+                                          ? FlutterFlowTheme.of(context)
+                                              .tertiary
+                                          : FlutterFlowTheme.of(context)
+                                              .primaryText,
                                       letterSpacing: 0.0,
                                       useGoogleFonts: GoogleFonts.asMap()
                                           .containsKey(

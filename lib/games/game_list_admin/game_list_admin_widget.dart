@@ -2,10 +2,8 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +11,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:provider/provider.dart';
 import 'game_list_admin_model.dart';
 export 'game_list_admin_model.dart';
 
@@ -150,13 +147,13 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                     ),
                     child: Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 16.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 16.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 16.0, 0.0, 16.0, 16.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
@@ -168,11 +165,11 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                     width: 40.0,
                                     height: 50.0,
                                     fit: BoxFit.cover,
-                                    alignment: Alignment(-1.0, 0.0),
+                                    alignment: const Alignment(-1.0, 0.0),
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       4.0, 0.0, 0.0, 0.0),
                                   child: Text(
                                     'SDT',
@@ -203,7 +200,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       16.0, 12.0, 0.0, 0.0),
                                   child: Text(
                                     'Navegação',
@@ -222,10 +219,10 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       16.0, 0.0, 16.0, 0.0),
                                   child: AnimatedContainer(
-                                    duration: Duration(milliseconds: 200),
+                                    duration: const Duration(milliseconds: 200),
                                     curve: Curves.easeInOut,
                                     width: double.infinity,
                                     height: 44.0,
@@ -236,7 +233,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                       shape: BoxShape.rectangle,
                                     ),
                                     child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           8.0, 0.0, 6.0, 0.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -249,7 +246,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                           ),
                                           Padding(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     12.0, 0.0, 0.0, 0.0),
                                             child: Text(
                                               'Home',
@@ -277,10 +274,10 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       16.0, 0.0, 16.0, 0.0),
                                   child: AnimatedContainer(
-                                    duration: Duration(milliseconds: 200),
+                                    duration: const Duration(milliseconds: 200),
                                     curve: Curves.easeInOut,
                                     width: double.infinity,
                                     height: 44.0,
@@ -291,7 +288,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                       shape: BoxShape.rectangle,
                                     ),
                                     child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           8.0, 0.0, 6.0, 0.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -304,7 +301,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                           ),
                                           Padding(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     12.0, 0.0, 0.0, 0.0),
                                             child: Text(
                                               'Chats',
@@ -332,7 +329,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       16.0, 0.0, 0.0, 0.0),
                                   child: Text(
                                     'Configurações',
@@ -351,10 +348,10 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       16.0, 0.0, 16.0, 0.0),
                                   child: AnimatedContainer(
-                                    duration: Duration(milliseconds: 200),
+                                    duration: const Duration(milliseconds: 200),
                                     curve: Curves.easeInOut,
                                     width: double.infinity,
                                     height: 44.0,
@@ -365,7 +362,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                       shape: BoxShape.rectangle,
                                     ),
                                     child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           8.0, 0.0, 6.0, 0.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -375,10 +372,8 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                               Icons.notifications_rounded,
                                               color: (currentUserDocument
                                                                   ?.notifications
-                                                                  ?.toList() ??
-                                                              [])
-                                                          .length >
-                                                      0
+                                                                  .toList() ??
+                                                              []).isNotEmpty
                                                   ? FlutterFlowTheme.of(context)
                                                       .primary
                                                   : FlutterFlowTheme.of(context)
@@ -388,7 +383,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                           ),
                                           Expanded(
                                             child: Padding(
-                                              padding: EdgeInsetsDirectional
+                                              padding: const EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       12.0, 0.0, 0.0, 0.0),
                                               child: Text(
@@ -418,10 +413,8 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                               decoration: BoxDecoration(
                                                 color: (currentUserDocument
                                                                     ?.notifications
-                                                                    ?.toList() ??
-                                                                [])
-                                                            .length >
-                                                        0
+                                                                    .toList() ??
+                                                                []).isNotEmpty
                                                     ? FlutterFlowTheme.of(
                                                             context)
                                                         .primary
@@ -432,17 +425,17 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                     BorderRadius.circular(8.0),
                                               ),
                                               child: Align(
-                                                alignment: AlignmentDirectional(
+                                                alignment: const AlignmentDirectional(
                                                     0.0, 0.0),
                                                 child: Padding(
-                                                  padding: EdgeInsetsDirectional
+                                                  padding: const EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           8.0, 4.0, 8.0, 4.0),
                                                   child: Text(
                                                     valueOrDefault<String>(
                                                       ((currentUserDocument
                                                                       ?.notifications
-                                                                      ?.toList() ??
+                                                                      .toList() ??
                                                                   [])
                                                               .isNotEmpty)
                                                           .toString(),
@@ -457,7 +450,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                                   FlutterFlowTheme.of(
                                                                           context)
                                                                       .bodyMediumFamily,
-                                                              color: ((currentUserDocument?.notifications?.toList() ??
+                                                              color: ((currentUserDocument?.notifications.toList() ??
                                                                               [])
                                                                           .isNotEmpty) ==
                                                                       true
@@ -487,10 +480,10 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       16.0, 0.0, 16.0, 0.0),
                                   child: AnimatedContainer(
-                                    duration: Duration(milliseconds: 200),
+                                    duration: const Duration(milliseconds: 200),
                                     curve: Curves.easeInOut,
                                     width: double.infinity,
                                     height: 44.0,
@@ -501,7 +494,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                       shape: BoxShape.rectangle,
                                     ),
                                     child: Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
                                           8.0, 0.0, 6.0, 0.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -514,7 +507,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                           ),
                                           Padding(
                                             padding:
-                                                EdgeInsetsDirectional.fromSTEB(
+                                                const EdgeInsetsDirectional.fromSTEB(
                                                     12.0, 0.0, 0.0, 0.0),
                                             child: Text(
                                               'Financeiro',
@@ -541,16 +534,16 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                     ),
                                   ),
                                 ),
-                              ].divide(SizedBox(height: 12.0)),
+                              ].divide(const SizedBox(height: 12.0)),
                             ),
                           ),
                           if ((Theme.of(context).brightness ==
                                   Brightness.light) ==
                               true)
                             Align(
-                              alignment: AlignmentDirectional(0.0, -1.0),
+                              alignment: const AlignmentDirectional(0.0, -1.0),
                               child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 8.0, 0.0, 16.0),
                                 child: Container(
                                   width: 250.0,
@@ -570,7 +563,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                             Brightness.light) ==
                                         true,
                                     child: Padding(
-                                      padding: EdgeInsets.all(4.0),
+                                      padding: const EdgeInsets.all(4.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
@@ -647,7 +640,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                     ),
                                                     Padding(
                                                       padding:
-                                                          EdgeInsetsDirectional
+                                                          const EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   4.0,
                                                                   0.0,
@@ -759,7 +752,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                     ),
                                                     Padding(
                                                       padding:
-                                                          EdgeInsetsDirectional
+                                                          const EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   4.0,
                                                                   0.0,
@@ -813,7 +806,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                             color: FlutterFlowTheme.of(context).alternate,
                           ),
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 16.0, 12.0, 16.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
@@ -834,19 +827,19 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                   ),
                 Expanded(
                   child: Align(
-                    alignment: AlignmentDirectional(0.0, -1.0),
+                    alignment: const AlignmentDirectional(0.0, -1.0),
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       height: MediaQuery.sizeOf(context).height * 1.0,
-                      constraints: BoxConstraints(
+                      constraints: const BoxConstraints(
                         maxWidth: 1370.0,
                       ),
-                      decoration: BoxDecoration(),
+                      decoration: const BoxDecoration(),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
                                 16.0, 16.0, 16.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
@@ -875,7 +868,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                             ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
                                             0.0, 4.0, 0.0, 0.0),
                                         child: Text(
                                           'Abaixo segue a lista de jogos',
@@ -899,7 +892,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                   ),
                                 ),
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       16.0, 12.0, 16.0, 12.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -919,15 +912,15 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                           ),
                                         ),
                                         child: Padding(
-                                          padding: EdgeInsets.all(2.0),
+                                          padding: const EdgeInsets.all(2.0),
                                           child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(8.0),
                                             child: CachedNetworkImage(
                                               fadeInDuration:
-                                                  Duration(milliseconds: 500),
+                                                  const Duration(milliseconds: 500),
                                               fadeOutDuration:
-                                                  Duration(milliseconds: 500),
+                                                  const Duration(milliseconds: 500),
                                               imageUrl:
                                                   'https://images.unsplash.com/photo-1624561172888-ac93c696e10c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NjJ8fHVzZXJzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
                                               width: 44.0,
@@ -938,7 +931,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
                                             12.0, 0.0, 0.0, 0.0),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
@@ -993,15 +986,15 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                             ),
                           ),
                           Align(
-                            alignment: AlignmentDirectional(-1.0, 0.0),
+                            alignment: const AlignmentDirectional(-1.0, 0.0),
                             child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 4.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0.0, 8.0, 0.0, 8.0),
                                     child: Container(
                                       width: MediaQuery.sizeOf(context).width *
@@ -1018,9 +1011,9 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                         children: [
                                           Expanded(
                                             child: Padding(
-                                              padding: EdgeInsetsDirectional
+                                              padding: const EdgeInsetsDirectional
                                                   .fromSTEB(8.0, 0.0, 8.0, 0.0),
-                                              child: Container(
+                                              child: SizedBox(
                                                 width: 150.0,
                                                 child: TextFormField(
                                                   controller: _model
@@ -1030,15 +1023,12 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                   onChanged: (_) =>
                                                       EasyDebounce.debounce(
                                                     '_model.searchFieldTextController',
-                                                    Duration(
+                                                    const Duration(
                                                         milliseconds: 2000),
                                                     () async {
                                                       logFirebaseEvent(
                                                           'GAME_LIST_ADMIN_searchField_ON_TEXTFIELD');
                                                       if (_model.searchFieldTextController
-                                                                  .text !=
-                                                              null &&
-                                                          _model.searchFieldTextController
                                                                   .text !=
                                                               '') {
                                                         logFirebaseEvent(
@@ -1197,9 +1187,9 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                     ),
                                   ),
                                 ]
-                                    .divide(SizedBox(width: 16.0))
-                                    .addToStart(SizedBox(width: 16.0))
-                                    .addToEnd(SizedBox(width: 16.0)),
+                                    .divide(const SizedBox(width: 16.0))
+                                    .addToStart(const SizedBox(width: 16.0))
+                                    .addToEnd(const SizedBox(width: 16.0)),
                               ),
                             ),
                           ),
@@ -1259,14 +1249,14 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                           scrollDirection: Axis.vertical,
                                           itemCount: searchedGames.length,
                                           separatorBuilder: (_, __) =>
-                                              SizedBox(height: 8.0),
+                                              const SizedBox(height: 8.0),
                                           itemBuilder:
                                               (context, searchedGamesIndex) {
                                             final searchedGamesItem =
                                                 searchedGames[
                                                     searchedGamesIndex];
                                             return Padding(
-                                              padding: EdgeInsets.all(8.0),
+                                              padding: const EdgeInsets.all(8.0),
                                               child: StreamBuilder<GamesRecord>(
                                                 stream: GamesRecord.getDocument(
                                                     searchedGamesItem),
@@ -1327,7 +1317,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            EdgeInsetsDirectional
+                                                            const EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     4.0,
                                                                     4.0,
@@ -1339,12 +1329,12 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                           children: [
                                                             Align(
                                                               alignment:
-                                                                  AlignmentDirectional(
+                                                                  const AlignmentDirectional(
                                                                       -1.0,
                                                                       0.0),
                                                               child: Padding(
                                                                 padding:
-                                                                    EdgeInsetsDirectional
+                                                                    const EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             16.0,
                                                                             0.0,
@@ -1370,7 +1360,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                             ),
                                                             Padding(
                                                               padding:
-                                                                  EdgeInsetsDirectional
+                                                                  const EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           16.0,
                                                                           0.0,
@@ -1460,7 +1450,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                       reverse: false,
                                       scrollDirection: Axis.vertical,
                                       separatorBuilder: (_, __) =>
-                                          SizedBox(height: 8.0),
+                                          const SizedBox(height: 8.0),
                                       builderDelegate:
                                           PagedChildBuilderDelegate<
                                               GamesRecord>(
@@ -1501,7 +1491,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                               .listViewPagingController2!
                                               .itemList![listViewIndex];
                                           return Padding(
-                                            padding: EdgeInsets.all(8.0),
+                                            padding: const EdgeInsets.all(8.0),
                                             child: InkWell(
                                               splashColor: Colors.transparent,
                                               focusColor: Colors.transparent,
@@ -1530,7 +1520,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                           8.0),
                                                 ),
                                                 child: Padding(
-                                                  padding: EdgeInsetsDirectional
+                                                  padding: const EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           4.0, 4.0, 4.0, 4.0),
                                                   child: Row(
@@ -1539,11 +1529,11 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                     children: [
                                                       Align(
                                                         alignment:
-                                                            AlignmentDirectional(
+                                                            const AlignmentDirectional(
                                                                 -1.0, 0.0),
                                                         child: Padding(
                                                           padding:
-                                                              EdgeInsetsDirectional
+                                                              const EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       16.0,
                                                                       0.0,
@@ -1567,7 +1557,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                       ),
                                                       Padding(
                                                         padding:
-                                                            EdgeInsetsDirectional
+                                                            const EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     16.0,
                                                                     0.0,
@@ -1617,14 +1607,14 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                 Expanded(
                                   flex: 2,
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 16.0, 0.0),
                                     child: Container(
                                       width: double.infinity,
                                       height:
                                           MediaQuery.sizeOf(context).height *
                                               0.7,
-                                      constraints: BoxConstraints(
+                                      constraints: const BoxConstraints(
                                         maxWidth: 1270.0,
                                       ),
                                       decoration: BoxDecoration(
@@ -1641,7 +1631,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                       child: Column(
                                         children: [
                                           Align(
-                                            alignment: Alignment(0.0, 0),
+                                            alignment: const Alignment(0.0, 0),
                                             child: TabBar(
                                               labelColor:
                                                   FlutterFlowTheme.of(context)
@@ -1665,12 +1655,12 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                                         context)
                                                                     .labelMediumFamily),
                                                       ),
-                                              unselectedLabelStyle: TextStyle(),
+                                              unselectedLabelStyle: const TextStyle(),
                                               indicatorColor:
                                                   FlutterFlowTheme.of(context)
                                                       .primary,
-                                              padding: EdgeInsets.all(4.0),
-                                              tabs: [
+                                              padding: const EdgeInsets.all(4.0),
+                                              tabs: const [
                                                 Tab(
                                                   text: 'Informações básicas',
                                                 ),
@@ -1704,7 +1694,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                     children: [
                                                       Padding(
                                                         padding:
-                                                            EdgeInsetsDirectional
+                                                            const EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     0.0,
                                                                     8.0,
@@ -1730,7 +1720,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                           Expanded(
                                                             child: Padding(
                                                               padding:
-                                                                  EdgeInsetsDirectional
+                                                                  const EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           8.0,
                                                                           0.0,
@@ -1857,13 +1847,13 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                           Expanded(
                                                             child: Padding(
                                                               padding:
-                                                                  EdgeInsetsDirectional
+                                                                  const EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           8.0,
                                                                           0.0,
                                                                           8.0,
                                                                           0.0),
-                                                              child: Container(
+                                                              child: SizedBox(
                                                                 width: MediaQuery.sizeOf(
                                                                             context)
                                                                         .width *
@@ -1989,13 +1979,13 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                           Expanded(
                                                             child: Padding(
                                                               padding:
-                                                                  EdgeInsetsDirectional
+                                                                  const EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           8.0,
                                                                           0.0,
                                                                           8.0,
                                                                           0.0),
-                                                              child: Container(
+                                                              child: SizedBox(
                                                                 width: MediaQuery.sizeOf(
                                                                             context)
                                                                         .width *
@@ -2115,7 +2105,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                           Expanded(
                                                             child: Padding(
                                                               padding:
-                                                                  EdgeInsetsDirectional
+                                                                  const EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           8.0,
                                                                           0.0,
@@ -2247,13 +2237,13 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                           Expanded(
                                                             child: Padding(
                                                               padding:
-                                                                  EdgeInsetsDirectional
+                                                                  const EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           8.0,
                                                                           0.0,
                                                                           8.0,
                                                                           0.0),
-                                                              child: Container(
+                                                              child: SizedBox(
                                                                 width: MediaQuery.sizeOf(
                                                                             context)
                                                                         .width *
@@ -2373,7 +2363,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                           Expanded(
                                                             child: Padding(
                                                               padding:
-                                                                  EdgeInsetsDirectional
+                                                                  const EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           8.0,
                                                                           0.0,
@@ -2505,13 +2495,13 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                           Expanded(
                                                             child: Padding(
                                                               padding:
-                                                                  EdgeInsetsDirectional
+                                                                  const EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           8.0,
                                                                           0.0,
                                                                           8.0,
                                                                           0.0),
-                                                              child: Container(
+                                                              child: SizedBox(
                                                                 width: MediaQuery.sizeOf(
                                                                             context)
                                                                         .width *
@@ -2631,7 +2621,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                           Expanded(
                                                             child: Padding(
                                                               padding:
-                                                                  EdgeInsetsDirectional
+                                                                  const EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           8.0,
                                                                           0.0,
@@ -2763,13 +2753,13 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                           Expanded(
                                                             child: Padding(
                                                               padding:
-                                                                  EdgeInsetsDirectional
+                                                                  const EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           8.0,
                                                                           0.0,
                                                                           8.0,
                                                                           0.0),
-                                                              child: Container(
+                                                              child: SizedBox(
                                                                 width: MediaQuery.sizeOf(
                                                                             context)
                                                                         .width *
@@ -2889,7 +2879,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                           Expanded(
                                                             child: Padding(
                                                               padding:
-                                                                  EdgeInsetsDirectional
+                                                                  const EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           8.0,
                                                                           0.0,
@@ -3023,13 +3013,13 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                           Expanded(
                                                             child: Padding(
                                                               padding:
-                                                                  EdgeInsetsDirectional
+                                                                  const EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           8.0,
                                                                           0.0,
                                                                           8.0,
                                                                           0.0),
-                                                              child: Container(
+                                                              child: SizedBox(
                                                                 width: MediaQuery.sizeOf(
                                                                             context)
                                                                         .width *
@@ -3149,7 +3139,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                           Expanded(
                                                             child: Padding(
                                                               padding:
-                                                                  EdgeInsetsDirectional
+                                                                  const EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           8.0,
                                                                           0.0,
@@ -3282,13 +3272,13 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                             flex: 1,
                                                             child: Padding(
                                                               padding:
-                                                                  EdgeInsetsDirectional
+                                                                  const EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           8.0,
                                                                           0.0,
                                                                           8.0,
                                                                           0.0),
-                                                              child: Container(
+                                                              child: SizedBox(
                                                                 width: MediaQuery.sizeOf(
                                                                             context)
                                                                         .width *
@@ -3419,7 +3409,7 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                                         ],
                                                       ),
                                                     ].divide(
-                                                        SizedBox(height: 8.0)),
+                                                        const SizedBox(height: 8.0)),
                                                   ),
                                                 ),
                                                 Text(
@@ -3471,10 +3461,10 @@ class _GameListAdminWidgetState extends State<GameListAdminWidget>
                                   ),
                                 ),
                             ]
-                                .divide(SizedBox(width: 16.0))
-                                .addToStart(SizedBox(width: 16.0)),
+                                .divide(const SizedBox(width: 16.0))
+                                .addToStart(const SizedBox(width: 16.0)),
                           ),
-                        ].addToEnd(SizedBox(height: 24.0)),
+                        ].addToEnd(const SizedBox(height: 24.0)),
                       ),
                     ),
                   ),

@@ -33,15 +33,15 @@ class CreateRequestCall {
   Future<ApiCallResponse> call({
     String? externalId = '0',
     String? shortExternalReference = '0',
-    dynamic? addressJson,
-    dynamic? customerJson,
+    dynamic addressJson,
+    dynamic customerJson,
     String? deliveryDatetime = '0',
     String? preparationStart = '0',
     String? orderCreatedAt = '0',
     int? preparationTimeInSeconds = 0,
     double? totalPrice = 0,
-    dynamic? itemsJson,
-    dynamic? paymentsJson,
+    dynamic itemsJson,
+    dynamic paymentsJson,
     String? marketplaceName = '0',
     String? marketplaceId = '0',
     String? authorization = '0',
@@ -56,23 +56,23 @@ class CreateRequestCall {
     final payments = _serializeJson(paymentsJson);
     final ffApiRequestBody = '''
 {
-  "external_id": "${externalId}",
-  "short_external_reference": "${shortExternalReference}",
-  "address": ${address},
-  "customer": ${customer},
-  "delivery_datetime": "${deliveryDatetime}",
-  "preparation_start": "${preparationStart}",
-  "order_created_at": "${orderCreatedAt}",
-  "preparation_time_in_seconds": ${preparationTimeInSeconds},
-  "total_price": ${totalPrice},
-  "items": [${items}],
-  "payments": [${payments}],
-  "marketplace_name": "${marketplaceName}",
-  "marketplace_id": "${marketplaceId}"
+  "external_id": "$externalId",
+  "short_external_reference": "$shortExternalReference",
+  "address": $address,
+  "customer": $customer,
+  "delivery_datetime": "$deliveryDatetime",
+  "preparation_start": "$preparationStart",
+  "order_created_at": "$orderCreatedAt",
+  "preparation_time_in_seconds": $preparationTimeInSeconds,
+  "total_price": $totalPrice,
+  "items": [$items],
+  "payments": [$payments],
+  "marketplace_name": "$marketplaceName",
+  "marketplace_id": "$marketplaceId"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'createRequest',
-      apiUrl: '${baseUrl}/orders/tabuleiro',
+      apiUrl: '$baseUrl/orders/tabuleiro',
       callType: ApiCallType.POST,
       headers: {
         'Authorization': '698e453da8fe1ad28c8cf641f4983a8c',
@@ -101,7 +101,7 @@ class GetWebhookStatusCall {
 
     return ApiManager.instance.makeApiCall(
       callName: 'getWebhookStatus',
-      apiUrl: '${baseUrl}/origins/webhook/',
+      apiUrl: '$baseUrl/origins/webhook/',
       callType: ApiCallType.GET,
       headers: {
         'Authorization': '698e453da8fe1ad28c8cf641f4983a8c',
@@ -128,7 +128,7 @@ class UpdateWebhookCall {
 
     return ApiManager.instance.makeApiCall(
       callName: 'updateWebhook',
-      apiUrl: '${baseUrl}/origins/webhook/update',
+      apiUrl: '$baseUrl/origins/webhook/update',
       callType: ApiCallType.PUT,
       headers: {
         'Authorization': '698e453da8fe1ad28c8cf641f4983a8c',
@@ -157,7 +157,7 @@ class CanceRequestCall {
 
     return ApiManager.instance.makeApiCall(
       callName: 'canceRequest',
-      apiUrl: '${baseUrl}/order-hub/orders/:id/cancel',
+      apiUrl: '$baseUrl/order-hub/orders/:id/cancel',
       callType: ApiCallType.GET,
       headers: {
         'Authorization': '698e453da8fe1ad28c8cf641f4983a8c',
@@ -186,7 +186,7 @@ class LalamoveGroup {
     String? market = 'BR',
     String? signature = '0',
     String? time = '0',
-    dynamic? bodyJson,
+    dynamic bodyJson,
     double? total = 0,
     String? currency = 'BRL',
     String? orderId = '0',
@@ -215,7 +215,7 @@ class GetQuotationCall {
     String? market = 'BR',
     String? signature = '0',
     String? time = '0',
-    dynamic? bodyJson,
+    dynamic bodyJson,
     double? total = 0,
     String? currency = 'BRL',
     String? orderId = '0',
@@ -256,12 +256,12 @@ class GetQuotationCall {
 
     return ApiManager.instance.makeApiCall(
       callName: 'getQuotation',
-      apiUrl: '${baseUrl}/v3/quotations',
+      apiUrl: '$baseUrl/v3/quotations',
       callType: ApiCallType.GET,
       headers: {
         'Content-Type': 'application/json',
-        'Market': '${market}',
-        'Authorization': '${auth}',
+        'Market': '$market',
+        'Authorization': '$auth',
       },
       params: {},
       returnBody: true,
@@ -286,7 +286,7 @@ class PlaceOrderCall {
     String? market = 'BR',
     String? signature = '0',
     String? time = '0',
-    dynamic? bodyJson,
+    dynamic bodyJson,
     double? total = 0,
     String? currency = 'BRL',
     String? orderId = '0',
@@ -327,24 +327,24 @@ class PlaceOrderCall {
     final ffApiRequestBody = '''
 {
   "data": {
-    "quotationId": "${quotationId}",
+    "quotationId": "$quotationId",
     "sender": {
-      "stopId": "${stopId0}",
-      "name": "${senderName}",
-      "phone": "${senderPhone}"
+      "stopId": "$stopId0",
+      "name": "$senderName",
+      "phone": "$senderPhone"
     },
     "recipients": [
       {
-        "stopId": "${stopId1}",
-        "name": "${receiverName}",
-        "phone": "${receiverPhone}"
+        "stopId": "$stopId1",
+        "name": "$receiverName",
+        "phone": "$receiverPhone"
       }
     ]
   }
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'placeOrder',
-      apiUrl: '${baseUrl}/v3/orders',
+      apiUrl: '$baseUrl/v3/orders',
       callType: ApiCallType.POST,
       headers: {},
       params: {},
@@ -378,7 +378,7 @@ class GetCEPInfoCall {
   }) async {
     return ApiManager.instance.makeApiCall(
       callName: 'getCEPInfo',
-      apiUrl: 'https://viacep.com.br/ws/${cep}/json/',
+      apiUrl: 'https://viacep.com.br/ws/$cep/json/',
       callType: ApiCallType.GET,
       headers: {},
       params: {},
@@ -421,7 +421,7 @@ class GetImageOpenAiCall {
     final ffApiRequestBody = '''
 {
   "model": "dall-e-3",
-  "prompt": "${description}",
+  "prompt": "$description",
   "n": 1,
   "size": "1024x1024"
 }''';
@@ -488,15 +488,15 @@ class CreateClientAsaasCall {
   }) async {
     final ffApiRequestBody = '''
 {
-  "name": "${name}",
-  "cpfCnpj": "${cpfCnpj}",
-  "email": "${email}",
-  "mobilePhone": "${mobilePhone}",
-  "address": "${address}",
-  "addressNumber": "${addressNumber}",
-  "province": "${province}",
-  "postalCode": "${postalCode}",
-  "externalReference": "${externalReference}"
+  "name": "$name",
+  "cpfCnpj": "$cpfCnpj",
+  "email": "$email",
+  "mobilePhone": "$mobilePhone",
+  "address": "$address",
+  "addressNumber": "$addressNumber",
+  "province": "$province",
+  "postalCode": "$postalCode",
+  "externalReference": "$externalReference"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'createClientAsaas',
@@ -523,8 +523,8 @@ class InsertOrRetrieveTokenCall {
   }) async {
     final ffApiRequestBody = '''
 {
-  "reference": "${userReference}",
-  "action": "${action}"
+  "reference": "$userReference",
+  "action": "$action"
 }''';
     return ApiManager.instance.makeApiCall(
       callName: 'insertOrRetrieveToken',
@@ -556,12 +556,12 @@ class CreateBillingCardCall {
   }) async {
     final ffApiRequestBody = '''
 {
-  "customer": "${customer}",
+  "customer": "$customer",
   "billingType": "CREDIT_CARD",
-  "value": ${value},
-  "dueDate": "${dueDate}",
-  "description": "${description}",
-  "externalReference": "${externalReference}",
+  "value": $value,
+  "dueDate": "$dueDate",
+  "description": "$description",
+  "externalReference": "$externalReference",
   "callback": {
     "successUrl": "https://sociodotabuleiro.fun/apiMiddleAsaas/v1/webhook",
     "autoRedirect": false
@@ -572,7 +572,7 @@ class CreateBillingCardCall {
       apiUrl: 'https://asaas.com/api/v3/payments',
       callType: ApiCallType.POST,
       headers: {
-        'access_token': '${acct}',
+        'access_token': '$acct',
       },
       params: {},
       body: ffApiRequestBody,
@@ -598,12 +598,12 @@ class CreateBillingPixCall {
   }) async {
     final ffApiRequestBody = '''
 {
-  "customer": "${customer}",
+  "customer": "$customer",
   "billingType": "PIX",
-  "value": ${value},
-  "dueDate": "${dueDate}",
-  "description": "${description}",
-  "externalReference": "${externalReference}",
+  "value": $value,
+  "dueDate": "$dueDate",
+  "description": "$description",
+  "externalReference": "$externalReference",
   "callback": {
     "successUrl": "https://sociodotabuleiro.fun/apiMiddleAsaas/v1/webhook",
     "autoRedirect": false
@@ -614,7 +614,7 @@ class CreateBillingPixCall {
       apiUrl: 'https://asaas.com/api/v3/payments',
       callType: ApiCallType.POST,
       headers: {
-        'access_token': '${acct}',
+        'access_token': '$acct',
       },
       params: {},
       body: ffApiRequestBody,
@@ -639,7 +639,7 @@ class PaymentStatusCall {
       apiUrl: 'https://asaas.com/api/v3/payments/{payment_id}/status',
       callType: ApiCallType.GET,
       headers: {
-        'access_token': '${acct}',
+        'access_token': '$acct',
       },
       params: {},
       returnBody: true,
@@ -662,7 +662,7 @@ class GetPixCodeCall {
       apiUrl: 'https://asaas.com/api/v3/payments/{payment_id}/pixQrCode',
       callType: ApiCallType.GET,
       headers: {
-        'access_token': '${acct}',
+        'access_token': '$acct',
       },
       params: {},
       returnBody: true,

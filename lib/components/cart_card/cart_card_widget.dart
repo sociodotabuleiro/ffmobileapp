@@ -63,23 +63,23 @@ class _CartCardWidgetState extends State<CartCardWidget> {
         _model.gameDescription = _model.gameByRef?.description;
         _model.gamePrice = _model.gameByRef?.averagePrice;
         _model.gameRating = _model.gameByRef?.rating;
-        _model.playersCount = _model.gameByRef?.playerCountMax?.toString();
-        _model.playtime = _model.gameByRef?.playTime?.toString();
+        _model.playersCount = _model.gameByRef?.playerCountMax.toString();
+        _model.playtime = _model.gameByRef?.playTime.toString();
         _model.ageRecommendation =
-            _model.gameByRef?.ageRecommendation?.toString();
+            _model.gameByRef?.ageRecommendation.toString();
         safeSetState(() {});
       } else {
         logFirebaseEvent('cartCard_update_component_state');
-        _model.gameObject = widget!.gameObject;
-        _model.gamePicUrl = widget!.gameObject?.thumbnailUrl;
-        _model.gameName = widget!.gameObject?.name;
-        _model.gameDescription = widget!.gameObject?.description;
-        _model.gamePrice = widget!.gameObject?.averagePrice;
-        _model.gameRating = widget!.gameObject?.rating;
-        _model.playersCount = widget!.gameObject?.playerCountMax?.toString();
-        _model.playtime = widget!.gameObject?.playTime?.toString();
+        _model.gameObject = widget.gameObject;
+        _model.gamePicUrl = widget.gameObject?.thumbnailUrl;
+        _model.gameName = widget.gameObject?.name;
+        _model.gameDescription = widget.gameObject?.description;
+        _model.gamePrice = widget.gameObject?.averagePrice;
+        _model.gameRating = widget.gameObject?.rating;
+        _model.playersCount = widget.gameObject?.playerCountMax.toString();
+        _model.playtime = widget.gameObject?.playTime.toString();
         _model.ageRecommendation =
-            widget!.gameObject?.ageRecommendation?.toString();
+            widget.gameObject?.ageRecommendation.toString();
         safeSetState(() {});
       }
     });
@@ -135,22 +135,22 @@ class _CartCardWidgetState extends State<CartCardWidget> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(16.0, 8.0, 16.0, 12.0),
+              padding: const EdgeInsetsDirectional.fromSTEB(16.0, 8.0, 16.0, 12.0),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(16.0),
                 child: CachedNetworkImage(
-                  fadeInDuration: Duration(milliseconds: 500),
-                  fadeOutDuration: Duration(milliseconds: 500),
+                  fadeInDuration: const Duration(milliseconds: 500),
+                  fadeOutDuration: const Duration(milliseconds: 500),
                   imageUrl: _model.gamePicUrl!,
                   width: MediaQuery.sizeOf(context).width * 0.25,
                   height: 75.0,
                   fit: BoxFit.cover,
-                  alignment: Alignment(0.0, 0.0),
+                  alignment: const Alignment(0.0, 0.0),
                 ),
               ),
             ),
             Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+              padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -170,9 +170,9 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                   ),
                   Padding(
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 0.0),
                     child: Text(
-                      '${valueOrDefault<String>(
+                      valueOrDefault<String>(
                         formatNumber(
                           _model.gamePrice,
                           formatType: FormatType.decimal,
@@ -180,7 +180,7 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                           currency: 'R\$',
                         ),
                         '99',
-                      )}',
+                      ),
                       style: FlutterFlowTheme.of(context).titleLarge.override(
                             fontFamily:
                                 FlutterFlowTheme.of(context).titleLargeFamily,
@@ -195,9 +195,9 @@ class _CartCardWidgetState extends State<CartCardWidget> {
               ),
             ),
             Align(
-              alignment: AlignmentDirectional(0.0, 1.0),
+              alignment: const AlignmentDirectional(0.0, 1.0),
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -212,7 +212,7 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                         ),
                         Text(
                           valueOrDefault<String>(
-                            _model.gameByRef?.availableAt?.length?.toString(),
+                            _model.gameByRef?.availableAt.length.toString(),
                             '0',
                           ),
                           style: FlutterFlowTheme.of(context)
@@ -239,16 +239,16 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                                         .bodyMediumFamily),
                               ),
                         ),
-                      ].divide(SizedBox(width: 8.0)),
+                      ].divide(const SizedBox(width: 8.0)),
                     ),
                   ],
                 ),
               ),
             ),
             Align(
-              alignment: AlignmentDirectional(0.0, 1.0),
+              alignment: const AlignmentDirectional(0.0, 1.0),
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -256,25 +256,25 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                     Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        if (_model.filteredGeoHash!.length > 0)
+                        if (_model.filteredGeoHash!.isNotEmpty)
                           Icon(
                             Icons.place_outlined,
-                            color: _model.filteredGeoHash!.length > 0
+                            color: _model.filteredGeoHash!.isNotEmpty
                                 ? FlutterFlowTheme.of(context).success
                                 : FlutterFlowTheme.of(context).error,
                             size: 16.0,
                           ),
-                        if (_model.filteredGeoHash!.length <= 0)
+                        if (_model.filteredGeoHash!.isEmpty)
                           Icon(
                             Icons.wrong_location_outlined,
-                            color: _model.filteredGeoHash!.length > 0
+                            color: _model.filteredGeoHash!.isNotEmpty
                                 ? FlutterFlowTheme.of(context).success
                                 : FlutterFlowTheme.of(context).error,
                             size: 16.0,
                           ),
                         Text(
                           valueOrDefault<String>(
-                            _model.filteredGeoHash?.length?.toString(),
+                            _model.filteredGeoHash?.length.toString(),
                             '0',
                           ),
                           style: FlutterFlowTheme.of(context)
@@ -301,7 +301,7 @@ class _CartCardWidgetState extends State<CartCardWidget> {
                                         .bodyMediumFamily),
                               ),
                         ),
-                      ].divide(SizedBox(width: 8.0)),
+                      ].divide(const SizedBox(width: 8.0)),
                     ),
                   ],
                 ),
@@ -313,7 +313,7 @@ class _CartCardWidgetState extends State<CartCardWidget> {
               endIndent: 25.0,
               color: FlutterFlowTheme.of(context).secondary,
             ),
-          ].divide(SizedBox(height: 8.0)),
+          ].divide(const SizedBox(height: 8.0)),
         ),
       ),
     );

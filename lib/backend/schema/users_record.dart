@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 
 import '/backend/schema/util/firestore_util.dart';
-import '/backend/schema/util/schema_util.dart';
 import '/backend/schema/enums/enums.dart';
 
 import 'index.dart';
@@ -11,9 +10,9 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class UsersRecord extends FirestoreRecord {
   UsersRecord._(
-    DocumentReference reference,
-    Map<String, dynamic> data,
-  ) : super(reference, data) {
+    super.reference,
+    super.data,
+  ) {
     _initializeFields();
   }
 
@@ -250,6 +249,11 @@ class UsersRecord extends FirestoreRecord {
   List<DocumentReference> get favoriteList => _favoriteList ?? const [];
   bool hasFavoriteList() => _favoriteList != null;
 
+  // "addresses" field.
+  List<AddressStruct>? _addresses;
+  List<AddressStruct> get addresses => _addresses ?? const [];
+  bool hasAddresses() => _addresses != null;
+
   void _initializeFields() {
     _fullName = snapshotData['fullName'] as String?;
     _firstName = snapshotData['firstName'] as String?;
@@ -308,6 +312,10 @@ class UsersRecord extends FirestoreRecord {
     _apiKey = snapshotData['apiKey'] as String?;
     _wishlist = getDataList(snapshotData['wishlist']);
     _favoriteList = getDataList(snapshotData['favoriteList']);
+    _addresses = getStructList(
+      snapshotData['addresses'],
+      AddressStruct.fromMap,
+    );
   }
 
   static CollectionReference get collection =>
@@ -477,7 +485,8 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.askedToRentTo == e2?.askedToRentTo &&
         e1?.apiKey == e2?.apiKey &&
         listEquality.equals(e1?.wishlist, e2?.wishlist) &&
-        listEquality.equals(e1?.favoriteList, e2?.favoriteList);
+        listEquality.equals(e1?.favoriteList, e2?.favoriteList) &&
+        listEquality.equals(e1?.addresses, e2?.addresses);
   }
 
   @override
@@ -527,7 +536,8 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.askedToRentTo,
         e?.apiKey,
         e?.wishlist,
-        e?.favoriteList
+        e?.favoriteList,
+        e?.addresses
       ]);
 
   @override

@@ -46,7 +46,7 @@ class GameToRentModel extends FlutterFlowModel<GameToRentWidget> {
   // Stores action output result for [Backend Call - Read Document] action in gameToRent widget.
   UsersRecord? authUserObject;
   // Stores action output result for [Custom Action - getQuotationLalaMove] action in gameToRent widget.
-  dynamic? quotationJson;
+  dynamic quotationJson;
 
   @override
   void initState(BuildContext context) {}

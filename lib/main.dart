@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -16,14 +19,15 @@ import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/internationalization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'flutter_flow/nav/nav.dart';
 import 'index.dart';
 
 import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
+
+import '/auth/get_fcm_token.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +42,9 @@ void main() async {
   await SupaFlow.initialize();
 
   await FlutterFlowTheme.initialize();
+
+  // Set up FCM token refresh listener
+  setupFcmTokenListener();
 
   final appState = FFAppState(); // Initialize FFAppState
   await appState.initializePersistedState();
@@ -65,6 +72,27 @@ void main() async {
         observer: observer,),
   ));
 }
+
+  void setupFcmTokenListener() {
+  // Initial FCM token check and add if necessary
+  FirebaseMessaging.instance.getToken().then((fcmToken) {
+    if (fcmToken != null) {
+      addFcmTokenIfNotExists(
+        fcmToken,
+        Platform.isIOS ? 'iOS' : 'Android',
+      );
+    }
+  });
+
+  // Listen for token refresh events
+  FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
+    addFcmTokenIfNotExists(
+      newToken,
+      Platform.isIOS ? 'iOS' : 'Android',
+    );
+  });
+}
+
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.

@@ -2,12 +2,9 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:provider/provider.dart';
 import 'add_profile_games_model.dart';
 export 'add_profile_games_model.dart';
 
@@ -70,7 +67,7 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                             .headlineMedium
                             .override(
                               fontFamily: 'Outfit',
-                              color: Color(0xFF15161E),
+                              color: const Color(0xFF15161E),
                               fontSize: 24.0,
                               letterSpacing: 0.0,
                               fontWeight: FontWeight.w500,
@@ -95,7 +92,7 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                     'Por favor, complete as informações a seguir ',
                     style: FlutterFlowTheme.of(context).labelMedium.override(
                           fontFamily: 'Outfit',
-                          color: Color(0xFF606A85),
+                          color: const Color(0xFF606A85),
                           fontSize: 14.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w500,
@@ -103,9 +100,9 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                               GoogleFonts.asMap().containsKey('Outfit'),
                         ),
                   ),
-                ].divide(SizedBox(height: 4.0)),
+                ].divide(const SizedBox(height: 4.0)),
               ),
-              actions: [],
+              actions: const [],
               centerTitle: false,
               elevation: 0.0,
             ),
@@ -124,14 +121,14 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Align(
-                              alignment: AlignmentDirectional(0.0, -1.0),
+                              alignment: const AlignmentDirectional(0.0, -1.0),
                               child: Container(
-                                constraints: BoxConstraints(
+                                constraints: const BoxConstraints(
                                   maxWidth: 770.0,
                                 ),
-                                decoration: BoxDecoration(),
+                                decoration: const BoxDecoration(),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       16.0, 12.0, 16.0, 0.0),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
@@ -144,7 +141,7 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                                             .bodyLarge
                                             .override(
                                               fontFamily: 'Figtree',
-                                              color: Color(0xFF15161E),
+                                              color: const Color(0xFF15161E),
                                               fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
@@ -168,7 +165,7 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                                               .labelLarge
                                               .override(
                                                 fontFamily: 'Outfit',
-                                                color: Color(0xFF606A85),
+                                                color: const Color(0xFF606A85),
                                                 fontSize: 16.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
@@ -181,7 +178,7 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                                               .labelMedium
                                               .override(
                                                 fontFamily: 'Outfit',
-                                                color: Color(0xFF606A85),
+                                                color: const Color(0xFF606A85),
                                                 fontSize: 14.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
@@ -194,7 +191,7 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                                               .bodyMedium
                                               .override(
                                                 fontFamily: 'Figtree',
-                                                color: Color(0xFFFF5963),
+                                                color: const Color(0xFFFF5963),
                                                 fontSize: 12.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
@@ -203,7 +200,7 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                                                         .containsKey('Figtree'),
                                               ),
                                           enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
+                                            borderSide: const BorderSide(
                                               color: Color(0xFFE5E7EB),
                                               width: 2.0,
                                             ),
@@ -211,7 +208,7 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                                                 BorderRadius.circular(12.0),
                                           ),
                                           focusedBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
+                                            borderSide: const BorderSide(
                                               color: Color(0xFF6F61EF),
                                               width: 2.0,
                                             ),
@@ -219,7 +216,7 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                                                 BorderRadius.circular(12.0),
                                           ),
                                           errorBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
+                                            borderSide: const BorderSide(
                                               color: Color(0xFFFF5963),
                                               width: 2.0,
                                             ),
@@ -228,7 +225,7 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                                           ),
                                           focusedErrorBorder:
                                               OutlineInputBorder(
-                                            borderSide: BorderSide(
+                                            borderSide: const BorderSide(
                                               color: Color(0xFFFF5963),
                                               width: 2.0,
                                             ),
@@ -240,17 +237,17 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                                                       .dateOfBirthFocusNode
                                                       ?.hasFocus ??
                                                   false)
-                                              ? Color(0x4D9489F5)
+                                              ? const Color(0x4D9489F5)
                                               : Colors.white,
                                           contentPadding:
-                                              EdgeInsetsDirectional.fromSTEB(
+                                              const EdgeInsetsDirectional.fromSTEB(
                                                   16.0, 20.0, 16.0, 20.0),
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
                                               fontFamily: 'Figtree',
-                                              color: Color(0xFF15161E),
+                                              color: const Color(0xFF15161E),
                                               fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
@@ -259,7 +256,7 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                                                       .containsKey('Figtree'),
                                             ),
                                         keyboardType: TextInputType.datetime,
-                                        cursorColor: Color(0xFF6F61EF),
+                                        cursorColor: const Color(0xFF6F61EF),
                                         validator: _model
                                             .dateOfBirthTextControllerValidator
                                             .asValidator(context),
@@ -268,8 +265,8 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                                         ],
                                       ),
                                     ]
-                                        .divide(SizedBox(height: 12.0))
-                                        .addToEnd(SizedBox(height: 32.0)),
+                                        .divide(const SizedBox(height: 12.0))
+                                        .addToEnd(const SizedBox(height: 32.0)),
                                   ),
                                 ),
                               ),
@@ -279,16 +276,16 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                       ),
                     ),
                     Container(
-                      constraints: BoxConstraints(
+                      constraints: const BoxConstraints(
                         maxWidth: 770.0,
                       ),
-                      decoration: BoxDecoration(),
+                      decoration: const BoxDecoration(),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   16.0, 12.0, 16.0, 12.0),
                               child: FFButtonWidget(
                                 onPressed: () async {
@@ -318,11 +315,11 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                                 options: FFButtonOptions(
                                   width: double.infinity,
                                   height: 48.0,
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       24.0, 0.0, 24.0, 0.0),
-                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 0.0),
-                                  color: Color(0xFF6F61EF),
+                                  color: const Color(0xFF6F61EF),
                                   textStyle: FlutterFlowTheme.of(context)
                                       .titleSmall
                                       .override(
@@ -335,7 +332,7 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                                             .containsKey('Figtree'),
                                       ),
                                   elevation: 3.0,
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     color: Colors.transparent,
                                     width: 1.0,
                                   ),
@@ -346,7 +343,7 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                           ),
                           Expanded(
                             child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   16.0, 12.0, 16.0, 12.0),
                               child: FFButtonWidget(
                                 onPressed: () async {
@@ -360,11 +357,11 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                                 options: FFButtonOptions(
                                   width: double.infinity,
                                   height: 48.0,
-                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
                                       24.0, 0.0, 24.0, 0.0),
-                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 0.0),
-                                  color: Color(0xFFF8F8F8),
+                                  color: const Color(0xFFF8F8F8),
                                   textStyle: FlutterFlowTheme.of(context)
                                       .titleSmall
                                       .override(
@@ -378,7 +375,7 @@ class _AddProfileGamesWidgetState extends State<AddProfileGamesWidget> {
                                             .containsKey('Figtree'),
                                       ),
                                   elevation: 3.0,
-                                  borderSide: BorderSide(
+                                  borderSide: const BorderSide(
                                     color: Colors.transparent,
                                     width: 1.0,
                                   ),

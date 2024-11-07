@@ -36,3 +36,11 @@ export '/payment/delivery_status/delivery_status_widget.dart'
     show DeliveryStatusWidget;
 export '/pages/termandconditions/termandconditions_widget.dart'
     show TermandconditionsWidget;
+export '/profile/change_password/change_password_widget.dart'
+    show ChangePasswordWidget;
+export '/profile/settings1_notifications/settings1_notifications_widget.dart'
+    show Settings1NotificationsWidget;
+export '/profile/settings2_edit_profile/settings2_edit_profile_widget.dart'
+    show Settings2EditProfileWidget;
+export '/profile/settings_list_address/settings_list_address_widget.dart'
+    show SettingsListAddressWidget;

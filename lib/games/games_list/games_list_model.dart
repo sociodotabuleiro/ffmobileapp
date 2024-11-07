@@ -1,26 +1,10 @@
 import '/backend/backend.dart';
-import '/components/gamelist_card/gamelist_card_widget.dart';
 import '/components/nav_bar/nav_bar_widget.dart';
-import '/components/search_filter/search_filter_widget.dart';
 import '/components/side_nav02/side_nav02_widget.dart';
-import '/flutter_flow/flutter_flow_animations.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:math';
-import '/custom_code/actions/index.dart' as actions;
 import 'games_list_widget.dart' show GamesListWidget;
-import 'package:smooth_page_indicator/smooth_page_indicator.dart'
-    as smooth_page_indicator;
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:provider/provider.dart';
-import 'package:webviewx_plus/webviewx_plus.dart';
 
 class GamesListModel extends FlutterFlowModel<GamesListWidget> {
   ///  Local state fields for this page.
@@ -71,7 +55,9 @@ class GamesListModel extends FlutterFlowModel<GamesListWidget> {
     textFieldFocusNode?.dispose();
     textController?.dispose();
 
-    listViewStreamSubscriptions1.forEach((s) => s?.cancel());
+    for (var s in listViewStreamSubscriptions1) {
+      s?.cancel();
+    }
     listViewPagingController1?.dispose();
 
     navBarModel.dispose();

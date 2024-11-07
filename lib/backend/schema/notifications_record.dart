@@ -46,6 +46,8 @@ class NotificationsRecord extends FirestoreRecord {
   List<bool> get read => _read ?? const [];
   bool hasRead() => _read != null;
 
+  DocumentReference get parentReference => reference.parent.parent!;
+
   void _initializeFields() {
     _notificationID = snapshotData['notificationID'] as String?;
     _type = deserializeEnum<NotificationTypes>(snapshotData['type']);
@@ -55,8 +57,13 @@ class NotificationsRecord extends FirestoreRecord {
     _read = getDataList(snapshotData['read']);
   }
 
-  static CollectionReference get collection =>
-      FirebaseFirestore.instance.collection('notifications');
+  static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
+      parent != null
+          ? parent.collection('notifications')
+          : FirebaseFirestore.instance.collectionGroup('notifications');
+
+  static DocumentReference createDoc(DocumentReference parent, {String? id}) =>
+      parent.collection('notifications').doc(id);
 
   static Stream<NotificationsRecord> getDocument(DocumentReference ref) =>
       ref.snapshots().map((s) => NotificationsRecord.fromSnapshot(s));

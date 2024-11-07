@@ -954,54 +954,50 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 Padding(
                                   padding: const EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 16.0, 0.0),
-                                  child: AuthUserStreamWidget(
-                                    builder: (context) => badges.Badge(
-                                      badgeContent: Text(
-                                        valueOrDefault<String>(
-                                          (currentUserDocument?.notifications
-                                                      .toList() ??
-                                                  [])
-                                              .length
-                                              .toString(),
-                                          '0',
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .titleSmall
-                                            .override(
-                                              fontFamily:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleSmallFamily,
-                                              color: Colors.white,
-                                              fontSize: 12.0,
-                                              letterSpacing: 0.0,
-                                              useGoogleFonts: GoogleFonts
-                                                      .asMap()
-                                                  .containsKey(
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .titleSmallFamily),
-                                            ),
+                                  child: badges.Badge(
+                                    badgeContent: Text(
+                                      valueOrDefault<String>(
+                                        FFAppState()
+                                            .notifications
+                                            .length
+                                            .toString(),
+                                        '0',
                                       ),
-                                      showBadge: (currentUserDocument
-                                                      ?.notifications
-                                                      .toList() ??
-                                                  []).isNotEmpty,
-                                      shape: badges.BadgeShape.circle,
-                                      badgeColor:
-                                          FlutterFlowTheme.of(context).primary,
-                                      elevation: 4.0,
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          8.0, 8.0, 8.0, 8.0),
-                                      position: badges.BadgePosition.topEnd(),
-                                      animationType:
-                                          badges.BadgeAnimationType.scale,
-                                      toAnimate: true,
-                                      child: Icon(
-                                        Icons.notifications_sharp,
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        size: 32.0,
-                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .override(
+                                            fontFamily:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmallFamily,
+                                            color: Colors.white,
+                                            fontSize: 12.0,
+                                            letterSpacing: 0.0,
+                                            useGoogleFonts: GoogleFonts.asMap()
+                                                .containsKey(
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleSmallFamily),
+                                          ),
+                                    ),
+                                    showBadge: valueOrDefault<int>(
+                                          FFAppState().notifications.length,
+                                          0,
+                                        ) >
+                                        0,
+                                    shape: badges.BadgeShape.circle,
+                                    badgeColor:
+                                        FlutterFlowTheme.of(context).primary,
+                                    elevation: 4.0,
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        8.0, 8.0, 8.0, 8.0),
+                                    position: badges.BadgePosition.topEnd(),
+                                    animationType:
+                                        badges.BadgeAnimationType.scale,
+                                    toAnimate: true,
+                                    child: Icon(
+                                      Icons.notifications_sharp,
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                      size: 32.0,
                                     ),
                                   ),
                                 ),

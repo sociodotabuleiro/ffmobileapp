@@ -16,6 +16,7 @@ enum AuthMethods {
 enum RentalStatus {
   initiated,
   rented,
+  paid,
   deliveryRented,
   received,
   deliveryReturned,

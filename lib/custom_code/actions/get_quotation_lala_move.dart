@@ -32,6 +32,7 @@ Future<dynamic> getQuotationLalaMove(
   try {
     // Prepare request body for Lalamove quotation
     final requestBody = jsonEncode({
+      "auth_token": internal_access_code,
       "data": {
         "serviceType": "LALAGO", // Service type for your market
         "language": "pt_BR", // Language setting for Brazil
@@ -53,99 +54,24 @@ Future<dynamic> getQuotationLalaMove(
       }
     });
 
-    // Get the current Unix timestamp in milliseconds
-    final timestamp = DateTime.now().millisecondsSinceEpoch.toString();
-
-    // Step 1: Fetch HMAC authorization token
-    final authorizationToken = await getAuthorizationToken(
-      internal_access_code,
-      timestamp,
-      'POST',
-      '/v3/quotations',
-      requestBody,
-    );
-
-    if (authorizationToken == null) {
-      print('Failed to retrieve authorization token');
-      return null;
-    }
-
-    print('Authorization Token: $authorizationToken');
-    print('Request Body: $requestBody');
-    // Step 2: Make the Lalamove API request with the authorization token
+    // Call your cloud function
     final response = await http.post(
-      Uri.parse(lalamoveUrl),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'hmac ' + authorizationToken,
-        'market': 'BR',
-      },
-      body: requestBody,
-    );
-
-    return _handleLalamoveResponse(response);
-  } catch (error) {
-    print('Error during Lalamove quotation process: $error');
-    return null;
-  }
-}
-
-// Helper function to get HMAC authorization token
-Future<String?> getAuthorizationToken(
-  String access_code,
-  String timestamp,
-  String method,
-  String path,
-  String body,
-) async {
-  try {
-    // Create the request body for the HMAC generation service
-    final hmacRequestBody = jsonEncode({
-      'internal_access_code': access_code,
-      'timestamp': timestamp,
-      'method': method,
-      'path': path,
-      'body': body,
-    });
-
-    // Send the request to get the HMAC signature
-    final response = await http.post(
-      Uri.parse(hmacUrl),
+      Uri.parse(
+          'https://getquotationlalamove-667069547103.us-central1.run.app'),
       headers: {'Content-Type': 'application/json'},
-      body: hmacRequestBody,
+      body: jsonEncode(requestBody),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       final responseData = jsonDecode(response.body);
-      return responseData['authorization'];
+      return responseData['data']; // Contains the quotation response
     } else {
-      print(
-          'Failed to retrieve HMAC signature. Status code: ${response.statusCode}');
+      print('Failed to get quotation. Status code: ${response.statusCode}');
       print('Error: ${response.body}');
       return null;
     }
   } catch (error) {
-    print('Error during HMAC token generation: $error');
+    print('Error during Lalamove quotation process: $error');
     return null;
   }
-}
-
-// Helper function to handle Lalamove response
-dynamic _handleLalamoveResponse(http.Response response) {
-  if (response.statusCode == 201) {
-    final responseData = jsonDecode(response.body);
-    print('Quotation Created: ${responseData['data']['quotationId']}');
-    print('Price: ${responseData['data']['priceBreakdown']['total']}');
-    print('Currency: ${responseData['data']['priceBreakdown']['currency']}');
-    return responseData;
-  } else {
-    print('Failed to get quotation. Status code: ${response.statusCode}');
-    print('Error: ${response.body}');
-    return null;
-  }
-}
-
-// Helper function to format user address
-String formatAddress(dynamic address) {
-  return '${address.street}, ${address.number} - ${address.neighborhood}, ${address.city} - ${address.state}';
 }

@@ -1,3 +1,4 @@
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -13,9 +14,15 @@ class CalendarChooseDateRentWidget extends StatefulWidget {
   const CalendarChooseDateRentWidget({
     super.key,
     required this.availableDates,
+    required this.renterRef,
+    required this.myGames,
+    required this.gameName,
   });
 
   final List<DateTime>? availableDates;
+  final DocumentReference? renterRef;
+  final MyGamesRecord? myGames;
+  final String? gameName;
 
   @override
   State<CalendarChooseDateRentWidget> createState() =>
@@ -96,13 +103,21 @@ class _CalendarChooseDateRentWidgetState
           ),
           FFButtonWidget(
             onPressed: () async {
-              logFirebaseEvent('CALENDAR_CHOOSE_DATE_RENT_SALVAR_DATAS_B');
+              logFirebaseEvent('CALENDAR_CHOOSE_DATE_RENT_ESCOLHER_LOCAD');
               logFirebaseEvent('Button_update_app_state');
               FFAppState().choosenRentDates =
                   _model.choosenDates.toList().cast<DateTime>();
+              FFAppState().renterRef = widget.renterRef;
+              FFAppState().purchaseData = PurchaseComponentsStruct(
+                name: widget.gameName,
+                price: _model.choosenDates.length * widget.myGames!.price,
+                quantity: 1,
+                totalPrice: _model.choosenDates.length * widget.myGames!.price,
+              );
+              FFAppState().dueDatePurchase = _model.choosenDates.last;
               safeSetState(() {});
             },
-            text: 'Salvar Datas',
+            text: 'Escolher locador',
             options: FFButtonOptions(
               height: 40.0,
               padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),

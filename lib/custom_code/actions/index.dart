@@ -16,3 +16,4 @@ export 'get_quotation_lala_move.dart' show getQuotationLalaMove;
 export 'get5games_with_good_bgg_rank.dart' show get5gamesWithGoodBggRank;
 export 'get_my_games_ref_from_games_id.dart' show getMyGamesRefFromGamesId;
 export 'get_lat_lng_given_address.dart' show getLatLngGivenAddress;
+export 'call_driver_lalamove.dart' show callDriverLalamove;

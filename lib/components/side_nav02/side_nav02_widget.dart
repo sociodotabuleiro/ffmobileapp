@@ -1,12 +1,14 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'side_nav02_model.dart';
 export 'side_nav02_model.dart';
 
@@ -81,6 +83,9 @@ class _SideNav02WidgetState extends State<SideNav02Widget>
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+    context.watch<calendar_iagfh0_app_state.FFAppState>();
+
     return Container(
       width: 270.0,
       height: double.infinity,
@@ -540,70 +545,122 @@ class _SideNav02WidgetState extends State<SideNav02Widget>
                     Padding(
                       padding:
                           const EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 12.0, 0.0),
-                      child: AuthUserStreamWidget(
-                        builder: (context) => AnimatedContainer(
-                          duration: const Duration(milliseconds: 200),
-                          curve: Curves.easeInOut,
-                          width: double.infinity,
-                          height: 44.0,
-                          decoration: BoxDecoration(
-                            color: valueOrDefault<Color>(
-                              ((currentUserDocument?.notifications.toList() ??
-                                              [])
-                                          .isNotEmpty) ==
-                                      true
-                                  ? FlutterFlowTheme.of(context).secondary
-                                  : Colors.transparent,
-                              Colors.transparent,
-                            ),
-                            borderRadius: BorderRadius.circular(12.0),
-                            shape: BoxShape.rectangle,
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        curve: Curves.easeInOut,
+                        width: double.infinity,
+                        height: 44.0,
+                        decoration: BoxDecoration(
+                          color: valueOrDefault<Color>(
+                            valueOrDefault<int>(
+                                      FFAppState().notifications.length,
+                                      0,
+                                    ) >
+                                    0
+                                ? FlutterFlowTheme.of(context).secondary
+                                : Colors.transparent,
+                            Colors.transparent,
                           ),
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                8.0, 0.0, 8.0, 0.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.notifications_rounded,
-                                  color: ((currentUserDocument?.notifications
-                                                      .toList() ??
-                                                  [])
-                                              .isNotEmpty) ==
-                                          false
+                          borderRadius: BorderRadius.circular(12.0),
+                          shape: BoxShape.rectangle,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              8.0, 0.0, 8.0, 0.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.notifications_rounded,
+                                color: valueOrDefault<int>(
+                                          FFAppState().notifications.length,
+                                          0,
+                                        ) <=
+                                        0
+                                    ? FlutterFlowTheme.of(context).secondaryText
+                                    : FlutterFlowTheme.of(context).primary,
+                                size: 24.0,
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      12.0, 0.0, 0.0, 0.0),
+                                  child: Text(
+                                    'Notifications',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          fontFamily:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMediumFamily,
+                                          color: valueOrDefault<Color>(
+                                            valueOrDefault<int>(
+                                                      FFAppState()
+                                                          .notifications
+                                                          .length,
+                                                      0,
+                                                    ) >
+                                                    0
+                                                ? FlutterFlowTheme.of(context)
+                                                    .info
+                                                : FlutterFlowTheme.of(context)
+                                                    .primaryText,
+                                            FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                          ),
+                                          letterSpacing: 0.0,
+                                          useGoogleFonts: GoogleFonts.asMap()
+                                              .containsKey(
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMediumFamily),
+                                        ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                height: 32.0,
+                                decoration: BoxDecoration(
+                                  color: valueOrDefault<int>(
+                                            FFAppState().notifications.length,
+                                            0,
+                                          ) <=
+                                          0
                                       ? FlutterFlowTheme.of(context)
                                           .secondaryText
                                       : FlutterFlowTheme.of(context).primary,
-                                  size: 24.0,
+                                  borderRadius: BorderRadius.circular(8.0),
                                 ),
-                                Expanded(
+                                child: Align(
+                                  alignment: const AlignmentDirectional(0.0, 0.0),
                                   child: Padding(
                                     padding: const EdgeInsetsDirectional.fromSTEB(
-                                        12.0, 0.0, 0.0, 0.0),
+                                        8.0, 4.0, 8.0, 4.0),
                                     child: Text(
-                                      'Notifications',
+                                      valueOrDefault<String>(
+                                        FFAppState()
+                                            .notifications
+                                            .length
+                                            .toString(),
+                                        '0',
+                                      ),
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
                                             fontFamily:
                                                 FlutterFlowTheme.of(context)
                                                     .bodyMediumFamily,
-                                            color: valueOrDefault<Color>(
-                                              ((currentUserDocument
-                                                                  ?.notifications
-                                                                  .toList() ??
-                                                              [])
-                                                          .isNotEmpty) ==
-                                                      true
-                                                  ? FlutterFlowTheme.of(context)
-                                                      .info
-                                                  : FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                              FlutterFlowTheme.of(context)
-                                                  .primaryText,
-                                            ),
+                                            color: valueOrDefault<int>(
+                                                      FFAppState()
+                                                          .notifications
+                                                          .length,
+                                                      0,
+                                                    ) >
+                                                    0
+                                                ? FlutterFlowTheme.of(context)
+                                                    .secondaryBackground
+                                                : FlutterFlowTheme.of(context)
+                                                    .primaryText,
                                             letterSpacing: 0.0,
                                             useGoogleFonts: GoogleFonts.asMap()
                                                 .containsKey(
@@ -613,56 +670,8 @@ class _SideNav02WidgetState extends State<SideNav02Widget>
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  height: 32.0,
-                                  decoration: BoxDecoration(
-                                    color: ((currentUserDocument?.notifications
-                                                        .toList() ??
-                                                    [])
-                                                .isNotEmpty) ==
-                                            false
-                                        ? FlutterFlowTheme.of(context)
-                                            .secondaryText
-                                        : FlutterFlowTheme.of(context).primary,
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  child: Align(
-                                    alignment: const AlignmentDirectional(0.0, 0.0),
-                                    child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          8.0, 4.0, 8.0, 4.0),
-                                      child: Text(
-                                        valueOrDefault<String>(
-                                          (currentUserDocument?.notifications
-                                                      .toList() ??
-                                                  [])
-                                              .length
-                                              .toString(),
-                                          '0',
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMediumFamily,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .info,
-                                              letterSpacing: 0.0,
-                                              useGoogleFonts: GoogleFonts
-                                                      .asMap()
-                                                  .containsKey(
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMediumFamily),
-                                            ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),

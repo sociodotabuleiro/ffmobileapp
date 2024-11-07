@@ -1140,6 +1140,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                     lat: functions.getLatLngSeparated(
                                         true, FFAppState().userAddressLatLng!),
                                     geohash: _model.geohash,
+                                    name: 'principal',
                                   ),
                                   clearUnsetFields: true,
                                 ),

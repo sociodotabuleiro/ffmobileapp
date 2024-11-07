@@ -235,3 +235,20 @@ int countCharacters(String string) {
   // function to count all characters from a string and return the value
   return string.length;
 }
+
+LalamoveQuotationDataStruct? getObjectForUserRef(
+  List<QuotationsStruct> quotations,
+  DocumentReference userRef,
+) {
+  for (var element in quotations) {
+    if (element.renterRef == userRef) {
+      return element.quotationsData;
+    }
+  }
+  // If no match is found, return null or handle accordingly
+  return null;
+}
+
+bool checkStatusCode(dynamic response) {
+  return (response.statusCode == 200 || response.statusCode == 201);
+}

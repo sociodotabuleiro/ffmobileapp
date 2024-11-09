@@ -34,12 +34,18 @@ import 'package:uni_links/uni_links.dart';
 import 'deep_link_handler.dart';
 import 'package:logger/logger.dart';
 
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+
 final Logger _logger = Logger();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   GoRouter.optionURLReflectsImperativeAPIs = true;
   usePathUrlStrategy();
+
+  await checkAppVersion();
 
   final environmentValues = FFDevEnvironmentValues();
   await environmentValues.initialize();
@@ -80,7 +86,7 @@ void main() async {
   ));
 }
 
-  void setupFcmTokenListener() {
+void setupFcmTokenListener() {
   // Initial FCM token check and add if necessary
   FirebaseMessaging.instance.getToken().then((fcmToken) {
     if (fcmToken != null) {
@@ -100,6 +106,32 @@ void main() async {
   });
 }
 
+Future<void> checkAppVersion() async {
+  final prefs = await SharedPreferences.getInstance();
+  final currentVersion = (await PackageInfo.fromPlatform()).version;
+  final cachedVersion = prefs.getString('app_version');
+
+  if (cachedVersion == null || cachedVersion != currentVersion) {
+    await clearAppCache(preserveUserSession: true);
+    await prefs.setString('app_version', currentVersion);
+  }
+}
+
+Future<void> clearAppCache({bool preserveUserSession = true}) async {
+  // Use your cache-clearing approach here. For example, you can use FlutterSecureStorage or SharedPreferences.
+  final prefs = await SharedPreferences.getInstance();
+  
+  // Preserve user authentication session if needed
+  if (preserveUserSession) {
+    final userToken = prefs.getString('auth_token'); // Store user auth token
+    await prefs.clear(); // Clear all cached data
+    if (userToken != null) {
+      await prefs.setString('auth_token', userToken); // Restore auth token
+    }
+  } else {
+    await prefs.clear(); // Clear all data without preserving session
+  }
+}
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.

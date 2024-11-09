@@ -56,18 +56,10 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('GAME_DETAILS_gameDetails_ON_INIT_STATE');
-      if ((currentUserDocument?.wishlist.toList() ?? [])
-          .contains(widget.gameObject?.reference)) {
-        logFirebaseEvent('gameDetails_update_page_state');
-        _model.wishlisted = true;
-        safeSetState(() {});
-      }
-      if ((currentUserDocument?.favoriteList.toList() ?? [])
-          .contains(widget.gameObject?.reference)) {
-        logFirebaseEvent('gameDetails_update_page_state');
-        _model.favorited = true;
-        safeSetState(() {});
-      }
+      _model.wishlisted = (currentUserDocument?.wishlist.toList() ?? []).contains(widget.gameObject?.reference);
+      _model.favorited = (currentUserDocument?.favoriteList.toList() ?? []).contains(widget.gameObject?.reference);
+      logFirebaseEvent('gameDetails_update_page_state');
+      safeSetState(() {});
       if (FFAppState().myGamesGameRef.contains(widget.gameObject?.reference) ==
           true) {
         logFirebaseEvent('gameDetails_update_page_state');
@@ -305,7 +297,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
       ),
       'iconButtonOnActionTriggerAnimation1': AnimationInfo(
         trigger: AnimationTrigger.onActionTrigger,
-        applyInitialState: true,
+        applyInitialState: false,
         effectsBuilder: () => [
           ScaleEffect(
             curve: Curves.elasticOut,
@@ -318,7 +310,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
       ),
       'iconButtonOnActionTriggerAnimation2': AnimationInfo(
         trigger: AnimationTrigger.onActionTrigger,
-        applyInitialState: true,
+        applyInitialState: false,
         effectsBuilder: () => [
           ScaleEffect(
             curve: Curves.elasticOut,
@@ -343,7 +335,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
       ),
       'iconButtonOnActionTriggerAnimation3': AnimationInfo(
         trigger: AnimationTrigger.onActionTrigger,
-        applyInitialState: true,
+        applyInitialState: false,
         effectsBuilder: () => [
           ScaleEffect(
             curve: Curves.elasticOut,
@@ -356,7 +348,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
       ),
       'iconButtonOnActionTriggerAnimation4': AnimationInfo(
         trigger: AnimationTrigger.onActionTrigger,
-        applyInitialState: true,
+        applyInitialState: false,
         effectsBuilder: () => [
           ScaleEffect(
             curve: Curves.elasticOut,

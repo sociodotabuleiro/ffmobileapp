@@ -78,6 +78,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           '${currentUserDocument?.address.street}, ${currentUserDocument?.address.number}';
       FFAppState().userAddressLatLng =
           currentUserDocument?.address.coordinates;
+     
+      FFDevEnvironmentValues().checkCityForRentingAvailability(currentUserDocument!.address);
       safeSetState(() {});
       logFirebaseEvent('HomePage_firestore_query');
       _model.featuredGamesMocked = await queryGamesRecordOnce(

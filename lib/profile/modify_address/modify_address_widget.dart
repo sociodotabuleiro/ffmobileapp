@@ -655,49 +655,70 @@ class _ModifyAddressWidgetState extends State<ModifyAddressWidget> {
               ),
               FFButtonWidget(
                 onPressed: () async {
-                  logFirebaseEvent('MODIFY_ADDRESS_SALVAR_ENDEREO_BTN_ON_TAP');
+                  logFirebaseEvent('MODIFY_ADDRESS_SALVAR_ENDERECO_BTN_ON_TAP');
                   logFirebaseEvent('Button_update_component_state');
+                  
+                  // Update the address object with form values
                   _model.addressObject = AddressStruct(
                     street: _model.textController2.text,
                     number: _model.textController3.text,
                     complement: _model.textController4.text,
-                    neighborhood: _model.textController4.text,
+                    neighborhood: _model.textController5.text,
                     city: _model.textController6.text,
                     state: _model.textController7.text,
                     zip: _model.textController8.text,
                     name: _model.textController1.text,
                   );
+                  
                   safeSetState(() {});
+                  
+                  // Get latitude and longitude based on the address
                   logFirebaseEvent('Button_custom_action');
                   _model.latLngRecovered = await actions.getLatLngGivenAddress(
                     functions.unifyAddress(_model.addressObject!),
                   );
+                  
+                  // Get geohash for the coordinates
                   logFirebaseEvent('Button_custom_action');
                   _model.geohash = await actions.getGeohash(
                     context,
                     _model.latLngRecovered!,
                   );
+                  
+                  // Update the address object with coordinates and geohash
                   logFirebaseEvent('Button_update_component_state');
                   _model.addressObject = AddressStruct(
                     coordinates: _model.latLngRecovered,
                     geohash: _model.geohash,
-                    lat: functions.getLatLngSeparated(
-                        true, _model.latLngRecovered!),
-                    lng: functions.getLatLngSeparated(
-                        false, _model.latLngRecovered!),
+                    lat: functions.getLatLngSeparated(true, _model.latLngRecovered!),
+                    lng: functions.getLatLngSeparated(false, _model.latLngRecovered!),
                     country: 'BR',
                   );
+                  
                   safeSetState(() {});
+                  
+                  // Attempt to update Firestore with the new address
                   logFirebaseEvent('Button_backend_call');
+                  try {
+                    await currentUserReference!.update(createUsersRecordData(
+                      address: updateAddressStruct(
+                        _model.addressObject,
+                        clearUnsetFields: false,
+                      ),
+                    ));
 
-                  await currentUserReference!.update(createUsersRecordData(
-                    address: updateAddressStruct(
-                      _model.addressObject,
-                      clearUnsetFields: false,
-                    ),
-                  ));
-
-                  safeSetState(() {});
+                    // Show success alert
+                    _showAlert(context, 'Sucesso', 'Endereço atualizado com sucesso!');
+                    
+                    // Rebuild the page by calling setState
+                    safeSetState(() {});
+                    
+                  } catch (e) {
+                    print('Erro ao atualizar o endereço: $e');
+                    
+                    // Show error alert
+                    _showAlert(context, 'Erro', 'Falha ao atualizar o endereço. Tente novamente.');
+                  }
                 },
                 text: 'Salvar Endereço',
                 options: FFButtonOptions(
@@ -725,4 +746,25 @@ class _ModifyAddressWidgetState extends State<ModifyAddressWidget> {
       ),
     );
   }
+}
+
+// Helper function to show an alert dialog
+void _showAlert(BuildContext context, String title, String message) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () {
+              Navigator.of(context).pop();  // Close the alert dialog
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

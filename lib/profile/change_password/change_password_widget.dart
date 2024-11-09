@@ -52,50 +52,78 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
     if (user != null) {
       bool didAuthenticate = false;
 
-      // Attempt biometric authentication
-      try {
-        didAuthenticate = await localAuth.authenticate(
-          localizedReason: 'Autentique a biometria para modificar a senha!',
-          options: const AuthenticationOptions(biometricOnly: true),
-        );
-      } catch (e) {
-        print('Autenticação biométrica falhou: $e');
-      }
+          // Attempt biometric authentication
+    try {
+      didAuthenticate = await localAuth.authenticate(
+        localizedReason: 'Autentique a biometria para modificar a senha!',
+        options: const AuthenticationOptions(biometricOnly: true),
+      );
+    } catch (e) {
+      print('Autenticação biométrica falhou: $e');
+    }
 
-      if (didAuthenticate) {
-        // Biometric authentication succeeded, update password directly
-        await user.updatePassword(newPassword);
-        print('Senha modificada com sucesso via biometria!');
-        logFirebaseEvent(
+    if (didAuthenticate) {
+      // Biometric authentication succeeded, update password directly
+      await user.updatePassword(newPassword);
+      print('Senha modificada com sucesso via biometria!');
+      logFirebaseEvent(
         'password_changed',
         parameters: {'method': 'biometric'},
       );
-      } else {
-        // Prompt for current password if biometrics fail or aren't available
-        String? currentPassword = await _promptForPassword(context);
-        if (currentPassword != null && currentPassword.isNotEmpty) {
-          try {
-            AuthCredential credential = EmailAuthProvider.credential(
-              email: user.email!,
-              password: currentPassword,
-            );
-            await user.reauthenticateWithCredential(credential);
-            await user.updatePassword(newPassword);
-            print('Senha modificada com sucesso!');
-            logFirebaseEvent(
+      _showAlert(context, 'Sucesso', 'Senha modificada com sucesso!');
+      Navigator.pop(context);  // Return to the previous page
+    } else {
+      // Prompt for current password if biometrics fail or aren't available
+      String? currentPassword = await _promptForPassword(context);
+      if (currentPassword != null && currentPassword.isNotEmpty) {
+        try {
+          AuthCredential credential = EmailAuthProvider.credential(
+            email: user.email!,
+            password: currentPassword,
+          );
+          await user.reauthenticateWithCredential(credential);
+          await user.updatePassword(newPassword);
+          print('Senha modificada com sucesso!');
+          logFirebaseEvent(
             'password_changed',
             parameters: {'method': 'password'},
           );
-          } on FirebaseAuthException catch (e) {
-            print('Erro: $e');
-          }
-        } else {
-          print('Entrada de senha cancelada ou vazia');
+          _showAlert(context, 'Sucesso', 'Senha modificada com sucesso!');
+          Navigator.pop(context);  // Return to the previous page
+        } on FirebaseAuthException catch (e) {
+          print('Erro: $e');
+          _showAlert(context, 'Erro', 'Não foi possível modificar a senha. Verifique as informações e tente novamente.');
         }
+      } else {
+        print('Entrada de senha cancelada ou vazia');
+        _showAlert(context, 'Cancelado', 'A operação foi cancelada ou a senha estava vazia.');
       }
-    } else {
-      print('Nenhum usuário esta logado');
     }
+  } else {
+    print('Nenhum usuário esta logado');
+    _showAlert(context, 'Erro', 'Nenhum usuário está logado.');
+  }
+}
+
+  // Helper function to show an alert dialog
+  void _showAlert(BuildContext context, String title, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();  // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<String?> _promptForPassword(BuildContext context) async {

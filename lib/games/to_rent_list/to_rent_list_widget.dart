@@ -18,6 +18,111 @@ import 'package:webviewx_plus/webviewx_plus.dart';
 import 'to_rent_list_model.dart';
 export 'to_rent_list_model.dart';
 import 'package:http/http.dart';
+import 'package:logger/logger.dart';
+import 'dart:typed_data';
+import 'dart:convert';
+
+final Logger _logger = Logger();
+
+
+Future<void> showPixQrCodeDialog(BuildContext context, String encodedImage, String payload, DateTime expirationDate) async {
+  Uint8List decodedImage = base64Decode(encodedImage); // Decode Base64 image
+
+  await showDialog(
+    context: context,
+    builder: (alertDialogContext) {
+      return AlertDialog(
+        title: Text('Pagamento Pix'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.memory(decodedImage, height: 150, width: 150), // Display QR code image
+            SizedBox(height: 10),
+            Text('Pix "Copia e Cola":', style: TextStyle(fontWeight: FontWeight.bold)),
+            SelectableText(payload), // Display Pix payload for "Copia e Cola"
+            SizedBox(height: 10),
+            Text('Válido até: ${DateFormat('yyyy-MM-dd HH:mm').format(expirationDate)}'),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(alertDialogContext),
+            child: const Text('Fechar'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+
+Future<Response?> retryRequest(
+  Future<Response> Function() request, {
+  int retries = 3,
+  Duration delay = const Duration(seconds: 2),
+}) async {
+  int attempt = 0;
+  Response? response;
+
+  while (attempt < retries) {
+    try {
+      response = await request();
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return response;
+      }
+      _logger.w('Request failed with status: ${response.statusCode}. Retrying...');
+    } catch (e) {
+      _logger.w('Exception occurred: $e. Retrying...');
+    }
+
+    attempt++;
+    if (attempt < retries) await Future.delayed(delay);
+  }
+  return response; // Returns the last response or null if all retries failed
+}
+
+// Loading indicator dialog
+Future<void> showLoadingDialog(BuildContext context, String message) async {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Row(
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(width: 20),
+            Expanded(child: Text(message)),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+// Hide the loading dialog
+void hideLoadingDialog(BuildContext context) {
+  Navigator.pop(context);
+}
+
+// Centralized error dialog
+Future<void> showErrorDialog(BuildContext context, String title, int? statusCode, String? errorMessage) async {
+  await showDialog(
+    context: context,
+    builder: (alertDialogContext) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text('Status: ${statusCode ?? 'unknown'}\nErro: ${errorMessage ?? 'unknown error'}'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(alertDialogContext),
+            child: const Text('Ok'),
+          ),
+        ],
+      );
+    },
+  );
+}
 
 class ToRentListWidget extends StatefulWidget {
   /// This page should return all the users that are renting the game choosen in
@@ -60,7 +165,8 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
     context.watch<FFAppState>();
     context.watch<calendar_iagfh0_app_state.FFAppState>();
 
-      Future<void> createRentalsRecordForUser(DocumentReference userRef, Map<String, dynamic> data, {required bool isRenter}) async {
+     
+      Future<DocumentReference> createRentalsRecordForUser(DocumentReference userRef, Map<String, dynamic> data, {required bool isRenter}) async {
         logFirebaseEvent('create_rentals_record_for_user');
 
         var rentalsRecordReference = RentalsRecord.createDoc(userRef);
@@ -73,6 +179,8 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
         } else {
           _model.documentOwner = rentalsRecord;
         }
+
+        return rentalsRecordReference; // Return the document reference for further usage
       }
 
       Future<void> updateUserReferences() async {
@@ -148,182 +256,97 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
         return confirmDialogResponse;
       }
 
-      Future<bool> processCardPayment() async {
-        logFirebaseEvent('payment_card_chosen');
+      Future<bool> processPayment(Map<String, dynamic> paymentData, String billingType) async {
+          showLoadingDialog(context, 'Processando pagamento...'); // Show loading indicator
 
-        // Prepare the payment data
-        Map<String, dynamic> paymentData = {
-          'customer': currentUserDocument?.asaasClientId ?? '',
-          'billingType': 'CREDIT_CARD',
-          'value': FFAppState().purchaseData.quantity.toDouble() +
-              functions.getObjectForUserRef(
-                FFAppState().quotations.toList(),
-                FFAppState().renterRef!,
-              )!.priceBreakdown.total,
-          'dueDate': DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 7))), // Set due date as needed
-          'description': widget.gameObject?.name ?? '',
-          'externalReference': '${random_data.randomString(8, 8, true, true, true)}${currentUserReference?.id}',
-        };
+          paymentData['billingType'] = billingType; // Set the billing type
+          paymentData['externalReference'] = FFAppState().externalReference; // Set external reference for tracking
 
         try {
-          // Send POST request to your backend endpoint
-          final response = await post(
-            Uri.parse('https://createbillingpaymentasaas-667069547103.us-central1.run.app'), // Replace with your actual endpoint URL
-            headers: {'Content-Type': 'application/json'},
-            body: jsonEncode(paymentData),
+          final response = await retryRequest(
+            () => post(
+              Uri.parse('https://create-billing-667069547103.us-central1.run.app'),
+              headers: {'Content-Type': 'application/json'},
+              body: jsonEncode(paymentData),
+            ),
+            retries: 3,
+            delay: Duration(seconds: 2),
           );
 
-          if (response.statusCode == 200 || response.statusCode == 201) {
-            // Payment created successfully
+          hideLoadingDialog(context); // Hide loading dialog once processing is complete
+
+          if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
             final responseData = jsonDecode(response.body);
             logFirebaseEvent('payment_initiated_successfully');
 
-            // Extract necessary data from response
-            _model.orderId = responseData['externalReference']?.toString() ?? '0';
-            safeSetState(() {});
-
-            // Handle payment link if provided
-            String? paymentLink = responseData['invoiceUrl'] ?? responseData['bankSlipUrl'] ?? responseData['invoiceUrl'];
-
-            if (paymentLink != null) {
-              await launchURL(paymentLink);
+            if (billingType == 'PIX' && responseData['paymentDetails']['qrCodeInfo'] != null) {
+              // Display Pix QR code if available
+              final qrCodeInfo = responseData['paymentDetails']['qrCodeInfo'];
+              await showPixQrCodeDialog(
+                context,
+                qrCodeInfo['encodedImage'],
+                qrCodeInfo['payload'],
+                DateTime.parse(qrCodeInfo['expirationDate']),
+              );
+            } else if (billingType == 'CREDIT_CARD') {
+              // If payment is via credit card, open payment link
+              final paymentLink = responseData['paymentDetails']['paymentLink'];
+              if (paymentLink != null) await launchURL(paymentLink);
             }
-
-            // Since payment status will be updated asynchronously via webhook, proceed without waiting
             return true;
           } else {
-            // Handle error response
             logFirebaseEvent('payment_creation_failed');
-            print('Error: ${response.statusCode} - ${response.body}');
-            // Show error message to user
-            await showDialog(
-              context: context,
-              builder: (alertDialogContext) {
-                return AlertDialog(
-                  title: const Text('Erro ao iniciar pagamento!'),
-                  content: Text('Status: ${response.statusCode}\nErro: ${response.body}'),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(alertDialogContext),
-                      child: const Text('Ok'),
-                    ),
-                  ],
-                );
-              },
-            );
+            await showErrorDialog(context, 'Erro ao iniciar pagamento!', response?.statusCode, response?.body);
             return false;
           }
         } catch (e) {
-          // Handle exceptions
+          hideLoadingDialog(context);
           logFirebaseEvent('payment_exception');
-          print('Exception: $e');
-          await showDialog(
-            context: context,
-            builder: (alertDialogContext) {
-              return AlertDialog(
-                title: const Text('Erro ao iniciar pagamento!'),
-                content: Text('Erro: $e'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(alertDialogContext),
-                    child: const Text('Ok'),
-                  ),
-                ],
-              );
-            },
-          );
+          await showErrorDialog(context, 'Erro ao iniciar pagamento!', null, e.toString());
           return false;
         }
       }
+      
+      Future<bool> processCardPayment(DocumentReference rentalRef) async {
+    logFirebaseEvent('payment_card_chosen');
+
+    // Prepare payment data with usersRentalRef
+    Map<String, dynamic> paymentData = {
+      'customer': currentUserDocument?.asaasClientId ?? '',
+      'value': FFAppState().purchaseData.quantity.toDouble() +
+          functions.getObjectForUserRef(
+            FFAppState().quotations.toList(),
+            FFAppState().renterRef!,
+          )!.priceBreakdown.total,
+      'dueDate': DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 7))),
+      'description': widget.gameObject?.name ?? '',
+      'externalReference': FFAppState().externalReference,
+      'usersRentalRef': rentalRef.path, // Pass the Firestore path of the rental document
+    };
+
+  return await processPayment(paymentData, 'CREDIT_CARD');
+}
      
-      Future<bool> processPixPayment() async {
-        logFirebaseEvent('payment_pix_chosen');
+      Future<bool> processPixPayment(DocumentReference rentalRef) async {
+  logFirebaseEvent('payment_pix_chosen');
 
-        // Prepare the payment data
-        Map<String, dynamic> paymentData = {
-          'customer': currentUserDocument?.asaasClientId ?? '',
-          'billingType': 'PIX',
-          'value': FFAppState().purchaseData.quantity.toDouble() +
-              functions.getObjectForUserRef(
-                FFAppState().quotations.toList(),
-                FFAppState().renterRef!,
-              )!.priceBreakdown.total,
-          'dueDate': DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 7))), // Set due date as needed
-          'description': widget.gameObject?.name ?? '',
-          'externalReference': '${random_data.randomString(8, 8, true, true, true)}${currentUserReference?.id}',
-        };
+  // Prepare payment data with usersRentalRef
+  Map<String, dynamic> paymentData = {
+    'customer': currentUserDocument?.asaasClientId ?? '',
+    'value': FFAppState().purchaseData.quantity.toDouble() +
+        functions.getObjectForUserRef(
+          FFAppState().quotations.toList(),
+          FFAppState().renterRef!,
+        )!.priceBreakdown.total,
+    'dueDate': DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 7))),
+    'description': widget.gameObject?.name ?? '',
+    'externalReference': FFAppState().externalReference,
+    'usersRentalRef': rentalRef.path, // Pass the Firestore path of the rental document
+  };
 
-        try {
-          // Send POST request to your backend endpoint
-          final response = await post(
-            Uri.parse('https://createbillingpaymentasaas-667069547103.us-central1.run.app'), // Replace with your actual endpoint URL
-            headers: {'Content-Type': 'application/json'},
-            body: jsonEncode(paymentData),
-          );
-
-          if (response.statusCode == 200 || response.statusCode == 201) {
-            // Payment created successfully
-            final responseData = jsonDecode(response.body);
-            logFirebaseEvent('payment_initiated_successfully');
-
-            // Extract necessary data from response
-            _model.orderId = responseData['externalReference']?.toString() ?? '0';
-            safeSetState(() {});
-
-            // Handle payment link if provided
-            String? paymentLink = responseData['invoiceUrl'] ?? responseData['bankSlipUrl'] ?? responseData['invoiceUrl'];
-
-            if (paymentLink != null) {
-              await launchURL(paymentLink);
-            }
-
-            // Since payment status will be updated asynchronously via webhook, proceed without waiting
-            return true;
-          } else {
-            // Handle error response
-            logFirebaseEvent('payment_creation_failed');
-            print('Error: ${response.statusCode} - ${response.body}');
-            // Show error message to user
-            await showDialog(
-              context: context,
-              builder: (alertDialogContext) {
-                return AlertDialog(
-                  title: const Text('Erro ao iniciar pagamento!'),
-                  content: Text('Status: ${response.statusCode}\nErro: ${response.body}'),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(alertDialogContext),
-                      child: const Text('Ok'),
-                    ),
-                  ],
-                );
-              },
-            );
-            return false;
-          }
-        } catch (e) {
-          // Handle exceptions
-          logFirebaseEvent('payment_exception');
-          print('Exception: $e');
-          await showDialog(
-            context: context,
-            builder: (alertDialogContext) {
-              return AlertDialog(
-                title: const Text('Erro ao iniciar pagamento!'),
-                content: Text('Erro: $e'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(alertDialogContext),
-                    child: const Text('Ok'),
-                  ),
-                ],
-              );
-            },
-          );
-          return false;
-        }
-      }
-     
+  return await processPayment(paymentData, 'PIX');
+} 
+      
       Future<bool> callLalamove() async {
         logFirebaseEvent('call_lalamove_api');
 
@@ -422,7 +445,44 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
         context.pushNamed('HomePage');
       }
 
+      Future<void> createRentalRecordAndStartPayment() async {
+  // Generate a unique external reference for this rental/payment session
+  FFAppState().externalReference = '${random_data.randomString(8, 8, true, true, true)}${currentUserReference?.id}';
 
+  // Prepare initial rental data
+  Map<String, dynamic> rentalData = {
+    'createdDate': DateTime.now(),
+    'renterId': currentUserReference,
+    'status': 'initiated', // Initial status for tracking
+    'externalReference': FFAppState().externalReference, // Link to payment
+    // Add any other necessary fields
+  };
+
+  // Create the rental record and get the reference
+  DocumentReference rentalRef = await createRentalsRecordForUser(currentUserReference!, rentalData, isRenter: true);
+
+  // Store the reference for payment tracking
+  _model.usersRentalRef = rentalRef;
+
+  // Step 2: Proceed with choosing payment method and initiating payment
+  bool useCard = await choosePaymentMethod();
+  bool paymentSuccess = false;
+
+  if (useCard) {
+    paymentSuccess = await processCardPayment(rentalRef);
+  } else {
+    paymentSuccess = await processPixPayment(rentalRef);
+  }
+
+  if (!paymentSuccess) return;
+
+  // Step 3: Complete the rental and initiate delivery if payment is successful
+  if (!await callLalamove()) return;
+
+  await updateRecords();
+
+  await showSuccessDialogAndNavigate();
+}
 
     return Title(
         title: 'toRentList',
@@ -611,18 +671,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
 
                                   if (!await checkRenterSelection()) return;
 
-                                  bool useCard = await choosePaymentMethod();
-                                  bool paymentSuccess = false;
-
-                                  if (useCard) {
-                                    paymentSuccess = await processCardPayment();
-                                  } else {
-                                    paymentSuccess = await processPixPayment();
-                                  }
-
-                                  if (!paymentSuccess) return;
-
-                                  if (!await callLalamove()) return;
+                                   await createRentalRecordAndStartPayment();                               
 
                                   await updateRecords();
 

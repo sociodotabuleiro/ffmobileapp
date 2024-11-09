@@ -417,7 +417,33 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
   }
 
   @override
-  void dispose() {
+  void dispose() async {
+
+    if (_model.wishlisted != (currentUserDocument?.wishlist.contains(widget.gameObject?.reference) ?? false)) {
+    await currentUserReference?.update({
+      'wishlist': _model.wishlisted
+          ? FieldValue.arrayUnion([widget.gameObject?.reference])
+          : FieldValue.arrayRemove([widget.gameObject?.reference]),
+    });
+
+    // Increment or decrement the `timesWishlisted` in gameObject
+    await widget.gameObject?.reference.update({
+      'timesWishlisted': FieldValue.increment(_model.wishlisted ? 1 : -1),
+    });
+  }
+
+  if (_model.favorited != (currentUserDocument?.favoriteList.contains(widget.gameObject?.reference) ?? false)) {
+    await currentUserReference?.update({
+      'favoriteList': _model.favorited
+          ? FieldValue.arrayUnion([widget.gameObject?.reference])
+          : FieldValue.arrayRemove([widget.gameObject?.reference]),
+    });
+
+    // Increment or decrement the `timesFavorited` in gameObject
+    await widget.gameObject?.reference.update({
+      'timesFavorited': FieldValue.increment(_model.favorited ? 1 : -1),
+    });
+  }
     _model.dispose();
 
     super.dispose();
@@ -1080,7 +1106,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                                 'favoriteIconButtonOn_update_page_state');
                                             _model.timesFavorited =
                                                 _model.timesFavorited + -1;
-                                            safeSetState(() {});
+                                            setState(() {});
                                           },
                                         ).animateOnActionTrigger(
                                           animationsMap[
@@ -1117,7 +1143,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                                 'favoriteIconButtonOff_update_page_state');
                                             _model.timesFavorited =
                                                 _model.timesFavorited + 1;
-                                            safeSetState(() {});
+                                            setState(() {});
                                           },
                                         ).animateOnActionTrigger(
                                           animationsMap[
@@ -1130,23 +1156,21 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                   Padding(
                                     padding: const EdgeInsetsDirectional.fromSTEB(
                                         0.0, 8.0, 0.0, 0.0),
-                                    child: Text(
-                                      valueOrDefault<String>(
-                                        _model.timesFavorited.toString(),
-                                        '0',
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyLarge
-                                          .override(
-                                            fontFamily:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyLargeFamily,
-                                            letterSpacing: 0.0,
-                                            useGoogleFonts: GoogleFonts.asMap()
-                                                .containsKey(
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyLargeFamily),
-                                          ),
+                                    child: StreamBuilder<DocumentSnapshot>(
+                                      stream: widget.gameObject?.reference.snapshots(),
+                                      builder: (context, snapshot) {
+                                        if (!snapshot.hasData) {
+                                          return Text(
+                                            '0',
+                                            style: FlutterFlowTheme.of(context).bodyLarge,
+                                          );
+                                        }
+                                        final timesFavorited = snapshot.data!['timesFavorited'] ?? 0;
+                                        return Text(
+                                          timesFavorited.toString(),
+                                          style: FlutterFlowTheme.of(context).bodyLarge,
+                                        );
+                                      },
                                     ),
                                   ),
                                   Padding(
@@ -1207,7 +1231,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                                 'wishlistedIconButtonOn_update_page_state');
                                             _model.timesWishlisted =
                                                 _model.timesWishlisted + -1;
-                                            safeSetState(() {});
+                                            setState(() {});
                                           },
                                         ).animateOnActionTrigger(
                                           animationsMap[
@@ -1245,7 +1269,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                                 'wishlistedIconButtonOff_update_page_stat');
                                             _model.timesWishlisted =
                                                 _model.timesWishlisted + 1;
-                                            safeSetState(() {});
+                                            setState(() {});
                                           },
                                         ).animateOnActionTrigger(
                                           animationsMap[
@@ -1258,23 +1282,21 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                   Padding(
                                     padding: const EdgeInsetsDirectional.fromSTEB(
                                         0.0, 8.0, 0.0, 0.0),
-                                    child: Text(
-                                      valueOrDefault<String>(
-                                        _model.timesWishlisted.toString(),
-                                        '0',
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyLarge
-                                          .override(
-                                            fontFamily:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyLargeFamily,
-                                            letterSpacing: 0.0,
-                                            useGoogleFonts: GoogleFonts.asMap()
-                                                .containsKey(
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyLargeFamily),
-                                          ),
+                                    child: StreamBuilder<DocumentSnapshot>(
+                                      stream: widget.gameObject?.reference.snapshots(),
+                                      builder: (context, snapshot) {
+                                        if (!snapshot.hasData) {
+                                          return Text(
+                                            '0',
+                                            style: FlutterFlowTheme.of(context).bodyLarge,
+                                          );
+                                        }
+                                        final timesWishlisted = snapshot.data!['timesWishlisted'] ?? 0;
+                                        return Text(
+                                          timesWishlisted.toString(),
+                                          style: FlutterFlowTheme.of(context).bodyLarge,
+                                        );
+                                      },
                                     ),
                                   ),
                                   Padding(

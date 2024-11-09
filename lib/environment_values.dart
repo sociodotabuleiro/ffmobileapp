@@ -1,5 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:sociodotabuleiro/backend/schema/structs/address_struct.dart';
+
+import 'app_constants.dart';
 
 class FFDevEnvironmentValues {
   static const String currentEnvironment = 'Production';
@@ -28,4 +31,15 @@ class FFDevEnvironmentValues {
 
   bool _isRentingAvailable = false;
   bool get isRentingAvailable => _isRentingAvailable;
+
+   void checkCityForRentingAvailability(AddressStruct address) {
+    // Check if the user's city is in the allowed cities list
+    if (FFAppConstants.cities2Rent.contains(address.city.toLowerCase())) {
+      _isRentingAvailable = true;
+    } else {
+      _isRentingAvailable = false;
+    }
+  }
+
 }
+

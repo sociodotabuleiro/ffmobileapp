@@ -29,6 +29,17 @@ class MyGameConfigSheetWidget extends StatefulWidget {
 
 class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
   late MyGameConfigSheetModel _model;
+  Future<void> shareGameUri() async {
+    // Ensure `gameName` is not null, providing a default empty string if needed
+    final String gameName = widget.gameName ?? '';
+    final String encodedGameName = Uri.encodeComponent(gameName);
+
+    // Create the URI for deep linking
+    final String uri = 'com.sociodotabuleiro.app://jogos/$encodedGameName';
+
+    // Share the URI
+    await Share.share(uri);
+  }
 
   @override
   void setState(VoidCallback callback) {
@@ -82,10 +93,9 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
                 onTap: () async {
                   logFirebaseEvent('MY_GAME_CONFIG_SHEET_Container_hvddqqe5_');
                   logFirebaseEvent('Container_share');
-                  await Share.share(
-                    'my.app/jogos/:gameName',
-                    sharePositionOrigin: getWidgetBoundingBox(context),
-                  );
+                  // Construct URI using the custom scheme
+
+                  await shareGameUri(); // Share the URI with other apps
                 },
                 child: Container(
                   width: double.infinity,

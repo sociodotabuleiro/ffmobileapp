@@ -48,6 +48,9 @@ class ToRentListModel extends FlutterFlowModel<ToRentListWidget> {
   RentalsRecord? documentOwner;
   // Stores action output result for [Backend Call - Create Document] action in Button widget.
   UsersRentalRecord? usersRentalObject;
+
+  DocumentReference? usersRentalRef;
+
   // Model for navBar component.
   late NavBarModel navBarModel;
 

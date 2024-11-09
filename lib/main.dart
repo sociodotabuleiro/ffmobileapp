@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -28,6 +29,12 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 
 import '/auth/get_fcm_token.dart';
 
+import 'package:uni_links/uni_links.dart';
+
+import 'deep_link_handler.dart';
+import 'package:logger/logger.dart';
+
+final Logger _logger = Logger();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -121,11 +128,12 @@ class _MyAppState extends State<MyApp> {
 
   final authUserSub = authenticatedUserStream.listen((_) {});
   final fcmTokenSub = fcmTokenUserStream.listen((_) {});
+  StreamSubscription? _sub;
 
   @override
   void initState() {
     super.initState();
-
+     _initDeepLinkListener();
     _appStateNotifier = AppStateNotifier.instance;
     _router = createRouter(_appStateNotifier,  observers: [widget.observer]);
     userStream = sociodotabuleiroFirebaseUserStream()
@@ -139,10 +147,28 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  void _initDeepLinkListener() {
+    _sub = uriLinkStream.listen((Uri? uri) async {
+      if (uri != null && uri.scheme == 'com.sociodotabuleiro.app') {
+        final navigationData = await handleIncomingUri(uri);
+        if (mounted && navigationData != null) {
+          GoRouter.of(context).go(
+            navigationData['route'],
+            extra: navigationData['extra'],
+          );
+        }
+      }
+    }, onError: (err) {
+      _logger.e('Failed to handle URI: $err');
+    });
+  }
+
+
   @override
   void dispose() {
     authUserSub.cancel();
     fcmTokenSub.cancel();
+    _sub?.cancel();
     super.dispose();
   }
 

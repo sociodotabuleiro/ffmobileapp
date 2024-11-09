@@ -367,6 +367,13 @@ class FFAppState extends ChangeNotifier {
     secureStorage.setString('ff_SdtWalletId', value);
   }
 
+
+  String _externalReference = '';
+  String get externalReference => _externalReference;
+  set externalReference(String value) {
+    _externalReference = value;
+  }
+
   void deleteSdtWalletId() {
     secureStorage.delete(key: 'ff_SdtWalletId');
   }

@@ -1083,6 +1083,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                             logFirebaseEvent(
                                                 'favoriteIconButtonOn_update_page_state');
                                             _model.favorited = false;
+                                            _model.timesFavorited += _model.favorited ? 1 : -1;
                                             safeSetState(() {});
                                             logFirebaseEvent(
                                                 'favoriteIconButtonOn_widget_animation');
@@ -1096,8 +1097,6 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                             }
                                             logFirebaseEvent(
                                                 'favoriteIconButtonOn_update_page_state');
-                                            _model.timesFavorited =
-                                                _model.timesFavorited + -1;
                                             setState(() {});
                                           },
                                         ).animateOnActionTrigger(
@@ -1117,10 +1116,11 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                           onPressed: () async {
                                             logFirebaseEvent(
                                                 'GAME_DETAILS_favoriteIconButtonOff_ON_TA');
-                                            logFirebaseEvent(
-                                                'favoriteIconButtonOff_update_page_state');
                                             _model.favorited = true;
+                                            _model.timesFavorited += _model.favorited ? 1 : -1;
                                             safeSetState(() {});
+                                                  logFirebaseEvent(
+                                                'favoriteIconButtonOff_update_page_state');
                                             logFirebaseEvent(
                                                 'favoriteIconButtonOff_widget_animation');
                                             if (animationsMap[
@@ -1133,8 +1133,6 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                             }
                                             logFirebaseEvent(
                                                 'favoriteIconButtonOff_update_page_state');
-                                            _model.timesFavorited =
-                                                _model.timesFavorited + 1;
                                             setState(() {});
                                           },
                                         ).animateOnActionTrigger(
@@ -1153,13 +1151,16 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                       builder: (context, snapshot) {
                                         if (!snapshot.hasData) {
                                           return Text(
-                                            '0',
+                                            _model.timesFavorited.toString(),
                                             style: FlutterFlowTheme.of(context).bodyLarge,
                                           );
                                         }
-                                        final timesFavorited = snapshot.data!['timesFavorited'] ?? 0;
+                                         final timesFavorited = snapshot.data!['timesFavorited'] ?? _model.timesFavorited;
+                                          if (timesFavorited != _model.timesFavorited) {
+                                              _model.timesFavorited = timesFavorited;
+                                            }
                                         return Text(
-                                          timesFavorited.toString(),
+                                          timesFavorited.toString(),     
                                           style: FlutterFlowTheme.of(context).bodyLarge,
                                         );
                                       },
@@ -1205,9 +1206,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                           onPressed: () async {
                                             logFirebaseEvent(
                                                 'GAME_DETAILS_wishlistedIconButtonOn_ON_T');
-                                            logFirebaseEvent(
-                                                'wishlistedIconButtonOn_update_page_state');
                                             _model.wishlisted = false;
+                                            _model.timesWishlisted += _model.wishlisted ? 1 : -1;
                                             safeSetState(() {});
                                             logFirebaseEvent(
                                                 'wishlistedIconButtonOn_widget_animation');
@@ -1221,8 +1221,6 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                             }
                                             logFirebaseEvent(
                                                 'wishlistedIconButtonOn_update_page_state');
-                                            _model.timesWishlisted =
-                                                _model.timesWishlisted + -1;
                                             setState(() {});
                                           },
                                         ).animateOnActionTrigger(
@@ -1243,10 +1241,11 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                           onPressed: () async {
                                             logFirebaseEvent(
                                                 'GAME_DETAILS_wishlistedIconButtonOff_ON_');
+                                             _model.wishlisted = true;
+                                             _model.timesWishlisted += _model.wishlisted ? 1 : -1;
+                                            safeSetState(() {});
                                             logFirebaseEvent(
                                                 'wishlistedIconButtonOff_update_page_stat');
-                                            _model.wishlisted = true;
-                                            safeSetState(() {});
                                             logFirebaseEvent(
                                                 'wishlistedIconButtonOff_widget_animation');
                                             if (animationsMap[
@@ -1259,8 +1258,6 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                             }
                                             logFirebaseEvent(
                                                 'wishlistedIconButtonOff_update_page_stat');
-                                            _model.timesWishlisted =
-                                                _model.timesWishlisted + 1;
                                             setState(() {});
                                           },
                                         ).animateOnActionTrigger(
@@ -1279,13 +1276,16 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                       builder: (context, snapshot) {
                                         if (!snapshot.hasData) {
                                           return Text(
-                                            '0',
+                                            _model.timesWishlisted.toString(),
                                             style: FlutterFlowTheme.of(context).bodyLarge,
                                           );
                                         }
-                                        final timesWishlisted = snapshot.data!['timesWishlisted'] ?? 0;
+                                         final timesWishlisted = snapshot.data!['timesWishlisted'] ?? _model.timesWishlisted;
+                                          if (timesWishlisted != _model.timesWishlisted) {
+                                              _model.timesWishlisted = timesWishlisted;
+                                            }
                                         return Text(
-                                          timesWishlisted.toString(),
+                                          timesWishlisted.toString(),     
                                           style: FlutterFlowTheme.of(context).bodyLarge,
                                         );
                                       },

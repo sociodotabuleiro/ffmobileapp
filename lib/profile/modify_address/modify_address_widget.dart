@@ -36,46 +36,19 @@ class _ModifyAddressWidgetState extends State<ModifyAddressWidget> {
     super.initState();
     _model = createModel(context, () => ModifyAddressModel());
 
-    _model.textController1 ??= TextEditingController();
-    _model.textFieldFocusNode1 ??= FocusNode();
-
-    _model.textController2 ??=
-        TextEditingController(text: widget.address?.street);
-    _model.textFieldFocusNode2 ??= FocusNode();
-
-    _model.textController3 ??=
-        TextEditingController(text: widget.address?.number);
-    _model.textFieldFocusNode3 ??= FocusNode();
-
-    _model.textController4 ??=
-        TextEditingController(text: widget.address?.complement);
-    _model.textFieldFocusNode4 ??= FocusNode();
-
-    _model.textController5 ??=
-        TextEditingController(text: widget.address?.neighborhood);
-    _model.textFieldFocusNode5 ??= FocusNode();
-
-    _model.textController6 ??=
-        TextEditingController(text: widget.address?.city);
-    _model.textFieldFocusNode6 ??= FocusNode();
-
-    _model.textController7 ??=
-        TextEditingController(text: widget.address?.state);
-    _model.textFieldFocusNode7 ??= FocusNode();
-
-    _model.textController8 ??=
-        TextEditingController(text: widget.address?.zip);
-    _model.textFieldFocusNode8 ??= FocusNode();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {
-          _model.textController1?.text = 'Principal';
-        }));
+    _model.textController1 ??= TextEditingController(text: widget.address?.name ?? 'Principal');
+    _model.textController2 ??= TextEditingController(text: widget.address?.street);
+    _model.textController3 ??= TextEditingController(text: widget.address?.number);
+    _model.textController4 ??= TextEditingController(text: widget.address?.complement);
+    _model.textController5 ??= TextEditingController(text: widget.address?.neighborhood);
+    _model.textController6 ??= TextEditingController(text: widget.address?.city);
+    _model.textController7 ??= TextEditingController(text: widget.address?.state);
+    _model.textController8 ??= TextEditingController(text: widget.address?.zip);
   }
 
   @override
   void dispose() {
     _model.maybeDispose();
-
     super.dispose();
   }
 
@@ -88,13 +61,13 @@ class _ModifyAddressWidgetState extends State<ModifyAddressWidget> {
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: Container(
-        width: MediaQuery.sizeOf(context).width * 1.0,
+        width: MediaQuery.sizeOf(context).width,
         decoration: BoxDecoration(
           color: FlutterFlowTheme.of(context).primaryBackground,
           borderRadius: BorderRadius.circular(16.0),
         ),
         child: Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(20.0, 20.0, 20.0, 20.0),
+          padding: const EdgeInsetsDirectional.all(20.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -695,10 +668,6 @@ class _ModifyAddressWidgetState extends State<ModifyAddressWidget> {
                     country: 'BR',
                   );
                   
-                  safeSetState(() {});
-                  
-                  // Attempt to update Firestore with the new address
-                  logFirebaseEvent('Button_backend_call');
                   try {
                     await currentUserReference!.update(createUsersRecordData(
                       address: updateAddressStruct(
@@ -707,16 +676,9 @@ class _ModifyAddressWidgetState extends State<ModifyAddressWidget> {
                       ),
                     ));
 
-                    // Show success alert
-                    _showAlert(context, 'Sucesso', 'Endereço atualizado com sucesso!');
-                    
-                    // Rebuild the page by calling setState
-                    safeSetState(() {});
-                    
+                    Navigator.of(context).pop(_model.addressObject); // Pass back the updated address
+
                   } catch (e) {
-                    print('Erro ao atualizar o endereço: $e');
-                    
-                    // Show error alert
                     _showAlert(context, 'Erro', 'Falha ao atualizar o endereço. Tente novamente.');
                   }
                 },

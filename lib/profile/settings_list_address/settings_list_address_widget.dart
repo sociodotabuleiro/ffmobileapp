@@ -51,67 +51,76 @@ class _SettingsListAddressWidgetState extends State<SettingsListAddressWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Title(
-      title: 'SettingsListAddress',
-      color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
-      child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Scaffold(
-          key: scaffoldKey,
-          backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-          appBar: AppBar(
-            backgroundColor: FlutterFlowTheme.of(context).primary,
-            automaticallyImplyLeading: false,
-            leading: FlutterFlowIconButton(
-              borderColor: Colors.transparent,
-              borderRadius: 30.0,
-              borderWidth: 1.0,
-              buttonSize: 60.0,
-              icon: const Icon(
-                Icons.arrow_back_rounded,
-                color: Colors.white,
-                size: 30.0,
+    if (currentUserReference == null) {
+       return Center(child: Text('No user reference available.'));
+    }
+    else {
+        return Title(
+        title: 'SettingsListAddress',
+        color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
+        child: GestureDetector( 
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Scaffold(
+            key: scaffoldKey,
+            backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+            appBar: AppBar(
+              backgroundColor: FlutterFlowTheme.of(context).primary,
+              automaticallyImplyLeading: false,
+              leading: FlutterFlowIconButton(
+                borderColor: Colors.transparent,
+                borderRadius: 30.0,
+                borderWidth: 1.0,
+                buttonSize: 60.0,
+                icon: const Icon(
+                  Icons.arrow_back_rounded,
+                  color: Colors.white,
+                  size: 30.0,
+                ),
+                onPressed: () async {
+                  logFirebaseEvent('SETTINGS_LIST_ADDRESS_arrow_back_rounded');
+                  logFirebaseEvent('IconButton_navigate_back');
+                  context.pop();
+                },
               ),
-              onPressed: () async {
-                logFirebaseEvent('SETTINGS_LIST_ADDRESS_arrow_back_rounded');
-                logFirebaseEvent('IconButton_navigate_back');
-                context.pop();
+              title: Text(
+                'Endereços',
+                style: FlutterFlowTheme.of(context).headlineMedium.override(
+                      fontFamily:
+                          FlutterFlowTheme.of(context).headlineMediumFamily,
+                      color: Colors.white,
+                      fontSize: 22.0,
+                      letterSpacing: 0.0,
+                      useGoogleFonts: GoogleFonts.asMap().containsKey(
+                          FlutterFlowTheme.of(context).headlineMediumFamily),
+                    ),
+              ),
+              actions: const [],
+              centerTitle: true,
+              elevation: 2.0,
+            ),
+            body: StreamBuilder<DocumentSnapshot>(
+              stream: currentUserReference?.snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return const Center(child: Text("Erro ao carregar dados"));
+                } else if (!snapshot.hasData || snapshot.data?.data() == null) {
+                  return const Center(child: Text("Nenhum endereço salvo"));
+                }
+
+                final addressData = snapshot.data!.data() as Map<String, dynamic>?;
+                final address = addressData?['address'] as AddressStruct?;
+
+                return address != null
+                    ? _buildAddressContent(context, address)
+                    : const Center(child: Text("Nenhum endereço salvo"));
               },
             ),
-            title: Text(
-              'Endereços',
-              style: FlutterFlowTheme.of(context).headlineMedium.override(
-                    fontFamily:
-                        FlutterFlowTheme.of(context).headlineMediumFamily,
-                    color: Colors.white,
-                    fontSize: 22.0,
-                    letterSpacing: 0.0,
-                    useGoogleFonts: GoogleFonts.asMap().containsKey(
-                        FlutterFlowTheme.of(context).headlineMediumFamily),
-                  ),
-            ),
-            actions: const [],
-            centerTitle: true,
-            elevation: 2.0,
-          ),
-          body: StreamBuilder<DocumentSnapshot>(
-            stream: currentUserReference!.snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              final addressData = snapshot.data!.data() as Map<String, dynamic>?;
-              final address = addressData?['address'] as AddressStruct?;
-
-              return address != null
-                  ? _buildAddressContent(context, address)
-                  : const Center(child: Text("Nenhum endereço salvo"));
-            },
           ),
         ),
-      ),
-    );
+      );
+    }
   }
 
   Widget _buildAddressContent(BuildContext context, AddressStruct address) {

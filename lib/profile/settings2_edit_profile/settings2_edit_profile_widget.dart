@@ -343,13 +343,19 @@ class _Settings2EditProfileWidgetState
                       logFirebaseEvent(
                           'SETTINGS2_EDIT_PROFILE_SALVAR_MUDANAS_BT');
                       logFirebaseEvent('Button_backend_call');
-
+                      try {
                       await currentUserReference!.update(createUsersRecordData(
                         fullName:
                             '${_model.firstNameTextController.text} ${_model.lastNameTextController.text}',
                         firstName: _model.firstNameTextController.text,
                         lastName: _model.lastNameTextController.text,
                       ));
+                       _showAlert(context, 'Informações Salvas', 'Suas informações foran salvas.');
+                        Navigator.of(context).pop(); // Pass back the updated address
+
+                        } catch (e) {
+                          _showAlert(context, 'Erro', 'Falha ao atualizar o endereço. Tente novamente.');
+                        }
                     },
                     text: 'Salvar Mudanças',
                     options: FFButtonOptions(
@@ -382,4 +388,25 @@ class _Settings2EditProfileWidgetState
           ),
         ));
   }
+}
+
+// Helper function to show an alert dialog
+void _showAlert(BuildContext context, String title, String message) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () {
+              Navigator.of(context).pop();  // Close the alert dialog
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

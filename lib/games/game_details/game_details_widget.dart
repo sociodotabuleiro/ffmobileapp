@@ -494,67 +494,61 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                             ),
                           ),
                         ),
-                        if (FFAppState()
-                                .myGamesGameRef
-                                .contains(widget.gameObject?.reference) ==
-                            true)
-                          Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 16.0, 0.0),
-                            child: InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () async {
-                                logFirebaseEvent(
-                                    'GAME_DETAILS_PAGE_Icon_9h1tjnup_ON_TAP');
-                                logFirebaseEvent('Icon_custom_action');
-                                _model.myGamesRef =
-                                    await actions.getMyGamesRefFromGamesId(
-                                  widget.gameObject!.reference,
-                                );
-                                logFirebaseEvent('Icon_bottom_sheet');
-                                await showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  backgroundColor: Colors.transparent,
-                                  context: context,
-                                  builder: (context) {
-                                    return WebViewAware(
-                                      child: GestureDetector(
-                                        onTap: () =>
-                                            FocusScope.of(context).unfocus(),
-                                        child: Padding(
-                                          padding:
-                                              MediaQuery.viewInsetsOf(context),
-                                          child: SizedBox(
-                                            height: MediaQuery.sizeOf(context)
-                                                    .height *
-                                                0.25,
-                                            child: MyGameConfigSheetWidget(
-                                              gameRef:
-                                                  widget.gameObject!.reference,
-                                              gameName:
-                                                  widget.gameObject!.name,
-                                              myGameRef: _model.myGamesRef!,
-                                            ),
+                        Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 16.0, 0.0),
+                          child: InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              logFirebaseEvent(
+                                  'GAME_DETAILS_PAGE_Icon_9h1tjnup_ON_TAP');
+                              logFirebaseEvent('Icon_custom_action');
+                              _model.myGamesRef =
+                                  await actions.getMyGamesRefFromGamesId(
+                                widget.gameObject!.reference,
+                              );
+                              logFirebaseEvent('Icon_bottom_sheet');
+                              await showModalBottomSheet(
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                context: context,
+                                builder: (context) {
+                                  return WebViewAware(
+                                    child: GestureDetector(
+                                      onTap: () =>
+                                          FocusScope.of(context).unfocus(),
+                                      child: Padding(
+                                        padding:
+                                            MediaQuery.viewInsetsOf(context),
+                                        child: SizedBox(
+                                          height: MediaQuery.sizeOf(context)
+                                                  .height *
+                                              0.25,
+                                          child: MyGameConfigSheetWidget(
+                                            gameRef:
+                                                widget.gameObject!.reference,
+                                            gameName: widget.gameObject!.name,
+                                            myGameRef: _model.myGamesRef!,
                                           ),
                                         ),
                                       ),
-                                    );
-                                  },
-                                ).then((value) => safeSetState(() {}));
+                                    ),
+                                  );
+                                },
+                              ).then((value) => safeSetState(() {}));
 
-                                safeSetState(() {});
-                              },
-                              child: Icon(
-                                Icons.settings_outlined,
-                                color:
-                                    FlutterFlowTheme.of(context).secondaryText,
-                                size: 24.0,
-                              ),
+                              safeSetState(() {});
+                            },
+                            child: Icon(
+                              Icons.settings_outlined,
+                              color: FlutterFlowTheme.of(context).secondaryText,
+                              size: 24.0,
                             ),
                           ),
+                        ),
                       ],
                     ),
                   ),
@@ -1702,10 +1696,13 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                 ),
                               ],
                             ),
-                            if (FFAppConstants.cities2Rent.contains(
-                                    functions.normalizeString(
-                                        currentUserDocument!.address.city)) ==
-                                true)
+                            if ((FFAppConstants.cities2Rent.contains(functions
+                                        .normalizeString(currentUserDocument!
+                                            .address.city)) ==
+                                    true) &&
+                                !FFAppState()
+                                    .myGamesGameRef
+                                    .contains(widget.gameObject?.reference))
                               AuthUserStreamWidget(
                                 builder: (context) => FFButtonWidget(
                                   onPressed: (widget

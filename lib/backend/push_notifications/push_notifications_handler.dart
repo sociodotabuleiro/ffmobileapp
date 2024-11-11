@@ -158,6 +158,7 @@ final parametersBuilderMap =
   'Settings1Notifications': ParameterData.none(),
   'Settings2EditProfile': ParameterData.none(),
   'SettingsListAddress': ParameterData.none(),
+  'Notifications': ParameterData.none(),
 };
 
 Map<String, dynamic> getInitialParameterData(Map<String, dynamic> data) {

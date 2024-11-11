@@ -168,12 +168,6 @@ class UsersRecord extends FirestoreRecord {
   List<UserReviewStruct> get reviews => _reviews ?? const [];
   bool hasReviews() => _reviews != null;
 
-  // "readNotifications" field.
-  List<DocumentReference>? _readNotifications;
-  List<DocumentReference> get readNotifications =>
-      _readNotifications ?? const [];
-  bool hasReadNotifications() => _readNotifications != null;
-
   // "rating" field.
   double? _rating;
   double get rating => _rating ?? 0.0;
@@ -291,7 +285,6 @@ class UsersRecord extends FirestoreRecord {
       snapshotData['reviews'],
       UserReviewStruct.fromMap,
     );
-    _readNotifications = getDataList(snapshotData['readNotifications']);
     _rating = castToType<double>(snapshotData['rating']);
     _authorizationCode = snapshotData['authorizationCode'] as String?;
     _rentedTo = getDataList(snapshotData['rentedTo']);
@@ -464,7 +457,6 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         listEquality.equals(
             e1?.completedRegisterPages, e2?.completedRegisterPages) &&
         listEquality.equals(e1?.reviews, e2?.reviews) &&
-        listEquality.equals(e1?.readNotifications, e2?.readNotifications) &&
         e1?.rating == e2?.rating &&
         e1?.authorizationCode == e2?.authorizationCode &&
         listEquality.equals(e1?.rentedTo, e2?.rentedTo) &&
@@ -514,7 +506,6 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.isStore,
         e?.completedRegisterPages,
         e?.reviews,
-        e?.readNotifications,
         e?.rating,
         e?.authorizationCode,
         e?.rentedTo,

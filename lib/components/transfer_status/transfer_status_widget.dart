@@ -1,7 +1,9 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'transfer_status_model.dart';
 export 'transfer_status_model.dart';
@@ -31,6 +33,14 @@ class _TransferStatusWidgetState extends State<TransferStatusWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => TransferStatusModel());
+
+    // On component load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      logFirebaseEvent('TRANSFER_STATUS_transferStatus_ON_INIT_S');
+      logFirebaseEvent('transferStatus_backend_call');
+      _model.ownerObject =
+          await UsersRecord.getDocumentOnce(widget.rental!.ownerID!);
+    });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -123,10 +133,17 @@ class _TransferStatusWidgetState extends State<TransferStatusWidget> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(40.0),
                         child: Image.network(
-                          'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=900&q=60',
+                          _model.ownerObject!.photoUrl,
                           width: 60.0,
                           height: 60.0,
                           fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) =>
+                              Image.asset(
+                            'assets/images/error_image.png',
+                            width: 60.0,
+                            height: 60.0,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
@@ -174,13 +191,22 @@ class _TransferStatusWidgetState extends State<TransferStatusWidget> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(2.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(40.0),
-                        child: Image.network(
-                          'https://images.unsplash.com/photo-1505033575518-a36ea2ef75ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZmlsZSUyMHVzZXJ8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=900&q=60',
-                          width: 60.0,
-                          height: 60.0,
-                          fit: BoxFit.cover,
+                      child: AuthUserStreamWidget(
+                        builder: (context) => ClipRRect(
+                          borderRadius: BorderRadius.circular(40.0),
+                          child: Image.network(
+                            currentUserPhoto,
+                            width: 60.0,
+                            height: 60.0,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) =>
+                                Image.asset(
+                              'assets/images/error_image.png',
+                              width: 60.0,
+                              height: 60.0,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
                       ),
                     ),

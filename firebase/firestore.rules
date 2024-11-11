@@ -51,7 +51,7 @@ service cloud.firestore {
     match /usersRental/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if false;
+      allow write: if request.auth != null;
       allow delete: if false;
     }
 
@@ -65,15 +65,15 @@ service cloud.firestore {
     match /contactMessages/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if true;
-      allow delete: if true;
+      allow write: if false;
+      allow delete: if false;
     }
 
     match /contactMessages/{parent}/usersContactResponses/{document} {
       allow create: if true;
       allow read: if true;
-      allow write: if true;
-      allow delete: if true;
+      allow write: if false;
+      allow delete: if false;
     }
 
     match /{path=**}/usersContactResponses/{document} {
@@ -82,22 +82,17 @@ service cloud.firestore {
 
 
     match /params/{document} {
-      allow create: if true;
-      allow read: if true;
-      allow write: if true;
-      allow delete: if true;
+      allow create: if false;
+      allow read: if false;
+      allow write: if false;
+      allow delete: if false;
     }
 
     match /users/{parent}/notifications/{document} {
-      allow create: if true;
+      allow create: if request.auth.uid == parent;
       allow read: if true;
-      allow write: if true;
-      allow delete: if true;
+      allow write: if request.auth.uid == parent;
+      allow delete: if request.auth.uid == parent;
     }
-
-    match /{path=**}/notifications/{document} {
-      allow read: if true;
-    }
-
   }
 }

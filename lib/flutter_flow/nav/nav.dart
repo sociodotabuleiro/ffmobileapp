@@ -263,6 +263,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier, {List<NavigatorObserver
           name: 'SettingsListAddress',
           path: '/settingsListAddress',
           builder: (context, params) => const SettingsListAddressWidget(),
+        ),
+        FFRoute(
+          name: 'Notifications',
+          path: '/notifications',
+          builder: (context, params) => const NotificationsWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

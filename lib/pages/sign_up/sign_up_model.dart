@@ -40,6 +40,8 @@ class SignUpModel extends FlutterFlowModel<SignUpWidget> {
   late bool confirmPasswordVisibility;
   String? Function(BuildContext, String?)?
       confirmPasswordTextControllerValidator;
+  // State field(s) for Checkbox widget.
+  bool? checkboxValue;
 
   @override
   void initState(BuildContext context) {

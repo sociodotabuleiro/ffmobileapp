@@ -26,6 +26,8 @@ class GameToRentModel extends FlutterFlowModel<GameToRentWidget> {
     updateFn(quotation ??= QuotationsStruct());
   }
 
+  bool? quotationSuccess;
+
   ///  State fields for stateful widgets in this component.
 
   // Stores action output result for [Backend Call - Read Document] action in gameToRent widget.

@@ -1,10 +1,12 @@
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/games/modify_my_game_price/modify_my_game_price_widget.dart';
+import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
 import 'my_game_config_sheet_model.dart';
@@ -72,6 +74,9 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+    context.watch<calendar_iagfh0_app_state.FFAppState>();
+
     return Align(
       alignment: const AlignmentDirectional(0.0, 1.0),
       child: Container(
@@ -155,62 +160,65 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
                 ),
               ),
             ),
-            Container(
-              width: double.infinity,
-              height: 60.0,
-              decoration: const BoxDecoration(),
-              child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Card(
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      color: FlutterFlowTheme.of(context).primaryBackground,
-                      elevation: 0.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(40.0),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.calendar_today,
-                          color: FlutterFlowTheme.of(context).secondaryText,
-                          size: 20.0,
+            if (FFAppState().myGamesGameRef.contains(widget.myGameRef) == true)
+              Container(
+                width: double.infinity,
+                height: 60.0,
+                decoration: const BoxDecoration(),
+                child: Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Card(
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        color: FlutterFlowTheme.of(context).primaryBackground,
+                        elevation: 0.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40.0),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            Icons.calendar_today,
+                            color: FlutterFlowTheme.of(context).secondaryText,
+                            size: 20.0,
+                          ),
                         ),
                       ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Modificar datas disponíveis',
-                              style: FlutterFlowTheme.of(context)
-                                  .labelLarge
-                                  .override(
-                                    fontFamily: FlutterFlowTheme.of(context)
-                                        .labelLargeFamily,
-                                    letterSpacing: 0.0,
-                                    useGoogleFonts: GoogleFonts.asMap()
-                                        .containsKey(
-                                            FlutterFlowTheme.of(context)
-                                                .labelLargeFamily),
-                                  ),
-                            ),
-                          ],
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              12.0, 0.0, 0.0, 0.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Modificar datas disponíveis',
+                                style: FlutterFlowTheme.of(context)
+                                    .labelLarge
+                                    .override(
+                                      fontFamily: FlutterFlowTheme.of(context)
+                                          .labelLargeFamily,
+                                      letterSpacing: 0.0,
+                                      useGoogleFonts: GoogleFonts.asMap()
+                                          .containsKey(
+                                              FlutterFlowTheme.of(context)
+                                                  .labelLargeFamily),
+                                    ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            if (_model.myGamesObject?.toRent == true)
+            if ((_model.myGamesObject?.toRent == true) &&
+                (FFAppState().myGamesGameRef.contains(widget.myGameRef) ==
+                    true))
               InkWell(
                 splashColor: Colors.transparent,
                 focusColor: Colors.transparent,

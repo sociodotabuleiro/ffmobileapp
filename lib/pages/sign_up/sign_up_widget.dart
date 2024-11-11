@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -567,57 +568,64 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                   padding: const EdgeInsetsDirectional.fromSTEB(
                                       8.0, 16.0, 8.0, 16.0),
                                   child: FFButtonWidget(
-                                    onPressed: () async {
-                                      logFirebaseEvent(
-                                          'SIGN_UP_PAGE_CADASTRAR_BTN_ON_TAP');
-                                      logFirebaseEvent('Button_auth');
-                                      GoRouter.of(context).prepareAuthEvent();
-                                      if (_model.passwordTextController.text !=
-                                          _model.confirmPasswordTextController
-                                              .text) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                              'Passwords don\'t match!',
-                                            ),
-                                          ),
-                                        );
-                                        return;
-                                      }
+                                    onPressed: (_model.checkboxValue == false)
+                                        ? null
+                                        : () async {
+                                            logFirebaseEvent(
+                                                'SIGN_UP_PAGE_CADASTRAR_BTN_ON_TAP');
+                                            logFirebaseEvent('Button_auth');
+                                            GoRouter.of(context)
+                                                .prepareAuthEvent();
+                                            if (_model.passwordTextController
+                                                    .text !=
+                                                _model
+                                                    .confirmPasswordTextController
+                                                    .text) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                  content: Text(
+                                                    'Passwords don\'t match!',
+                                                  ),
+                                                ),
+                                              );
+                                              return;
+                                            }
 
-                                      final user = await authManager
-                                          .createAccountWithEmail(
-                                        context,
-                                        _model.emailTextController.text,
-                                        _model.passwordTextController.text,
-                                      );
-                                      if (user == null) {
-                                        return;
-                                      }
+                                            final user = await authManager
+                                                .createAccountWithEmail(
+                                              context,
+                                              _model.emailTextController.text,
+                                              _model
+                                                  .passwordTextController.text,
+                                            );
+                                            if (user == null) {
+                                              return;
+                                            }
 
-                                      await UsersRecord.collection
-                                          .doc(user.uid)
-                                          .update(createUsersRecordData(
-                                            email:
-                                                _model.emailTextController.text,
-                                            firstTimeLogin: true,
-                                            cpf: '',
-                                          ));
+                                            await UsersRecord.collection
+                                                .doc(user.uid)
+                                                .update(createUsersRecordData(
+                                                  email: _model
+                                                      .emailTextController.text,
+                                                  firstTimeLogin: true,
+                                                  cpf: '',
+                                                ));
 
-                                      logFirebaseEvent('Button_navigate_to');
+                                            logFirebaseEvent(
+                                                'Button_navigate_to');
 
-                                      context.pushNamedAuth(
-                                        'addProfilePersonalInfo',
-                                        context.mounted,
-                                        queryParameters: {
-                                          'userRef': serializeParam(
-                                            currentUserReference,
-                                            ParamType.DocumentReference,
-                                          ),
-                                        }.withoutNulls,
-                                      );
-                                    },
+                                            context.pushNamedAuth(
+                                              'addProfilePersonalInfo',
+                                              context.mounted,
+                                              queryParameters: {
+                                                'userRef': serializeParam(
+                                                  currentUserReference,
+                                                  ParamType.DocumentReference,
+                                                ),
+                                              }.withoutNulls,
+                                            );
+                                          },
                                     text: 'Cadastrar',
                                     options: FFButtonOptions(
                                       width: 340.0,
@@ -648,6 +656,10 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                         width: 1.0,
                                       ),
                                       borderRadius: BorderRadius.circular(24.0),
+                                      disabledColor:
+                                          FlutterFlowTheme.of(context)
+                                              .alternate,
+                                      disabledTextColor: Colors.black,
                                       hoverColor: FlutterFlowTheme.of(context)
                                           .secondary,
                                     ),
@@ -665,6 +677,106 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                 ),
                               ],
                             ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              16.0, 0.0, 16.0, 0.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Theme(
+                                data: ThemeData(
+                                  checkboxTheme: CheckboxThemeData(
+                                    visualDensity: VisualDensity.compact,
+                                    materialTapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(4.0),
+                                    ),
+                                  ),
+                                  unselectedWidgetColor:
+                                      FlutterFlowTheme.of(context).alternate,
+                                ),
+                                child: Checkbox(
+                                  value: _model.checkboxValue ??= true,
+                                  onChanged: (newValue) async {
+                                    safeSetState(
+                                        () => _model.checkboxValue = newValue!);
+                                  },
+                                  side: BorderSide(
+                                    width: 2,
+                                    color:
+                                        FlutterFlowTheme.of(context).alternate,
+                                  ),
+                                  activeColor:
+                                      FlutterFlowTheme.of(context).primary,
+                                  checkColor: FlutterFlowTheme.of(context).info,
+                                ),
+                              ),
+                              RichText(
+                                textScaler: MediaQuery.of(context).textScaler,
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'Eu concordo com os ',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMediumFamily,
+                                            letterSpacing: 0.0,
+                                            useGoogleFonts: GoogleFonts.asMap()
+                                                .containsKey(
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMediumFamily),
+                                          ),
+                                    ),
+                                    TextSpan(
+                                      text: 'termos de uso e privacidade.',
+                                      style: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMediumFamily,
+                                            color: const Color(0xFF1295F6),
+                                            letterSpacing: 0.0,
+                                            decoration:
+                                                TextDecoration.underline,
+                                            useGoogleFonts: GoogleFonts.asMap()
+                                                .containsKey(
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMediumFamily),
+                                          ),
+                                      mouseCursor: SystemMouseCursors.click,
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () async {
+                                          logFirebaseEvent(
+                                              'SIGN_UP_RichTextSpan_tnn2tcom_ON_TAP');
+                                          logFirebaseEvent(
+                                              'RichTextSpan_navigate_to');
+
+                                          context
+                                              .pushNamed('termandconditions');
+                                        },
+                                    )
+                                  ],
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        fontFamily: FlutterFlowTheme.of(context)
+                                            .bodyMediumFamily,
+                                        letterSpacing: 0.0,
+                                        useGoogleFonts: GoogleFonts.asMap()
+                                            .containsKey(
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMediumFamily),
+                                      ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -686,94 +798,125 @@ class _SignUpWidgetState extends State<SignUpWidget>
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Flexible(
-                              flex: 1,
-                              child: FlutterFlowIconButton(
-                                borderWidth: 1.0,
-                                buttonSize: 50.0,
-                                icon: FaIcon(
-                                  FontAwesomeIcons.google,
-                                  color: (Theme.of(context).brightness ==
-                                              Brightness.light) ==
-                                          true
-                                      ? FlutterFlowTheme.of(context).tertiary
-                                      : FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                  size: 33.0,
-                                ),
-                                onPressed: () async {
-                                  logFirebaseEvent(
-                                      'SIGN_UP_PAGE_google_ICN_ON_TAP');
-                                  logFirebaseEvent('IconButton_auth');
-                                  GoRouter.of(context).prepareAuthEvent();
-                                  final user = await authManager
-                                      .signInWithGoogle(context);
-                                  if (user == null) {
-                                    return;
-                                  }
-                                  logFirebaseEvent('IconButton_navigate_to');
+                            if (responsiveVisibility(
+                              context: context,
+                              phone: false,
+                              tablet: false,
+                              tabletLandscape: false,
+                              desktop: false,
+                            ))
+                              Flexible(
+                                flex: 1,
+                                child: FlutterFlowIconButton(
+                                  borderWidth: 1.0,
+                                  buttonSize: 50.0,
+                                  icon: FaIcon(
+                                    FontAwesomeIcons.google,
+                                    color: (Theme.of(context).brightness ==
+                                                Brightness.light) ==
+                                            true
+                                        ? FlutterFlowTheme.of(context).tertiary
+                                        : FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                    size: 33.0,
+                                  ),
+                                  onPressed: () async {
+                                    logFirebaseEvent(
+                                        'SIGN_UP_PAGE_google_ICN_ON_TAP');
+                                    logFirebaseEvent('IconButton_auth');
+                                    GoRouter.of(context).prepareAuthEvent();
+                                    final user = await authManager
+                                        .signInWithGoogle(context);
+                                    if (user == null) {
+                                      return;
+                                    }
+                                    logFirebaseEvent('IconButton_navigate_to');
 
-                                  context.pushNamedAuth(
-                                    'addProfilePersonalInfo',
-                                    context.mounted,
-                                    queryParameters: {
-                                      'userRef': serializeParam(
-                                        currentUserReference,
-                                        ParamType.DocumentReference,
-                                      ),
-                                    }.withoutNulls,
-                                  );
-                                },
-                              ),
-                            ),
-                            Flexible(
-                              flex: 1,
-                              child: FlutterFlowIconButton(
-                                borderWidth: 1.0,
-                                buttonSize: 65.0,
-                                icon: Icon(
-                                  Icons.facebook,
-                                  color: (Theme.of(context).brightness ==
-                                              Brightness.light) ==
-                                          true
-                                      ? FlutterFlowTheme.of(context).tertiary
-                                      : FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                  size: 45.0,
+                                    context.pushNamedAuth(
+                                      'addProfilePersonalInfo',
+                                      context.mounted,
+                                      queryParameters: {
+                                        'userRef': serializeParam(
+                                          currentUserReference,
+                                          ParamType.DocumentReference,
+                                        ),
+                                      }.withoutNulls,
+                                    );
+                                  },
                                 ),
-                                onPressed: () {
-                                  print('IconButton pressed ...');
-                                },
                               ),
-                            ),
+                            if (responsiveVisibility(
+                              context: context,
+                              phone: false,
+                              tablet: false,
+                              tabletLandscape: false,
+                              desktop: false,
+                            ))
+                              Flexible(
+                                flex: 1,
+                                child: FlutterFlowIconButton(
+                                  borderWidth: 1.0,
+                                  buttonSize: 65.0,
+                                  icon: Icon(
+                                    Icons.facebook,
+                                    color: (Theme.of(context).brightness ==
+                                                Brightness.light) ==
+                                            true
+                                        ? FlutterFlowTheme.of(context).tertiary
+                                        : FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                    size: 45.0,
+                                  ),
+                                  onPressed: () {
+                                    print('IconButton pressed ...');
+                                  },
+                                ),
+                              ),
                           ],
                         ),
-                        Align(
-                          alignment: const AlignmentDirectional(0.0, 0.0),
-                          child: Text(
-                            'Ou conecte-se direto pela',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: FlutterFlowTheme.of(context)
-                                      .bodyMediumFamily,
-                                  letterSpacing: 0.0,
-                                  useGoogleFonts: GoogleFonts.asMap()
-                                      .containsKey(FlutterFlowTheme.of(context)
-                                          .bodyMediumFamily),
-                                ),
+                        if (responsiveVisibility(
+                          context: context,
+                          phone: false,
+                          tablet: false,
+                          tabletLandscape: false,
+                          desktop: false,
+                        ))
+                          Align(
+                            alignment: const AlignmentDirectional(0.0, 0.0),
+                            child: Text(
+                              'Ou conecte-se direto pela',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    fontFamily: FlutterFlowTheme.of(context)
+                                        .bodyMediumFamily,
+                                    letterSpacing: 0.0,
+                                    useGoogleFonts: GoogleFonts.asMap()
+                                        .containsKey(
+                                            FlutterFlowTheme.of(context)
+                                                .bodyMediumFamily),
+                                  ),
+                            ),
                           ),
-                        ),
                         Container(
                           decoration: const BoxDecoration(),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.asset(
-                              'assets/images/ludo_logo_transparente_1.png',
-                              width: 300.0,
-                              height: 100.0,
-                              fit: BoxFit.contain,
-                              alignment: const Alignment(-1.0, 0.0),
+                          child: Visibility(
+                            visible: responsiveVisibility(
+                              context: context,
+                              phone: false,
+                              tablet: false,
+                              tabletLandscape: false,
+                              desktop: false,
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.asset(
+                                'assets/images/ludo_logo_transparente_1.png',
+                                width: 300.0,
+                                height: 100.0,
+                                fit: BoxFit.contain,
+                                alignment: const Alignment(-1.0, 0.0),
+                              ),
                             ),
                           ),
                         ),
@@ -843,25 +986,39 @@ class _SignUpWidgetState extends State<SignUpWidget>
                                     ),
                               ),
                             ),
-                            Text(
-                              'Termos e Condições',
-                              style: FlutterFlowTheme.of(context)
-                                  .titleSmall
-                                  .override(
-                                    fontFamily: FlutterFlowTheme.of(context)
-                                        .titleSmallFamily,
-                                    color: (Theme.of(context).brightness ==
-                                                Brightness.light) ==
-                                            true
-                                        ? FlutterFlowTheme.of(context).tertiary
-                                        : FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                    letterSpacing: 0.0,
-                                    useGoogleFonts: GoogleFonts.asMap()
-                                        .containsKey(
-                                            FlutterFlowTheme.of(context)
-                                                .titleSmallFamily),
-                                  ),
+                            InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                logFirebaseEvent(
+                                    'SIGN_UP_PAGE_Text_z24j81g9_ON_TAP');
+                                logFirebaseEvent('Text_navigate_to');
+
+                                context.pushNamed('termandconditions');
+                              },
+                              child: Text(
+                                'Termos e Condições',
+                                style: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .override(
+                                      fontFamily: FlutterFlowTheme.of(context)
+                                          .titleSmallFamily,
+                                      color: (Theme.of(context).brightness ==
+                                                  Brightness.light) ==
+                                              true
+                                          ? FlutterFlowTheme.of(context)
+                                              .tertiary
+                                          : FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                      letterSpacing: 0.0,
+                                      useGoogleFonts: GoogleFonts.asMap()
+                                          .containsKey(
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmallFamily),
+                                    ),
+                              ),
                             ),
                           ],
                         ),

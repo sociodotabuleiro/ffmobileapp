@@ -71,7 +71,18 @@ class _ModifyAddressWidgetState extends State<ModifyAddressWidget> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
+              Row(
+                children: [
+                IconButton(
+                  icon: Icon(
+                    Icons.close, // You can also use Icons.arrow_back
+                    color: FlutterFlowTheme.of(context).primaryText,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context); // Closes the modal
+                  },
+                ),
+                 Text(
                 'Editar Endereço',
                 style: FlutterFlowTheme.of(context).headlineSmall.override(
                       fontFamily:
@@ -82,6 +93,9 @@ class _ModifyAddressWidgetState extends State<ModifyAddressWidget> {
                           FlutterFlowTheme.of(context).headlineSmallFamily),
                     ),
               ),
+                ]
+                ,)
+              ,
               TextFormField(
                 controller: _model.textController1,
                 focusNode: _model.textFieldFocusNode1,
@@ -628,7 +642,7 @@ class _ModifyAddressWidgetState extends State<ModifyAddressWidget> {
               ),
               FFButtonWidget(
                 onPressed: () async {
-                  logFirebaseEvent('MODIFY_ADDRESS_SALVAR_ENDERECO_BTN_ON_TAP');
+                  logFirebaseEvent('MODIFY_ADDRESS_SALVAR_BTN_ON_TAP');
                   logFirebaseEvent('Button_update_component_state');
                   
                   // Update the address object with form values
@@ -660,13 +674,11 @@ class _ModifyAddressWidgetState extends State<ModifyAddressWidget> {
                   
                   // Update the address object with coordinates and geohash
                   logFirebaseEvent('Button_update_component_state');
-                  _model.addressObject = AddressStruct(
-                    coordinates: _model.latLngRecovered,
-                    geohash: _model.geohash,
-                    lat: functions.getLatLngSeparated(true, _model.latLngRecovered!),
-                    lng: functions.getLatLngSeparated(false, _model.latLngRecovered!),
-                    country: 'BR',
-                  );
+                  _model.addressObject!.coordinates = _model.latLngRecovered;
+                  _model.addressObject!.geohash = _model.geohash;
+                  _model.addressObject!.lat =  functions.getLatLngSeparated(true, _model.latLngRecovered!);
+                  _model.addressObject!.lng = functions.getLatLngSeparated(false, _model.latLngRecovered!);
+                  _model.addressObject!.country = 'BR';
                   
                   try {
                     await currentUserReference!.update(createUsersRecordData(

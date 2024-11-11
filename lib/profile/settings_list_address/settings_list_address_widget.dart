@@ -110,7 +110,7 @@ class _SettingsListAddressWidgetState extends State<SettingsListAddressWidget> {
                 }
 
                 final addressData = snapshot.data!.data() as Map<String, dynamic>?;
-                final address = addressData?['address'] as AddressStruct?;
+                final address = AddressStruct.fromMap(addressData!['address']);
 
                 return address != null
                     ? _buildAddressContent(context, address)
@@ -182,7 +182,7 @@ class _SettingsListAddressWidgetState extends State<SettingsListAddressWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            address.name ?? 'Principal',
+                            address?.name ?? 'Principal',
                             style: FlutterFlowTheme.of(context).bodyLarge.override(
                                   fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
                                   color: FlutterFlowTheme.of(context).primaryText,
@@ -193,7 +193,7 @@ class _SettingsListAddressWidgetState extends State<SettingsListAddressWidget> {
                                 ),
                           ),
                           Text(
-                            '${address.street}, ${address.number}',
+                           '${address?.street ?? ''}, ${address?.number ?? ''}',
                             style: FlutterFlowTheme.of(context).bodyMedium.override(
                                   fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
                                   color: FlutterFlowTheme.of(context).secondaryText,
@@ -203,7 +203,7 @@ class _SettingsListAddressWidgetState extends State<SettingsListAddressWidget> {
                                 ),
                           ),
                           Text(
-                            '${address.city}, ${address.state} - ${address.zip}',
+                             '${address?.city ?? ''}, ${address?.state ?? ''} - ${address?.zip ?? ''}',
                             style: FlutterFlowTheme.of(context).bodyMedium.override(
                                   fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
                                   color: FlutterFlowTheme.of(context).secondaryText,
@@ -236,12 +236,16 @@ class _SettingsListAddressWidgetState extends State<SettingsListAddressWidget> {
                                       ),
                                     ),
                                   );
-
-                                  if (updatedAddress != null) {
-                                    await currentUserReference!.update({
-                                      'address': updatedAddress.toMap(), // Ensure toJson() is implemented in AddressStruct
-                                    });
-                                  }
+                                   if (updatedAddress != null) {
+                                      setState(() {
+                                        address = updatedAddress; // Update the state with the new address
+                                      });
+                                    }
+                                  // if (updatedAddress != null) {
+                                  //   await currentUserReference!.update({
+                                  //     'address': updatedAddress.toMap(), // Ensure toJson() is implemented in AddressStruct
+                                  //   });
+                                  // }
                                 },
                               ),
                               const SizedBox(width: 8.0),
@@ -255,9 +259,9 @@ class _SettingsListAddressWidgetState extends State<SettingsListAddressWidget> {
                                   size: 20.0,
                                 ),
                                 onPressed: () async {
-                                  await currentUserReference!.update({
-                                    'address': FieldValue.delete(),
-                                  });
+                                  // await currentUserReference!.update({
+                                    // 'address': FieldValue.delete(),
+                                  // });
                                 },
                               ),
                             ],

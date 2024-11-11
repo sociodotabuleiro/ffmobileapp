@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
@@ -531,7 +533,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                             gameRef:
                                                 widget.gameObject!.reference,
                                             gameName: widget.gameObject!.name,
-                                            myGameRef: _model.myGamesRef!,
+                                            myGameRef: _model.myGamesRef,
                                           ),
                                         ),
                                       ),
@@ -1526,7 +1528,9 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                       ),
                                       FFButtonWidget(
                                         onPressed: () {
-                                          print('Button pressed ...');
+                                          if (kDebugMode) {
+                                            print('Button pressed ...');
+                                          }
                                         },
                                         text: 'Reviews',
                                         icon: const Icon(

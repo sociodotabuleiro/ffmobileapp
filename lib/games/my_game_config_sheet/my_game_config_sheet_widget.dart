@@ -17,7 +17,7 @@ class MyGameConfigSheetWidget extends StatefulWidget {
     super.key,
     required this.gameRef,
     required this.gameName,
-    required this.myGameRef,
+    this.myGameRef,
   });
 
   final DocumentReference? gameRef;
@@ -56,10 +56,12 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
 
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      logFirebaseEvent('MY_GAME_CONFIG_SHEET_myGameConfigSheet_O');
+      logFirebaseEvent('MY_GAME_CONFIG_SHEET_myGameConfig_O');
       logFirebaseEvent('myGameConfigSheet_backend_call');
-      _model.myGamesObject =
-          await MyGamesRecord.getDocumentOnce(widget.myGameRef!);
+      if (widget.myGameRef != null) {
+        _model.myGamesObject =
+            await MyGamesRecord.getDocumentOnce(widget.myGameRef!);
+      }
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
@@ -75,8 +77,7 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
-    context.watch<calendar_iagfh0_app_state.FFAppState>();
-
+    print(widget.gameRef);
     return Align(
       alignment: const AlignmentDirectional(0.0, 1.0),
       child: Container(
@@ -102,123 +103,28 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
 
                   await shareGameUri(); // Share the URI with other apps
                 },
-                child: Container(
-                  width: double.infinity,
-                  height: 60.0,
-                  decoration: const BoxDecoration(),
-                  child: Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Card(
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          color: FlutterFlowTheme.of(context).primaryBackground,
-                          elevation: 0.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40.0),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.share_rounded,
-                              color: FlutterFlowTheme.of(context).secondaryText,
-                              size: 20.0,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                12.0, 0.0, 0.0, 0.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Compartilhar',
-                                  style: FlutterFlowTheme.of(context)
-                                      .labelLarge
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .labelLargeFamily,
-                                        letterSpacing: 0.0,
-                                        useGoogleFonts: GoogleFonts.asMap()
-                                            .containsKey(
-                                                FlutterFlowTheme.of(context)
-                                                    .labelLargeFamily),
-                                      ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                child: _buildOptionRow(
+                  context,
+                  icon: Icons.share_rounded,
+                  text: 'Compartilhar',
                 ),
               ),
             ),
-            if (FFAppState().myGamesGameRef.contains(widget.myGameRef) == true)
-              Container(
-                width: double.infinity,
-                height: 60.0,
-                decoration: const BoxDecoration(),
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Card(
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        color: FlutterFlowTheme.of(context).primaryBackground,
-                        elevation: 0.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(40.0),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.calendar_today,
-                            color: FlutterFlowTheme.of(context).secondaryText,
-                            size: 20.0,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              12.0, 0.0, 0.0, 0.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Modificar datas disponíveis',
-                                style: FlutterFlowTheme.of(context)
-                                    .labelLarge
-                                    .override(
-                                      fontFamily: FlutterFlowTheme.of(context)
-                                          .labelLargeFamily,
-                                      letterSpacing: 0.0,
-                                      useGoogleFonts: GoogleFonts.asMap()
-                                          .containsKey(
-                                              FlutterFlowTheme.of(context)
-                                                  .labelLargeFamily),
-                                    ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+            if ((_model.myGamesObject?.toRent == true) &&
+                (FFAppState().myGamesGameRef.contains(widget.gameRef)))
+              InkWell(
+                onTap: () {
+                  logFirebaseEvent('MY_GAME_CONFIG_SHEET_modify_dates');
+                  // Call your modify dates method or show relevant widget
+                },
+                child: _buildOptionRow(
+                  context,
+                  icon: Icons.calendar_today,
+                  text: 'Modificar datas disponíveis',
                 ),
               ),
             if ((_model.myGamesObject?.toRent == true) &&
-                (FFAppState().myGamesGameRef.contains(widget.myGameRef) ==
-                    true))
+                (FFAppState().myGamesGameRef.contains(widget.gameRef)))
               InkWell(
                 splashColor: Colors.transparent,
                 focusColor: Colors.transparent,
@@ -246,63 +152,59 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
                     },
                   ).then((value) => safeSetState(() {}));
                 },
-                child: Container(
-                  width: double.infinity,
-                  height: 60.0,
-                  decoration: const BoxDecoration(),
-                  child: Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Card(
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          color: FlutterFlowTheme.of(context).primaryBackground,
-                          elevation: 0.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40.0),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.attach_money,
-                              color: FlutterFlowTheme.of(context).secondaryText,
-                              size: 20.0,
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                12.0, 0.0, 0.0, 0.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Modificar valor do aluguel',
-                                  style: FlutterFlowTheme.of(context)
-                                      .labelLarge
-                                      .override(
-                                        fontFamily: FlutterFlowTheme.of(context)
-                                            .labelLargeFamily,
-                                        letterSpacing: 0.0,
-                                        useGoogleFonts: GoogleFonts.asMap()
-                                            .containsKey(
-                                                FlutterFlowTheme.of(context)
-                                                    .labelLargeFamily),
-                                      ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                child: _buildOptionRow(
+                context,
+                icon: Icons.attach_money,
+                text: 'Modificar valor do aluguel',
+              ),
+          )],
+        ),
+      ),
+    );
+  }
+  Widget _buildOptionRow(BuildContext context,
+      {required IconData icon, required String text}) {
+    return Container(
+      width: double.infinity,
+      height: 60.0,
+      decoration: const BoxDecoration(),
+      child: Padding(
+        padding: const EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Card(
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              color: FlutterFlowTheme.of(context).primaryBackground,
+              elevation: 0.0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(40.0),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(
+                  icon,
+                  color: FlutterFlowTheme.of(context).secondaryText,
+                  size: 20.0,
                 ),
               ),
+            ),
+            Expanded(
+              child: Padding(
+                padding:
+                    const EdgeInsetsDirectional.fromSTEB(12.0, 0.0, 0.0, 0.0),
+                child: Text(
+                  text,
+                  style: FlutterFlowTheme.of(context).labelLarge.override(
+                        fontFamily:
+                            FlutterFlowTheme.of(context).labelLargeFamily,
+                        letterSpacing: 0.0,
+                        useGoogleFonts: GoogleFonts.asMap().containsKey(
+                            FlutterFlowTheme.of(context).labelLargeFamily),
+                      ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

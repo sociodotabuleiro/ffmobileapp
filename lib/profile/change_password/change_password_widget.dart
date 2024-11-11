@@ -4,7 +4,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:local_auth/local_auth.dart'; // For biometric authentication
 import 'package:firebase_auth/firebase_auth.dart'; // For Firebase auth
 

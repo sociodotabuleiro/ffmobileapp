@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future<DocumentReference> getMyGamesRefFromGamesId(
+Future<DocumentReference?> getMyGamesRefFromGamesId(
     DocumentReference gameRef) async {
   final currentGameRef = gameRef;
 
@@ -20,7 +20,9 @@ Future<DocumentReference> getMyGamesRefFromGamesId(
       FFAppState().myGamesGameRef.indexWhere((ref) => ref == currentGameRef);
 
   // Check if the index is valid, then retrieve the myGamesId at the same index
-
-  final myGameId = FFAppState().myGamesId[index];
-  return myGameId;
+  if (index >= 0){
+    final myGameId = FFAppState().myGamesId[index];
+    return myGameId;
+  }
+  return null;
 }

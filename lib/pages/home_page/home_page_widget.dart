@@ -227,12 +227,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
     Future<void> _initializeFcmToken() async {
     final fcmToken = await FirebaseMessaging.instance.getToken();
-    if (fcmToken != null) {
-      await addFcmTokenIfNotExists(
-        fcmToken,
-        Platform.isIOS ? 'iOS' : 'Android',
-      );
-    }
+    // if (fcmToken != null) {
+    //   await addFcmTokenIfNotExists(
+    //     fcmToken,
+    //     Platform.isIOS ? 'iOS' : 'Android',
+    //   );
+    // }
   }
 
   @override

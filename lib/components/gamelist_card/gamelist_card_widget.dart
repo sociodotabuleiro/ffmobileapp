@@ -156,19 +156,31 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
                     Align(
                       alignment: const AlignmentDirectional(-1.0, 0.0),
                       child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(28.0, 0.0, 0.0, 0.0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(28.0, 0.0, 0.0, 0.0),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16.0),
-                          child: CachedNetworkImage(
-                            fadeInDuration: const Duration(milliseconds: 500),
-                            fadeOutDuration: const Duration(milliseconds: 500),
-                            imageUrl: _model.gamePicUrl!,
-                            width: MediaQuery.sizeOf(context).width * 0.25,
-                            height: 75.0,
-                            fit: BoxFit.cover,
-                            alignment: const Alignment(0.0, 0.0),
-                          ),
+                          child: _model.gamePicUrl != null
+                              ? CachedNetworkImage(
+                                  fadeInDuration: const Duration(milliseconds: 500),
+                                  fadeOutDuration: const Duration(milliseconds: 500),
+                                  imageUrl: _model.gamePicUrl!,
+                                  width: MediaQuery.sizeOf(context).width * 0.25,
+                                  height: 75.0,
+                                  fit: BoxFit.cover,
+                                  alignment: const Alignment(0.0, 0.0),
+                                )
+                              : Container(
+                                  width: MediaQuery.sizeOf(context).width * 0.25,
+                                  height: 75.0,
+                                  color: Colors.grey[300], // Placeholder background color
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.image, // Placeholder icon
+                                      color: Colors.grey[600],
+                                      size: 40.0,
+                                    ),
+                                  ),
+                                ),
                         ),
                       ),
                     ),

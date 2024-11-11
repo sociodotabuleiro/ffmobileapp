@@ -154,7 +154,13 @@ class AddressStruct extends FFFirebaseStruct {
         state: data['state'] as String?,
         zip: data['zip'] as String?,
         country: data['country'] as String?,
-        coordinates: data['coordinates'] as LatLng?,
+        // Convert GeoPoint to LatLng if it's a GeoPoint
+        coordinates: data['coordinates'] is GeoPoint
+            ? LatLng(
+                (data['coordinates'] as GeoPoint).latitude,
+                (data['coordinates'] as GeoPoint).longitude,
+              )
+            : null,
         geohash: data['geohash'] as String?,
         lat: castToType<double>(data['lat']),
         lng: castToType<double>(data['lng']),
@@ -174,7 +180,9 @@ class AddressStruct extends FFFirebaseStruct {
         'state': _state,
         'zip': _zip,
         'country': _country,
-        'coordinates': _coordinates,
+        'coordinates': _coordinates != null
+          ? GeoPoint(_coordinates!.latitude, _coordinates!.longitude)
+          : null,
         'geohash': _geohash,
         'lat': _lat,
         'lng': _lng,

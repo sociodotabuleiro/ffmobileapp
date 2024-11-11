@@ -44,3 +44,5 @@ export '/profile/settings2_edit_profile/settings2_edit_profile_widget.dart'
     show Settings2EditProfileWidget;
 export '/profile/settings_list_address/settings_list_address_widget.dart'
     show SettingsListAddressWidget;
+export '/notifications/notifications/notifications_widget.dart'
+    show NotificationsWidget;

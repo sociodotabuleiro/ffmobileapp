@@ -42,9 +42,14 @@ class NotificationsRecord extends FirestoreRecord {
   bool hasDate() => _date != null;
 
   // "read" field.
-  List<bool>? _read;
-  List<bool> get read => _read ?? const [];
+  bool? _read;
+  bool get read => _read ?? false;
   bool hasRead() => _read != null;
+
+  // "title" field.
+  String? _title;
+  String get title => _title ?? '';
+  bool hasTitle() => _title != null;
 
   DocumentReference get parentReference => reference.parent.parent!;
 
@@ -54,7 +59,8 @@ class NotificationsRecord extends FirestoreRecord {
     _users = getDataList(snapshotData['users']);
     _message = snapshotData['message'] as String?;
     _date = snapshotData['date'] as DateTime?;
-    _read = getDataList(snapshotData['read']);
+    _read = snapshotData['read'] as bool?;
+    _title = snapshotData['title'] as String?;
   }
 
   static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
@@ -101,6 +107,8 @@ Map<String, dynamic> createNotificationsRecordData({
   NotificationTypes? type,
   String? message,
   DateTime? date,
+  bool? read,
+  String? title,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -108,6 +116,8 @@ Map<String, dynamic> createNotificationsRecordData({
       'type': type,
       'message': message,
       'date': date,
+      'read': read,
+      'title': title,
     }.withoutNulls,
   );
 
@@ -126,12 +136,20 @@ class NotificationsRecordDocumentEquality
         listEquality.equals(e1?.users, e2?.users) &&
         e1?.message == e2?.message &&
         e1?.date == e2?.date &&
-        listEquality.equals(e1?.read, e2?.read);
+        e1?.read == e2?.read &&
+        e1?.title == e2?.title;
   }
 
   @override
-  int hash(NotificationsRecord? e) => const ListEquality().hash(
-      [e?.notificationID, e?.type, e?.users, e?.message, e?.date, e?.read]);
+  int hash(NotificationsRecord? e) => const ListEquality().hash([
+        e?.notificationID,
+        e?.type,
+        e?.users,
+        e?.message,
+        e?.date,
+        e?.read,
+        e?.title
+      ]);
 
   @override
   bool isValidKey(Object? o) => o is NotificationsRecord;

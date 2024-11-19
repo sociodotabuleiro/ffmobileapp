@@ -8,6 +8,8 @@ class CalendarChooseDateRentModel
   ///  Local state fields for this component.
 
   List<DateTime> choosenDates = [];
+
+  List<DateTime> availableDates = [];
   void addToChoosenDates(DateTime item) => choosenDates.add(item);
   void removeFromChoosenDates(DateTime item) => choosenDates.remove(item);
   void removeAtIndexFromChoosenDates(int index) => choosenDates.removeAt(index);

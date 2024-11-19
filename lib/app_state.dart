@@ -314,6 +314,12 @@ class FFAppState extends ChangeNotifier {
     _dueDatePurchase = value;
   }
 
+  List<DateTime> _selectedDatesPurchase = [];
+  List<DateTime> get selectedDatesPurchase => _selectedDatesPurchase;
+  set selectedDatesPurchase(List<DateTime> value) {
+    _selectedDatesPurchase = value;
+  }
+
   DocumentReference? _game = FirebaseFirestore.instance
       .doc('/users/9M9Fpivtwvgz0zs1hFwG5tl99Oo2/myGames/Y5NZriREx7uCghsfTmpE');
   DocumentReference? get game => _game;
@@ -636,7 +642,9 @@ class FFAppState extends ChangeNotifier {
   }
 
   List<DocumentReference> _notifications = [];
+
   List<DocumentReference> get notifications => _notifications;
+
   set notifications(List<DocumentReference> value) {
     _notifications = value;
   }
@@ -718,4 +726,6 @@ extension FlutterSecureStorageExtensions on FlutterSecureStorage {
       });
   Future<void> setStringList(String key, List<String> value) async =>
       await writeSync(key: key, value: const ListToCsvConverter().convert([value]));
+
 }
+

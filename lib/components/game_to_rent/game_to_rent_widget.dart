@@ -45,7 +45,27 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => GameToRentModel());
+        String formatAddress({
+      required String street,
+      required String number,
+      String? complement,
+      required String neighborhood,
+      required String city,
+      required String state,
+    }) {
+      // Create a list of address components, excluding any empty ones
+      final components = [
+        street,
+        number,
+        if (complement != null && complement.isNotEmpty) complement,
+        neighborhood,
+        city,
+        state
+      ];
 
+      // Join components with commas, ignoring empty ones
+      return components.join(', ');
+    }
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('GAME_TO_RENT_gameToRent_ON_INIT_STATE');
@@ -76,32 +96,63 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
       _model.authUserObject =
           (await UsersRecord.getDocumentOnce(currentUserReference!)) as UsersRecord?;
       logFirebaseEvent('gameToRent_custom_action');
+        final address1 = formatAddress(
+        street: _model.userObject?.address.street ?? '',
+        number: _model.userObject?.address.number ?? '',
+        complement: _model.userObject?.address.complement,
+        neighborhood: _model.userObject?.address.neighborhood ?? '',
+        city: _model.userObject?.address.city ?? '',
+        state: _model.userObject?.address.state ?? '',
+      );
+        final address2 = formatAddress(
+      street: currentUserDocument?.address.street ?? '',
+      number: currentUserDocument?.address.number ?? '',
+      complement: currentUserDocument?.address.complement,
+      neighborhood: currentUserDocument?.address.neighborhood ?? '',
+      city: currentUserDocument?.address.city ?? '',
+      state: currentUserDocument?.address.state ?? '',
+    );
       _model.quotationJson = await actions.getQuotationLalaMove(
         _model.userObject!.address.lat.toString(),
         _model.userObject!.address.lng.toString(),
         currentUserDocument!.address.lat.toString(),
         currentUserDocument!.address.lng.toString(),
-        '${_model.userObject?.address.street}, ${_model.userObject?.address.number} , ${_model.userObject?.address.complement}- ${_model.userObject?.address.neighborhood} , ${_model.userObject?.address.city}${_model.userObject?.address.state}',
-        '${currentUserDocument?.address.street}, ${currentUserDocument?.address.number} , ${currentUserDocument?.address.complement}- ${currentUserDocument?.address.neighborhood} , ${currentUserDocument?.address.city}${currentUserDocument?.address.state}',
+        address1,
+        address2
       );
-      if ((LalamoveQuotationDataStruct.maybeFromMap(_model.quotationJson!)!
-                  .priceBreakdown
-                  .total <=
-              0.0) &&
-          !_model.quotationJson!) {
-        logFirebaseEvent('gameToRent_update_component_state');
+      final quotationJson = _model.quotationJson!;
+      final priceBreakdown = quotationJson['priceBreakdown'];
+      final priceTotal = _model.safeParseDouble(priceBreakdown['total']);
+      if (priceTotal <= 0.0 ||
+          _model.isNullOrEmpty(quotationJson)) {
+        logFirebaseEvent('gameToRent_quotation_missing');
         _model.quotationSuccess = false;
+        _model.isLoaded = true;
         safeSetState(() {});
       } else {
         logFirebaseEvent('gameToRent_update_component_state');
         _model.isLoaded = true;
+         // Extract and process the price breakdown safely
+        if (priceBreakdown != null) {
+        //   priceBreakdown['base'] = _model.safeParseDouble(priceBreakdown['base']);
+        //   priceBreakdown['specialRequests'] =
+        //       _model.safeParseDouble(priceBreakdown['specialRequests']);
+        //   priceBreakdown['vat'] = _model.safeParseDouble(priceBreakdown['vat']);
+           priceBreakdown['totalBeforeOptimization'] =
+               _model.safeParseDouble(priceBreakdown['totalBeforeOptimization']);
+           priceBreakdown['totalExcludePriorityFee'] =
+              _model.safeParseDouble(priceBreakdown['totalExcludePriorityFee']);
+           priceBreakdown['total'] = _model.safeParseDouble(priceBreakdown['total']);
+         }
+        quotationJson['priceBreakdown'] = priceBreakdown;
         _model.updateQuotationStruct(
           (e) => e
             ..quotationsData =
                 LalamoveQuotationDataStruct.maybeFromMap(_model.quotationJson),
         );
+        _model.quotationSuccess = true;
         safeSetState(() {});
-        logFirebaseEvent('gameToRent_update_app_state');
+        logFirebaseEvent('gameToRent_quotation_updated');
         FFAppState().addToQuotations(QuotationsStruct(
           renterRef: widget.userRef,
           quotationsData:
@@ -275,7 +326,7 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
                                           'R\$${valueOrDefault<String>(
                                             getJsonField(
                                               _model.quotationJson,
-                                              r'''$.data.priceBreakdown.total''',
+                                              r'''$.priceBreakdown.total''',
                                             )?.toString(),
                                             '0',
                                           )}',

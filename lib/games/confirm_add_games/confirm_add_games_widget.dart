@@ -201,7 +201,7 @@ class _ConfirmAddGamesWidgetState extends State<ConfirmAddGamesWidget> {
                     FFAppState().addToGamesToAdd(GameToAddStruct(
                       gameRef: widget.choosenGames?[_model.currentIndex!],
                       rentValue: valueOrDefault<double>(
-                        _model.document!.averagePrice * 0.2,
+                        _model.document!.averagePrice * 0.03,
                         0.0,
                       ),
                       isAvailableToRent: FFAppConstants.cities2Rent.contains(

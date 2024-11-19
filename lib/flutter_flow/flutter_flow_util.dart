@@ -177,19 +177,27 @@ T? castToType<T>(dynamic value) {
   }
   switch (T) {
     case double:
-      // Doubles may be stored as ints in some cases.
-      return value.toDouble() as T;
+      if (value is String) {
+        // Try to parse a string to double
+        return double.tryParse(value) as T?;
+      } else if (value is num) {
+        // Convert numeric values to double
+        return value.toDouble() as T;
+      }
+      break;
     case int:
-      // Likewise, ints may be stored as doubles. If this is the case
-      // (i.e. no decimal value), return the value as an int.
-      if (value is num && value.toInt() == value) {
+      if (value is String) {
+        // Try to parse a string to int
+        return int.tryParse(value) as T?;
+      } else if (value is num && value.toInt() == value) {
+        // Convert numeric values without decimal places to int
         return value.toInt() as T;
       }
       break;
     default:
       break;
   }
-  return value as T;
+  return value as T?;
 }
 
 dynamic getJsonField(

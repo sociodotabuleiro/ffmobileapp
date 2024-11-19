@@ -36,7 +36,7 @@ class GameDetailsWidget extends StatefulWidget {
 
   final GamesRecord? gameObject;
   final String? gameName;
-
+  
   @override
   State<GameDetailsWidget> createState() => _GameDetailsWidgetState();
 }
@@ -48,6 +48,11 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   final animationsMap = <String, AnimationInfo>{};
+  
+  bool favoritedChanged = false;
+  bool wishlistedChanged = false;
+  late bool favoritedInitState;
+  late bool wishlistedInitState;
 
   @override
   void initState() {
@@ -60,26 +65,20 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
       logFirebaseEvent('GAME_DETAILS_gameDetails_ON_INIT_STATE');
       _model.wishlisted = (currentUserDocument?.wishlist.toList() ?? []).contains(widget.gameObject?.reference);
       _model.favorited = (currentUserDocument?.favoriteList.toList() ?? []).contains(widget.gameObject?.reference);
-      logFirebaseEvent('gameDetails_update_page_state');
-      safeSetState(() {});
-      if (FFAppState().myGamesGameRef.contains(widget.gameObject?.reference) ==
-          true) {
-        logFirebaseEvent('gameDetails_update_page_state');
-        _model.myGameRef = null;
-        safeSetState(() {});
-      }
+      favoritedInitState = _model.favorited;
+      wishlistedInitState =  _model.wishlisted;
       logFirebaseEvent('gameDetails_update_page_state');
       _model.timesFavorited = valueOrDefault<int>(
         widget.gameObject?.timesFavorited,
         0,
       );
-      safeSetState(() {});
-      logFirebaseEvent('gameDetails_update_page_state');
+
       _model.timesWishlisted = valueOrDefault<int>(
         widget.gameObject?.timesWishlisted,
         0,
       );
-      safeSetState(() {});
+
+      safeSetState(() {}); // Trigger initial UI update
     });
 
     animationsMap.addAll({
@@ -413,7 +412,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
   @override
   void dispose() async {
 
-    if (_model.wishlisted != (currentUserDocument?.wishlist.contains(widget.gameObject?.reference) ?? false)) {
+    if (_model.wishlisted != wishlistedInitState) {
     await currentUserReference?.update({
       'wishlist': _model.wishlisted
           ? FieldValue.arrayUnion([widget.gameObject?.reference])
@@ -426,7 +425,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
     });
   }
 
-  if (_model.favorited != (currentUserDocument?.favoriteList.contains(widget.gameObject?.reference) ?? false)) {
+  if (_model.favorited != favoritedInitState) {
     await currentUserReference?.update({
       'favoriteList': _model.favorited
           ? FieldValue.arrayUnion([widget.gameObject?.reference])
@@ -441,6 +440,24 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
     _model.dispose();
 
     super.dispose();
+  }
+
+    // Toggle favorite state and mark it as changed
+  void _toggleFavorite() {
+    setState(() {
+      _model.favorited = !_model.favorited;
+      _model.timesFavorited += _model.favorited ? 1 : -1;
+      favoritedChanged = true; 
+    });
+  }
+
+    // Toggle favorite state and mark it as changed
+  void _toggleWishlist() {
+    setState(() {
+      _model.wishlisted = !_model.wishlisted;
+      _model.timesWishlisted += _model.wishlisted ? 1 : -1;
+      wishlistedChanged = true;
+    });
   }
 
   @override
@@ -1078,18 +1095,17 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                                 'GAME_DETAILS_favoriteIconButtonOn_ON_TAP');
                                             logFirebaseEvent(
                                                 'favoriteIconButtonOn_update_page_state');
-                                            _model.favorited = false;
-                                            _model.timesFavorited += _model.favorited ? 1 : -1;
-                                            safeSetState(() {});
+
+                                           _toggleFavorite();
+
                                             logFirebaseEvent(
                                                 'favoriteIconButtonOn_widget_animation');
-                                            if (animationsMap[
-                                                    'iconButtonOnActionTriggerAnimation1'] !=
-                                                null) {
-                                              await animationsMap[
-                                                      'iconButtonOnActionTriggerAnimation1']!
+                                            if (animationsMap['iconButtonOnActionTriggerAnimation1']?.controller != null) {
+                                              await animationsMap['iconButtonOnActionTriggerAnimation1']!
                                                   .controller
                                                   .forward(from: 0.0);
+                                            } else {
+                                              print('Controller not initialized for iconButtonOnActionTriggerAnimation1');
                                             }
                                             logFirebaseEvent(
                                                 'favoriteIconButtonOn_update_page_state');
@@ -1112,21 +1128,19 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                           onPressed: () async {
                                             logFirebaseEvent(
                                                 'GAME_DETAILS_favoriteIconButtonOff_ON_TA');
-                                            _model.favorited = true;
-                                            _model.timesFavorited += _model.favorited ? 1 : -1;
-                                            safeSetState(() {});
-                                                  logFirebaseEvent(
+                                            _toggleFavorite();
+
+                                            logFirebaseEvent(
                                                 'favoriteIconButtonOff_update_page_state');
                                             logFirebaseEvent(
                                                 'favoriteIconButtonOff_widget_animation');
-                                            if (animationsMap[
-                                                    'iconButtonOnActionTriggerAnimation2'] !=
-                                                null) {
-                                              await animationsMap[
-                                                      'iconButtonOnActionTriggerAnimation2']!
-                                                  .controller
-                                                  .forward(from: 0.0);
-                                            }
+                                            if (animationsMap['iconButtonOnActionTriggerAnimation2']?.controller != null) {
+                                                await animationsMap['iconButtonOnActionTriggerAnimation2']!
+                                                    .controller
+                                                    .forward(from: 0.0);
+                                              } else {
+                                                print('Controller not initialized for iconButtonOnActionTriggerAnimation2');
+                                              }
                                             logFirebaseEvent(
                                                 'favoriteIconButtonOff_update_page_state');
                                             setState(() {});
@@ -1159,6 +1173,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                           timesFavorited.toString(),     
                                           style: FlutterFlowTheme.of(context).bodyLarge,
                                         );
+                                        
                                       },
                                     ),
                                   ),
@@ -1202,9 +1217,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                           onPressed: () async {
                                             logFirebaseEvent(
                                                 'GAME_DETAILS_wishlistedIconButtonOn_ON_T');
-                                            _model.wishlisted = false;
-                                            _model.timesWishlisted += _model.wishlisted ? 1 : -1;
-                                            safeSetState(() {});
+                                            _toggleWishlist();
+                                            
                                             logFirebaseEvent(
                                                 'wishlistedIconButtonOn_widget_animation');
                                             if (animationsMap[
@@ -1237,9 +1251,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                           onPressed: () async {
                                             logFirebaseEvent(
                                                 'GAME_DETAILS_wishlistedIconButtonOff_ON_');
-                                             _model.wishlisted = true;
-                                             _model.timesWishlisted += _model.wishlisted ? 1 : -1;
-                                            safeSetState(() {});
+                                            _toggleWishlist();
                                             logFirebaseEvent(
                                                 'wishlistedIconButtonOff_update_page_stat');
                                             logFirebaseEvent(
@@ -1276,6 +1288,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                             style: FlutterFlowTheme.of(context).bodyLarge,
                                           );
                                         }
+                                        // TO DO FINISH WISH LIST / FAVORITE LOGIC
                                          final timesWishlisted = snapshot.data!['timesWishlisted'] ?? _model.timesWishlisted;
                                           if (timesWishlisted != _model.timesWishlisted) {
                                               _model.timesWishlisted = timesWishlisted;

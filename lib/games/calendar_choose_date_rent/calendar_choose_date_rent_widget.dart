@@ -54,6 +54,38 @@ class _CalendarChooseDateRentWidgetState
     super.dispose();
   }
 
+  Future<List<DateTime>> fetchLatestAvailableDates() async {
+    logFirebaseEvent('Fetching latest available dates from Firestore');
+
+      try {
+      // Get the mygames document reference
+      final myGamesDocRef = widget.renterRef!.collection('mygames').doc(widget.myGames!.reference.id);
+
+      // Fetch the document snapshot
+      final myGamesDocSnapshot = await myGamesDocRef.get();
+
+      // Check if the document exists
+      if (!myGamesDocSnapshot.exists) {
+        logFirebaseEvent('mygames_document_not_found');
+        return [];
+      }
+
+      // Get the availableDates array
+    final List<dynamic>? availableDatesRaw =
+        myGamesDocSnapshot.data()?['availableDates'] as List<dynamic>?;
+
+    // Convert the dates to DateTime objects and return
+    return availableDatesRaw
+            ?.map((date) => DateTime.parse(date.toString()))
+            .toList() ??
+        [];
+  } catch (e) {
+    logFirebaseEvent('Error fetching available dates: $e');
+    return [];
+  }
+}
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -92,7 +124,7 @@ class _CalendarChooseDateRentWidgetState
             child: calendar_iagfh0_custom_widgets.Calendar(
               width: MediaQuery.sizeOf(context).width * 1.0,
               height: MediaQuery.sizeOf(context).height * 0.8,
-              availableDates: widget.availableDates!,
+              availableDates: _model.availableDates,
               onSelectedDatesChanged: (choosenDates) async {
                 logFirebaseEvent('CALENDAR_CHOOSE_DATE_RENT_Container_5d3u');
                 logFirebaseEvent('Calendar_update_component_state');
@@ -104,18 +136,48 @@ class _CalendarChooseDateRentWidgetState
           FFButtonWidget(
             onPressed: () async {
               logFirebaseEvent('CALENDAR_CHOOSE_DATE_RENT_ESCOLHER_LOCAD');
-              logFirebaseEvent('Button_update_app_state');
-              FFAppState().choosenRentDates =
-                  _model.choosenDates.toList().cast<DateTime>();
-              FFAppState().renterRef = widget.renterRef;
-              FFAppState().purchaseData = PurchaseComponentsStruct(
-                name: widget.gameName,
-                price: _model.choosenDates.length * widget.myGames!.price,
-                quantity: 1,
-                totalPrice: _model.choosenDates.length * widget.myGames!.price,
+               // Fetch the latest available dates from Firestore
+            final latestAvailableDates = await fetchLatestAvailableDates();
+
+            // Validate the user's chosen dates
+            final unavailableDates = _model.choosenDates.where(
+              (date) => !latestAvailableDates.contains(date),
+            );
+
+            if (unavailableDates.isNotEmpty) {
+              // Some dates are no longer available, update the _model and rebuild the widget
+              logFirebaseEvent('unavailable_dates_found');
+              _model.availableDates = latestAvailableDates;
+              _model.choosenDates.removeWhere(
+                (date) => unavailableDates.contains(date),
               );
-              FFAppState().dueDatePurchase = _model.choosenDates.last;
-              safeSetState(() {});
+              safeSetState(() {}); // Rebuild the widget with updated data
+
+              // Show a message to the user
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    'Uma ou mais datas estão indisponíveis, tente novamente, por favor.',
+                  ),
+                  duration: Duration(seconds: 3),
+                ),
+              );
+              return; // Exit the function without proceeding
+            }
+
+            // All dates are valid, proceed with the operation
+            logFirebaseEvent('successufuly_choosen_dates');
+            FFAppState().choosenRentDates =
+                _model.choosenDates.toList().cast<DateTime>();
+            FFAppState().renterRef = widget.renterRef;
+            FFAppState().purchaseData = PurchaseComponentsStruct(
+              name: widget.gameName,
+              price: _model.choosenDates.length * widget.myGames!.price,
+              quantity: 1,
+              totalPrice: _model.choosenDates.length * widget.myGames!.price,
+            );
+            FFAppState().dueDatePurchase = _model.choosenDates.last;
+            safeSetState(() {});
             },
             text: 'Escolher locador',
             options: FFButtonOptions(

@@ -389,6 +389,40 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
         return true;
       }
 
+      Future<void> updateAvailableDates() async {
+        logFirebaseEvent('update_available_dates_in_backend');
+
+        // Get the owner's mygames document reference
+        final myGamesDocRef = FFAppState().ownerRefPurchase!.collection('mygames').doc(widget.gameObject?.reference.id);
+
+        // Fetch the current availableDates array
+        final myGamesDocSnapshot = await myGamesDocRef.get();
+        if (!myGamesDocSnapshot.exists) {
+          logFirebaseEvent('mygames_document_not_found');
+          return;
+        }
+
+        final List<dynamic>? currentAvailableDates = myGamesDocSnapshot.data()?['availableDates'] as List<dynamic>?;
+
+        // Ensure the availableDates array and selected dates are valid
+        if (currentAvailableDates == null || FFAppState().choosenRentDates.isEmpty) {
+          logFirebaseEvent('no_available_dates_to_update');
+          return;
+        }
+
+        // Remove the selected dates from the availableDates array
+        final updatedAvailableDates = currentAvailableDates.where((date) {
+          return !FFAppState().choosenRentDates.contains(date);
+        }).toList();
+
+        // Update the availableDates array in Firestore
+        await myGamesDocRef.update({
+          'availableDates': updatedAvailableDates,
+        });
+
+        logFirebaseEvent('available_dates_updated_successfully');
+      }
+
       Future<void> updateRecords() async {
         logFirebaseEvent('update_records_in_backend');
 
@@ -416,6 +450,9 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
 
         // Update user references
         await updateUserReferences();
+
+         // Update available dates in the owner's mygames document
+        await updateAvailableDates();
 
         logFirebaseEvent('records_updated_successfully');
       }
@@ -485,7 +522,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
 }
 
     return Title(
-        title: 'toRentList',
+        title: 'Lista de Alugueis',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),

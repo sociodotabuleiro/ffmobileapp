@@ -21,6 +21,7 @@ const hmacUrl = 'https://generatehmac-667069547103.us-central1.run.app';
 const internal_access_code =
     'jq3uaqXXne5c431XFeLmLusHkQD0EqDn'; // Your secret access code
 
+
 Future<dynamic> getQuotationLalaMove(
   String lat1,
   String lng1,
@@ -30,36 +31,42 @@ Future<dynamic> getQuotationLalaMove(
   String address2,
 ) async {
   try {
-    // Prepare request body for Lalamove quotation
-    final requestBody = jsonEncode({
-      "auth_token": internal_access_code,
-      "data": {
-        "serviceType": "LALAGO", // Service type for your market
-        "language": "pt_BR", // Language setting for Brazil
-        "stops": [
-          {
-            "coordinates": {"lat": lat1, "lng": lng1},
-            "address": address1
-          },
-          {
-            "coordinates": {"lat": lat2, "lng": lng2},
-            "address": address2
-          }
-        ],
-        "item": {
-          "quantity": "1",
-          "weight": "LESS_THAN_3KG",
-          "handlingInstructions": ["KEEP_UPRIGHT"]
-        }
+   // Prepare request body for Lalamove quotation
+   final requestBody = jsonEncode({
+  "auth_token": internal_access_code,
+  "data": {
+    "serviceType": "LALAGO",
+    "language": "pt_BR",
+    "stops": [
+      {
+        "coordinates": {
+          "lat": double.parse(lat1).toStringAsFixed(15),
+          "lng": double.parse(lng1).toStringAsFixed(15)
+        },
+        "address": address1
+      },
+      {
+        "coordinates": {
+          "lat": double.parse(lat2).toStringAsFixed(15),
+          "lng": double.parse(lng2).toStringAsFixed(15)
+        },
+        "address": address2
       }
-    });
+    ],
+    "item": {
+      "quantity": "1",
+      "weight": "LESS_THAN_3KG",
+      "handlingInstructions": ["KEEP_UPRIGHT"]
+    }
+  }
+});
 
-    // Call your cloud function
+    // Call your cloud function with the correct request body format
     final response = await http.post(
       Uri.parse(
           'https://getquotationlalamove-667069547103.us-central1.run.app'),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(requestBody),
+      body: requestBody, // Pass the JSON-encoded string directly
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {

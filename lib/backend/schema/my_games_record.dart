@@ -42,6 +42,16 @@ class MyGamesRecord extends FirestoreRecord {
   String get publicId => _publicId ?? '';
   bool hasPublicId() => _publicId != null;
 
+  // "rentedDates" field.
+  List<DateTime>? _rentedDates;
+  List<DateTime> get rentedDates => _rentedDates ?? const [];
+  bool hasRentedDates() => _rentedDates != null;
+
+  // "notAvailableDates" field.
+  List<DateTime>? _notAvailableDates;
+  List<DateTime> get notAvailableDates => _notAvailableDates ?? const [];
+  bool hasNotAvailableDates() => _notAvailableDates != null;
+
   DocumentReference get parentReference => reference.parent.parent!;
 
   void _initializeFields() {
@@ -50,6 +60,8 @@ class MyGamesRecord extends FirestoreRecord {
     _price = castToType<double>(snapshotData['price']);
     _toRent = snapshotData['toRent'] as bool?;
     _publicId = snapshotData['publicId'] as String?;
+    _rentedDates = getDataList(snapshotData['rentedDates']);
+    _notAvailableDates = getDataList(snapshotData['notAvailableDates']);
   }
 
   static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
@@ -119,12 +131,21 @@ class MyGamesRecordDocumentEquality implements Equality<MyGamesRecord> {
         listEquality.equals(e1?.availableDates, e2?.availableDates) &&
         e1?.price == e2?.price &&
         e1?.toRent == e2?.toRent &&
-        e1?.publicId == e2?.publicId;
+        e1?.publicId == e2?.publicId &&
+        listEquality.equals(e1?.rentedDates, e2?.rentedDates) &&
+        listEquality.equals(e1?.notAvailableDates, e2?.notAvailableDates);
   }
 
   @override
-  int hash(MyGamesRecord? e) => const ListEquality()
-      .hash([e?.gameRef, e?.availableDates, e?.price, e?.toRent, e?.publicId]);
+  int hash(MyGamesRecord? e) => const ListEquality().hash([
+        e?.gameRef,
+        e?.availableDates,
+        e?.price,
+        e?.toRent,
+        e?.publicId,
+        e?.rentedDates,
+        e?.notAvailableDates
+      ]);
 
   @override
   bool isValidKey(Object? o) => o is MyGamesRecord;

@@ -52,7 +52,7 @@ class _SettingsListAddressWidgetState extends State<SettingsListAddressWidget> {
   @override
   Widget build(BuildContext context) {
     if (currentUserReference == null) {
-       return Center(child: Text('No user reference available.'));
+       return const Center(child: Text('No user reference available.'));
     }
     else {
         return Title(
@@ -94,7 +94,7 @@ class _SettingsListAddressWidgetState extends State<SettingsListAddressWidget> {
                           FlutterFlowTheme.of(context).headlineMediumFamily),
                     ),
               ),
-              actions: const [],
+              actions: [],
               centerTitle: true,
               elevation: 2.0,
             ),
@@ -182,7 +182,7 @@ class _SettingsListAddressWidgetState extends State<SettingsListAddressWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            address?.name ?? 'Principal',
+                            address.name ?? 'Principal',
                             style: FlutterFlowTheme.of(context).bodyLarge.override(
                                   fontFamily: FlutterFlowTheme.of(context).bodyLargeFamily,
                                   color: FlutterFlowTheme.of(context).primaryText,
@@ -193,7 +193,7 @@ class _SettingsListAddressWidgetState extends State<SettingsListAddressWidget> {
                                 ),
                           ),
                           Text(
-                           '${address?.street ?? ''}, ${address?.number ?? ''}',
+                           '${address.street ?? ''}, ${address.number ?? ''}',
                             style: FlutterFlowTheme.of(context).bodyMedium.override(
                                   fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
                                   color: FlutterFlowTheme.of(context).secondaryText,
@@ -203,7 +203,7 @@ class _SettingsListAddressWidgetState extends State<SettingsListAddressWidget> {
                                 ),
                           ),
                           Text(
-                             '${address?.city ?? ''}, ${address?.state ?? ''} - ${address?.zip ?? ''}',
+                             '${address.city ?? ''}, ${address.state ?? ''} - ${address.zip ?? ''}',
                             style: FlutterFlowTheme.of(context).bodyMedium.override(
                                   fontFamily: FlutterFlowTheme.of(context).bodyMediumFamily,
                                   color: FlutterFlowTheme.of(context).secondaryText,

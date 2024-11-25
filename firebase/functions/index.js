@@ -8,58 +8,55 @@ const firestore = admin.firestore();
 
 const kPushNotificationRuntimeOpts = {
   timeoutSeconds: 540,
-  memory: "2GB",
+  memory: "2GB"
 };
 
-exports.addFcmToken = functions
-  .region("us-central1")
-  .https.onCall(async (data, context) => {
-    if (!context.auth) {
-      return "Failed: Unauthenticated calls are not allowed.";
+exports.addFcmToken = functions.region("us-central1").https.onCall(async (data, context) => {
+  if (!context.auth) {
+    return "Failed: Unauthenticated calls are not allowed.";
+  }
+  const userDocPath = data.userDocPath;
+  const fcmToken = data.fcmToken;
+  const deviceType = data.deviceType;
+  if (
+    typeof userDocPath === "undefined" ||
+    typeof fcmToken === "undefined" ||
+    typeof deviceType === "undefined" ||
+    userDocPath.split("/").length <= 1 ||
+    fcmToken.length === 0 ||
+    deviceType.length === 0
+  ) {
+    return "Invalid arguments encoutered when adding FCM token.";
+  }
+  if (context.auth.uid != userDocPath.split("/")[1]) {
+    return "Failed: Authenticated user doesn't match user provided.";
+  }
+  const existingTokens = await firestore
+    .collectionGroup(kFcmTokensCollection)
+    .where("fcm_token", "==", fcmToken)
+    .get();
+  var userAlreadyHasToken = false;
+  for (var doc of existingTokens.docs) {
+    const user = doc.ref.parent.parent;
+    if (user.path != userDocPath) {
+      // Should never have the same FCM token associated with multiple users.
+      await doc.ref.delete();
+    } else {
+      userAlreadyHasToken = true;
     }
-    const userDocPath = data.userDocPath;
-    const fcmToken = data.fcmToken;
-    const deviceType = data.deviceType;
-    if (
-      typeof userDocPath === "undefined" ||
-      typeof fcmToken === "undefined" ||
-      typeof deviceType === "undefined" ||
-      userDocPath.split("/").length <= 1 ||
-      fcmToken.length === 0 ||
-      deviceType.length === 0
-    ) {
-      return "Invalid arguments encoutered when adding FCM token.";
-    }
-    if (context.auth.uid != userDocPath.split("/")[1]) {
-      return "Failed: Authenticated user doesn't match user provided.";
-    }
-    const existingTokens = await firestore
-      .collectionGroup(kFcmTokensCollection)
-      .where("fcm_token", "==", fcmToken)
-      .get();
-    var userAlreadyHasToken = false;
-    for (var doc of existingTokens.docs) {
-      const user = doc.ref.parent.parent;
-      if (user.path != userDocPath) {
-        // Should never have the same FCM token associated with multiple users.
-        await doc.ref.delete();
-      } else {
-        userAlreadyHasToken = true;
-      }
-    }
-    if (userAlreadyHasToken) {
-      return "FCM token already exists for this user. Ignoring...";
-    }
-    await getUserFcmTokensCollection(userDocPath).doc().set({
-      fcm_token: fcmToken,
-      device_type: deviceType,
-      created_at: admin.firestore.FieldValue.serverTimestamp(),
-    });
-    return "Successfully added FCM token!";
+  }
+  if (userAlreadyHasToken) {
+    return "FCM token already exists for this user. Ignoring...";
+  }
+  await getUserFcmTokensCollection(userDocPath).doc().set({
+    fcm_token: fcmToken,
+    device_type: deviceType,
+    created_at: admin.firestore.FieldValue.serverTimestamp(),
   });
+  return "Successfully added FCM token!";
+});
 
-exports.sendPushNotificationsTrigger = functions
-  .region("us-central1")
+exports.sendPushNotificationsTrigger = functions.region("us-central1")
   .runWith(kPushNotificationRuntimeOpts)
   .firestore.document(`${kPushNotificationsCollection}/{id}`)
   .onCreate(async (snapshot, _) => {
@@ -76,6 +73,7 @@ exports.sendPushNotificationsTrigger = functions
       await snapshot.ref.update({ status: "failed", error: `${e}` });
     }
   });
+
 
 async function sendPushNotifications(snapshot) {
   const notificationData = snapshot.data();
@@ -148,7 +146,7 @@ async function sendPushNotifications(snapshot) {
       },
       data: {
         initialPageName,
-        parameterData,
+        parameterData
       },
       android: {
         notification: {
@@ -172,7 +170,7 @@ async function sendPushNotifications(snapshot) {
     messageBatches.map(async (messages) => {
       const response = await admin.messaging().sendEachForMulticast(messages);
       numSent += response.successCount;
-    }),
+    })
   );
 
   await snapshot.ref.update({ status: "succeeded", num_sent: numSent });
@@ -214,34 +212,31 @@ const { onRequest } = require("firebase-functions/v2/https");
 const { setGlobalOptions } = require("firebase-functions/v2");
 const { pipeline } = require("node:stream/promises");
 
-setGlobalOptions({ region: "us-central1" });
+setGlobalOptions({region: "us-central1"});
 
-exports.ffGetQuotation = functions
-  .region("us-central1")
+exports.ffGetQuotation = functions.region("us-central1")
   .runWith({ minInstances: 1, timeoutSeconds: 120 })
   .https.onCall(async (data, context) => {
-    try {
-      console.log(`Making API call for ${data["callName"]}`);
-      var response = await apiManager.makeApiCall(context, data);
-      console.log(`Done making API Call! Status: ${response.statusCode}`);
-      return response;
-    } catch (err) {
-      console.error(`Error performing API call: ${err}`);
-      return {
-        statusCode: 400,
-        error: `${err}`,
-      };
-    }
-  });
+  try {
+    console.log(`Making API call for ${data["callName"]}`);
+    var response = await apiManager.makeApiCall(context, data);
+    console.log(`Done making API Call! Status: ${response.statusCode}`);
+    return response;
+  } catch (err) {
+    console.error(`Error performing API call: ${err}`);
+    return {
+      statusCode: 400,
+      error: `${err}`,
+    };
+  }
+});
 
 async function verifyAuthHeader(request) {
   const authorization = request.header("authorization");
   if (!authorization) {
     return null;
   }
-  const idToken = authorization.includes("Bearer ")
-    ? authorization.split("Bearer ")[1]
-    : null;
+  const idToken = authorization.includes('Bearer ') ? authorization.split('Bearer ')[1] : null;
   if (!idToken) {
     return null;
   }
@@ -253,33 +248,25 @@ async function verifyAuthHeader(request) {
   }
 }
 
-exports.ffGetQuotationV2 = onRequest(
-  { cors: true, minInstances: 1, timeoutSeconds: 120 },
-  async (req, res) => {
-    try {
-      const context = {
-        auth: await verifyAuthHeader(req),
-      };
-      const data = req.body.data;
-      console.log(`Making API call for ${data["callName"]}`);
-      var endpointResponse = await apiManager.makeApiCall(context, data);
-      console.log(
-        `Done making API Call! Status: ${endpointResponse.statusCode}`,
-      );
-      res.set(endpointResponse.headers);
-      res.status(endpointResponse.statusCode);
-      await pipeline(endpointResponse.body, res);
-    } catch (err) {
-      console.error(`Error performing API call: ${err}`);
-      res.status(400).send(`${err}`);
-    }
-  },
-);
-exports.onUserDeleted = functions
-  .region("us-central1")
-  .auth.user()
-  .onDelete(async (user) => {
-    let firestore = admin.firestore();
-    let userRef = firestore.doc("users/" + user.uid);
-    await firestore.collection("users").doc(user.uid).delete();
-  });
+exports.ffGetQuotationV2 = onRequest({ cors: true, minInstances: 1, timeoutSeconds: 120 }, async (req, res) => {
+  try {
+    const context = {
+      auth: await verifyAuthHeader(req),
+    };
+    const data = req.body.data;
+    console.log(`Making API call for ${data["callName"]}`);
+    var endpointResponse = await apiManager.makeApiCall(context, data);
+    console.log(`Done making API Call! Status: ${endpointResponse.statusCode}`);
+    res.set(endpointResponse.headers);
+    res.status(endpointResponse.statusCode);
+    await pipeline(endpointResponse.body, res);
+  } catch (err) {
+    console.error(`Error performing API call: ${err}`);
+    res.status(400).send(`${err}`);
+  }
+});
+exports.onUserDeleted = functions.region("us-central1").auth.user().onDelete(async (user) => {
+  let firestore = admin.firestore();
+  let userRef = firestore.doc('users/' + user.uid);
+  await firestore.collection("users").doc(user.uid).delete();
+});

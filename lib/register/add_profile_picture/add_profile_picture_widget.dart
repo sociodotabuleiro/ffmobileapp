@@ -5,6 +5,7 @@ import '/register/confirm_prompt_avatar/confirm_prompt_avatar_widget.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
 import 'add_profile_picture_model.dart';
 export 'add_profile_picture_model.dart';
@@ -84,7 +85,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                             .headlineMedium
                             .override(
                               fontFamily: 'Outfit',
-                              color: const Color(0xFF15161E),
+                              color: Color(0xFF15161E),
                               fontSize: 24.0,
                               letterSpacing: 0.0,
                               fontWeight: FontWeight.w500,
@@ -109,7 +110,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                     'Por favor, complete as informações a seguir ',
                     style: FlutterFlowTheme.of(context).labelMedium.override(
                           fontFamily: 'Outfit',
-                          color: const Color(0xFF606A85),
+                          color: Color(0xFF606A85),
                           fontSize: 14.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w500,
@@ -117,9 +118,9 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                               GoogleFonts.asMap().containsKey('Outfit'),
                         ),
                   ),
-                ].divide(const SizedBox(height: 4.0)),
+                ].divide(SizedBox(height: 4.0)),
               ),
-              actions: const [],
+              actions: [],
               centerTitle: false,
               elevation: 0.0,
             ),
@@ -138,14 +139,14 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Align(
-                              alignment: const AlignmentDirectional(0.0, -1.0),
+                              alignment: AlignmentDirectional(0.0, -1.0),
                               child: Container(
-                                constraints: const BoxConstraints(
+                                constraints: BoxConstraints(
                                   maxWidth: 770.0,
                                 ),
-                                decoration: const BoxDecoration(),
+                                decoration: BoxDecoration(),
                                 child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       16.0, 12.0, 16.0, 0.0),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
@@ -154,14 +155,14 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                     children: [
                                       Align(
                                         alignment:
-                                            const AlignmentDirectional(0.0, 0.0),
+                                            AlignmentDirectional(0.0, 0.0),
                                         child: Text(
                                           'Escolha a descrição do seu avatar!',
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge
                                               .override(
                                                 fontFamily: 'Figtree',
-                                                color: const Color(0xFF15161E),
+                                                color: Color(0xFF15161E),
                                                 fontSize: 16.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
@@ -185,7 +186,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                               .labelLarge
                                               .override(
                                                 fontFamily: 'Outfit',
-                                                color: const Color(0xFF606A85),
+                                                color: Color(0xFF606A85),
                                                 fontSize: 16.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
@@ -199,7 +200,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                               .labelMedium
                                               .override(
                                                 fontFamily: 'Outfit',
-                                                color: const Color(0xFF606A85),
+                                                color: Color(0xFF606A85),
                                                 fontSize: 14.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
@@ -212,7 +213,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                               .bodyMedium
                                               .override(
                                                 fontFamily: 'Figtree',
-                                                color: const Color(0xFFFF5963),
+                                                color: Color(0xFFFF5963),
                                                 fontSize: 12.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
@@ -221,7 +222,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                         .containsKey('Figtree'),
                                               ),
                                           enabledBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFFE5E7EB),
                                               width: 2.0,
                                             ),
@@ -229,7 +230,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                 BorderRadius.circular(12.0),
                                           ),
                                           focusedBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFF6F61EF),
                                               width: 2.0,
                                             ),
@@ -237,7 +238,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                 BorderRadius.circular(12.0),
                                           ),
                                           errorBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFFFF5963),
                                               width: 2.0,
                                             ),
@@ -246,7 +247,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                           ),
                                           focusedErrorBorder:
                                               OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFFFF5963),
                                               width: 2.0,
                                             ),
@@ -257,17 +258,17 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                           fillColor:
                                               (_model.racaFocusNode?.hasFocus ??
                                                       false)
-                                                  ? const Color(0x4D9489F5)
+                                                  ? Color(0x4D9489F5)
                                                   : Colors.white,
                                           contentPadding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   16.0, 20.0, 16.0, 20.0),
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
                                               fontFamily: 'Figtree',
-                                              color: const Color(0xFF15161E),
+                                              color: Color(0xFF15161E),
                                               fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
@@ -275,7 +276,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                   GoogleFonts.asMap()
                                                       .containsKey('Figtree'),
                                             ),
-                                        cursorColor: const Color(0xFF6F61EF),
+                                        cursorColor: Color(0xFF6F61EF),
                                         validator: _model
                                             .racaTextControllerValidator
                                             .asValidator(context),
@@ -294,7 +295,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                               .labelLarge
                                               .override(
                                                 fontFamily: 'Outfit',
-                                                color: const Color(0xFF606A85),
+                                                color: Color(0xFF606A85),
                                                 fontSize: 16.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
@@ -308,7 +309,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                               .labelMedium
                                               .override(
                                                 fontFamily: 'Outfit',
-                                                color: const Color(0xFF606A85),
+                                                color: Color(0xFF606A85),
                                                 fontSize: 14.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
@@ -321,7 +322,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                               .bodyMedium
                                               .override(
                                                 fontFamily: 'Figtree',
-                                                color: const Color(0xFFFF5963),
+                                                color: Color(0xFFFF5963),
                                                 fontSize: 12.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
@@ -330,7 +331,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                         .containsKey('Figtree'),
                                               ),
                                           enabledBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFFE5E7EB),
                                               width: 2.0,
                                             ),
@@ -338,7 +339,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                 BorderRadius.circular(12.0),
                                           ),
                                           focusedBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFF6F61EF),
                                               width: 2.0,
                                             ),
@@ -346,7 +347,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                 BorderRadius.circular(12.0),
                                           ),
                                           errorBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFFFF5963),
                                               width: 2.0,
                                             ),
@@ -355,7 +356,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                           ),
                                           focusedErrorBorder:
                                               OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFFFF5963),
                                               width: 2.0,
                                             ),
@@ -366,17 +367,17 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                           fillColor: (_model.generoFocusNode
                                                       ?.hasFocus ??
                                                   false)
-                                              ? const Color(0x4D9489F5)
+                                              ? Color(0x4D9489F5)
                                               : Colors.white,
                                           contentPadding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   16.0, 20.0, 16.0, 20.0),
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
                                               fontFamily: 'Figtree',
-                                              color: const Color(0xFF15161E),
+                                              color: Color(0xFF15161E),
                                               fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
@@ -384,7 +385,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                   GoogleFonts.asMap()
                                                       .containsKey('Figtree'),
                                             ),
-                                        cursorColor: const Color(0xFF6F61EF),
+                                        cursorColor: Color(0xFF6F61EF),
                                         validator: _model
                                             .generoTextControllerValidator
                                             .asValidator(context),
@@ -403,7 +404,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                               .labelLarge
                                               .override(
                                                 fontFamily: 'Outfit',
-                                                color: const Color(0xFF606A85),
+                                                color: Color(0xFF606A85),
                                                 fontSize: 16.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
@@ -417,7 +418,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                               .labelMedium
                                               .override(
                                                 fontFamily: 'Outfit',
-                                                color: const Color(0xFF606A85),
+                                                color: Color(0xFF606A85),
                                                 fontSize: 14.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
@@ -430,7 +431,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                               .bodyMedium
                                               .override(
                                                 fontFamily: 'Figtree',
-                                                color: const Color(0xFFFF5963),
+                                                color: Color(0xFFFF5963),
                                                 fontSize: 12.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
@@ -439,7 +440,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                         .containsKey('Figtree'),
                                               ),
                                           enabledBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFFE5E7EB),
                                               width: 2.0,
                                             ),
@@ -447,7 +448,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                 BorderRadius.circular(12.0),
                                           ),
                                           focusedBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFF6F61EF),
                                               width: 2.0,
                                             ),
@@ -455,7 +456,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                 BorderRadius.circular(12.0),
                                           ),
                                           errorBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFFFF5963),
                                               width: 2.0,
                                             ),
@@ -464,7 +465,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                           ),
                                           focusedErrorBorder:
                                               OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFFFF5963),
                                               width: 2.0,
                                             ),
@@ -475,17 +476,17 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                           fillColor: (_model.idadeFocusNode
                                                       ?.hasFocus ??
                                                   false)
-                                              ? const Color(0x4D9489F5)
+                                              ? Color(0x4D9489F5)
                                               : Colors.white,
                                           contentPadding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   16.0, 20.0, 16.0, 20.0),
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
                                               fontFamily: 'Figtree',
-                                              color: const Color(0xFF15161E),
+                                              color: Color(0xFF15161E),
                                               fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
@@ -494,7 +495,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                       .containsKey('Figtree'),
                                             ),
                                         keyboardType: TextInputType.number,
-                                        cursorColor: const Color(0xFF6F61EF),
+                                        cursorColor: Color(0xFF6F61EF),
                                         validator: _model
                                             .idadeTextControllerValidator
                                             .asValidator(context),
@@ -513,7 +514,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                               .labelLarge
                                               .override(
                                                 fontFamily: 'Outfit',
-                                                color: const Color(0xFF606A85),
+                                                color: Color(0xFF606A85),
                                                 fontSize: 16.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
@@ -527,7 +528,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                               .labelMedium
                                               .override(
                                                 fontFamily: 'Outfit',
-                                                color: const Color(0xFF606A85),
+                                                color: Color(0xFF606A85),
                                                 fontSize: 14.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
@@ -540,7 +541,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                               .bodyMedium
                                               .override(
                                                 fontFamily: 'Figtree',
-                                                color: const Color(0xFFFF5963),
+                                                color: Color(0xFFFF5963),
                                                 fontSize: 12.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
@@ -549,7 +550,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                         .containsKey('Figtree'),
                                               ),
                                           enabledBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFFE5E7EB),
                                               width: 2.0,
                                             ),
@@ -557,7 +558,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                 BorderRadius.circular(12.0),
                                           ),
                                           focusedBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFF6F61EF),
                                               width: 2.0,
                                             ),
@@ -565,7 +566,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                 BorderRadius.circular(12.0),
                                           ),
                                           errorBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFFFF5963),
                                               width: 2.0,
                                             ),
@@ -574,7 +575,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                           ),
                                           focusedErrorBorder:
                                               OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFFFF5963),
                                               width: 2.0,
                                             ),
@@ -585,17 +586,17 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                           fillColor: (_model.epocaFocusNode
                                                       ?.hasFocus ??
                                                   false)
-                                              ? const Color(0x4D9489F5)
+                                              ? Color(0x4D9489F5)
                                               : Colors.white,
                                           contentPadding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   16.0, 20.0, 16.0, 20.0),
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
                                               fontFamily: 'Figtree',
-                                              color: const Color(0xFF15161E),
+                                              color: Color(0xFF15161E),
                                               fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
@@ -603,7 +604,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                   GoogleFonts.asMap()
                                                       .containsKey('Figtree'),
                                             ),
-                                        cursorColor: const Color(0xFF6F61EF),
+                                        cursorColor: Color(0xFF6F61EF),
                                         validator: _model
                                             .epocaTextControllerValidator
                                             .asValidator(context),
@@ -624,7 +625,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                               .labelLarge
                                               .override(
                                                 fontFamily: 'Outfit',
-                                                color: const Color(0xFF606A85),
+                                                color: Color(0xFF606A85),
                                                 fontSize: 16.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
@@ -637,7 +638,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                               .labelMedium
                                               .override(
                                                 fontFamily: 'Outfit',
-                                                color: const Color(0xFF606A85),
+                                                color: Color(0xFF606A85),
                                                 fontSize: 14.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
@@ -650,7 +651,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                               .bodyMedium
                                               .override(
                                                 fontFamily: 'Figtree',
-                                                color: const Color(0xFFFF5963),
+                                                color: Color(0xFFFF5963),
                                                 fontSize: 12.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
@@ -659,7 +660,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                         .containsKey('Figtree'),
                                               ),
                                           enabledBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFFE5E7EB),
                                               width: 2.0,
                                             ),
@@ -667,7 +668,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                 BorderRadius.circular(12.0),
                                           ),
                                           focusedBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFF6F61EF),
                                               width: 2.0,
                                             ),
@@ -675,7 +676,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                 BorderRadius.circular(12.0),
                                           ),
                                           errorBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFFFF5963),
                                               width: 2.0,
                                             ),
@@ -684,7 +685,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                           ),
                                           focusedErrorBorder:
                                               OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFFFF5963),
                                               width: 2.0,
                                             ),
@@ -696,17 +697,17 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                       .aparenciaFisicaFocusNode
                                                       ?.hasFocus ??
                                                   false)
-                                              ? const Color(0x4D9489F5)
+                                              ? Color(0x4D9489F5)
                                               : Colors.white,
                                           contentPadding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   16.0, 20.0, 16.0, 20.0),
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
                                               fontFamily: 'Figtree',
-                                              color: const Color(0xFF15161E),
+                                              color: Color(0xFF15161E),
                                               fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
@@ -714,7 +715,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                   GoogleFonts.asMap()
                                                       .containsKey('Figtree'),
                                             ),
-                                        cursorColor: const Color(0xFF6F61EF),
+                                        cursorColor: Color(0xFF6F61EF),
                                         validator: _model
                                             .aparenciaFisicaTextControllerValidator
                                             .asValidator(context),
@@ -734,7 +735,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                               .labelLarge
                                               .override(
                                                 fontFamily: 'Outfit',
-                                                color: const Color(0xFF606A85),
+                                                color: Color(0xFF606A85),
                                                 fontSize: 16.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
@@ -747,7 +748,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                               .labelMedium
                                               .override(
                                                 fontFamily: 'Outfit',
-                                                color: const Color(0xFF606A85),
+                                                color: Color(0xFF606A85),
                                                 fontSize: 14.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
@@ -760,7 +761,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                               .bodyMedium
                                               .override(
                                                 fontFamily: 'Figtree',
-                                                color: const Color(0xFFFF5963),
+                                                color: Color(0xFFFF5963),
                                                 fontSize: 12.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
@@ -769,7 +770,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                         .containsKey('Figtree'),
                                               ),
                                           enabledBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFFE5E7EB),
                                               width: 2.0,
                                             ),
@@ -777,7 +778,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                 BorderRadius.circular(12.0),
                                           ),
                                           focusedBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFF6F61EF),
                                               width: 2.0,
                                             ),
@@ -785,7 +786,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                 BorderRadius.circular(12.0),
                                           ),
                                           errorBorder: OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFFFF5963),
                                               width: 2.0,
                                             ),
@@ -794,7 +795,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                           ),
                                           focusedErrorBorder:
                                               OutlineInputBorder(
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Color(0xFFFF5963),
                                               width: 2.0,
                                             ),
@@ -806,17 +807,17 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                       .vestimentasFocusNode
                                                       ?.hasFocus ??
                                                   false)
-                                              ? const Color(0x4D9489F5)
+                                              ? Color(0x4D9489F5)
                                               : Colors.white,
                                           contentPadding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   16.0, 20.0, 16.0, 20.0),
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
                                               fontFamily: 'Figtree',
-                                              color: const Color(0xFF15161E),
+                                              color: Color(0xFF15161E),
                                               fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
@@ -824,14 +825,14 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                                   GoogleFonts.asMap()
                                                       .containsKey('Figtree'),
                                             ),
-                                        cursorColor: const Color(0xFF6F61EF),
+                                        cursorColor: Color(0xFF6F61EF),
                                         validator: _model
                                             .vestimentasTextControllerValidator
                                             .asValidator(context),
                                       ),
                                     ]
-                                        .divide(const SizedBox(height: 12.0))
-                                        .addToEnd(const SizedBox(height: 32.0)),
+                                        .divide(SizedBox(height: 12.0))
+                                        .addToEnd(SizedBox(height: 32.0)),
                                   ),
                                 ),
                               ),
@@ -844,7 +845,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                               desktop: false,
                             ))
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     24.0, 0.0, 24.0, 0.0),
                                 child: Text(
                                   'You are a fictional character in a fantastic world, a ${_model.generoTextController.text} ${_model.racaTextController.text}, ${_model.idadeTextController.text} years old,  living in ${_model.epocaTextController.text} epoch with the following physical traits: ${_model.aparenciaFisicaTextController.text}  with the following vestiments: ${_model.vestimentasTextController.text}',
@@ -867,16 +868,16 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                       ),
                     ),
                     Container(
-                      constraints: const BoxConstraints(
+                      constraints: BoxConstraints(
                         maxWidth: 770.0,
                       ),
-                      decoration: const BoxDecoration(),
+                      decoration: BoxDecoration(),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   16.0, 12.0, 16.0, 12.0),
                               child: FFButtonWidget(
                                 onPressed: () async {
@@ -903,7 +904,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                           child: Padding(
                                             padding: MediaQuery.viewInsetsOf(
                                                 context),
-                                            child: SizedBox(
+                                            child: Container(
                                               height: 500.0,
                                               child: ConfirmPromptAvatarWidget(
                                                 configs: AvatarSettingStruct(
@@ -935,11 +936,11 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                 options: FFButtonOptions(
                                   width: double.infinity,
                                   height: 48.0,
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       24.0, 0.0, 24.0, 0.0),
-                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 0.0),
-                                  color: const Color(0xFF6F61EF),
+                                  color: Color(0xFF6F61EF),
                                   textStyle: FlutterFlowTheme.of(context)
                                       .titleSmall
                                       .override(
@@ -952,7 +953,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                             .containsKey('Figtree'),
                                       ),
                                   elevation: 3.0,
-                                  borderSide: const BorderSide(
+                                  borderSide: BorderSide(
                                     color: Colors.transparent,
                                     width: 1.0,
                                   ),
@@ -963,7 +964,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                           ),
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   16.0, 12.0, 16.0, 12.0),
                               child: FFButtonWidget(
                                 onPressed: () async {
@@ -977,11 +978,11 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                 options: FFButtonOptions(
                                   width: double.infinity,
                                   height: 48.0,
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       24.0, 0.0, 24.0, 0.0),
-                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 0.0),
-                                  color: const Color(0xFFF8F8F8),
+                                  color: Color(0xFFF8F8F8),
                                   textStyle: FlutterFlowTheme.of(context)
                                       .titleSmall
                                       .override(
@@ -995,7 +996,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                             .containsKey('Figtree'),
                                       ),
                                   elevation: 3.0,
-                                  borderSide: const BorderSide(
+                                  borderSide: BorderSide(
                                     color: Colors.transparent,
                                     width: 1.0,
                                   ),

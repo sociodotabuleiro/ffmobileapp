@@ -6,6 +6,7 @@ import '/components/nav_bar/nav_bar_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:convert';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/flutter_flow/random_data_util.dart' as random_data;
@@ -19,8 +20,6 @@ import 'to_rent_list_model.dart';
 export 'to_rent_list_model.dart';
 import 'package:http/http.dart';
 import 'package:logger/logger.dart';
-import 'dart:typed_data';
-import 'dart:convert';
 
 final Logger _logger = Logger();
 
@@ -32,15 +31,15 @@ Future<void> showPixQrCodeDialog(BuildContext context, String encodedImage, Stri
     context: context,
     builder: (alertDialogContext) {
       return AlertDialog(
-        title: Text('Pagamento Pix'),
+        title: const Text('Pagamento Pix'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Image.memory(decodedImage, height: 150, width: 150), // Display QR code image
-            SizedBox(height: 10),
-            Text('Pix "Copia e Cola":', style: TextStyle(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 10),
+            const Text('Pix "Copia e Cola":', style: TextStyle(fontWeight: FontWeight.bold)),
             SelectableText(payload), // Display Pix payload for "Copia e Cola"
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text('Válido até: ${DateFormat('yyyy-MM-dd HH:mm').format(expirationDate)}'),
           ],
         ),
@@ -90,8 +89,8 @@ Future<void> showLoadingDialog(BuildContext context, String message) async {
       return AlertDialog(
         content: Row(
           children: [
-            CircularProgressIndicator(),
-            SizedBox(width: 20),
+            const CircularProgressIndicator(),
+            const SizedBox(width: 20),
             Expanded(child: Text(message)),
           ],
         ),
@@ -270,7 +269,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
               body: jsonEncode(paymentData),
             ),
             retries: 3,
-            delay: Duration(seconds: 2),
+            delay: const Duration(seconds: 2),
           );
 
           hideLoadingDialog(context); // Hide loading dialog once processing is complete
@@ -318,7 +317,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
             FFAppState().quotations.toList(),
             FFAppState().renterRef!,
           )!.priceBreakdown.total,
-      'dueDate': DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 7))),
+      'dueDate': DateFormat('yyyy-MM-dd').format(DateTime.now().add(const Duration(days: 7))),
       'description': widget.gameObject?.name ?? '',
       'externalReference': FFAppState().externalReference,
       'usersRentalRef': rentalRef.path, // Pass the Firestore path of the rental document
@@ -338,7 +337,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
           FFAppState().quotations.toList(),
           FFAppState().renterRef!,
         )!.priceBreakdown.total,
-    'dueDate': DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: 7))),
+    'dueDate': DateFormat('yyyy-MM-dd').format(DateTime.now().add(const Duration(days: 7))),
     'description': widget.gameObject?.name ?? '',
     'externalReference': FFAppState().externalReference,
     'usersRentalRef': rentalRef.path, // Pass the Firestore path of the rental document

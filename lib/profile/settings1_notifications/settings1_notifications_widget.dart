@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'settings1_notifications_model.dart';
 export 'settings1_notifications_model.dart';
 
@@ -74,7 +75,7 @@ class _Settings1NotificationsWidgetState
                         FlutterFlowTheme.of(context).headlineSmallFamily),
                   ),
             ),
-            actions: const [],
+            actions: [],
             centerTitle: false,
             elevation: 0.0,
           ),
@@ -82,7 +83,7 @@ class _Settings1NotificationsWidgetState
             mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
+                padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
@@ -104,14 +105,14 @@ class _Settings1NotificationsWidgetState
                 ),
               ),
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
                 child: Material(
                   color: Colors.transparent,
                   child: SwitchListTile.adaptive(
                     value: _model.switchListTileValue1 ??= true,
                     onChanged: (newValue) async {
                       safeSetState(
-                          () => _model.switchListTileValue1 = newValue);
+                          () => _model.switchListTileValue1 = newValue!);
                     },
                     title: Text(
                       'Push Notifications',
@@ -129,7 +130,7 @@ class _Settings1NotificationsWidgetState
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
                             fontFamily:
                                 FlutterFlowTheme.of(context).bodyMediumFamily,
-                            color: const Color(0xFF8B97A2),
+                            color: Color(0xFF8B97A2),
                             letterSpacing: 0.0,
                             useGoogleFonts: GoogleFonts.asMap().containsKey(
                                 FlutterFlowTheme.of(context).bodyMediumFamily),
@@ -141,7 +142,7 @@ class _Settings1NotificationsWidgetState
                     dense: false,
                     controlAffinity: ListTileControlAffinity.trailing,
                     contentPadding:
-                        const EdgeInsetsDirectional.fromSTEB(24.0, 12.0, 24.0, 12.0),
+                        EdgeInsetsDirectional.fromSTEB(24.0, 12.0, 24.0, 12.0),
                   ),
                 ),
               ),
@@ -150,7 +151,7 @@ class _Settings1NotificationsWidgetState
                 child: SwitchListTile.adaptive(
                   value: _model.switchListTileValue2 ??= true,
                   onChanged: (newValue) async {
-                    safeSetState(() => _model.switchListTileValue2 = newValue);
+                    safeSetState(() => _model.switchListTileValue2 = newValue!);
                   },
                   title: Text(
                     'Email Notifications',
@@ -168,7 +169,7 @@ class _Settings1NotificationsWidgetState
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           fontFamily:
                               FlutterFlowTheme.of(context).bodyMediumFamily,
-                          color: const Color(0xFF8B97A2),
+                          color: Color(0xFF8B97A2),
                           letterSpacing: 0.0,
                           useGoogleFonts: GoogleFonts.asMap().containsKey(
                               FlutterFlowTheme.of(context).bodyMediumFamily),
@@ -180,7 +181,7 @@ class _Settings1NotificationsWidgetState
                   dense: false,
                   controlAffinity: ListTileControlAffinity.trailing,
                   contentPadding:
-                      const EdgeInsetsDirectional.fromSTEB(24.0, 12.0, 24.0, 12.0),
+                      EdgeInsetsDirectional.fromSTEB(24.0, 12.0, 24.0, 12.0),
                 ),
               ),
               Material(
@@ -188,7 +189,7 @@ class _Settings1NotificationsWidgetState
                 child: SwitchListTile.adaptive(
                   value: _model.switchListTileValue3 ??= true,
                   onChanged: (newValue) async {
-                    safeSetState(() => _model.switchListTileValue3 = newValue);
+                    safeSetState(() => _model.switchListTileValue3 = newValue!);
                   },
                   title: Text(
                     'Location Services',
@@ -206,7 +207,7 @@ class _Settings1NotificationsWidgetState
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           fontFamily:
                               FlutterFlowTheme.of(context).bodyMediumFamily,
-                          color: const Color(0xFF8B97A2),
+                          color: Color(0xFF8B97A2),
                           letterSpacing: 0.0,
                           useGoogleFonts: GoogleFonts.asMap().containsKey(
                               FlutterFlowTheme.of(context).bodyMediumFamily),
@@ -218,11 +219,11 @@ class _Settings1NotificationsWidgetState
                   dense: false,
                   controlAffinity: ListTileControlAffinity.trailing,
                   contentPadding:
-                      const EdgeInsetsDirectional.fromSTEB(24.0, 12.0, 24.0, 12.0),
+                      EdgeInsetsDirectional.fromSTEB(24.0, 12.0, 24.0, 12.0),
                 ),
               ),
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 0.0),
                 child: FFButtonWidget(
                   onPressed: () async {
                     logFirebaseEvent(
@@ -234,9 +235,9 @@ class _Settings1NotificationsWidgetState
                   options: FFButtonOptions(
                     width: 190.0,
                     height: 50.0,
-                    padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                     iconPadding:
-                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                     color: FlutterFlowTheme.of(context).primary,
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                           fontFamily:
@@ -247,7 +248,7 @@ class _Settings1NotificationsWidgetState
                               FlutterFlowTheme.of(context).titleSmallFamily),
                         ),
                     elevation: 3.0,
-                    borderSide: const BorderSide(
+                    borderSide: BorderSide(
                       color: Colors.transparent,
                       width: 1.0,
                     ),

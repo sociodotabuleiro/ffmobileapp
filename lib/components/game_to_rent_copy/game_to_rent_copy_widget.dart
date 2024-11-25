@@ -152,7 +152,7 @@ class _GameToRentCopyWidgetState extends State<GameToRentCopyWidget> {
                                         16.0, 0.0, 0.0, 0.0),
                                     child: RatingBarIndicator(
                                       itemBuilder: (context, index) => FaIcon(
-                                        FontAwesomeIcons.mapMarkerAlt,
+                                        FontAwesomeIcons.locationDot,
                                         color: FlutterFlowTheme.of(context)
                                             .secondary,
                                       ),

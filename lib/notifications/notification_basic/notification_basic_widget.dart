@@ -1,9 +1,12 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'notification_basic_model.dart';
 export 'notification_basic_model.dart';
 
@@ -39,7 +42,7 @@ class _NotificationBasicWidgetState extends State<NotificationBasicWidget> {
       logFirebaseEvent('NOTIFICATION_BASIC_notification_basic_ON');
       logFirebaseEvent('notification_basic_backend_call');
       _model.notificationObject =
-          await NotificationsRecord.getDocumentOnce(widget.notificationRef!);
+          await NotificationsRecord.getDocumentOnce(widget!.notificationRef!);
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
@@ -55,15 +58,15 @@ class _NotificationBasicWidgetState extends State<NotificationBasicWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(12.0, 16.0, 12.0, 16.0),
+      padding: EdgeInsetsDirectional.fromSTEB(12.0, 16.0, 12.0, 16.0),
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: const Color(0xFFE6EDF3),
+          color: Color(0xFFE6EDF3),
           borderRadius: BorderRadius.circular(12.0),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(12.0),
+          padding: EdgeInsets.all(12.0),
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -72,10 +75,10 @@ class _NotificationBasicWidgetState extends State<NotificationBasicWidget> {
                 width: 48.0,
                 height: 48.0,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFD1E0FF),
+                  color: Color(0xFFD1E0FF),
                   borderRadius: BorderRadius.circular(24.0),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.notifications,
                   color: Color(0xFF4B39EF),
                   size: 24.0,
@@ -140,10 +143,10 @@ class _NotificationBasicWidgetState extends State<NotificationBasicWidget> {
                                 FlutterFlowTheme.of(context).bodyMediumFamily),
                           ),
                     ),
-                  ].divide(const SizedBox(height: 4.0)),
+                  ].divide(SizedBox(height: 4.0)),
                 ),
               ),
-            ].divide(const SizedBox(width: 16.0)),
+            ].divide(SizedBox(width: 16.0)),
           ),
         ),
       ),

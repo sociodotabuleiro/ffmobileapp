@@ -124,7 +124,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                             .override(
                               fontFamily: 'Outfit',
                               color: Color(0xFF15161E),
-                              fontSize: 24,
+                              fontSize: 24.0,
                               letterSpacing: 0.0,
                               fontWeight: FontWeight.w500,
                               useGoogleFonts:
@@ -149,14 +149,14 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                     style: FlutterFlowTheme.of(context).labelMedium.override(
                           fontFamily: 'Outfit',
                           color: Color(0xFF606A85),
-                          fontSize: 14,
+                          fontSize: 14.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w500,
                           useGoogleFonts:
                               GoogleFonts.asMap().containsKey('Outfit'),
                         ),
                   ),
-                ].divide(SizedBox(height: 4)),
+                ].divide(SizedBox(height: 4.0)),
               ),
               actions: [],
               centerTitle: false,
@@ -177,15 +177,15 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Align(
-                              alignment: AlignmentDirectional(0, -1),
+                              alignment: AlignmentDirectional(0.0, -1.0),
                               child: Container(
                                 constraints: BoxConstraints(
-                                  maxWidth: 770,
+                                  maxWidth: 770.0,
                                 ),
                                 decoration: BoxDecoration(),
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
-                                      16, 12, 16, 0),
+                                      16.0, 12.0, 16.0, 0.0),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
                                     crossAxisAlignment:
@@ -198,7 +198,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                             .override(
                                               fontFamily: 'Figtree',
                                               color: Color(0xFF15161E),
-                                              fontSize: 16,
+                                              fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
                                               useGoogleFonts:
@@ -222,7 +222,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Outfit',
                                                 color: Color(0xFF606A85),
-                                                fontSize: 16,
+                                                fontSize: 16.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
                                                 useGoogleFonts:
@@ -235,7 +235,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Outfit',
                                                 color: Color(0xFF606A85),
-                                                fontSize: 14,
+                                                fontSize: 14.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
                                                 useGoogleFonts:
@@ -248,7 +248,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Figtree',
                                                 color: Color(0xFFFF5963),
-                                                fontSize: 12,
+                                                fontSize: 12.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
                                                 useGoogleFonts:
@@ -296,14 +296,14 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               : Colors.white,
                                           contentPadding:
                                               EdgeInsetsDirectional.fromSTEB(
-                                                  16, 20, 16, 20),
+                                                  16.0, 20.0, 16.0, 20.0),
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
                                               fontFamily: 'Figtree',
                                               color: Color(0xFF15161E),
-                                              fontSize: 16,
+                                              fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
                                               useGoogleFonts:
@@ -333,7 +333,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Outfit',
                                                 color: Color(0xFF606A85),
-                                                fontSize: 16,
+                                                fontSize: 16.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
                                                 useGoogleFonts:
@@ -346,7 +346,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Outfit',
                                                 color: Color(0xFF606A85),
-                                                fontSize: 14,
+                                                fontSize: 14.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
                                                 useGoogleFonts:
@@ -359,7 +359,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Figtree',
                                                 color: Color(0xFFFF5963),
-                                                fontSize: 12,
+                                                fontSize: 12.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
                                                 useGoogleFonts:
@@ -407,14 +407,14 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               : Colors.white,
                                           contentPadding:
                                               EdgeInsetsDirectional.fromSTEB(
-                                                  16, 20, 16, 20),
+                                                  16.0, 20.0, 16.0, 20.0),
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
                                               fontFamily: 'Figtree',
                                               color: Color(0xFF15161E),
-                                              fontSize: 16,
+                                              fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
                                               useGoogleFonts:
@@ -443,7 +443,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Outfit',
                                                 color: Color(0xFF606A85),
-                                                fontSize: 16,
+                                                fontSize: 16.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
                                                 useGoogleFonts:
@@ -456,7 +456,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Outfit',
                                                 color: Color(0xFF606A85),
-                                                fontSize: 14,
+                                                fontSize: 14.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
                                                 useGoogleFonts:
@@ -469,7 +469,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Figtree',
                                                 color: Color(0xFFFF5963),
-                                                fontSize: 12,
+                                                fontSize: 12.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
                                                 useGoogleFonts:
@@ -517,14 +517,14 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               : Colors.white,
                                           contentPadding:
                                               EdgeInsetsDirectional.fromSTEB(
-                                                  16, 20, 16, 20),
+                                                  16.0, 20.0, 16.0, 20.0),
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
                                               fontFamily: 'Figtree',
                                               color: Color(0xFF15161E),
-                                              fontSize: 16,
+                                              fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
                                               useGoogleFonts:
@@ -553,7 +553,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Outfit',
                                                 color: Color(0xFF606A85),
-                                                fontSize: 16,
+                                                fontSize: 16.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
                                                 useGoogleFonts:
@@ -566,7 +566,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Outfit',
                                                 color: Color(0xFF606A85),
-                                                fontSize: 14,
+                                                fontSize: 14.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
                                                 useGoogleFonts:
@@ -579,7 +579,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Figtree',
                                                 color: Color(0xFFFF5963),
-                                                fontSize: 12,
+                                                fontSize: 12.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
                                                 useGoogleFonts:
@@ -628,14 +628,14 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               : Colors.white,
                                           contentPadding:
                                               EdgeInsetsDirectional.fromSTEB(
-                                                  16, 20, 16, 20),
+                                                  16.0, 20.0, 16.0, 20.0),
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
                                               fontFamily: 'Figtree',
                                               color: Color(0xFF15161E),
-                                              fontSize: 16,
+                                              fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
                                               useGoogleFonts:
@@ -664,7 +664,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Outfit',
                                                 color: Color(0xFF606A85),
-                                                fontSize: 16,
+                                                fontSize: 16.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
                                                 useGoogleFonts:
@@ -677,7 +677,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Outfit',
                                                 color: Color(0xFF606A85),
-                                                fontSize: 14,
+                                                fontSize: 14.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
                                                 useGoogleFonts:
@@ -690,7 +690,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Figtree',
                                                 color: Color(0xFFFF5963),
-                                                fontSize: 12,
+                                                fontSize: 12.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
                                                 useGoogleFonts:
@@ -739,14 +739,14 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               : Colors.white,
                                           contentPadding:
                                               EdgeInsetsDirectional.fromSTEB(
-                                                  16, 20, 16, 20),
+                                                  16.0, 20.0, 16.0, 20.0),
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
                                               fontFamily: 'Figtree',
                                               color: Color(0xFF15161E),
-                                              fontSize: 16,
+                                              fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
                                               useGoogleFonts:
@@ -775,7 +775,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Outfit',
                                                 color: Color(0xFF606A85),
-                                                fontSize: 16,
+                                                fontSize: 16.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
                                                 useGoogleFonts:
@@ -788,7 +788,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Outfit',
                                                 color: Color(0xFF606A85),
-                                                fontSize: 14,
+                                                fontSize: 14.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
                                                 useGoogleFonts:
@@ -801,7 +801,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Figtree',
                                                 color: Color(0xFFFF5963),
-                                                fontSize: 12,
+                                                fontSize: 12.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
                                                 useGoogleFonts:
@@ -849,14 +849,14 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               : Colors.white,
                                           contentPadding:
                                               EdgeInsetsDirectional.fromSTEB(
-                                                  16, 20, 16, 20),
+                                                  16.0, 20.0, 16.0, 20.0),
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
                                               fontFamily: 'Figtree',
                                               color: Color(0xFF15161E),
-                                              fontSize: 16,
+                                              fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
                                               useGoogleFonts:
@@ -884,7 +884,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Outfit',
                                                 color: Color(0xFF606A85),
-                                                fontSize: 16,
+                                                fontSize: 16.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
                                                 useGoogleFonts:
@@ -897,7 +897,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Outfit',
                                                 color: Color(0xFF606A85),
-                                                fontSize: 14,
+                                                fontSize: 14.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
                                                 useGoogleFonts:
@@ -910,7 +910,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Figtree',
                                                 color: Color(0xFFFF5963),
-                                                fontSize: 12,
+                                                fontSize: 12.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
                                                 useGoogleFonts:
@@ -958,14 +958,14 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                                   : Colors.white,
                                           contentPadding:
                                               EdgeInsetsDirectional.fromSTEB(
-                                                  16, 20, 16, 20),
+                                                  16.0, 20.0, 16.0, 20.0),
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
                                               fontFamily: 'Figtree',
                                               color: Color(0xFF15161E),
-                                              fontSize: 16,
+                                              fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
                                               useGoogleFonts:
@@ -993,7 +993,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Outfit',
                                                 color: Color(0xFF606A85),
-                                                fontSize: 16,
+                                                fontSize: 16.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
                                                 useGoogleFonts:
@@ -1006,7 +1006,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Outfit',
                                                 color: Color(0xFF606A85),
-                                                fontSize: 14,
+                                                fontSize: 14.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
                                                 useGoogleFonts:
@@ -1019,7 +1019,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               .override(
                                                 fontFamily: 'Figtree',
                                                 color: Color(0xFFFF5963),
-                                                fontSize: 12,
+                                                fontSize: 12.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
                                                 useGoogleFonts:
@@ -1067,14 +1067,14 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                               : Colors.white,
                                           contentPadding:
                                               EdgeInsetsDirectional.fromSTEB(
-                                                  16, 20, 16, 20),
+                                                  16.0, 20.0, 16.0, 20.0),
                                         ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyLarge
                                             .override(
                                               fontFamily: 'Figtree',
                                               color: Color(0xFF15161E),
-                                              fontSize: 16,
+                                              fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
                                               useGoogleFonts:
@@ -1087,13 +1087,13 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                             .asValidator(context),
                                       ),
                                       Divider(
-                                        height: 2,
-                                        thickness: 2,
+                                        height: 2.0,
+                                        thickness: 2.0,
                                         color: Color(0xFFE5E7EB),
                                       ),
                                     ]
-                                        .divide(SizedBox(height: 12))
-                                        .addToEnd(SizedBox(height: 32)),
+                                        .divide(SizedBox(height: 12.0))
+                                        .addToEnd(SizedBox(height: 32.0)),
                                   ),
                                 ),
                               ),
@@ -1104,11 +1104,12 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                     ),
                     Container(
                       constraints: BoxConstraints(
-                        maxWidth: 770,
+                        maxWidth: 770.0,
                       ),
                       decoration: BoxDecoration(),
                       child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 12, 16, 12),
+                        padding: EdgeInsetsDirectional.fromSTEB(
+                            16.0, 12.0, 16.0, 12.0),
                         child: FFButtonWidget(
                           onPressed: () async {
                             logFirebaseEvent(
@@ -1175,11 +1176,11 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                           text: 'Próxima Etapa',
                           options: FFButtonOptions(
                             width: double.infinity,
-                            height: 48,
-                            padding:
-                                EdgeInsetsDirectional.fromSTEB(24, 0, 24, 0),
-                            iconPadding:
-                                EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                            height: 48.0,
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                24.0, 0.0, 24.0, 0.0),
+                            iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 0.0),
                             color: Color(0xFF6F61EF),
                             textStyle: FlutterFlowTheme.of(context)
                                 .titleSmall
@@ -1192,7 +1193,7 @@ class _AddProfileAddress2WidgetState extends State<AddProfileAddress2Widget> {
                                   useGoogleFonts: GoogleFonts.asMap()
                                       .containsKey('Figtree'),
                                 ),
-                            elevation: 3,
+                            elevation: 3.0,
                             borderSide: BorderSide(
                               color: Colors.transparent,
                               width: 1,

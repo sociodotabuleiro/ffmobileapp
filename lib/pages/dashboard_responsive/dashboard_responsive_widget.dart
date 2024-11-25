@@ -2,12 +2,15 @@ import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:provider/provider.dart';
 import 'dashboard_responsive_model.dart';
 export 'dashboard_responsive_model.dart';
 
@@ -49,15 +52,15 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(-50.0, 0.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(-50.0, 0.0),
+            end: Offset(0.0, 0.0),
           ),
           ScaleEffect(
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(0.7, 0.7),
-            end: const Offset(1.0, 1.0),
+            begin: Offset(0.7, 0.7),
+            end: Offset(1.0, 1.0),
           ),
         ],
       ),
@@ -75,15 +78,15 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(-50.0, 0.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(-50.0, 0.0),
+            end: Offset(0.0, 0.0),
           ),
           ScaleEffect(
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(0.7, 0.7),
-            end: const Offset(1.0, 1.0),
+            begin: Offset(0.7, 0.7),
+            end: Offset(1.0, 1.0),
           ),
         ],
       ),
@@ -137,13 +140,13 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                     ),
                     child: Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 16.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 16.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 16.0, 0.0, 16.0, 16.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
@@ -154,7 +157,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                   size: 32.0,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       12.0, 0.0, 0.0, 0.0),
                                   child: Text(
                                     'check.io',
@@ -186,7 +189,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       16.0, 12.0, 0.0, 0.0),
                                   child: Text(
                                     'Platform Navigation',
@@ -205,10 +208,10 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       16.0, 0.0, 16.0, 0.0),
                                   child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 200),
+                                    duration: Duration(milliseconds: 200),
                                     curve: Curves.easeInOut,
                                     width: double.infinity,
                                     height: 44.0,
@@ -219,7 +222,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                       shape: BoxShape.rectangle,
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           8.0, 0.0, 6.0, 0.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -232,7 +235,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                           ),
                                           Padding(
                                             padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     12.0, 0.0, 0.0, 0.0),
                                             child: Text(
                                               'Dashboard',
@@ -260,10 +263,10 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       16.0, 0.0, 16.0, 0.0),
                                   child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 200),
+                                    duration: Duration(milliseconds: 200),
                                     curve: Curves.easeInOut,
                                     width: double.infinity,
                                     height: 44.0,
@@ -274,7 +277,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                       shape: BoxShape.rectangle,
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           8.0, 0.0, 6.0, 0.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -287,7 +290,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                           ),
                                           Padding(
                                             padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     12.0, 0.0, 0.0, 0.0),
                                             child: Text(
                                               'Chats',
@@ -315,10 +318,10 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       16.0, 0.0, 16.0, 0.0),
                                   child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 200),
+                                    duration: Duration(milliseconds: 200),
                                     curve: Curves.easeInOut,
                                     width: double.infinity,
                                     height: 44.0,
@@ -329,7 +332,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                       shape: BoxShape.rectangle,
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           8.0, 0.0, 6.0, 0.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -342,7 +345,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                           ),
                                           Padding(
                                             padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     12.0, 0.0, 0.0, 0.0),
                                             child: Text(
                                               'Projects',
@@ -370,7 +373,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       16.0, 0.0, 0.0, 0.0),
                                   child: Text(
                                     'Settings',
@@ -389,10 +392,10 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       16.0, 0.0, 16.0, 0.0),
                                   child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 200),
+                                    duration: Duration(milliseconds: 200),
                                     curve: Curves.easeInOut,
                                     width: double.infinity,
                                     height: 44.0,
@@ -403,7 +406,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                       shape: BoxShape.rectangle,
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           8.0, 0.0, 6.0, 0.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -416,7 +419,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                           ),
                                           Expanded(
                                             child: Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       12.0, 0.0, 0.0, 0.0),
                                               child: Text(
@@ -450,10 +453,10 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                   BorderRadius.circular(8.0),
                                             ),
                                             child: Align(
-                                              alignment: const AlignmentDirectional(
+                                              alignment: AlignmentDirectional(
                                                   0.0, 0.0),
                                               child: Padding(
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         8.0, 4.0, 8.0, 4.0),
                                                 child: Text(
@@ -488,10 +491,10 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       16.0, 0.0, 16.0, 0.0),
                                   child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 200),
+                                    duration: Duration(milliseconds: 200),
                                     curve: Curves.easeInOut,
                                     width: double.infinity,
                                     height: 44.0,
@@ -502,7 +505,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                       shape: BoxShape.rectangle,
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           8.0, 0.0, 6.0, 0.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -515,7 +518,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                           ),
                                           Padding(
                                             padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     12.0, 0.0, 0.0, 0.0),
                                             child: Text(
                                               'Billing',
@@ -543,10 +546,10 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       16.0, 0.0, 16.0, 0.0),
                                   child: AnimatedContainer(
-                                    duration: const Duration(milliseconds: 200),
+                                    duration: Duration(milliseconds: 200),
                                     curve: Curves.easeInOut,
                                     width: double.infinity,
                                     height: 44.0,
@@ -557,7 +560,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                       shape: BoxShape.rectangle,
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           8.0, 0.0, 6.0, 0.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -570,7 +573,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                           ),
                                           Padding(
                                             padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     12.0, 0.0, 0.0, 0.0),
                                             child: Text(
                                               'Explore',
@@ -597,16 +600,16 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                     ),
                                   ),
                                 ),
-                              ].divide(const SizedBox(height: 12.0)),
+                              ].divide(SizedBox(height: 12.0)),
                             ),
                           ),
                           if ((Theme.of(context).brightness ==
                                   Brightness.light) ==
                               true)
                             Align(
-                              alignment: const AlignmentDirectional(0.0, -1.0),
+                              alignment: AlignmentDirectional(0.0, -1.0),
                               child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 8.0, 0.0, 16.0),
                                 child: Container(
                                   width: 250.0,
@@ -626,7 +629,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                             Brightness.light) ==
                                         true,
                                     child: Padding(
-                                      padding: const EdgeInsets.all(4.0),
+                                      padding: EdgeInsets.all(4.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
@@ -703,7 +706,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                     ),
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsetsDirectional
+                                                          EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   4.0,
                                                                   0.0,
@@ -815,7 +818,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                     ),
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsetsDirectional
+                                                          EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   4.0,
                                                                   0.0,
@@ -869,7 +872,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                             color: FlutterFlowTheme.of(context).alternate,
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 16.0, 12.0, 16.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
@@ -890,19 +893,19 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                   ),
                 Expanded(
                   child: Align(
-                    alignment: const AlignmentDirectional(0.0, -1.0),
+                    alignment: AlignmentDirectional(0.0, -1.0),
                     child: Container(
                       width: double.infinity,
-                      constraints: const BoxConstraints(
+                      constraints: BoxConstraints(
                         maxWidth: 1370.0,
                       ),
-                      decoration: const BoxDecoration(),
+                      decoration: BoxDecoration(),
                       child: SingleChildScrollView(
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   16.0, 16.0, 16.0, 0.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
@@ -933,7 +936,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                         ),
                                         Padding(
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 4.0, 0.0, 0.0),
                                           child: Text(
                                             'Below is a company overview',
@@ -958,7 +961,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         16.0, 12.0, 16.0, 12.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
@@ -979,15 +982,15 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                             ),
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.all(2.0),
+                                            padding: EdgeInsets.all(2.0),
                                             child: ClipRRect(
                                               borderRadius:
                                                   BorderRadius.circular(8.0),
                                               child: CachedNetworkImage(
                                                 fadeInDuration:
-                                                    const Duration(milliseconds: 500),
+                                                    Duration(milliseconds: 500),
                                                 fadeOutDuration:
-                                                    const Duration(milliseconds: 500),
+                                                    Duration(milliseconds: 500),
                                                 imageUrl:
                                                     'https://images.unsplash.com/photo-1624561172888-ac93c696e10c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NjJ8fHVzZXJzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
                                                 width: 44.0,
@@ -999,7 +1002,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                         ),
                                         Padding(
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   12.0, 0.0, 0.0, 0.0),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
@@ -1054,9 +1057,9 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                               ),
                             ),
                             Align(
-                              alignment: const AlignmentDirectional(-1.0, 0.0),
+                              alignment: AlignmentDirectional(-1.0, 0.0),
                               child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 4.0),
                                 child: SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
@@ -1064,11 +1067,11 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 12.0, 0.0, 12.0),
                                         child: Container(
                                           height: 120.0,
-                                          constraints: const BoxConstraints(
+                                          constraints: BoxConstraints(
                                             maxWidth: 270.0,
                                           ),
                                           decoration: BoxDecoration(
@@ -1085,13 +1088,13 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                           ),
                                           child: Padding(
                                             padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     16.0, 0.0, 16.0, 0.0),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           0.0, 0.0, 16.0, 0.0),
                                                   child: Icon(
@@ -1139,7 +1142,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                           Expanded(
                                                             child: Padding(
                                                               padding:
-                                                                  const EdgeInsetsDirectional
+                                                                  EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           0.0,
                                                                           4.0,
@@ -1175,11 +1178,11 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 12.0, 0.0, 12.0),
                                         child: Container(
                                           height: 120.0,
-                                          constraints: const BoxConstraints(
+                                          constraints: BoxConstraints(
                                             maxWidth: 270.0,
                                           ),
                                           decoration: BoxDecoration(
@@ -1196,13 +1199,13 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                           ),
                                           child: Padding(
                                             padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     16.0, 0.0, 16.0, 0.0),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           0.0, 0.0, 16.0, 0.0),
                                                   child: Icon(
@@ -1249,7 +1252,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                         children: [
                                                           Padding(
                                                             padding:
-                                                                const EdgeInsetsDirectional
+                                                                EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         0.0,
                                                                         4.0,
@@ -1284,11 +1287,11 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 12.0, 0.0, 12.0),
                                         child: Container(
                                           height: 120.0,
-                                          constraints: const BoxConstraints(
+                                          constraints: BoxConstraints(
                                             maxWidth: 270.0,
                                           ),
                                           decoration: BoxDecoration(
@@ -1305,13 +1308,13 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                           ),
                                           child: Padding(
                                             padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     16.0, 0.0, 16.0, 0.0),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           0.0, 0.0, 16.0, 0.0),
                                                   child: Icon(
@@ -1358,7 +1361,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                         children: [
                                                           Padding(
                                                             padding:
-                                                                const EdgeInsetsDirectional
+                                                                EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         0.0,
                                                                         4.0,
@@ -1393,11 +1396,11 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 12.0, 0.0, 12.0),
                                         child: Container(
                                           height: 120.0,
-                                          constraints: const BoxConstraints(
+                                          constraints: BoxConstraints(
                                             maxWidth: 270.0,
                                           ),
                                           decoration: BoxDecoration(
@@ -1414,13 +1417,13 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                           ),
                                           child: Padding(
                                             padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     16.0, 0.0, 16.0, 0.0),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           0.0, 0.0, 16.0, 0.0),
                                                   child: Icon(
@@ -1467,7 +1470,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                         children: [
                                                           Padding(
                                                             padding:
-                                                                const EdgeInsetsDirectional
+                                                                EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         0.0,
                                                                         4.0,
@@ -1502,9 +1505,9 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                         ),
                                       ),
                                     ]
-                                        .divide(const SizedBox(width: 16.0))
-                                        .addToStart(const SizedBox(width: 16.0))
-                                        .addToEnd(const SizedBox(width: 16.0)),
+                                        .divide(SizedBox(width: 16.0))
+                                        .addToStart(SizedBox(width: 16.0))
+                                        .addToEnd(SizedBox(width: 16.0)),
                                   ),
                                 ),
                               ),
@@ -1555,13 +1558,13 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                         ),
                                         child: Padding(
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   16.0, 0.0, 16.0, 0.0),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         0.0, 0.0, 16.0, 0.0),
                                                 child: Icon(
@@ -1606,7 +1609,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                       children: [
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       4.0,
@@ -1716,13 +1719,13 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                         ),
                                         child: Padding(
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   16.0, 0.0, 16.0, 0.0),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         0.0, 0.0, 16.0, 0.0),
                                                 child: Icon(
@@ -1767,7 +1770,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                       children: [
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       4.0,
@@ -1876,7 +1879,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                         ),
                                         child: Padding(
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 0.0, 0.0, 16.0),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
@@ -1886,7 +1889,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         1.0, 1.0, 1.0, 0.0),
                                                 child: Container(
@@ -1902,14 +1905,14 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .alternate,
-                                                        offset: const Offset(
+                                                        offset: Offset(
                                                           0.0,
                                                           1.0,
                                                         ),
                                                       )
                                                     ],
                                                     borderRadius:
-                                                        const BorderRadius.only(
+                                                        BorderRadius.only(
                                                       bottomLeft:
                                                           Radius.circular(0.0),
                                                       bottomRight:
@@ -1922,7 +1925,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(24.0, 0.0,
                                                                 24.0, 0.0),
                                                     child: Row(
@@ -1932,7 +1935,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                         Expanded(
                                                           child: Padding(
                                                             padding:
-                                                                const EdgeInsetsDirectional
+                                                                EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         0.0,
                                                                         16.0,
@@ -1964,7 +1967,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                       ),
                                                                 ),
                                                                 Padding(
-                                                                  padding: const EdgeInsetsDirectional
+                                                                  padding: EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           0.0,
                                                                           4.0,
@@ -1991,11 +1994,11 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                         ),
                                                         Align(
                                                           alignment:
-                                                              const AlignmentDirectional(
+                                                              AlignmentDirectional(
                                                                   0.0, -1.0),
                                                           child: Padding(
                                                             padding:
-                                                                const EdgeInsetsDirectional
+                                                                EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         0.0,
                                                                         20.0,
@@ -2016,10 +2019,10 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                 ),
                                               ),
                                               Align(
-                                                alignment: const AlignmentDirectional(
+                                                alignment: AlignmentDirectional(
                                                     0.0, 0.0),
                                                 child: Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(24.0, 24.0,
                                                           24.0, 0.0),
                                                   child:
@@ -2061,7 +2064,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                 ),
                                               ),
                                               Padding(
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         24.0, 16.0, 24.0, 0.0),
                                                 child: Text(
@@ -2085,7 +2088,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                 ),
                                               ),
                                               Padding(
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         24.0, 4.0, 24.0, 8.0),
                                                 child: Text(
@@ -2112,7 +2115,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                           ),
                                         ),
                                       ),
-                                    ].divide(const SizedBox(height: 16.0)),
+                                    ].divide(SizedBox(height: 16.0)),
                                   ),
                                 ),
                                 if (responsiveVisibility(
@@ -2124,11 +2127,11 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                   Expanded(
                                     flex: 12,
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 0.0, 16.0, 0.0),
                                       child: Container(
                                         width: double.infinity,
-                                        constraints: const BoxConstraints(
+                                        constraints: BoxConstraints(
                                           maxWidth: 1270.0,
                                         ),
                                         decoration: BoxDecoration(
@@ -2143,7 +2146,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                           ),
                                         ),
                                         child: Padding(
-                                          padding: const EdgeInsets.all(16.0),
+                                          padding: EdgeInsets.all(16.0),
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             crossAxisAlignment:
@@ -2165,7 +2168,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                       children: [
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       0.0,
@@ -2192,7 +2195,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       4.0,
@@ -2237,14 +2240,14 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                     options: FFButtonOptions(
                                                       height: 40.0,
                                                       padding:
-                                                          const EdgeInsetsDirectional
+                                                          EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   16.0,
                                                                   0.0,
                                                                   16.0,
                                                                   0.0),
                                                       iconPadding:
-                                                          const EdgeInsetsDirectional
+                                                          EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   0.0,
                                                                   0.0,
@@ -2272,7 +2275,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                             .titleSmallFamily),
                                                               ),
                                                       elevation: 2.0,
-                                                      borderSide: const BorderSide(
+                                                      borderSide: BorderSide(
                                                         color:
                                                             Colors.transparent,
                                                         width: 1.0,
@@ -2285,7 +2288,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                 ],
                                               ),
                                               Padding(
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         0.0, 16.0, 0.0, 0.0),
                                                 child: Container(
@@ -2296,7 +2299,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                             context)
                                                         .primaryBackground,
                                                     borderRadius:
-                                                        const BorderRadius.only(
+                                                        BorderRadius.only(
                                                       bottomLeft:
                                                           Radius.circular(0.0),
                                                       bottomRight:
@@ -2309,7 +2312,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(16.0, 0.0,
                                                                 16.0, 0.0),
                                                     child: Row(
@@ -2442,7 +2445,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                 children: [
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 1.0),
                                                     child: Container(
@@ -2457,7 +2460,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                             color: FlutterFlowTheme
                                                                     .of(context)
                                                                 .primaryBackground,
-                                                            offset: const Offset(
+                                                            offset: Offset(
                                                               0.0,
                                                               1.0,
                                                             ),
@@ -2466,7 +2469,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     16.0,
                                                                     0.0,
@@ -2502,7 +2505,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                               flex: 4,
                                                               child: Padding(
                                                                 padding:
-                                                                    const EdgeInsetsDirectional
+                                                                    EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             0.0,
                                                                             8.0,
@@ -2514,7 +2517,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                           .max,
                                                                   children: [
                                                                     Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
                                                                           0.0,
                                                                           0.0,
                                                                           8.0,
@@ -2538,7 +2541,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                     Expanded(
                                                                       child:
                                                                           Padding(
-                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
                                                                             4.0,
                                                                             0.0,
                                                                             0.0,
@@ -2562,7 +2565,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                                   ),
                                                                             ),
                                                                             Padding(
-                                                                              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
+                                                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
                                                                               child: Text(
                                                                                 'Business Name',
                                                                                 style: FlutterFlowTheme.of(context).bodySmall.override(
@@ -2628,12 +2631,12 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                       ),
                                                                     ),
                                                                     alignment:
-                                                                        const AlignmentDirectional(
+                                                                        AlignmentDirectional(
                                                                             0.0,
                                                                             0.0),
                                                                     child:
                                                                         Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
                                                                           12.0,
                                                                           0.0,
                                                                           12.0,
@@ -2699,7 +2702,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 1.0),
                                                     child: Container(
@@ -2714,7 +2717,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                             color: FlutterFlowTheme
                                                                     .of(context)
                                                                 .primaryBackground,
-                                                            offset: const Offset(
+                                                            offset: Offset(
                                                               0.0,
                                                               1.0,
                                                             ),
@@ -2723,7 +2726,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     16.0,
                                                                     0.0,
@@ -2759,7 +2762,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                               flex: 4,
                                                               child: Padding(
                                                                 padding:
-                                                                    const EdgeInsetsDirectional
+                                                                    EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             0.0,
                                                                             8.0,
@@ -2771,7 +2774,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                           .max,
                                                                   children: [
                                                                     Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
                                                                           0.0,
                                                                           0.0,
                                                                           8.0,
@@ -2795,7 +2798,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                     Expanded(
                                                                       child:
                                                                           Padding(
-                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
                                                                             4.0,
                                                                             0.0,
                                                                             0.0,
@@ -2819,7 +2822,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                                   ),
                                                                             ),
                                                                             Padding(
-                                                                              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
+                                                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
                                                                               child: Text(
                                                                                 'Business Name',
                                                                                 style: FlutterFlowTheme.of(context).bodySmall.override(
@@ -2885,12 +2888,12 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                       ),
                                                                     ),
                                                                     alignment:
-                                                                        const AlignmentDirectional(
+                                                                        AlignmentDirectional(
                                                                             0.0,
                                                                             0.0),
                                                                     child:
                                                                         Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
                                                                           12.0,
                                                                           0.0,
                                                                           12.0,
@@ -2956,7 +2959,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 1.0),
                                                     child: Container(
@@ -2971,7 +2974,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                             color: FlutterFlowTheme
                                                                     .of(context)
                                                                 .primaryBackground,
-                                                            offset: const Offset(
+                                                            offset: Offset(
                                                               0.0,
                                                               1.0,
                                                             ),
@@ -2980,7 +2983,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     16.0,
                                                                     0.0,
@@ -3016,7 +3019,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                               flex: 4,
                                                               child: Padding(
                                                                 padding:
-                                                                    const EdgeInsetsDirectional
+                                                                    EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             0.0,
                                                                             8.0,
@@ -3028,7 +3031,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                           .max,
                                                                   children: [
                                                                     Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
                                                                           0.0,
                                                                           0.0,
                                                                           8.0,
@@ -3052,7 +3055,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                     Expanded(
                                                                       child:
                                                                           Padding(
-                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
                                                                             4.0,
                                                                             0.0,
                                                                             0.0,
@@ -3076,7 +3079,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                                   ),
                                                                             ),
                                                                             Padding(
-                                                                              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
+                                                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
                                                                               child: Text(
                                                                                 'Business Name',
                                                                                 style: FlutterFlowTheme.of(context).bodySmall.override(
@@ -3142,12 +3145,12 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                       ),
                                                                     ),
                                                                     alignment:
-                                                                        const AlignmentDirectional(
+                                                                        AlignmentDirectional(
                                                                             0.0,
                                                                             0.0),
                                                                     child:
                                                                         Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
                                                                           12.0,
                                                                           0.0,
                                                                           12.0,
@@ -3213,7 +3216,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 1.0),
                                                     child: Container(
@@ -3228,7 +3231,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                             color: FlutterFlowTheme
                                                                     .of(context)
                                                                 .primaryBackground,
-                                                            offset: const Offset(
+                                                            offset: Offset(
                                                               0.0,
                                                               1.0,
                                                             ),
@@ -3237,7 +3240,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     16.0,
                                                                     0.0,
@@ -3273,7 +3276,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                               flex: 4,
                                                               child: Padding(
                                                                 padding:
-                                                                    const EdgeInsetsDirectional
+                                                                    EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             0.0,
                                                                             8.0,
@@ -3285,7 +3288,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                           .max,
                                                                   children: [
                                                                     Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
                                                                           0.0,
                                                                           0.0,
                                                                           8.0,
@@ -3309,7 +3312,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                     Expanded(
                                                                       child:
                                                                           Padding(
-                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
                                                                             4.0,
                                                                             0.0,
                                                                             0.0,
@@ -3333,7 +3336,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                                   ),
                                                                             ),
                                                                             Padding(
-                                                                              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
+                                                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
                                                                               child: Text(
                                                                                 'Business Name',
                                                                                 style: FlutterFlowTheme.of(context).bodySmall.override(
@@ -3399,12 +3402,12 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                       ),
                                                                     ),
                                                                     alignment:
-                                                                        const AlignmentDirectional(
+                                                                        AlignmentDirectional(
                                                                             0.0,
                                                                             0.0),
                                                                     child:
                                                                         Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
                                                                           12.0,
                                                                           0.0,
                                                                           12.0,
@@ -3470,7 +3473,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 1.0),
                                                     child: Container(
@@ -3485,7 +3488,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                             color: FlutterFlowTheme
                                                                     .of(context)
                                                                 .primaryBackground,
-                                                            offset: const Offset(
+                                                            offset: Offset(
                                                               0.0,
                                                               1.0,
                                                             ),
@@ -3494,7 +3497,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     16.0,
                                                                     0.0,
@@ -3530,7 +3533,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                               flex: 4,
                                                               child: Padding(
                                                                 padding:
-                                                                    const EdgeInsetsDirectional
+                                                                    EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             0.0,
                                                                             8.0,
@@ -3542,7 +3545,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                           .max,
                                                                   children: [
                                                                     Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
                                                                           0.0,
                                                                           0.0,
                                                                           8.0,
@@ -3566,7 +3569,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                     Expanded(
                                                                       child:
                                                                           Padding(
-                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
                                                                             4.0,
                                                                             0.0,
                                                                             0.0,
@@ -3590,7 +3593,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                                   ),
                                                                             ),
                                                                             Padding(
-                                                                              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
+                                                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
                                                                               child: Text(
                                                                                 'Business Name',
                                                                                 style: FlutterFlowTheme.of(context).bodySmall.override(
@@ -3650,12 +3653,12 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                               40.0),
                                                                     ),
                                                                     alignment:
-                                                                        const AlignmentDirectional(
+                                                                        AlignmentDirectional(
                                                                             0.0,
                                                                             0.0),
                                                                     child:
                                                                         Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
                                                                           12.0,
                                                                           0.0,
                                                                           12.0,
@@ -3721,7 +3724,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 1.0),
                                                     child: Container(
@@ -3736,7 +3739,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                             color: FlutterFlowTheme
                                                                     .of(context)
                                                                 .primaryBackground,
-                                                            offset: const Offset(
+                                                            offset: Offset(
                                                               0.0,
                                                               1.0,
                                                             ),
@@ -3745,7 +3748,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     16.0,
                                                                     0.0,
@@ -3781,7 +3784,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                               flex: 4,
                                                               child: Padding(
                                                                 padding:
-                                                                    const EdgeInsetsDirectional
+                                                                    EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             0.0,
                                                                             8.0,
@@ -3793,7 +3796,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                           .max,
                                                                   children: [
                                                                     Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
                                                                           0.0,
                                                                           0.0,
                                                                           8.0,
@@ -3817,7 +3820,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                     Expanded(
                                                                       child:
                                                                           Padding(
-                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
                                                                             4.0,
                                                                             0.0,
                                                                             0.0,
@@ -3841,7 +3844,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                                   ),
                                                                             ),
                                                                             Padding(
-                                                                              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
+                                                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
                                                                               child: Text(
                                                                                 'Business Name',
                                                                                 style: FlutterFlowTheme.of(context).bodySmall.override(
@@ -3901,12 +3904,12 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                               40.0),
                                                                     ),
                                                                     alignment:
-                                                                        const AlignmentDirectional(
+                                                                        AlignmentDirectional(
                                                                             0.0,
                                                                             0.0),
                                                                     child:
                                                                         Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
                                                                           12.0,
                                                                           0.0,
                                                                           12.0,
@@ -3972,7 +3975,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 1.0),
                                                     child: Container(
@@ -3987,7 +3990,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                             color: FlutterFlowTheme
                                                                     .of(context)
                                                                 .primaryBackground,
-                                                            offset: const Offset(
+                                                            offset: Offset(
                                                               0.0,
                                                               1.0,
                                                             ),
@@ -3996,7 +3999,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                       ),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     16.0,
                                                                     0.0,
@@ -4032,7 +4035,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                               flex: 4,
                                                               child: Padding(
                                                                 padding:
-                                                                    const EdgeInsetsDirectional
+                                                                    EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             0.0,
                                                                             8.0,
@@ -4044,7 +4047,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                           .max,
                                                                   children: [
                                                                     Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
                                                                           0.0,
                                                                           0.0,
                                                                           8.0,
@@ -4068,7 +4071,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                     Expanded(
                                                                       child:
                                                                           Padding(
-                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
                                                                             4.0,
                                                                             0.0,
                                                                             0.0,
@@ -4092,7 +4095,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                                   ),
                                                                             ),
                                                                             Padding(
-                                                                              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
+                                                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, 4.0, 0.0, 0.0),
                                                                               child: Text(
                                                                                 'Business Name',
                                                                                 style: FlutterFlowTheme.of(context).bodySmall.override(
@@ -4152,12 +4155,12 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                               40.0),
                                                                     ),
                                                                     alignment:
-                                                                        const AlignmentDirectional(
+                                                                        AlignmentDirectional(
                                                                             0.0,
                                                                             0.0),
                                                                     child:
                                                                         Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
                                                                           12.0,
                                                                           0.0,
                                                                           12.0,
@@ -4230,19 +4233,19 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                     ),
                                   ),
                               ]
-                                  .divide(const SizedBox(width: 16.0))
-                                  .addToStart(const SizedBox(width: 16.0)),
+                                  .divide(SizedBox(width: 16.0))
+                                  .addToStart(SizedBox(width: 16.0)),
                             ),
                             if (responsiveVisibility(
                               context: context,
                               desktop: false,
                             ))
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     16.0, 16.0, 16.0, 0.0),
                                 child: Container(
                                   width: double.infinity,
-                                  constraints: const BoxConstraints(
+                                  constraints: BoxConstraints(
                                     maxWidth: 1370.0,
                                   ),
                                   decoration: BoxDecoration(
@@ -4256,7 +4259,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                     ),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
+                                    padding: EdgeInsets.all(16.0),
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,
                                       crossAxisAlignment:
@@ -4275,7 +4278,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                 children: [
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 12.0, 0.0),
                                                     child: Text(
@@ -4300,7 +4303,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 4.0,
                                                                 12.0, 0.0),
                                                     child: Text(
@@ -4340,11 +4343,11 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                               ),
                                               options: FFButtonOptions(
                                                 height: 40.0,
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         16.0, 0.0, 16.0, 0.0),
                                                 iconPadding:
-                                                    const EdgeInsetsDirectional
+                                                    EdgeInsetsDirectional
                                                         .fromSTEB(
                                                             0.0, 0.0, 0.0, 0.0),
                                                 color:
@@ -4368,7 +4371,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                       .titleSmallFamily),
                                                         ),
                                                 elevation: 2.0,
-                                                borderSide: const BorderSide(
+                                                borderSide: BorderSide(
                                                   color: Colors.transparent,
                                                   width: 1.0,
                                                 ),
@@ -4380,7 +4383,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                         ),
                                         Padding(
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 16.0, 0.0, 0.0),
                                           child: Container(
                                             width: double.infinity,
@@ -4389,7 +4392,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryBackground,
-                                              borderRadius: const BorderRadius.only(
+                                              borderRadius: BorderRadius.only(
                                                 bottomLeft:
                                                     Radius.circular(0.0),
                                                 bottomRight:
@@ -4399,7 +4402,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                               ),
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       16.0, 0.0, 16.0, 0.0),
                                               child: Row(
@@ -4536,7 +4539,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                           scrollDirection: Axis.vertical,
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 0.0, 0.0, 1.0),
                                               child: Container(
                                                 width: 100.0,
@@ -4550,7 +4553,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                       color: FlutterFlowTheme
                                                               .of(context)
                                                           .primaryBackground,
-                                                      offset: const Offset(
+                                                      offset: Offset(
                                                         0.0,
                                                         1.0,
                                                       ),
@@ -4558,7 +4561,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                   ],
                                                 ),
                                                 child: Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           16.0, 0.0, 16.0, 0.0),
                                                   child: Row(
@@ -4595,7 +4598,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                         flex: 4,
                                                         child: Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       8.0,
@@ -4608,7 +4611,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                             children: [
                                                               Padding(
                                                                 padding:
-                                                                    const EdgeInsetsDirectional
+                                                                    EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             0.0,
                                                                             0.0,
@@ -4633,7 +4636,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                               ),
                                                               Expanded(
                                                                 child: Padding(
-                                                                  padding: const EdgeInsetsDirectional
+                                                                  padding: EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           4.0,
                                                                           0.0,
@@ -4662,7 +4665,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                             ),
                                                                       ),
                                                                       Padding(
-                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
                                                                             0.0,
                                                                             4.0,
                                                                             0.0,
@@ -4738,10 +4741,10 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                 ),
                                                               ),
                                                               alignment:
-                                                                  const AlignmentDirectional(
+                                                                  AlignmentDirectional(
                                                                       0.0, 0.0),
                                                               child: Padding(
-                                                                padding: const EdgeInsetsDirectional
+                                                                padding: EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         12.0,
                                                                         0.0,
@@ -4803,7 +4806,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 0.0, 0.0, 1.0),
                                               child: Container(
                                                 width: 100.0,
@@ -4817,7 +4820,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                       color: FlutterFlowTheme
                                                               .of(context)
                                                           .primaryBackground,
-                                                      offset: const Offset(
+                                                      offset: Offset(
                                                         0.0,
                                                         1.0,
                                                       ),
@@ -4825,7 +4828,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                   ],
                                                 ),
                                                 child: Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           16.0, 0.0, 16.0, 0.0),
                                                   child: Row(
@@ -4862,7 +4865,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                         flex: 4,
                                                         child: Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       8.0,
@@ -4875,7 +4878,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                             children: [
                                                               Padding(
                                                                 padding:
-                                                                    const EdgeInsetsDirectional
+                                                                    EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             0.0,
                                                                             0.0,
@@ -4900,7 +4903,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                               ),
                                                               Expanded(
                                                                 child: Padding(
-                                                                  padding: const EdgeInsetsDirectional
+                                                                  padding: EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           4.0,
                                                                           0.0,
@@ -4929,7 +4932,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                             ),
                                                                       ),
                                                                       Padding(
-                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
                                                                             0.0,
                                                                             4.0,
                                                                             0.0,
@@ -5005,10 +5008,10 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                 ),
                                                               ),
                                                               alignment:
-                                                                  const AlignmentDirectional(
+                                                                  AlignmentDirectional(
                                                                       0.0, 0.0),
                                                               child: Padding(
-                                                                padding: const EdgeInsetsDirectional
+                                                                padding: EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         12.0,
                                                                         0.0,
@@ -5070,7 +5073,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 0.0, 0.0, 1.0),
                                               child: Container(
                                                 width: 100.0,
@@ -5084,7 +5087,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                       color: FlutterFlowTheme
                                                               .of(context)
                                                           .primaryBackground,
-                                                      offset: const Offset(
+                                                      offset: Offset(
                                                         0.0,
                                                         1.0,
                                                       ),
@@ -5092,7 +5095,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                   ],
                                                 ),
                                                 child: Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           16.0, 0.0, 16.0, 0.0),
                                                   child: Row(
@@ -5129,7 +5132,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                         flex: 4,
                                                         child: Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       8.0,
@@ -5142,7 +5145,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                             children: [
                                                               Padding(
                                                                 padding:
-                                                                    const EdgeInsetsDirectional
+                                                                    EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             0.0,
                                                                             0.0,
@@ -5167,7 +5170,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                               ),
                                                               Expanded(
                                                                 child: Padding(
-                                                                  padding: const EdgeInsetsDirectional
+                                                                  padding: EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           4.0,
                                                                           0.0,
@@ -5196,7 +5199,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                             ),
                                                                       ),
                                                                       Padding(
-                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
                                                                             0.0,
                                                                             4.0,
                                                                             0.0,
@@ -5272,10 +5275,10 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                 ),
                                                               ),
                                                               alignment:
-                                                                  const AlignmentDirectional(
+                                                                  AlignmentDirectional(
                                                                       0.0, 0.0),
                                                               child: Padding(
-                                                                padding: const EdgeInsetsDirectional
+                                                                padding: EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         12.0,
                                                                         0.0,
@@ -5337,7 +5340,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 0.0, 0.0, 1.0),
                                               child: Container(
                                                 width: 100.0,
@@ -5351,7 +5354,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                       color: FlutterFlowTheme
                                                               .of(context)
                                                           .primaryBackground,
-                                                      offset: const Offset(
+                                                      offset: Offset(
                                                         0.0,
                                                         1.0,
                                                       ),
@@ -5359,7 +5362,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                   ],
                                                 ),
                                                 child: Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           16.0, 0.0, 16.0, 0.0),
                                                   child: Row(
@@ -5396,7 +5399,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                         flex: 4,
                                                         child: Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       8.0,
@@ -5409,7 +5412,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                             children: [
                                                               Padding(
                                                                 padding:
-                                                                    const EdgeInsetsDirectional
+                                                                    EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             0.0,
                                                                             0.0,
@@ -5434,7 +5437,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                               ),
                                                               Expanded(
                                                                 child: Padding(
-                                                                  padding: const EdgeInsetsDirectional
+                                                                  padding: EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           4.0,
                                                                           0.0,
@@ -5463,7 +5466,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                             ),
                                                                       ),
                                                                       Padding(
-                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
                                                                             0.0,
                                                                             4.0,
                                                                             0.0,
@@ -5539,10 +5542,10 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                 ),
                                                               ),
                                                               alignment:
-                                                                  const AlignmentDirectional(
+                                                                  AlignmentDirectional(
                                                                       0.0, 0.0),
                                                               child: Padding(
-                                                                padding: const EdgeInsetsDirectional
+                                                                padding: EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         12.0,
                                                                         0.0,
@@ -5604,7 +5607,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 0.0, 0.0, 1.0),
                                               child: Container(
                                                 width: 100.0,
@@ -5618,7 +5621,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                       color: FlutterFlowTheme
                                                               .of(context)
                                                           .primaryBackground,
-                                                      offset: const Offset(
+                                                      offset: Offset(
                                                         0.0,
                                                         1.0,
                                                       ),
@@ -5626,7 +5629,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                   ],
                                                 ),
                                                 child: Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           16.0, 0.0, 16.0, 0.0),
                                                   child: Row(
@@ -5663,7 +5666,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                         flex: 4,
                                                         child: Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       8.0,
@@ -5676,7 +5679,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                             children: [
                                                               Padding(
                                                                 padding:
-                                                                    const EdgeInsetsDirectional
+                                                                    EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             0.0,
                                                                             0.0,
@@ -5701,7 +5704,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                               ),
                                                               Expanded(
                                                                 child: Padding(
-                                                                  padding: const EdgeInsetsDirectional
+                                                                  padding: EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           4.0,
                                                                           0.0,
@@ -5730,7 +5733,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                             ),
                                                                       ),
                                                                       Padding(
-                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
                                                                             0.0,
                                                                             4.0,
                                                                             0.0,
@@ -5800,10 +5803,10 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                             40.0),
                                                               ),
                                                               alignment:
-                                                                  const AlignmentDirectional(
+                                                                  AlignmentDirectional(
                                                                       0.0, 0.0),
                                                               child: Padding(
-                                                                padding: const EdgeInsetsDirectional
+                                                                padding: EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         12.0,
                                                                         0.0,
@@ -5865,7 +5868,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 0.0, 0.0, 1.0),
                                               child: Container(
                                                 width: 100.0,
@@ -5879,7 +5882,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                       color: FlutterFlowTheme
                                                               .of(context)
                                                           .primaryBackground,
-                                                      offset: const Offset(
+                                                      offset: Offset(
                                                         0.0,
                                                         1.0,
                                                       ),
@@ -5887,7 +5890,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                   ],
                                                 ),
                                                 child: Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           16.0, 0.0, 16.0, 0.0),
                                                   child: Row(
@@ -5924,7 +5927,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                         flex: 4,
                                                         child: Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       8.0,
@@ -5937,7 +5940,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                             children: [
                                                               Padding(
                                                                 padding:
-                                                                    const EdgeInsetsDirectional
+                                                                    EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             0.0,
                                                                             0.0,
@@ -5962,7 +5965,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                               ),
                                                               Expanded(
                                                                 child: Padding(
-                                                                  padding: const EdgeInsetsDirectional
+                                                                  padding: EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           4.0,
                                                                           0.0,
@@ -5991,7 +5994,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                             ),
                                                                       ),
                                                                       Padding(
-                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
                                                                             0.0,
                                                                             4.0,
                                                                             0.0,
@@ -6061,10 +6064,10 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                             40.0),
                                                               ),
                                                               alignment:
-                                                                  const AlignmentDirectional(
+                                                                  AlignmentDirectional(
                                                                       0.0, 0.0),
                                                               child: Padding(
-                                                                padding: const EdgeInsetsDirectional
+                                                                padding: EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         12.0,
                                                                         0.0,
@@ -6126,7 +6129,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(0.0, 0.0, 0.0, 1.0),
                                               child: Container(
                                                 width: 100.0,
@@ -6140,7 +6143,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                       color: FlutterFlowTheme
                                                               .of(context)
                                                           .primaryBackground,
-                                                      offset: const Offset(
+                                                      offset: Offset(
                                                         0.0,
                                                         1.0,
                                                       ),
@@ -6148,7 +6151,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                   ],
                                                 ),
                                                 child: Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           16.0, 0.0, 16.0, 0.0),
                                                   child: Row(
@@ -6185,7 +6188,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                         flex: 4,
                                                         child: Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       8.0,
@@ -6198,7 +6201,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                             children: [
                                                               Padding(
                                                                 padding:
-                                                                    const EdgeInsetsDirectional
+                                                                    EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             0.0,
                                                                             0.0,
@@ -6223,7 +6226,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                               ),
                                                               Expanded(
                                                                 child: Padding(
-                                                                  padding: const EdgeInsetsDirectional
+                                                                  padding: EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           4.0,
                                                                           0.0,
@@ -6252,7 +6255,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                             ),
                                                                       ),
                                                                       Padding(
-                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
                                                                             0.0,
                                                                             4.0,
                                                                             0.0,
@@ -6322,10 +6325,10 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                                                             40.0),
                                                               ),
                                                               alignment:
-                                                                  const AlignmentDirectional(
+                                                                  AlignmentDirectional(
                                                                       0.0, 0.0),
                                                               child: Padding(
-                                                                padding: const EdgeInsetsDirectional
+                                                                padding: EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         12.0,
                                                                         0.0,
@@ -6393,7 +6396,7 @@ class _DashboardResponsiveWidgetState extends State<DashboardResponsiveWidget>
                                   ),
                                 ),
                               ),
-                          ].addToEnd(const SizedBox(height: 24.0)),
+                          ].addToEnd(SizedBox(height: 24.0)),
                         ),
                       ),
                     ),

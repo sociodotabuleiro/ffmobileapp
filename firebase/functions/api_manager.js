@@ -1,13 +1,11 @@
 const axios = require("axios").default;
-const qs = require("qs");
+const qs = require('qs');
 
 async function _getQuotationLalaMoveCall(context, ffVariables) {
   if (!context.auth) {
     return _unauthenticatedResponse;
   }
-  var authToken =
-    ffVariables["authToken"] ??
-    "274358006c2ee90d6931b7f2c400c14ab69f74568166c2478a456ec282a3af5c0f040152cc0f3010d23256d1369d10319e49df12ccc0962f17625ad49b9132832ab2b8528f66b39ee600197a8d3def7db0e8bbc0fff8e09a96b5e34c68e2dd29684de20a38a6e196738b1e092a403e508f94a3310a7d00bdf94d9540a67bebd6";
+  var authToken = ffVariables["authToken"]?? "274358006c2ee90d6931b7f2c400c14ab69f74568166c2478a456ec282a3af5c0f040152cc0f3010d23256d1369d10319e49df12ccc0962f17625ad49b9132832ab2b8528f66b39ee600197a8d3def7db0e8bbc0fff8e09a96b5e34c68e2dd29684de20a38a6e196738b1e092a403e508f94a3310a7d00bdf94d9540a67bebd6";
   var latSender = ffVariables["latSender"];
   var lngSender = ffVariables["lngSender"];
   var latReceiver = ffVariables["latReceiver"];
@@ -54,16 +52,12 @@ async function _getQuotationLalaMoveCall(context, ffVariables) {
     url,
     headers,
     params,
-    body: createBody({
-      headers,
-      params,
-      body: ffApiRequestBody,
-      bodyType: "JSON",
-    }),
+    body: createBody({ headers, params, body: ffApiRequestBody, bodyType: "JSON" }),
     returnBody: true,
     isStreamingApi: false,
   });
 }
+
 
 /// Helper functions to route to the appropriate API Call.
 
@@ -72,7 +66,7 @@ async function makeApiCall(context, data) {
   var variables = data["variables"] || {};
 
   const callMap = {
-    GetQuotationLalaMoveCall: _getQuotationLalaMoveCall,
+    "GetQuotationLalaMoveCall": _getQuotationLalaMoveCall,
   };
 
   if (!(callName in callMap)) {
@@ -102,7 +96,7 @@ async function makeApiRequest({
       url: url,
       headers: headers,
       params: params,
-      responseType: isStreamingApi ? "stream" : "json",
+      responseType: (isStreamingApi ? 'stream' : 'json'),
       ...(body && { data: body }),
     })
     .then((response) => {

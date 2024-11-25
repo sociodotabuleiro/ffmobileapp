@@ -188,7 +188,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                           FlutterFlowTheme.of(context).titleSmallFamily),
                     ),
               ),
-              actions: const [],
+              actions: [],
               centerTitle: false,
               elevation: 0.0,
             ),
@@ -205,23 +205,23 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
-                      alignment: AlignmentDirectional(0, -1),
+                      alignment: AlignmentDirectional(0.0, -1.0),
                       child: SingleChildScrollView(
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Align(
-                              alignment: AlignmentDirectional(0, 0),
+                              alignment: AlignmentDirectional(0.0, 0.0),
                               child: Padding(
-                                padding: EdgeInsets.all(32),
+                                padding: EdgeInsets.all(32.0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 12, 0, 24),
+                                          0.0, 12.0, 0.0, 24.0),
                                       child: Text(
                                         'Digite a nova senha',
                                         style: FlutterFlowTheme.of(context)
@@ -230,14 +230,17 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                                     ),
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 0, 16),
+                                          0.0, 0.0, 0.0, 16.0),
                                       child: Container(
-                                        width: 370,
+                                        width: 370.0,
                                         child: TextFormField(
                                           controller:
                                               _model.passwordTextController,
                                           focusNode: _model.passwordFocusNode,
                                           autofocus: true,
+                                          autofillHints: [
+                                            AutofillHints.password
+                                          ],
                                           obscureText:
                                               !_model.passwordVisibility,
                                           decoration: InputDecoration(
@@ -331,15 +334,18 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                                     ),
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 0, 16),
+                                          0.0, 0.0, 0.0, 16.0),
                                       child: Container(
-                                        width: 370,
+                                        width: 370.0,
                                         child: TextFormField(
                                           controller: _model
                                               .passwordConfirmTextController,
                                           focusNode:
                                               _model.passwordConfirmFocusNode,
                                           autofocus: true,
+                                          autofillHints: [
+                                            AutofillHints.password
+                                          ],
                                           obscureText:
                                               !_model.passwordConfirmVisibility,
                                           decoration: InputDecoration(
@@ -434,7 +440,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                                     ),
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          0, 0, 0, 16),
+                                          0.0, 0.0, 0.0, 16.0),
                                       child: FFButtonWidget(
                                         onPressed: () {
                                           // Password change logic
@@ -451,14 +457,37 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                                         },
                                         text: 'Trocar senha',
                                         options: FFButtonOptions(
-                                          width: 370,
-                                          height: 44,
+                                          width: 370.0,
+                                          height: 44.0,
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 0.0, 0.0),
+                                          iconPadding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 0.0, 0.0),
                                           color: FlutterFlowTheme.of(context)
                                               .primary,
                                           textStyle: FlutterFlowTheme.of(
                                                   context)
                                               .titleSmall
-                                              .copyWith(color: Colors.white),
+                                              .override(
+                                                fontFamily:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleSmallFamily,
+                                                color: Colors.white,
+                                                letterSpacing: 0.0,
+                                                useGoogleFonts: GoogleFonts
+                                                        .asMap()
+                                                    .containsKey(
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .titleSmallFamily),
+                                              ),
+                                          elevation: 3.0,
+                                          borderSide: BorderSide(
+                                            color: Colors.transparent,
+                                            width: 1.0,
+                                          ),
                                           borderRadius:
                                               BorderRadius.circular(12),
                                         ),

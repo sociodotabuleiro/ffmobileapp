@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -21,7 +20,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
-import '/auth/get_fcm_token.dart';
 import '../../notifications/notifications_listener.dart';
 
 import 'home_page_model.dart';
@@ -486,7 +484,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                       borderRadius:
                                                                           20.0,
                                                                       buttonSize:
-                                                                          32.0,
+                                                                          42.0,
                                                                       fillColor:
                                                                           const Color(
                                                                               0x94000000),
@@ -497,7 +495,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                         color: FlutterFlowTheme.of(context)
                                                                             .info,
                                                                         size:
-                                                                            16.0,
+                                                                            24.0,
                                                                       ),
                                                                       onPressed:
                                                                           () async {

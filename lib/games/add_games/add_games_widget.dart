@@ -5,9 +5,11 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/games/confirm_add_games/confirm_add_games_widget.dart';
 import '/custom_code/actions/index.dart' as actions;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
 import 'add_games_model.dart';
 export 'add_games_model.dart';
@@ -88,26 +90,26 @@ class _AddGamesWidgetState extends State<AddGamesWidget>
                           FlutterFlowTheme.of(context).titleLargeFamily),
                     ),
               ),
-              actions: const [],
+              actions: [],
               centerTitle: true,
               elevation: 0.0,
             ),
             body: Container(
               width: MediaQuery.sizeOf(context).width * 1.0,
               height: MediaQuery.sizeOf(context).height * 1.0,
-              decoration: const BoxDecoration(),
+              decoration: BoxDecoration(),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
                     child: Container(
                       width: double.infinity,
                       height: 60.0,
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).secondaryBackground,
-                        boxShadow: const [
+                        boxShadow: [
                           BoxShadow(
                             blurRadius: 3.0,
                             color: Color(0x33000000),
@@ -123,7 +125,7 @@ class _AddGamesWidgetState extends State<AddGamesWidget>
                         ),
                       ),
                       child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
+                        padding: EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 12.0, 0.0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
@@ -135,9 +137,9 @@ class _AddGamesWidgetState extends State<AddGamesWidget>
                             ),
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     4.0, 0.0, 0.0, 0.0),
-                                child: SizedBox(
+                                child: Container(
                                   width: 200.0,
                                   child: TextFormField(
                                     controller: _model.textController,
@@ -237,12 +239,12 @@ class _AddGamesWidgetState extends State<AddGamesWidget>
                     child: Column(
                       children: [
                         Align(
-                          alignment: const Alignment(-1.0, 0),
+                          alignment: Alignment(-1.0, 0),
                           child: TabBar(
                             labelColor: FlutterFlowTheme.of(context).primary,
                             unselectedLabelColor:
-                                FlutterFlowTheme.of(context).primary,
-                            labelPadding: const EdgeInsetsDirectional.fromSTEB(
+                                FlutterFlowTheme.of(context).secondaryText,
+                            labelPadding: EdgeInsetsDirectional.fromSTEB(
                                 8.0, 0.0, 8.0, 0.0),
                             labelStyle: FlutterFlowTheme.of(context)
                                 .titleMedium
@@ -255,10 +257,10 @@ class _AddGamesWidgetState extends State<AddGamesWidget>
                                       .containsKey(FlutterFlowTheme.of(context)
                                           .titleMediumFamily),
                                 ),
-                            unselectedLabelStyle: const TextStyle(),
+                            unselectedLabelStyle: TextStyle(),
                             indicatorColor:
                                 FlutterFlowTheme.of(context).primary,
-                            tabs: const [
+                            tabs: [
                               Tab(
                                 text: 'Escolha seus jogos',
                               ),
@@ -360,7 +362,7 @@ class _AddGamesWidgetState extends State<AddGamesWidget>
                                                             clipBehavior:
                                                                 Clip.antiAlias,
                                                             decoration:
-                                                                const BoxDecoration(
+                                                                BoxDecoration(
                                                               shape: BoxShape
                                                                   .circle,
                                                             ),
@@ -383,7 +385,7 @@ class _AddGamesWidgetState extends State<AddGamesWidget>
                                                                     .height *
                                                                 0.9,
                                                             decoration:
-                                                                const BoxDecoration(),
+                                                                BoxDecoration(),
                                                             child: Column(
                                                               mainAxisSize:
                                                                   MainAxisSize
@@ -439,10 +441,10 @@ class _AddGamesWidgetState extends State<AddGamesWidget>
                                                                 ),
                                                               ]
                                                                   .addToStart(
-                                                                      const SizedBox(
+                                                                      SizedBox(
                                                                           height:
                                                                               18.0))
-                                                                  .addToEnd(const SizedBox(
+                                                                  .addToEnd(SizedBox(
                                                                       height:
                                                                           24.0)),
                                                             ),
@@ -450,7 +452,7 @@ class _AddGamesWidgetState extends State<AddGamesWidget>
                                                           Flexible(
                                                             child: Align(
                                                               alignment:
-                                                                  const AlignmentDirectional(
+                                                                  AlignmentDirectional(
                                                                       1.0, 0.0),
                                                               child: Theme(
                                                                 data: ThemeData(
@@ -527,19 +529,19 @@ class _AddGamesWidgetState extends State<AddGamesWidget>
                                                             ),
                                                           ),
                                                         ]
-                                                            .divide(const SizedBox(
+                                                            .divide(SizedBox(
                                                                 width: 8.0))
                                                             .addToStart(
-                                                                const SizedBox(
+                                                                SizedBox(
                                                                     width:
                                                                         12.0))
-                                                            .addToEnd(const SizedBox(
+                                                            .addToEnd(SizedBox(
                                                                 width: 12.0)),
                                                       ),
                                                     );
                                                   },
                                                 );
-                                              }).divide(const SizedBox(height: 12.0)),
+                                              }).divide(SizedBox(height: 12.0)),
                                             ),
                                           );
                                         },
@@ -567,11 +569,11 @@ class _AddGamesWidgetState extends State<AddGamesWidget>
                   ),
                   Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 16.0),
+                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 16.0),
                     child: FFButtonWidget(
                       onPressed: () async {
                         logFirebaseEvent('ADD_GAMES_PAGE_SALVAR_BTN_ON_TAP');
-                        if (_model.markedGames.isNotEmpty) {
+                        if (_model.markedGames.length > 0) {
                           logFirebaseEvent('Button_bottom_sheet');
                           await showModalBottomSheet(
                             isScrollControlled: true,
@@ -586,7 +588,7 @@ class _AddGamesWidgetState extends State<AddGamesWidget>
                                   onTap: () => FocusScope.of(context).unfocus(),
                                   child: Padding(
                                     padding: MediaQuery.viewInsetsOf(context),
-                                    child: SizedBox(
+                                    child: Container(
                                       height:
                                           MediaQuery.sizeOf(context).height *
                                               0.6,
@@ -603,14 +605,14 @@ class _AddGamesWidgetState extends State<AddGamesWidget>
                           logFirebaseEvent('Button_show_snack_bar');
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: const Text(
+                              content: Text(
                                 'Por favor selecione pelo menos 1 jogo.',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
-                              duration: const Duration(milliseconds: 4000),
+                              duration: Duration(milliseconds: 4000),
                               backgroundColor:
                                   FlutterFlowTheme.of(context).secondary,
                             ),
@@ -620,10 +622,10 @@ class _AddGamesWidgetState extends State<AddGamesWidget>
                       text: 'Salvar',
                       options: FFButtonOptions(
                         height: 40.0,
-                        padding: const EdgeInsetsDirectional.fromSTEB(
+                        padding: EdgeInsetsDirectional.fromSTEB(
                             24.0, 0.0, 24.0, 0.0),
                         iconPadding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                         color: FlutterFlowTheme.of(context).primary,
                         textStyle: FlutterFlowTheme.of(context)
                             .titleSmall
@@ -637,7 +639,7 @@ class _AddGamesWidgetState extends State<AddGamesWidget>
                                       .titleSmallFamily),
                             ),
                         elevation: 3.0,
-                        borderSide: const BorderSide(
+                        borderSide: BorderSide(
                           color: Colors.transparent,
                           width: 1.0,
                         ),
@@ -648,7 +650,7 @@ class _AddGamesWidgetState extends State<AddGamesWidget>
                   wrapWithModel(
                     model: _model.navBarModel,
                     updateCallback: () => safeSetState(() {}),
-                    child: const NavBarWidget(),
+                    child: NavBarWidget(),
                   ),
                 ],
               ),

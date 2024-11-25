@@ -40,9 +40,10 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('GAMELIST_CARD_gamelistCard_ON_INIT_STATE');
-      if (widget!.gameRef != null) {
+      if (widget.gameRef != null) {
         logFirebaseEvent('gamelistCard_backend_call');
-        _model.gameByRef = await GamesRecord.getDocumentOnce(widget!.gameRef!);
+        _model.gameByRef = await GamesRecord.getDocumentOnce(widget.gameRef!);
+        _model.gameByRef = await GamesRecord.getDocumentOnce(widget.gameRef!);
         logFirebaseEvent('gamelistCard_update_component_state');
         _model.gameObject = _model.gameByRef;
         _model.gamePicUrl = _model.gameByRef?.thumbnailUrl;
@@ -57,16 +58,16 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
         safeSetState(() {});
       } else {
         logFirebaseEvent('gamelistCard_update_component_state');
-        _model.gameObject = widget.gameObject;
-        _model.gamePicUrl = widget.gameObject?.thumbnailUrl;
-        _model.gameName = widget.gameObject?.name;
-        _model.gameDescription = widget.gameObject?.description;
-        _model.gamePrice = widget.gameObject?.averagePrice;
-        _model.gameRating = widget.gameObject?.rating;
-        _model.playersCount = widget.gameObject?.playerCountMax.toString();
-        _model.playtime = widget.gameObject?.playTime.toString();
+        _model.gameObject = widget!.gameObject;
+        _model.gamePicUrl = widget!.gameObject?.thumbnailUrl;
+        _model.gameName = widget!.gameObject?.name;
+        _model.gameDescription = widget!.gameObject?.description;
+        _model.gamePrice = widget!.gameObject?.averagePrice;
+        _model.gameRating = widget!.gameObject?.rating;
+        _model.playersCount = widget!.gameObject?.playerCountMax.toString();
+        _model.playtime = widget!.gameObject?.playTime.toString();
         _model.ageRecommendation =
-            widget.gameObject?.ageRecommendation.toString();
+            widget!.gameObject?.ageRecommendation.toString();
         safeSetState(() {});
       }
     });

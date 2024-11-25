@@ -1,7 +1,8 @@
+import 'package:flutter/foundation.dart';
+
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/games/modify_my_game_price/modify_my_game_price_widget.dart';
-import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -77,7 +78,9 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
-    print(widget.gameRef);
+    if (kDebugMode) {
+      print(widget.gameRef);
+    }
     return Align(
       alignment: const AlignmentDirectional(0.0, 1.0),
       child: Container(
@@ -141,7 +144,7 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
                       return WebViewAware(
                         child: Padding(
                           padding: MediaQuery.viewInsetsOf(context),
-                          child: SizedBox(
+                          child: Container(
                             height: MediaQuery.sizeOf(context).height * 0.15,
                             child: ModifyMyGamePriceWidget(
                               myGameObject: _model.myGamesObject!,

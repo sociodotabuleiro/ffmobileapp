@@ -70,7 +70,7 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('GAME_TO_RENT_gameToRent_ON_INIT_STATE');
       logFirebaseEvent('gameToRent_backend_call');
-      _model.userObject = await UsersRecord.getDocumentOnce(widget.userRef!);
+      _model.userObject = await UsersRecord.getDocumentOnce(widget!.userRef!);
       logFirebaseEvent('gameToRent_update_component_state');
       _model.quotation = QuotationsStruct(
         renterRef: _model.userObject?.reference,
@@ -85,10 +85,10 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
       );
       logFirebaseEvent('gameToRent_firestore_query');
       _model.myGamesObject = await queryMyGamesRecordOnce(
-        parent: widget.userRef,
+        parent: widget!.userRef,
         queryBuilder: (myGamesRecord) => myGamesRecord.where(
           'gameRef',
-          isEqualTo: widget.gameRef,
+          isEqualTo: widget!.gameRef,
         ),
         singleRecord: true,
       ).then((s) => s.firstOrNull);
@@ -154,7 +154,7 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
         safeSetState(() {});
         logFirebaseEvent('gameToRent_quotation_updated');
         FFAppState().addToQuotations(QuotationsStruct(
-          renterRef: widget.userRef,
+          renterRef: widget!.userRef,
           quotationsData:
               LalamoveQuotationDataStruct.maybeFromMap(_model.quotationJson),
         ));
@@ -388,7 +388,7 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
                                                     myGames: _model.myGamesObject!,
                                                     gameName: widget.gameName!,
                                                   )
-                                                : Center(child: CircularProgressIndicator()),
+                                                : const Center(child: CircularProgressIndicator()),
                                               ),
                                             ),
                                           );

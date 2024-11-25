@@ -3,11 +3,14 @@ import '/flutter_flow/flutter_flow_util.dart';
 import 'notifications_widget.dart' show NotificationsWidget;
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import '/components/nav_bar/nav_bar_widget.dart';
 
 class NotificationsModel extends FlutterFlowModel<NotificationsWidget> {
   ///  State fields for stateful widgets in this page.
 
   // State field(s) for ListView widget.
+
+  late NavBarModel navBarModel;
 
   PagingController<DocumentSnapshot?, NotificationsRecord>?
       listViewPagingController;
@@ -15,7 +18,10 @@ class NotificationsModel extends FlutterFlowModel<NotificationsWidget> {
   List<StreamSubscription?> listViewStreamSubscriptions = [];
 
   @override
-  void initState(BuildContext context) {}
+  void initState(BuildContext context) {
+     navBarModel = createModel(context, () => NavBarModel());
+
+  }
 
   @override
   void dispose() {

@@ -22,6 +22,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
 import '/auth/get_fcm_token.dart';
+import '../../notifications/notifications_listener.dart';
 
 import 'home_page_model.dart';
 export 'home_page_model.dart';
@@ -43,6 +44,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => HomePageModel());
+    
+    void initializeNotificationsListener(String userId) {
+      listenToNotifications(userId);
+    }
 
      // Check and add FCM token
     _initializeFcmToken();
@@ -222,6 +227,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       }
     });
 
+    final userId = currentUser?.uid; 
+    if (userId != null) {
+      initializeNotificationsListener(userId);
+    }
+    
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
@@ -455,7 +465,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                         );
                                                                       },
                                                                       errorBuilder: (context, error, stackTrace) {
-                                                                        return Center(
+                                                                        return const Center(
                                                                           child: Icon(
                                                                             Icons.broken_image,
                                                                             color: Colors.grey,
@@ -483,7 +493,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                       icon:
                                                                           FaIcon(
                                                                         FontAwesomeIcons
-                                                                            .externalLinkAlt,
+                                                                            .upRightFromSquare,
                                                                         color: FlutterFlowTheme.of(context)
                                                                             .info,
                                                                         size:
@@ -994,53 +1004,67 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 Padding(
                                   padding: const EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 16.0, 0.0),
-                                  child: badges.Badge(
-                                    badgeContent: Text(
-                                      valueOrDefault<String>(
-                                        FFAppState()
-                                            .notifications
-                                            .length
-                                            .toString(),
-                                        '0',
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .override(
-                                            fontFamily:
-                                                FlutterFlowTheme.of(context)
-                                                    .titleSmallFamily,
-                                            color: Colors.white,
-                                            fontSize: 12.0,
-                                            letterSpacing: 0.0,
-                                            useGoogleFonts: GoogleFonts.asMap()
-                                                .containsKey(
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleSmallFamily),
+                                  child: InkWell
+                                  (
+                                    splashColor: Colors.transparent,
+                                    focusColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onTap: () async {
+                                            logFirebaseEvent(
+                                                'HOME_PAGE_NOTIFICATION_ON_TAP');
+                                            logFirebaseEvent('icon_notification');
+                                            context.pushNamed('Notifications');        
+                                          },
+                                      child:
+                                        badges.Badge(
+                                        badgeContent: Text(
+                                          valueOrDefault<String>(
+                                            FFAppState()
+                                                .unreadNotificationsCount
+                                                .toString(),
+                                            '0',
                                           ),
+                                          style: FlutterFlowTheme.of(context)
+                                              .titleSmall
+                                              .override(
+                                                fontFamily:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleSmallFamily,
+                                                color: Colors.white,
+                                                fontSize: 12.0,
+                                                letterSpacing: 0.0,
+                                                useGoogleFonts: GoogleFonts.asMap()
+                                                    .containsKey(
+                                                        FlutterFlowTheme.of(context)
+                                                            .titleSmallFamily),
+                                              ),
+                                        ),
+                                        showBadge: valueOrDefault<int>(
+                                              FFAppState()
+                                                .unreadNotificationsCount,
+                                              0,
+                                            ) >
+                                            0,
+                                        shape: badges.BadgeShape.circle,
+                                        badgeColor:
+                                            FlutterFlowTheme.of(context).primary,
+                                        elevation: 4.0,
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            8.0, 8.0, 8.0, 8.0),
+                                        position: badges.BadgePosition.topEnd(),
+                                        animationType:
+                                            badges.BadgeAnimationType.scale,
+                                        toAnimate: true,
+                                        child: Icon(
+                                          Icons.notifications_sharp,
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                          size: 32.0,
+                                        ),
+                                      ),
                                     ),
-                                    showBadge: valueOrDefault<int>(
-                                          FFAppState().notifications.length,
-                                          0,
-                                        ) >
-                                        0,
-                                    shape: badges.BadgeShape.circle,
-                                    badgeColor:
-                                        FlutterFlowTheme.of(context).primary,
-                                    elevation: 4.0,
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        8.0, 8.0, 8.0, 8.0),
-                                    position: badges.BadgePosition.topEnd(),
-                                    animationType:
-                                        badges.BadgeAnimationType.scale,
-                                    toAnimate: true,
-                                    child: Icon(
-                                      Icons.notifications_sharp,
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                      size: 32.0,
-                                    ),
-                                  ),
-                                ),
+                                  ),                  
                               ],
                             ),
                           ),

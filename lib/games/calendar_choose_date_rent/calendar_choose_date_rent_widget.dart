@@ -44,6 +44,8 @@ class _CalendarChooseDateRentWidgetState
     super.initState();
     _model = createModel(context, () => CalendarChooseDateRentModel());
 
+    _model.availableDates = widget.availableDates ?? [];
+
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 

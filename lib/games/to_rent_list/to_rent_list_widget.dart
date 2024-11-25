@@ -349,10 +349,10 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
       
       Future<bool> callLalamove() async {
         logFirebaseEvent('call_lalamove_api');
-
+        LalamoveQuotationDataStruct quotationData = functions.getObjectForUserRef(FFAppState().quotations.toList(), FFAppState().renterRef!)!;
         _model.lalamoveCallRequest = await actions.callDriverLalamove(
-          functions.getObjectForUserRef(FFAppState().quotations.toList(), FFAppState().renterRef!)!.stops.toList(),
-          functions.getObjectForUserRef(FFAppState().quotations.toList(), FFAppState().renterRef!)!.quotationId,
+          quotationData.stops.toList(),
+          quotationData.quotationId,
           _model.renterObject!.fullName,
           _model.renterObject!.phoneNumber,
           valueOrDefault(currentUserDocument?.fullName, ''),

@@ -380,15 +380,15 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
                                                             .height *
                                                         1.0,
                                                 child:
-                                                    CalendarChooseDateRentWidget(
-                                                  availableDates: _model
-                                                      .myGamesObject!
-                                                      .availableDates,
-                                                  renterRef: widget.userRef!,
-                                                  myGames:
-                                                      _model.myGamesObject!,
-                                                  gameName: widget.gameName!,
-                                                ),
+                                                    (_model.myGamesObject != null &&
+                                                    _model.myGamesObject!.availableDates != null)
+                                                ? CalendarChooseDateRentWidget(
+                                                    availableDates: _model.myGamesObject!.availableDates,
+                                                    renterRef: widget.userRef!,
+                                                    myGames: _model.myGamesObject!,
+                                                    gameName: widget.gameName!,
+                                                  )
+                                                : Center(child: CircularProgressIndicator()),
                                               ),
                                             ),
                                           );

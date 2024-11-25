@@ -25,41 +25,41 @@ Future<dynamic> callDriverLalamove(
   String orderId,
 ) async {
   try {
+    // Prepare the request body
     final requestBody = {
       "auth_token":
-          "PS4qe1JWbHgpGFLtj5SyR21UkM5WL3QN", // Replace with your APP_SECRET_KEY
-      "body": {
-        "quotationId": quotationId,
-        "sender": {
-          "name": pickupName,
-          "phone": pickupPhone,
-        },
-        "recipients": [
-          {
-            "stopId":
-                stops[1].stopId, // Assuming stops[1] is the recipient stop
-            "name": deliveryName,
-            "phone": deliveryPhone,
-            "remarks": "Por favor lidar com cuidado",
-          }
-        ],
-        "isPODEnabled": false,
-        "metadata": {
-          "orderId": orderId, // Your custom order ID or metadata
+          "PS4qe1JWbHgpGFLtj5SyR21UkM5WL3QN", // Replace with securely managed APP_SECRET_KEY
+      "quotationId": quotationId,
+      "sender": {
+        "stopId": stops[0].stopId, // Assuming stops[0] is the sender stop
+        "name": pickupName,
+        "phone": pickupPhone,
+      },
+      "recipients": [
+        {
+          "stopId": stops[1].stopId, // Assuming stops[1] is the recipient stop
+          "name": deliveryName,
+          "phone": deliveryPhone,
+          "remarks": "Por favor lidar com cuidado", // Optional, adjust as needed
         }
+      ],
+      "isPODEnabled": false, // Optional, set to true if proof of delivery is required
+      "metadata": {
+        "orderId": orderId, // Your custom order ID or metadata
       }
     };
 
-    // Call your cloud function
+    // Make the API request to your cloud function
     final response = await http.post(
       Uri.parse('https://placeorderlalamove-667069547103.us-central1.run.app'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(requestBody),
     );
 
+    // Handle the response
     if (response.statusCode == 200 || response.statusCode == 201) {
       final responseData = jsonDecode(response.body);
-      return responseData['data']; // Contains the order response
+      return responseData['data']; // Return the successful response data
     } else {
       print('Failed to place order. Status code: ${response.statusCode}');
       print('Error: ${response.body}');

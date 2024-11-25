@@ -9,6 +9,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'notifications_model.dart';
 export 'notifications_model.dart';
+import '/components/nav_bar/nav_bar_widget.dart';
+
 
 class NotificationsWidget extends StatefulWidget {
   const NotificationsWidget({super.key});
@@ -21,7 +23,8 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
   late NotificationsModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
+  late NavBarModel navBarModel;
+  
   @override
   void initState() {
     super.initState();
@@ -37,6 +40,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
     _model.dispose();
 
     super.dispose();
+    
   }
 
   @override
@@ -135,6 +139,11 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
                 },
               ),
             ),
+            bottomNavigationBar: wrapWithModel(
+              model: _model.navBarModel,
+              updateCallback: () => safeSetState(() {}),
+              child: const NavBarWidget(),
+            ),        
           ),
         ));
   }

@@ -671,6 +671,38 @@ class FFAppState extends ChangeNotifier {
   void insertAtIndexInNotifications(int index, DocumentReference value) {
     notifications.insert(index, value);
   }
+
+  int _notificationsCount = 0;
+
+  set notificationsCount(int value) {
+    _notificationsCount = value;
+  }
+
+  void incrementNotificationsCount() {
+    _notificationsCount++;
+  }
+
+  void decrementNotificationsCount() {
+    _notificationsCount--;
+  }
+
+  int _unreadNotificationsCount = 0;
+  
+  int get unreadNotificationsCount => _unreadNotificationsCount;
+
+  set unreadNotificationsCount(int value) {
+    _unreadNotificationsCount = value;
+  }
+
+  void incrementUnreadNotificationsCount() {
+    _unreadNotificationsCount++;
+  }
+
+  void decrementUnreadNotificationsCount() {
+    _unreadNotificationsCount--;
+  }
+
+
 }
 
 void _safeInit(Function() initializeField) {

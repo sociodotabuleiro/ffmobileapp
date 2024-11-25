@@ -5,6 +5,7 @@ import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'text_field_game_price_model.dart';
@@ -44,10 +45,11 @@ class _TextFieldGamePriceWidgetState extends State<TextFieldGamePriceWidget> {
     _model.textFieldFocusNode!.addListener(
       () async {
         logFirebaseEvent('TEXT_FIELD_GAME_PRICE_TextField_qpi4dcf4');
-        if (_model.textController.text != '') {
+        if (_model.textController.text != null &&
+            _model.textController.text != '') {
           logFirebaseEvent('TextField_update_app_state');
           FFAppState().updateGamesToAddAtIndex(
-            widget.indexGameToAdd!,
+            widget!.indexGameToAdd!,
             (e) => e
               ..rentValue =
                   functions.stringToDouble(_model.textController.text),
@@ -75,21 +77,22 @@ class _TextFieldGamePriceWidgetState extends State<TextFieldGamePriceWidget> {
 
     return Container(
       width: 200.0,
-      decoration: const BoxDecoration(),
+      decoration: BoxDecoration(),
       child: Padding(
-        padding: const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
+        padding: EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
         child: TextFormField(
           controller: _model.textController,
           focusNode: _model.textFieldFocusNode,
           onChanged: (_) => EasyDebounce.debounce(
             '_model.textController',
-            const Duration(milliseconds: 2000),
+            Duration(milliseconds: 2000),
             () async {
               logFirebaseEvent('TEXT_FIELD_GAME_PRICE_TextField_qpi4dcf4');
-              if (_model.textController.text != '') {
+              if (_model.textController.text != null &&
+                  _model.textController.text != '') {
                 logFirebaseEvent('TextField_update_app_state');
                 FFAppState().updateGamesToAddAtIndex(
-                  widget.indexGameToAdd!,
+                  widget!.indexGameToAdd!,
                   (e) => e
                     ..rentValue =
                         functions.stringToDouble(_model.textController.text),
@@ -102,10 +105,11 @@ class _TextFieldGamePriceWidgetState extends State<TextFieldGamePriceWidget> {
           ),
           onFieldSubmitted: (_) async {
             logFirebaseEvent('TEXT_FIELD_GAME_PRICE_TextField_qpi4dcf4');
-            if (_model.textController.text != '') {
+            if (_model.textController.text != null &&
+                _model.textController.text != '') {
               logFirebaseEvent('TextField_update_app_state');
               FFAppState().updateGamesToAddAtIndex(
-                widget.indexGameToAdd!,
+                widget!.indexGameToAdd!,
                 (e) => e
                   ..rentValue =
                       functions.stringToDouble(_model.textController.text),
@@ -127,7 +131,7 @@ class _TextFieldGamePriceWidgetState extends State<TextFieldGamePriceWidget> {
                 ),
             hintText: valueOrDefault<String>(
               formatNumber(
-                FFAppState().gamesToAdd[widget.indexGameToAdd!].rentValue,
+                FFAppState().gamesToAdd[widget!.indexGameToAdd!].rentValue,
                 formatType: FormatType.decimal,
                 decimalType: DecimalType.commaDecimal,
                 currency: 'R\$',

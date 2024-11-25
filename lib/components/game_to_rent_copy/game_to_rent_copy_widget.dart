@@ -1,8 +1,10 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +12,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'game_to_rent_copy_model.dart';
 export 'game_to_rent_copy_model.dart';
 
@@ -45,13 +48,13 @@ class _GameToRentCopyWidgetState extends State<GameToRentCopyWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('GAME_TO_RENT_COPY_gameToRentCopy_ON_INIT');
       logFirebaseEvent('gameToRentCopy_backend_call');
-      _model.user = await UsersRecord.getDocumentOnce(widget.userRef!);
+      _model.user = await UsersRecord.getDocumentOnce(widget!.userRef!);
       logFirebaseEvent('gameToRentCopy_firestore_query');
       _model.game2rent = await queryMyGamesRecordOnce(
-        parent: widget.userRef,
+        parent: widget!.userRef,
         queryBuilder: (myGamesRecord) => myGamesRecord.where(
           'gameRef',
-          isEqualTo: widget.gameRef,
+          isEqualTo: widget!.gameRef,
         ),
         singleRecord: true,
       ).then((s) => s.firstOrNull);
@@ -70,7 +73,7 @@ class _GameToRentCopyWidgetState extends State<GameToRentCopyWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+      padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
       child: Material(
         color: Colors.transparent,
         elevation: 3.0,
@@ -79,7 +82,7 @@ class _GameToRentCopyWidgetState extends State<GameToRentCopyWidget> {
         ),
         child: Container(
           width: double.infinity,
-          constraints: const BoxConstraints(
+          constraints: BoxConstraints(
             maxWidth: 570.0,
           ),
           decoration: BoxDecoration(
@@ -91,20 +94,20 @@ class _GameToRentCopyWidgetState extends State<GameToRentCopyWidget> {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
+            padding: EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
             child: Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Align(
-                  alignment: const AlignmentDirectional(-1.0, -1.0),
+                  alignment: AlignmentDirectional(-1.0, -1.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Align(
-                        alignment: const AlignmentDirectional(-1.0, -1.0),
+                        alignment: AlignmentDirectional(-1.0, -1.0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
@@ -143,12 +146,12 @@ class _GameToRentCopyWidgetState extends State<GameToRentCopyWidget> {
                               ],
                             ),
                             Container(
-                              decoration: const BoxDecoration(),
+                              decoration: BoxDecoration(),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         16.0, 0.0, 0.0, 0.0),
                                     child: RatingBarIndicator(
                                       itemBuilder: (context, index) => FaIcon(
@@ -165,7 +168,7 @@ class _GameToRentCopyWidgetState extends State<GameToRentCopyWidget> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         16.0, 0.0, 0.0, 0.0),
                                     child: RatingBarIndicator(
                                       itemBuilder: (context, index) => Icon(
@@ -192,7 +195,7 @@ class _GameToRentCopyWidgetState extends State<GameToRentCopyWidget> {
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -215,7 +218,7 @@ class _GameToRentCopyWidgetState extends State<GameToRentCopyWidget> {
                                                     .bodyMediumFamily),
                                       ),
                                 ),
-                                SizedBox(
+                                Container(
                                   width: 200.0,
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
@@ -282,7 +285,7 @@ class _GameToRentCopyWidgetState extends State<GameToRentCopyWidget> {
                                                 .alternate,
                                         borderWidth: 2.0,
                                         borderRadius: 8.0,
-                                        margin: const EdgeInsetsDirectional.fromSTEB(
+                                        margin: EdgeInsetsDirectional.fromSTEB(
                                             16.0, 4.0, 16.0, 4.0),
                                         hidesUnderline: true,
                                         isOverButton: true,
@@ -380,7 +383,7 @@ class _GameToRentCopyWidgetState extends State<GameToRentCopyWidget> {
                                                       .alternate,
                                               borderWidth: 2.0,
                                               borderRadius: 8.0,
-                                              margin: const EdgeInsetsDirectional
+                                              margin: EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       16.0, 4.0, 16.0, 4.0),
                                               hidesUnderline: true,
@@ -411,7 +414,7 @@ class _GameToRentCopyWidgetState extends State<GameToRentCopyWidget> {
                                           }
                                         },
                                       ),
-                                    ].divide(const SizedBox(height: 16.0)),
+                                    ].divide(SizedBox(height: 16.0)),
                                   ),
                                 ),
                               ],
@@ -530,7 +533,7 @@ class _GameToRentCopyWidgetState extends State<GameToRentCopyWidget> {
                                 FlutterFlowTheme.of(context).bodyMediumFamily),
                           ),
                     ),
-                  ].divide(const SizedBox(height: 4.0)),
+                  ].divide(SizedBox(height: 4.0)),
                 ),
               ],
             ),

@@ -5,11 +5,15 @@ import '/components/nav_bar/nav_bar_widget.dart';
 import '/components/side_nav02/side_nav02_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:async';
+import 'dart:convert';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:badges/badges.dart' as badges;
 import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -41,7 +45,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('HOME_PAGE_PAGE_HomePage_ON_INIT_STATE');
-      if (!(valueOrDefault(currentUserDocument?.asaasClientId, '') != '')) {
+      if (!(valueOrDefault(currentUserDocument?.asaasClientId, '') != null &&
+          valueOrDefault(currentUserDocument?.asaasClientId, '') != '')) {
         logFirebaseEvent('HomePage_backend_call');
         unawaited(
           () async {
@@ -50,10 +55,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               cpfCnpj: valueOrDefault(currentUserDocument?.cpf, ''),
               email: currentUserEmail,
               mobilePhone: currentPhoneNumber,
-              address: currentUserDocument?.address.street,
-              addressNumber: currentUserDocument?.address.number,
-              province: currentUserDocument?.address.neighborhood,
-              postalCode: currentUserDocument?.address.zip,
+              address: currentUserDocument?.address?.street,
+              addressNumber: currentUserDocument?.address?.number,
+              province: currentUserDocument?.address?.neighborhood,
+              postalCode: currentUserDocument?.address?.zip,
               externalReference: currentUserReference?.id,
             );
           }(),
@@ -62,9 +67,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
       logFirebaseEvent('HomePage_update_app_state');
       FFAppState().firstSessionlogin = false;
       FFAppState().userAddress =
-          '${currentUserDocument?.address.street}, ${currentUserDocument?.address.number}';
+          '${currentUserDocument?.address?.street}, ${currentUserDocument?.address?.number}';
       FFAppState().userAddressLatLng =
-          currentUserDocument?.address.coordinates;
+          currentUserDocument?.address?.coordinates;
       safeSetState(() {});
       logFirebaseEvent('HomePage_firestore_query');
       _model.featuredGamesMocked = await queryGamesRecordOnce(
@@ -81,12 +86,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           .toList()
           .cast<DocumentReference>();
       safeSetState(() {});
-      if (((currentUserDocument?.favoriteUsers.toList() ?? []).isNotEmpty) ==
+      if (((currentUserDocument?.favoriteUsers?.toList() ?? []).isNotEmpty) ==
           true) {
         // setFollowingUsers
         logFirebaseEvent('HomePage_setFollowingUsers');
         FFAppState().followingUsers =
-            (currentUserDocument?.favoriteUsers.toList() ?? [])
+            (currentUserDocument?.favoriteUsers?.toList() ?? [])
                 .toList()
                 .cast<DocumentReference>();
         safeSetState(() {});
@@ -109,21 +114,21 @@ class _HomePageWidgetState extends State<HomePageWidget> {
           currentUserReference!,
         );
       }
-      if (((currentUserDocument?.wishlist.toList() ?? []).isNotEmpty) ==
+      if (((currentUserDocument?.wishlist?.toList() ?? []).isNotEmpty) ==
           true) {
         // updateWishlist
         logFirebaseEvent('HomePage_updateWishlist');
-        FFAppState().wishlist = (currentUserDocument?.wishlist.toList() ?? [])
+        FFAppState().wishlist = (currentUserDocument?.wishlist?.toList() ?? [])
             .toList()
             .cast<DocumentReference>();
         safeSetState(() {});
       }
-      if (((currentUserDocument?.favoriteList.toList() ?? []).isNotEmpty) ==
+      if (((currentUserDocument?.favoriteList?.toList() ?? []).isNotEmpty) ==
           true) {
         // updateFavoriteList
         logFirebaseEvent('HomePage_updateFavoriteList');
         FFAppState().favoritedGames =
-            (currentUserDocument?.favoriteList.toList() ?? [])
+            (currentUserDocument?.favoriteList?.toList() ?? [])
                 .toList()
                 .cast<DocumentReference>();
         safeSetState(() {});
@@ -138,18 +143,18 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               builder: (alertDialogContext) {
                 return WebViewAware(
                   child: AlertDialog(
-                    title: const Text('Confirmação de aluguel'),
-                    content: const Text('Você deseja alugar seu acervo de jogos?'),
+                    title: Text('Confirmação de aluguel'),
+                    content: Text('Você deseja alugar seu acervo de jogos?'),
                     actions: [
                       TextButton(
                         onPressed: () =>
                             Navigator.pop(alertDialogContext, false),
-                        child: const Text('Não'),
+                        child: Text('Não'),
                       ),
                       TextButton(
                         onPressed: () =>
                             Navigator.pop(alertDialogContext, true),
-                        child: const Text('Claro, vamos nessa!'),
+                        child: Text('Claro, vamos nessa!'),
                       ),
                     ],
                   ),
@@ -171,13 +176,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               builder: (alertDialogContext) {
                 return WebViewAware(
                   child: AlertDialog(
-                    title: const Text('Sucesso!'),
-                    content: const Text(
+                    title: Text('Sucesso!'),
+                    content: Text(
                         'Sua conta para recebindo foi criada, agora você já pode começar a alugar e receber pela nossa plataforma!'),
                     actions: [
                       TextButton(
                         onPressed: () => Navigator.pop(alertDialogContext),
-                        child: const Text('Yuhuul!'),
+                        child: Text('Yuhuul!'),
                       ),
                     ],
                   ),
@@ -236,7 +241,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 child: wrapWithModel(
                   model: _model.sideNav02Model,
                   updateCallback: () => safeSetState(() {}),
-                  child: const SideNav02Widget(),
+                  child: SideNav02Widget(),
                 ),
               ),
             ),
@@ -249,10 +254,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               child: Stack(
                 children: [
                   Align(
-                    alignment: const AlignmentDirectional(0.0, 0.0),
+                    alignment: AlignmentDirectional(0.0, 0.0),
                     child: Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 180.0, 0.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 180.0, 0.0, 0.0),
                       child: Container(
                         width: double.infinity,
                         height: MediaQuery.sizeOf(context).height * 0.9,
@@ -266,21 +271,21 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Align(
-                              alignment: const AlignmentDirectional(0.0, 0.0),
+                              alignment: AlignmentDirectional(0.0, 0.0),
                               child: Container(
                                 width: MediaQuery.sizeOf(context).width * 1.0,
                                 height:
                                     MediaQuery.sizeOf(context).height * 0.31,
-                                decoration: const BoxDecoration(
+                                decoration: BoxDecoration(
                                   color: Color(0x1A003E86),
                                 ),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Align(
-                                      alignment: const AlignmentDirectional(0.0, 0.0),
+                                      alignment: AlignmentDirectional(0.0, 0.0),
                                       child: Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 8.0, 0.0, 0.0),
                                         child: Text(
                                           'Jogos em Destaque',
@@ -317,7 +322,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                 .isNotEmpty) ==
                                         true)
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 16.0, 0.0, 0.0),
                                         child: Builder(
                                           builder: (context) {
@@ -327,7 +332,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                 .take(5)
                                                 .toList();
 
-                                            return SizedBox(
+                                            return Container(
                                               width: 350.0,
                                               height: MediaQuery.sizeOf(context)
                                                       .height *
@@ -376,12 +381,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                     .height *
                                                                 0.074,
                                                         decoration:
-                                                            const BoxDecoration(),
+                                                            BoxDecoration(),
                                                         child: Column(
                                                           mainAxisSize:
                                                               MainAxisSize.max,
                                                           children: [
-                                                            SizedBox(
+                                                            Container(
                                                               width: MediaQuery
                                                                           .sizeOf(
                                                                               context)
@@ -428,7 +433,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                   ),
                                                                   Align(
                                                                     alignment:
-                                                                        const AlignmentDirectional(
+                                                                        AlignmentDirectional(
                                                                             1.0,
                                                                             -1.0),
                                                                     child:
@@ -436,9 +441,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                       borderRadius:
                                                                           20.0,
                                                                       buttonSize:
-                                                                          32.0,
+                                                                          42.0,
                                                                       fillColor:
-                                                                          const Color(
+                                                                          Color(
                                                                               0x94000000),
                                                                       icon:
                                                                           FaIcon(
@@ -447,7 +452,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                                         color: FlutterFlowTheme.of(context)
                                                                             .info,
                                                                         size:
-                                                                            16.0,
+                                                                            24.0,
                                                                       ),
                                                                       onPressed:
                                                                           () async {
@@ -539,9 +544,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                       Axis.horizontal,
                                                   autoPlay: true,
                                                   autoPlayAnimationDuration:
-                                                      const Duration(
+                                                      Duration(
                                                           milliseconds: 800),
-                                                  autoPlayInterval: const Duration(
+                                                  autoPlayInterval: Duration(
                                                       milliseconds:
                                                           (800 + 4000)),
                                                   autoPlayCurve: Curves.linear,
@@ -598,7 +603,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                 MainAxisAlignment.start,
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         0.0, 12.0, 0.0, 0.0),
                                                 child: Text(
@@ -632,7 +637,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                     height: 60.0,
                                                     clipBehavior:
                                                         Clip.antiAlias,
-                                                    decoration: const BoxDecoration(
+                                                    decoration: BoxDecoration(
                                                       shape: BoxShape.circle,
                                                     ),
                                                     child: Image.network(
@@ -640,7 +645,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                       fit: BoxFit.cover,
                                                     ),
                                                   ),
-                                                  const Column(
+                                                  Column(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
                                                     mainAxisAlignment:
@@ -650,7 +655,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                   ),
                                                 ],
                                               ),
-                                            ].divide(const SizedBox(height: 32.0)),
+                                            ].divide(SizedBox(height: 32.0)),
                                           ),
                                         ),
                                         Container(
@@ -668,7 +673,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                 MainAxisAlignment.start,
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         0.0, 12.0, 0.0, 0.0),
                                                 child: Text(
@@ -702,7 +707,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                     height: 60.0,
                                                     clipBehavior:
                                                         Clip.antiAlias,
-                                                    decoration: const BoxDecoration(
+                                                    decoration: BoxDecoration(
                                                       shape: BoxShape.circle,
                                                     ),
                                                     child: Image.network(
@@ -710,7 +715,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                       fit: BoxFit.cover,
                                                     ),
                                                   ),
-                                                  const Column(
+                                                  Column(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
                                                     mainAxisAlignment:
@@ -720,13 +725,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                   ),
                                                 ],
                                               ),
-                                            ].divide(const SizedBox(height: 32.0)),
+                                            ].divide(SizedBox(height: 32.0)),
                                           ),
                                         ),
                                       ],
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 4.0, 0.0, 0.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -749,7 +754,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                   MainAxisAlignment.start,
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           0.0, 12.0, 0.0, 0.0),
                                                   child: Text(
@@ -787,7 +792,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                       height: 60.0,
                                                       clipBehavior:
                                                           Clip.antiAlias,
-                                                      decoration: const BoxDecoration(
+                                                      decoration: BoxDecoration(
                                                         shape: BoxShape.circle,
                                                       ),
                                                       child: Image.network(
@@ -795,7 +800,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                         fit: BoxFit.cover,
                                                       ),
                                                     ),
-                                                    const Column(
+                                                    Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
                                                       mainAxisAlignment:
@@ -805,7 +810,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                     ),
                                                   ],
                                                 ),
-                                              ].divide(const SizedBox(height: 32.0)),
+                                              ].divide(SizedBox(height: 32.0)),
                                             ),
                                           ),
                                           Container(
@@ -824,7 +829,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                   MainAxisAlignment.start,
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           0.0, 12.0, 0.0, 0.0),
                                                   child: Text(
@@ -862,7 +867,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                       height: 60.0,
                                                       clipBehavior:
                                                           Clip.antiAlias,
-                                                      decoration: const BoxDecoration(
+                                                      decoration: BoxDecoration(
                                                         shape: BoxShape.circle,
                                                       ),
                                                       child: Image.network(
@@ -870,7 +875,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                         fit: BoxFit.cover,
                                                       ),
                                                     ),
-                                                    const Column(
+                                                    Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
                                                       mainAxisAlignment:
@@ -880,7 +885,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                     ),
                                                   ],
                                                 ),
-                                              ].divide(const SizedBox(height: 32.0)),
+                                              ].divide(SizedBox(height: 32.0)),
                                             ),
                                           ),
                                         ],
@@ -895,24 +900,24 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     ),
                   ),
                   Align(
-                    alignment: const AlignmentDirectional(0.0, 1.0),
+                    alignment: AlignmentDirectional(0.0, 1.0),
                     child: wrapWithModel(
                       model: _model.navBarModel,
                       updateCallback: () => safeSetState(() {}),
-                      child: const NavBarWidget(),
+                      child: NavBarWidget(),
                     ),
                   ),
                   Container(
                     height: MediaQuery.sizeOf(context).height * 0.21,
-                    decoration: const BoxDecoration(),
+                    decoration: BoxDecoration(),
                     child: Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 56.0, 0.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 56.0, 0.0, 0.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Align(
-                            alignment: const AlignmentDirectional(0.0, 0.0),
+                            alignment: AlignmentDirectional(0.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -924,9 +929,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   children: [
                                     Align(
                                       alignment:
-                                          const AlignmentDirectional(-1.0, -0.9),
+                                          AlignmentDirectional(-1.0, -0.9),
                                       child: Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             16.0, 0.0, 0.0, 0.0),
                                         child: InkWell(
                                           splashColor: Colors.transparent,
@@ -952,7 +957,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                   ],
                                 ),
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 16.0, 0.0),
                                   child: badges.Badge(
                                     badgeContent: Text(
@@ -987,7 +992,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                     badgeColor:
                                         FlutterFlowTheme.of(context).primary,
                                     elevation: 4.0,
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         8.0, 8.0, 8.0, 8.0),
                                     position: badges.BadgePosition.topEnd(),
                                     animationType:
@@ -1009,7 +1014,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Align(
-                                alignment: const AlignmentDirectional(0.0, 0.0),
+                                alignment: AlignmentDirectional(0.0, 0.0),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
                                   child: Image.asset(

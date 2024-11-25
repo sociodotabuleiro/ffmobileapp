@@ -1,9 +1,13 @@
 import '/flutter_flow/flutter_flow_place_picker.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/place.dart';
+import 'dart:io';
+import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
 import 'add_profile_address_model.dart';
 export 'add_profile_address_model.dart';
@@ -65,7 +69,7 @@ class _AddProfileAddressWidgetState extends State<AddProfileAddressWidget> {
                             .headlineMedium
                             .override(
                               fontFamily: 'Outfit',
-                              color: const Color(0xFF15161E),
+                              color: Color(0xFF15161E),
                               fontSize: 24.0,
                               letterSpacing: 0.0,
                               fontWeight: FontWeight.w500,
@@ -90,7 +94,7 @@ class _AddProfileAddressWidgetState extends State<AddProfileAddressWidget> {
                     'Por favor, complete as informações a seguir ',
                     style: FlutterFlowTheme.of(context).labelMedium.override(
                           fontFamily: 'Outfit',
-                          color: const Color(0xFF606A85),
+                          color: Color(0xFF606A85),
                           fontSize: 14.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w500,
@@ -98,9 +102,9 @@ class _AddProfileAddressWidgetState extends State<AddProfileAddressWidget> {
                               GoogleFonts.asMap().containsKey('Outfit'),
                         ),
                   ),
-                ].divide(const SizedBox(height: 4.0)),
+                ].divide(SizedBox(height: 4.0)),
               ),
-              actions: const [],
+              actions: [],
               centerTitle: false,
               elevation: 0.0,
             ),
@@ -119,14 +123,14 @@ class _AddProfileAddressWidgetState extends State<AddProfileAddressWidget> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Align(
-                              alignment: const AlignmentDirectional(0.0, -1.0),
+                              alignment: AlignmentDirectional(0.0, -1.0),
                               child: Container(
-                                constraints: const BoxConstraints(
+                                constraints: BoxConstraints(
                                   maxWidth: 770.0,
                                 ),
-                                decoration: const BoxDecoration(),
+                                decoration: BoxDecoration(),
                                 child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       16.0, 12.0, 16.0, 0.0),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
@@ -139,7 +143,7 @@ class _AddProfileAddressWidgetState extends State<AddProfileAddressWidget> {
                                             .bodyLarge
                                             .override(
                                               fontFamily: 'Figtree',
-                                              color: const Color(0xFF15161E),
+                                              color: Color(0xFF15161E),
                                               fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
@@ -150,7 +154,7 @@ class _AddProfileAddressWidgetState extends State<AddProfileAddressWidget> {
                                       ),
                                       Align(
                                         alignment:
-                                            const AlignmentDirectional(0.0, 0.0),
+                                            AlignmentDirectional(0.0, 0.0),
                                         child: FlutterFlowPlacePicker(
                                           iOSGoogleMapsApiKey:
                                               'AIzaSyD7wUQ6Ut-rhhYjaatH1q5ZISZCWOFn9_A',
@@ -195,7 +199,7 @@ class _AddProfileAddressWidgetState extends State<AddProfileAddressWidget> {
                                                                   .titleSmallFamily),
                                                     ),
                                             elevation: 2.0,
-                                            borderSide: const BorderSide(
+                                            borderSide: BorderSide(
                                               color: Colors.transparent,
                                               width: 1.0,
                                             ),
@@ -224,14 +228,14 @@ class _AddProfileAddressWidgetState extends State<AddProfileAddressWidget> {
                                                           .bodyMediumFamily),
                                             ),
                                       ),
-                                      const Divider(
+                                      Divider(
                                         height: 2.0,
                                         thickness: 2.0,
                                         color: Color(0xFFE5E7EB),
                                       ),
                                     ]
-                                        .divide(const SizedBox(height: 12.0))
-                                        .addToEnd(const SizedBox(height: 32.0)),
+                                        .divide(SizedBox(height: 12.0))
+                                        .addToEnd(SizedBox(height: 32.0)),
                                   ),
                                 ),
                               ),
@@ -241,12 +245,12 @@ class _AddProfileAddressWidgetState extends State<AddProfileAddressWidget> {
                       ),
                     ),
                     Container(
-                      constraints: const BoxConstraints(
+                      constraints: BoxConstraints(
                         maxWidth: 770.0,
                       ),
-                      decoration: const BoxDecoration(),
+                      decoration: BoxDecoration(),
                       child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
+                        padding: EdgeInsetsDirectional.fromSTEB(
                             16.0, 12.0, 16.0, 12.0),
                         child: FFButtonWidget(
                           onPressed: () async {
@@ -257,20 +261,20 @@ class _AddProfileAddressWidgetState extends State<AddProfileAddressWidget> {
                                 !_model.formKey.currentState!.validate()) {
                               return;
                             }
-                            if (_model.placePickerValue == const FFPlace()) {
+                            if (_model.placePickerValue == FFPlace()) {
                               await showDialog(
                                 context: context,
                                 builder: (alertDialogContext) {
                                   return WebViewAware(
                                     child: AlertDialog(
-                                      title: const Text('Selecione seu endereço!'),
-                                      content: const Text(
+                                      title: Text('Selecione seu endereço!'),
+                                      content: Text(
                                           'Por favor selecione seu endereço!'),
                                       actions: [
                                         TextButton(
                                           onPressed: () =>
                                               Navigator.pop(alertDialogContext),
-                                          child: const Text('Ok'),
+                                          child: Text('Ok'),
                                         ),
                                       ],
                                     ),
@@ -293,11 +297,11 @@ class _AddProfileAddressWidgetState extends State<AddProfileAddressWidget> {
                           options: FFButtonOptions(
                             width: double.infinity,
                             height: 48.0,
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 24.0, 0.0, 24.0, 0.0),
-                            iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                            iconPadding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 0.0),
-                            color: const Color(0xFF6F61EF),
+                            color: Color(0xFF6F61EF),
                             textStyle: FlutterFlowTheme.of(context)
                                 .titleSmall
                                 .override(
@@ -310,7 +314,7 @@ class _AddProfileAddressWidgetState extends State<AddProfileAddressWidget> {
                                       .containsKey('Figtree'),
                                 ),
                             elevation: 3.0,
-                            borderSide: const BorderSide(
+                            borderSide: BorderSide(
                               color: Colors.transparent,
                               width: 1.0,
                             ),

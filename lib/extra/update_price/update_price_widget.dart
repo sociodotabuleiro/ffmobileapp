@@ -1,8 +1,10 @@
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'update_price_model.dart';
 export 'update_price_model.dart';
 
@@ -91,32 +93,32 @@ class _UpdatePriceWidgetState extends State<UpdatePriceWidget> {
                 topRight: Radius.circular(4.0),
               ),
             ),
-            focusedBorder: const OutlineInputBorder(
+            focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: Color(0x00000000),
                 width: 2.0,
               ),
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(4.0),
                 topRight: Radius.circular(4.0),
               ),
             ),
-            errorBorder: const OutlineInputBorder(
+            errorBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: Color(0x00000000),
                 width: 2.0,
               ),
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(4.0),
                 topRight: Radius.circular(4.0),
               ),
             ),
-            focusedErrorBorder: const OutlineInputBorder(
+            focusedErrorBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 color: Color(0x00000000),
                 width: 2.0,
               ),
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(4.0),
                 topRight: Radius.circular(4.0),
               ),
@@ -138,8 +140,8 @@ class _UpdatePriceWidgetState extends State<UpdatePriceWidget> {
           options: FFButtonOptions(
             width: 160.0,
             height: 50.0,
-            padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-            iconPadding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+            padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+            iconPadding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
             color: FlutterFlowTheme.of(context).primary,
             textStyle: FlutterFlowTheme.of(context).labelLarge.override(
                   fontFamily: FlutterFlowTheme.of(context).labelLargeFamily,
@@ -150,7 +152,7 @@ class _UpdatePriceWidgetState extends State<UpdatePriceWidget> {
             elevation: 0.0,
           ),
         ),
-      ].divide(const SizedBox(height: 12.0)),
+      ].divide(SizedBox(height: 12.0)),
     );
   }
 }

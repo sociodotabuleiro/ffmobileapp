@@ -6,15 +6,19 @@ import '/components/side_nav02/side_nav02_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:math';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:smooth_page_indicator/smooth_page_indicator.dart'
     as smooth_page_indicator;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:provider/provider.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
 import 'games_list_model.dart';
 export 'games_list_model.dart';
@@ -66,8 +70,8 @@ class _GamesListWidgetState extends State<GamesListWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(-50.0, 0.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(-50.0, 0.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -105,7 +109,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                 child: wrapWithModel(
                   model: _model.sideNav02Model,
                   updateCallback: () => safeSetState(() {}),
-                  child: const SideNav02Widget(),
+                  child: SideNav02Widget(),
                 ),
               ),
             ),
@@ -120,7 +124,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                   borderRadius: 30.0,
                   borderWidth: 1.0,
                   buttonSize: 60.0,
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.arrow_back_rounded,
                     color: Colors.white,
                     size: 30.0,
@@ -132,7 +136,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                     context.pop();
                   },
                 ),
-                actions: const [],
+                actions: [],
                 centerTitle: false,
                 elevation: 2.0,
               ),
@@ -142,13 +146,13 @@ class _GamesListWidgetState extends State<GamesListWidget>
                 Container(
                   width: MediaQuery.sizeOf(context).width * 1.0,
                   height: MediaQuery.sizeOf(context).height * 1.0,
-                  decoration: const BoxDecoration(),
+                  decoration: BoxDecoration(),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
+                        padding: EdgeInsetsDirectional.fromSTEB(
                             16.0, 16.0, 16.0, 0.0),
                         child: Container(
                           width: double.infinity,
@@ -156,7 +160,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                           decoration: BoxDecoration(
                             color: FlutterFlowTheme.of(context)
                                 .secondaryBackground,
-                            boxShadow: const [
+                            boxShadow: [
                               BoxShadow(
                                 blurRadius: 3.0,
                                 color: Color(0x33000000),
@@ -172,7 +176,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                             ),
                           ),
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 16.0, 0.0, 12.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
@@ -185,9 +189,9 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         4.0, 0.0, 0.0, 0.0),
-                                    child: SizedBox(
+                                    child: Container(
                                       width: 200.0,
                                       child: TextFormField(
                                         controller: _model.textController,
@@ -316,12 +320,12 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                 padding:
                                                     MediaQuery.viewInsetsOf(
                                                         context),
-                                                child: SizedBox(
+                                                child: Container(
                                                   height:
                                                       MediaQuery.sizeOf(context)
                                                               .height *
                                                           0.8,
-                                                  child: const SearchFilterWidget(),
+                                                  child: SearchFilterWidget(),
                                                 ),
                                               ),
                                             ),
@@ -341,13 +345,13 @@ class _GamesListWidgetState extends State<GamesListWidget>
                         tablet: false,
                         tabletLandscape: false,
                       ))
-                        SizedBox(
+                        Container(
                           width: double.infinity,
                           height: 150.0,
                           child: Stack(
                             children: [
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 40.0),
                                 child: PageView(
                                   controller: _model.pageViewController ??=
@@ -355,7 +359,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                   scrollDirection: Axis.horizontal,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           16.0, 8.0, 16.0, 0.0),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
@@ -364,9 +368,9 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                         children: [
                                           Align(
                                             alignment:
-                                                const AlignmentDirectional(0.0, 0.0),
+                                                AlignmentDirectional(0.0, 0.0),
                                             child: Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       16.0, 0.0, 0.0, 4.0),
                                               child: Text(
@@ -419,7 +423,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                     ),
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsetsDirectional
+                                                          EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   0.0,
                                                                   5.0,
@@ -466,7 +470,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                     ),
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsetsDirectional
+                                                          EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   0.0,
                                                                   5.0,
@@ -513,7 +517,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                     ),
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsetsDirectional
+                                                          EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   0.0,
                                                                   5.0,
@@ -558,7 +562,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                     ),
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsetsDirectional
+                                                          EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   0.0,
                                                                   5.0,
@@ -605,7 +609,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                     ),
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsetsDirectional
+                                                          EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   0.0,
                                                                   5.0,
@@ -652,7 +656,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                     ),
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsetsDirectional
+                                                          EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   0.0,
                                                                   5.0,
@@ -697,7 +701,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                     ),
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsetsDirectional
+                                                          EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   0.0,
                                                                   5.0,
@@ -742,7 +746,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                     ),
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsetsDirectional
+                                                          EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   0.0,
                                                                   5.0,
@@ -789,7 +793,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                     ),
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsetsDirectional
+                                                          EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   0.0,
                                                                   5.0,
@@ -836,7 +840,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                     ),
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsetsDirectional
+                                                          EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   0.0,
                                                                   5.0,
@@ -883,7 +887,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                     ),
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsetsDirectional
+                                                          EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   0.0,
                                                                   5.0,
@@ -930,7 +934,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                     ),
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsetsDirectional
+                                                          EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   0.0,
                                                                   5.0,
@@ -977,7 +981,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                     ),
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsetsDirectional
+                                                          EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   0.0,
                                                                   5.0,
@@ -1006,16 +1010,16 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                   ],
                                                 ),
                                               ]
-                                                  .divide(const SizedBox(width: 15.0))
+                                                  .divide(SizedBox(width: 15.0))
                                                   .around(
-                                                      const SizedBox(width: 15.0)),
+                                                      SizedBox(width: 15.0)),
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           16.0, 8.0, 16.0, 0.0),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
@@ -1024,9 +1028,9 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                         children: [
                                           Align(
                                             alignment:
-                                                const AlignmentDirectional(-1.0, 0.0),
+                                                AlignmentDirectional(-1.0, 0.0),
                                             child: Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       16.0, 0.0, 0.0, 4.0),
                                               child: Text(
@@ -1074,7 +1078,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(5.0),
+                                                        EdgeInsets.all(5.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -1101,7 +1105,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       5.0,
@@ -1162,7 +1166,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(5.0),
+                                                        EdgeInsets.all(5.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -1189,7 +1193,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       5.0,
@@ -1232,7 +1236,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(5.0),
+                                                        EdgeInsets.all(5.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -1259,7 +1263,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       5.0,
@@ -1321,7 +1325,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(5.0),
+                                                        EdgeInsets.all(5.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -1348,7 +1352,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       5.0,
@@ -1410,7 +1414,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(5.0),
+                                                        EdgeInsets.all(5.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -1437,7 +1441,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       5.0,
@@ -1481,7 +1485,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(5.0),
+                                                        EdgeInsets.all(5.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -1508,7 +1512,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       5.0,
@@ -1552,7 +1556,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(5.0),
+                                                        EdgeInsets.all(5.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -1579,7 +1583,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       5.0,
@@ -1623,7 +1627,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(5.0),
+                                                        EdgeInsets.all(5.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -1650,7 +1654,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       5.0,
@@ -1712,7 +1716,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(5.0),
+                                                        EdgeInsets.all(5.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -1739,7 +1743,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       5.0,
@@ -1788,16 +1792,16 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                   ),
                                                 ),
                                               ]
-                                                  .divide(const SizedBox(width: 10.0))
+                                                  .divide(SizedBox(width: 10.0))
                                                   .around(
-                                                      const SizedBox(width: 10.0)),
+                                                      SizedBox(width: 10.0)),
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           16.0, 8.0, 16.0, 0.0),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
@@ -1806,9 +1810,9 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                         children: [
                                           Align(
                                             alignment:
-                                                const AlignmentDirectional(-1.0, 0.0),
+                                                AlignmentDirectional(-1.0, 0.0),
                                             child: Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       16.0, 0.0, 0.0, 4.0),
                                               child: Text(
@@ -1856,7 +1860,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(5.0),
+                                                        EdgeInsets.all(5.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -1883,7 +1887,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       5.0,
@@ -1944,7 +1948,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(5.0),
+                                                        EdgeInsets.all(5.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -1971,7 +1975,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       5.0,
@@ -2014,7 +2018,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(5.0),
+                                                        EdgeInsets.all(5.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -2041,7 +2045,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       5.0,
@@ -2103,7 +2107,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(5.0),
+                                                        EdgeInsets.all(5.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -2130,7 +2134,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       5.0,
@@ -2192,7 +2196,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(5.0),
+                                                        EdgeInsets.all(5.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -2219,7 +2223,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       5.0,
@@ -2263,7 +2267,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(5.0),
+                                                        EdgeInsets.all(5.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -2290,7 +2294,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       5.0,
@@ -2334,7 +2338,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(5.0),
+                                                        EdgeInsets.all(5.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -2361,7 +2365,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       5.0,
@@ -2405,7 +2409,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(5.0),
+                                                        EdgeInsets.all(5.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -2432,7 +2436,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       5.0,
@@ -2494,7 +2498,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                   ),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(5.0),
+                                                        EdgeInsets.all(5.0),
                                                     child: Column(
                                                       mainAxisSize:
                                                           MainAxisSize.max,
@@ -2521,7 +2525,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                         ),
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       5.0,
@@ -2570,9 +2574,9 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                                   ),
                                                 ),
                                               ]
-                                                  .divide(const SizedBox(width: 10.0))
+                                                  .divide(SizedBox(width: 10.0))
                                                   .around(
-                                                      const SizedBox(width: 10.0)),
+                                                      SizedBox(width: 10.0)),
                                             ),
                                           ),
                                         ],
@@ -2582,9 +2586,9 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                 ),
                               ),
                               Align(
-                                alignment: const AlignmentDirectional(-1.0, 1.0),
+                                alignment: AlignmentDirectional(-1.0, 1.0),
                                 child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       16.0, 0.0, 0.0, 16.0),
                                   child:
                                       smooth_page_indicator.SmoothPageIndicator(
@@ -2596,7 +2600,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                       await _model.pageViewController!
                                           .animateToPage(
                                         i,
-                                        duration: const Duration(milliseconds: 500),
+                                        duration: Duration(milliseconds: 500),
                                         curve: Curves.ease,
                                       );
                                       safeSetState(() {});
@@ -2628,7 +2632,8 @@ class _GamesListWidgetState extends State<GamesListWidget>
                         color: FlutterFlowTheme.of(context).secondaryText,
                       ),
                       if (valueOrDefault<bool>(
-                        _model.textController.text == '',
+                        _model.textController.text == null ||
+                            _model.textController.text == '',
                         true,
                       ))
                         Container(
@@ -2647,7 +2652,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                             padding: EdgeInsets.zero,
                             reverse: false,
                             scrollDirection: Axis.vertical,
-                            separatorBuilder: (_, __) => const SizedBox(height: 5.0),
+                            separatorBuilder: (_, __) => SizedBox(height: 5.0),
                             builderDelegate:
                                 PagedChildBuilderDelegate<GamesRecord>(
                               // Customize what your widget looks like when it's loading the first page.
@@ -2693,7 +2698,8 @@ class _GamesListWidgetState extends State<GamesListWidget>
                           ),
                         ),
                       if (valueOrDefault<bool>(
-                        _model.textController.text != '',
+                        _model.textController.text != null &&
+                            _model.textController.text != '',
                         false,
                       ))
                         Container(
@@ -2721,7 +2727,7 @@ class _GamesListWidgetState extends State<GamesListWidget>
                                 scrollDirection: Axis.vertical,
                                 itemCount: searchedGames.length,
                                 separatorBuilder: (_, __) =>
-                                    const SizedBox(height: 5.0),
+                                    SizedBox(height: 5.0),
                                 itemBuilder: (context, searchedGamesIndex) {
                                   final searchedGamesItem =
                                       searchedGames[searchedGamesIndex];
@@ -2739,11 +2745,11 @@ class _GamesListWidgetState extends State<GamesListWidget>
                   ),
                 ),
                 Align(
-                  alignment: const AlignmentDirectional(0.0, 1.0),
+                  alignment: AlignmentDirectional(0.0, 1.0),
                   child: wrapWithModel(
                     model: _model.navBarModel,
                     updateCallback: () => safeSetState(() {}),
-                    child: const NavBarWidget(),
+                    child: NavBarWidget(),
                   ),
                 ),
               ],

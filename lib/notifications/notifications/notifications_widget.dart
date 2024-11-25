@@ -2,11 +2,13 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import '/notifications/notification_basic/notification_basic_widget.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:provider/provider.dart';
 import 'notifications_model.dart';
 export 'notifications_model.dart';
 
@@ -57,7 +59,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
                 borderRadius: 30.0,
                 borderWidth: 1.0,
                 buttonSize: 60.0,
-                icon: const Icon(
+                icon: Icon(
                   Icons.arrow_back_rounded,
                   color: Colors.white,
                   size: 30.0,
@@ -79,7 +81,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
                           FlutterFlowTheme.of(context).headlineLargeFamily),
                     ),
               ),
-              actions: const [],
+              actions: [],
               centerTitle: true,
               elevation: 2.0,
             ),
@@ -89,7 +91,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
                   NotificationsRecord.collection(currentUserReference)
                       .orderBy('date', descending: true),
                   parent: currentUserReference),
-              padding: const EdgeInsets.fromLTRB(
+              padding: EdgeInsets.fromLTRB(
                 0,
                 4.0,
                 0,
@@ -97,7 +99,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
               ),
               reverse: false,
               scrollDirection: Axis.vertical,
-              separatorBuilder: (_, __) => const SizedBox(height: 8.0),
+              separatorBuilder: (_, __) => SizedBox(height: 8.0),
               builderDelegate: PagedChildBuilderDelegate<NotificationsRecord>(
                 // Customize what your widget looks like when it's loading the first page.
                 firstPageProgressIndicatorBuilder: (_) => Center(

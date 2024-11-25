@@ -1,15 +1,24 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import '/backend/backend.dart';
+import '/backend/schema/structs/index.dart';
+import '/backend/schema/enums/enums.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
 import '/backend/push_notifications/push_notifications_handler.dart'
     show PushNotificationsHandler;
 import '/index.dart';
+import '/main.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/lat_lng.dart';
+import '/flutter_flow/place.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'serialization_util.dart';
 
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
@@ -74,24 +83,24 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? const HomePageWidget() : const LoginWidget(),
+          appStateNotifier.loggedIn ? HomePageWidget() : LoginWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? const HomePageWidget() : const LoginWidget(),
+              appStateNotifier.loggedIn ? HomePageWidget() : LoginWidget(),
         ),
         FFRoute(
           name: 'HomePage',
           path: '/homePage',
           requireAuth: true,
-          builder: (context, params) => const HomePageWidget(),
+          builder: (context, params) => HomePageWidget(),
         ),
         FFRoute(
           name: 'login',
           path: '/login',
-          builder: (context, params) => const LoginWidget(),
+          builder: (context, params) => LoginWidget(),
         ),
         FFRoute(
           name: 'addProfilePersonalInfo',
@@ -108,39 +117,39 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'addProfileAddress',
           path: '/addProfileAddress',
-          builder: (context, params) => const AddProfileAddressWidget(),
+          builder: (context, params) => AddProfileAddressWidget(),
         ),
         FFRoute(
           name: 'addProfileGames',
           path: '/addProfileGames',
-          builder: (context, params) => const AddProfileGamesWidget(),
+          builder: (context, params) => AddProfileGamesWidget(),
         ),
         FFRoute(
           name: 'addProfilePicture',
           path: '/addProfilePicture',
-          builder: (context, params) => const AddProfilePictureWidget(),
+          builder: (context, params) => AddProfilePictureWidget(),
         ),
         FFRoute(
           name: 'addProfilePhoneNumber',
           path: '/addProfilePhoneNumber',
-          builder: (context, params) => const AddProfilePhoneNumberWidget(),
+          builder: (context, params) => AddProfilePhoneNumberWidget(),
         ),
         FFRoute(
           name: 'addProfileCodeConfirmation',
           path: '/addProfileCodeConfirmation',
-          builder: (context, params) => const AddProfileCodeConfirmationWidget(),
+          builder: (context, params) => AddProfileCodeConfirmationWidget(),
         ),
         FFRoute(
           name: 'gamesList',
           path: '/gamesList',
           requireAuth: true,
-          builder: (context, params) => const GamesListWidget(),
+          builder: (context, params) => GamesListWidget(),
         ),
         FFRoute(
           name: 'Profile',
           path: '/profile',
           requireAuth: true,
-          builder: (context, params) => const ProfileWidget(),
+          builder: (context, params) => ProfileWidget(),
         ),
         FFRoute(
           name: 'gameDetails',
@@ -177,96 +186,96 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'addProfileAddress2',
           path: '/addProfileAddress2',
-          builder: (context, params) => const AddProfileAddress2Widget(),
+          builder: (context, params) => AddProfileAddress2Widget(),
         ),
         FFRoute(
           name: 'signUp',
           path: '/signUp',
-          builder: (context, params) => const SignUpWidget(),
+          builder: (context, params) => SignUpWidget(),
         ),
         FFRoute(
           name: 'DashboardResponsive',
           path: '/dashboardResponsive',
-          builder: (context, params) => const DashboardResponsiveWidget(),
+          builder: (context, params) => DashboardResponsiveWidget(),
         ),
         FFRoute(
           name: 'gameListAdmin',
           path: '/gamelist',
           requireAuth: true,
-          builder: (context, params) => const GameListAdminWidget(),
+          builder: (context, params) => GameListAdminWidget(),
         ),
         FFRoute(
           name: 'myGames',
           path: '/myGames',
           requireAuth: true,
-          builder: (context, params) => const MyGamesWidget(),
+          builder: (context, params) => MyGamesWidget(),
         ),
         FFRoute(
           name: 'myCart',
           path: '/myCart',
           requireAuth: true,
-          builder: (context, params) => const MyCartWidget(),
+          builder: (context, params) => MyCartWidget(),
         ),
         FFRoute(
           name: 'payment01',
           path: '/payment01',
-          builder: (context, params) => const Payment01Widget(),
+          builder: (context, params) => Payment01Widget(),
         ),
         FFRoute(
           name: 'Checkout',
           path: '/checkout',
-          builder: (context, params) => const CheckoutWidget(),
+          builder: (context, params) => CheckoutWidget(),
         ),
         FFRoute(
           name: 'saveActions',
           path: '/saveActions',
-          builder: (context, params) => const SaveActionsWidget(),
+          builder: (context, params) => SaveActionsWidget(),
         ),
         FFRoute(
           name: 'AddGames',
           path: '/addGames',
           requireAuth: true,
-          builder: (context, params) => const AddGamesWidget(),
+          builder: (context, params) => AddGamesWidget(),
         ),
         FFRoute(
           name: 'loginLudopedia',
           path: '/loginLudopedia',
-          builder: (context, params) => const LoginLudopediaWidget(),
+          builder: (context, params) => LoginLudopediaWidget(),
         ),
         FFRoute(
           name: 'deliveryStatus',
           path: '/deliveryStatus',
-          builder: (context, params) => const DeliveryStatusWidget(),
+          builder: (context, params) => DeliveryStatusWidget(),
         ),
         FFRoute(
           name: 'termandconditions',
           path: '/termandconditions',
-          builder: (context, params) => const TermandconditionsWidget(),
+          builder: (context, params) => TermandconditionsWidget(),
         ),
         FFRoute(
           name: 'changePassword',
           path: '/changePassword',
-          builder: (context, params) => const ChangePasswordWidget(),
+          builder: (context, params) => ChangePasswordWidget(),
         ),
         FFRoute(
           name: 'Settings1Notifications',
           path: '/settings1Notifications',
-          builder: (context, params) => const Settings1NotificationsWidget(),
+          builder: (context, params) => Settings1NotificationsWidget(),
         ),
         FFRoute(
           name: 'Settings2EditProfile',
           path: '/settings2EditProfile',
-          builder: (context, params) => const Settings2EditProfileWidget(),
+          builder: (context, params) => Settings2EditProfileWidget(),
         ),
         FFRoute(
           name: 'SettingsListAddress',
           path: '/settingsListAddress',
-          builder: (context, params) => const SettingsListAddressWidget(),
+          builder: (context, params) => SettingsListAddressWidget(),
         ),
         FFRoute(
           name: 'Notifications',
           path: '/notifications',
-          builder: (context, params) => const NotificationsWidget(),
+          builder: (context, params) => NotificationsWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -502,7 +511,7 @@ class TransitionInfo {
   final Duration duration;
   final Alignment? alignment;
 
-  static TransitionInfo appDefault() => const TransitionInfo(hasTransition: false);
+  static TransitionInfo appDefault() => TransitionInfo(hasTransition: false);
 }
 
 class RootPageContext {

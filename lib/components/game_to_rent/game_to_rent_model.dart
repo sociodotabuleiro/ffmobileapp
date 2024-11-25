@@ -1,7 +1,21 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/games/calendar_choose_date_rent/calendar_choose_date_rent_widget.dart';
+import '/custom_code/actions/index.dart' as actions;
+import '/custom_code/widgets/index.dart' as custom_widgets;
 import 'game_to_rent_widget.dart' show GameToRentWidget;
+import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:webviewx_plus/webviewx_plus.dart';
 
 class GameToRentModel extends FlutterFlowModel<GameToRentWidget> {
   ///  Local state fields for this component.
@@ -39,7 +53,7 @@ class GameToRentModel extends FlutterFlowModel<GameToRentWidget> {
   // Stores action output result for [Backend Call - Read Document] action in gameToRent widget.
   UsersRecord? authUserObject;
   // Stores action output result for [Custom Action - getQuotationLalaMove] action in gameToRent widget.
-  dynamic quotationJson;
+  dynamic? quotationJson;
 
   @override
   void initState(BuildContext context) {}

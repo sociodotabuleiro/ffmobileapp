@@ -1,10 +1,13 @@
 import '/components/nav_bar/nav_bar_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'my_cart_model.dart';
 export 'my_cart_model.dart';
 
@@ -84,26 +87,26 @@ class _MyCartWidgetState extends State<MyCartWidget>
                           FlutterFlowTheme.of(context).titleLargeFamily),
                     ),
               ),
-              actions: const [],
+              actions: [],
               centerTitle: true,
               elevation: 0.0,
             ),
             body: Container(
               width: MediaQuery.sizeOf(context).width * 1.0,
               height: MediaQuery.sizeOf(context).height * 1.0,
-              decoration: const BoxDecoration(),
+              decoration: BoxDecoration(),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
                     child: Container(
                       width: double.infinity,
                       height: 60.0,
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).secondaryBackground,
-                        boxShadow: const [
+                        boxShadow: [
                           BoxShadow(
                             blurRadius: 3.0,
                             color: Color(0x33000000),
@@ -119,7 +122,7 @@ class _MyCartWidgetState extends State<MyCartWidget>
                         ),
                       ),
                       child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
+                        padding: EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 12.0, 0.0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
@@ -131,9 +134,9 @@ class _MyCartWidgetState extends State<MyCartWidget>
                             ),
                             Expanded(
                               child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     4.0, 0.0, 0.0, 0.0),
-                                child: SizedBox(
+                                child: Container(
                                   width: 200.0,
                                   child: TextFormField(
                                     controller: _model.textController,
@@ -233,12 +236,12 @@ class _MyCartWidgetState extends State<MyCartWidget>
                     child: Column(
                       children: [
                         Align(
-                          alignment: const Alignment(-1.0, 0),
+                          alignment: Alignment(-1.0, 0),
                           child: TabBar(
                             labelColor: FlutterFlowTheme.of(context).primary,
                             unselectedLabelColor:
-                                FlutterFlowTheme.of(context).primary,
-                            labelPadding: const EdgeInsetsDirectional.fromSTEB(
+                                FlutterFlowTheme.of(context).secondaryText,
+                            labelPadding: EdgeInsetsDirectional.fromSTEB(
                                 8.0, 0.0, 8.0, 0.0),
                             labelStyle: FlutterFlowTheme.of(context)
                                 .titleMedium
@@ -251,10 +254,10 @@ class _MyCartWidgetState extends State<MyCartWidget>
                                       .containsKey(FlutterFlowTheme.of(context)
                                           .titleMediumFamily),
                                 ),
-                            unselectedLabelStyle: const TextStyle(),
+                            unselectedLabelStyle: TextStyle(),
                             indicatorColor:
                                 FlutterFlowTheme.of(context).primary,
-                            tabs: const [
+                            tabs: [
                               Tab(
                                 text: 'Carrinho',
                               ),
@@ -271,7 +274,7 @@ class _MyCartWidgetState extends State<MyCartWidget>
                             physics: const NeverScrollableScrollPhysics(),
                             children: [
                               KeepAliveWidgetWrapper(
-                                builder: (context) => const SingleChildScrollView(
+                                builder: (context) => SingleChildScrollView(
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
                                     crossAxisAlignment:
@@ -289,7 +292,7 @@ class _MyCartWidgetState extends State<MyCartWidget>
                   wrapWithModel(
                     model: _model.navBarModel,
                     updateCallback: () => safeSetState(() {}),
-                    child: const NavBarWidget(),
+                    child: NavBarWidget(),
                   ),
                 ],
               ),

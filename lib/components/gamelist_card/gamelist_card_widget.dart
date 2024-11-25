@@ -1,11 +1,16 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:octo_image/octo_image.dart';
+import 'package:provider/provider.dart';
 import 'gamelist_card_model.dart';
 export 'gamelist_card_model.dart';
 
@@ -40,9 +45,9 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('GAMELIST_CARD_gamelistCard_ON_INIT_STATE');
-      if (widget.gameRef != null) {
+      if (widget!.gameRef != null) {
         logFirebaseEvent('gamelistCard_backend_call');
-        _model.gameByRef = await GamesRecord.getDocumentOnce(widget.gameRef!);
+        _model.gameByRef = await GamesRecord.getDocumentOnce(widget!.gameRef!);
         logFirebaseEvent('gamelistCard_update_component_state');
         _model.gameObject = _model.gameByRef;
         _model.gamePicUrl = _model.gameByRef?.thumbnailUrl;
@@ -50,23 +55,23 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
         _model.gameDescription = _model.gameByRef?.description;
         _model.gamePrice = _model.gameByRef?.averagePrice;
         _model.gameRating = _model.gameByRef?.rating;
-        _model.playersCount = _model.gameByRef?.playerCountMax.toString();
-        _model.playtime = _model.gameByRef?.playTime.toString();
+        _model.playersCount = _model.gameByRef?.playerCountMax?.toString();
+        _model.playtime = _model.gameByRef?.playTime?.toString();
         _model.ageRecommendation =
-            _model.gameByRef?.ageRecommendation.toString();
+            _model.gameByRef?.ageRecommendation?.toString();
         safeSetState(() {});
       } else {
         logFirebaseEvent('gamelistCard_update_component_state');
-        _model.gameObject = widget.gameObject;
-        _model.gamePicUrl = widget.gameObject?.thumbnailUrl;
-        _model.gameName = widget.gameObject?.name;
-        _model.gameDescription = widget.gameObject?.description;
-        _model.gamePrice = widget.gameObject?.averagePrice;
-        _model.gameRating = widget.gameObject?.rating;
-        _model.playersCount = widget.gameObject?.playerCountMax.toString();
-        _model.playtime = widget.gameObject?.playTime.toString();
+        _model.gameObject = widget!.gameObject;
+        _model.gamePicUrl = widget!.gameObject?.thumbnailUrl;
+        _model.gameName = widget!.gameObject?.name;
+        _model.gameDescription = widget!.gameObject?.description;
+        _model.gamePrice = widget!.gameObject?.averagePrice;
+        _model.gameRating = widget!.gameObject?.rating;
+        _model.playersCount = widget!.gameObject?.playerCountMax?.toString();
+        _model.playtime = widget!.gameObject?.playTime?.toString();
         _model.ageRecommendation =
-            widget.gameObject?.ageRecommendation.toString();
+            widget!.gameObject?.ageRecommendation?.toString();
         safeSetState(() {});
       }
     });
@@ -118,7 +123,7 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
           color: FlutterFlowTheme.of(context).secondaryBackground,
         ),
         child: Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
+          padding: EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -144,42 +149,42 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
                               FlutterFlowTheme.of(context).bodyLargeFamily),
                         ),
                   ),
-                ].divide(const SizedBox(width: 32.0)),
+                ].divide(SizedBox(width: 32.0)),
               ),
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Align(
-                      alignment: const AlignmentDirectional(-1.0, 0.0),
+                      alignment: AlignmentDirectional(-1.0, 0.0),
                       child: Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(28.0, 0.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(28.0, 0.0, 0.0, 0.0),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(16.0),
                           child: CachedNetworkImage(
-                            fadeInDuration: const Duration(milliseconds: 500),
-                            fadeOutDuration: const Duration(milliseconds: 500),
+                            fadeInDuration: Duration(milliseconds: 500),
+                            fadeOutDuration: Duration(milliseconds: 500),
                             imageUrl: _model.gamePicUrl!,
                             width: MediaQuery.sizeOf(context).width * 0.25,
                             height: 75.0,
                             fit: BoxFit.cover,
-                            alignment: const Alignment(0.0, 0.0),
+                            alignment: Alignment(0.0, 0.0),
                           ),
                         ),
                       ),
                     ),
                     Align(
-                      alignment: const AlignmentDirectional(0.0, -1.0),
+                      alignment: AlignmentDirectional(0.0, -1.0),
                       child: Container(
                         width: 280.0,
                         height: 70.0,
-                        decoration: const BoxDecoration(),
+                        decoration: BoxDecoration(),
                         child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 15.0, 0.0),
                           child: Text(
                             valueOrDefault<String>(
@@ -204,23 +209,23 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
                         ),
                       ),
                     ),
-                  ].divide(const SizedBox(width: 12.0)),
+                  ].divide(SizedBox(width: 12.0)),
                 ),
               ),
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
                 child: Container(
                   width: MediaQuery.sizeOf(context).width * 1.0,
                   height: 45.0,
-                  decoration: const BoxDecoration(),
+                  decoration: BoxDecoration(),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Align(
-                        alignment: const AlignmentDirectional(0.0, 0.0),
+                        alignment: AlignmentDirectional(0.0, 0.0),
                         child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               16.0, 0.0, 16.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
@@ -236,7 +241,7 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
                                     size: 16.0,
                                   ),
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         8.0, 0.0, 0.0, 0.0),
                                     child: Text(
                                       valueOrDefault<String>(
@@ -269,7 +274,7 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
                                     size: 16.0,
                                   ),
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         8.0, 0.0, 0.0, 0.0),
                                     child: Text(
                                       valueOrDefault<String>(
@@ -302,7 +307,7 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
                                     size: 16.0,
                                   ),
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         8.0, 0.0, 0.0, 0.0),
                                     child: Text(
                                       valueOrDefault<String>(
@@ -326,14 +331,14 @@ class _GamelistCardWidgetState extends State<GamelistCardWidget> {
                                 ],
                               ),
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     16.0, 0.0, 16.0, 4.0),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           16.0, 4.0, 4.0, 0.0),
                                       child: Text(
                                         valueOrDefault<String>(

@@ -1,9 +1,13 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'modify_my_game_price_model.dart';
 export 'modify_my_game_price_model.dart';
 
@@ -38,7 +42,7 @@ class _ModifyMyGamePriceWidgetState extends State<ModifyMyGamePriceWidget> {
     _model = createModel(context, () => ModifyMyGamePriceModel());
 
     _model.textController ??=
-        TextEditingController(text: widget.myGameObject?.price.toString());
+        TextEditingController(text: widget!.myGameObject?.price?.toString());
     _model.textFieldFocusNode ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
@@ -54,12 +58,12 @@ class _ModifyMyGamePriceWidgetState extends State<ModifyMyGamePriceWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
+      padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
       child: Container(
         width: MediaQuery.sizeOf(context).width * 0.9,
         decoration: BoxDecoration(
           color: FlutterFlowTheme.of(context).secondaryBackground,
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
               blurRadius: 4.0,
               color: Color(0x33000000),
@@ -73,7 +77,7 @@ class _ModifyMyGamePriceWidgetState extends State<ModifyMyGamePriceWidget> {
           borderRadius: BorderRadius.circular(12.0),
         ),
         child: Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
+          padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -112,21 +116,21 @@ class _ModifyMyGamePriceWidgetState extends State<ModifyMyGamePriceWidget> {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
+                      borderSide: BorderSide(
                         color: Color(0x00000000),
                         width: 1.0,
                       ),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     errorBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
+                      borderSide: BorderSide(
                         color: Color(0x00000000),
                         width: 1.0,
                       ),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     focusedErrorBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
+                      borderSide: BorderSide(
                         color: Color(0x00000000),
                         width: 1.0,
                       ),
@@ -134,7 +138,7 @@ class _ModifyMyGamePriceWidgetState extends State<ModifyMyGamePriceWidget> {
                     ),
                     filled: true,
                     fillColor: FlutterFlowTheme.of(context).primaryBackground,
-                    suffixIcon: const Icon(
+                    suffixIcon: Icon(
                       Icons.edit,
                     ),
                   ),
@@ -168,9 +172,9 @@ class _ModifyMyGamePriceWidgetState extends State<ModifyMyGamePriceWidget> {
                       width: 120.0,
                       height: 50.0,
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                       iconPadding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                       color: FlutterFlowTheme.of(context).secondaryBackground,
                       textStyle: FlutterFlowTheme.of(context)
                           .bodyMedium
@@ -196,7 +200,7 @@ class _ModifyMyGamePriceWidgetState extends State<ModifyMyGamePriceWidget> {
                           'MODIFY_MY_GAME_PRICE_SALVAR_BTN_ON_TAP');
                       logFirebaseEvent('Button_backend_call');
 
-                      await widget.myGameObject!.reference
+                      await widget!.myGameObject!.reference
                           .update(createMyGamesRecordData(
                         price: double.tryParse(_model.textController.text),
                       ));
@@ -206,9 +210,9 @@ class _ModifyMyGamePriceWidgetState extends State<ModifyMyGamePriceWidget> {
                       width: 120.0,
                       height: 50.0,
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                       iconPadding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                       color: FlutterFlowTheme.of(context).primary,
                       textStyle: FlutterFlowTheme.of(context)
                           .bodyMedium
@@ -221,7 +225,7 @@ class _ModifyMyGamePriceWidgetState extends State<ModifyMyGamePriceWidget> {
                                 FlutterFlowTheme.of(context).bodyMediumFamily),
                           ),
                       elevation: 0.0,
-                      borderSide: const BorderSide(
+                      borderSide: BorderSide(
                         color: Colors.transparent,
                         width: 1.0,
                       ),
@@ -230,7 +234,7 @@ class _ModifyMyGamePriceWidgetState extends State<ModifyMyGamePriceWidget> {
                   ),
                 ],
               ),
-            ].divide(const SizedBox(height: 16.0)),
+            ].divide(SizedBox(height: 16.0)),
           ),
         ),
       ),

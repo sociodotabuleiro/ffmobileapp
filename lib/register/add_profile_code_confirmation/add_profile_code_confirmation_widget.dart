@@ -3,9 +3,11 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'add_profile_code_confirmation_model.dart';
 export 'add_profile_code_confirmation_model.dart';
 
@@ -67,7 +69,7 @@ class _AddProfileCodeConfirmationWidgetState
                             .headlineMedium
                             .override(
                               fontFamily: 'Outfit',
-                              color: const Color(0xFF15161E),
+                              color: Color(0xFF15161E),
                               fontSize: 24.0,
                               letterSpacing: 0.0,
                               fontWeight: FontWeight.w500,
@@ -92,7 +94,7 @@ class _AddProfileCodeConfirmationWidgetState
                     'Por favor, complete as informações a seguir ',
                     style: FlutterFlowTheme.of(context).labelMedium.override(
                           fontFamily: 'Outfit',
-                          color: const Color(0xFF606A85),
+                          color: Color(0xFF606A85),
                           fontSize: 14.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w500,
@@ -100,9 +102,9 @@ class _AddProfileCodeConfirmationWidgetState
                               GoogleFonts.asMap().containsKey('Outfit'),
                         ),
                   ),
-                ].divide(const SizedBox(height: 4.0)),
+                ].divide(SizedBox(height: 4.0)),
               ),
-              actions: const [],
+              actions: [],
               centerTitle: false,
               elevation: 0.0,
             ),
@@ -118,7 +120,7 @@ class _AddProfileCodeConfirmationWidgetState
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 16.0, 0.0, 0.0),
                           child: PinCodeTextField(
                             autoDisposeControllers: false,
@@ -148,7 +150,7 @@ class _AddProfileCodeConfirmationWidgetState
                               fieldHeight: 44.0,
                               fieldWidth: 44.0,
                               borderWidth: 2.0,
-                              borderRadius: const BorderRadius.only(
+                              borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(12.0),
                                 bottomRight: Radius.circular(12.0),
                                 topLeft: Radius.circular(12.0),
@@ -172,12 +174,12 @@ class _AddProfileCodeConfirmationWidgetState
                       ],
                     ),
                     Container(
-                      constraints: const BoxConstraints(
+                      constraints: BoxConstraints(
                         maxWidth: 770.0,
                       ),
-                      decoration: const BoxDecoration(),
+                      decoration: BoxDecoration(),
                       child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
+                        padding: EdgeInsetsDirectional.fromSTEB(
                             16.0, 16.0, 16.0, 16.0),
                         child: FFButtonWidget(
                           onPressed: () async {
@@ -186,9 +188,9 @@ class _AddProfileCodeConfirmationWidgetState
                             logFirebaseEvent('Button_auth');
                             GoRouter.of(context).prepareAuthEvent();
                             final smsCodeVal = _model.pinCodeController!.text;
-                            if (smsCodeVal.isEmpty) {
+                            if (smsCodeVal == null || smsCodeVal.isEmpty) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
+                                SnackBar(
                                   content: Text('Enter SMS verification code.'),
                                 ),
                               );
@@ -222,11 +224,11 @@ class _AddProfileCodeConfirmationWidgetState
                           options: FFButtonOptions(
                             width: double.infinity,
                             height: 48.0,
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 24.0, 0.0, 24.0, 0.0),
-                            iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                            iconPadding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 0.0),
-                            color: const Color(0xFF6F61EF),
+                            color: Color(0xFF6F61EF),
                             textStyle: FlutterFlowTheme.of(context)
                                 .titleSmall
                                 .override(
@@ -239,7 +241,7 @@ class _AddProfileCodeConfirmationWidgetState
                                       .containsKey('Figtree'),
                                 ),
                             elevation: 3.0,
-                            borderSide: const BorderSide(
+                            borderSide: BorderSide(
                               color: Colors.transparent,
                               width: 1.0,
                             ),

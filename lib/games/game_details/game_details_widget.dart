@@ -6,12 +6,14 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/games/my_game_config_sheet/my_game_config_sheet_widget.dart';
+import 'dart:math';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart'
     as smooth_page_indicator;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -20,6 +22,7 @@ import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:octo_image/octo_image.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
 import 'game_details_model.dart';
@@ -56,19 +59,19 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('GAME_DETAILS_gameDetails_ON_INIT_STATE');
-      if ((currentUserDocument?.wishlist.toList() ?? [])
-          .contains(widget.gameObject?.reference)) {
+      if ((currentUserDocument?.wishlist?.toList() ?? [])
+          .contains(widget!.gameObject?.reference)) {
         logFirebaseEvent('gameDetails_update_page_state');
         _model.wishlisted = true;
         safeSetState(() {});
       }
-      if ((currentUserDocument?.favoriteList.toList() ?? [])
-          .contains(widget.gameObject?.reference)) {
+      if ((currentUserDocument?.favoriteList?.toList() ?? [])
+          .contains(widget!.gameObject?.reference)) {
         logFirebaseEvent('gameDetails_update_page_state');
         _model.favorited = true;
         safeSetState(() {});
       }
-      if (FFAppState().myGamesGameRef.contains(widget.gameObject?.reference) ==
+      if (FFAppState().myGamesGameRef.contains(widget!.gameObject?.reference) ==
           true) {
         logFirebaseEvent('gameDetails_update_page_state');
         _model.myGameRef = null;
@@ -76,13 +79,13 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
       }
       logFirebaseEvent('gameDetails_update_page_state');
       _model.timesFavorited = valueOrDefault<int>(
-        widget.gameObject?.timesFavorited,
+        widget!.gameObject?.timesFavorited,
         0,
       );
       safeSetState(() {});
       logFirebaseEvent('gameDetails_update_page_state');
       _model.timesWishlisted = valueOrDefault<int>(
-        widget.gameObject?.timesWishlisted,
+        widget!.gameObject?.timesWishlisted,
         0,
       );
       safeSetState(() {});
@@ -103,15 +106,15 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(0.0, 40.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(0.0, 40.0),
+            end: Offset(0.0, 0.0),
           ),
           ScaleEffect(
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(0.6, 0.6),
-            end: const Offset(1.0, 1.0),
+            begin: Offset(0.6, 0.6),
+            end: Offset(1.0, 1.0),
           ),
         ],
       ),
@@ -129,8 +132,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(50.0, 0.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(50.0, 0.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -148,8 +151,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(50.0, 0.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(50.0, 0.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -168,8 +171,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(60.0, 0.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(60.0, 0.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -188,8 +191,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
             curve: Curves.easeInOut,
             delay: 100.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(60.0, 0.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(60.0, 0.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -208,8 +211,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
             curve: Curves.easeInOut,
             delay: 100.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(60.0, 0.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(60.0, 0.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -228,8 +231,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
             curve: Curves.easeInOut,
             delay: 100.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(60.0, 0.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(60.0, 0.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -248,8 +251,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
             curve: Curves.easeInOut,
             delay: 100.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(60.0, 0.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(60.0, 0.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -267,8 +270,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(50.0, 0.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(50.0, 0.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -286,8 +289,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(0.0, 80.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(0.0, 80.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -298,8 +301,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(-44.99999999999999, 0.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(-44.99999999999999, 0.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -311,8 +314,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
             curve: Curves.elasticOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(-1.0, -1.0),
-            end: const Offset(1.0, 1.0),
+            begin: Offset(-1.0, -1.0),
+            end: Offset(1.0, 1.0),
           ),
         ],
       ),
@@ -324,8 +327,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
             curve: Curves.elasticOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(-1.0, -1.0),
-            end: const Offset(1.0, 1.0),
+            begin: Offset(-1.0, -1.0),
+            end: Offset(1.0, 1.0),
           ),
         ],
       ),
@@ -336,8 +339,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(-44.99999999999999, 0.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(-44.99999999999999, 0.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -349,8 +352,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
             curve: Curves.elasticOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(-1.0, -1.0),
-            end: const Offset(1.0, 1.0),
+            begin: Offset(-1.0, -1.0),
+            end: Offset(1.0, 1.0),
           ),
         ],
       ),
@@ -362,8 +365,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
             curve: Curves.elasticOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(-1.0, -1.0),
-            end: const Offset(1.0, 1.0),
+            begin: Offset(-1.0, -1.0),
+            end: Offset(1.0, 1.0),
           ),
         ],
       ),
@@ -381,8 +384,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(50.0, 0.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(50.0, 0.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -400,8 +403,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(0.0, 100.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(0.0, 100.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -440,7 +443,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
               mainAxisSize: MainAxisSize.max,
               children: [
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
                   child: Container(
                     width: MediaQuery.sizeOf(context).width * 1.0,
                     height: MediaQuery.sizeOf(context).height * 0.05,
@@ -452,9 +455,9 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Align(
-                          alignment: const AlignmentDirectional(-0.9, 0.0),
+                          alignment: AlignmentDirectional(-0.9, 0.0),
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 16.0, 0.0, 0.0, 0.0),
                             child: InkWell(
                               splashColor: Colors.transparent,
@@ -477,7 +480,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 16.0, 0.0),
                           child: InkWell(
                             splashColor: Colors.transparent,
@@ -490,7 +493,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                               logFirebaseEvent('Icon_custom_action');
                               _model.myGamesRef =
                                   await actions.getMyGamesRefFromGamesId(
-                                widget.gameObject!.reference,
+                                widget!.gameObject!.reference,
                               );
                               logFirebaseEvent('Icon_bottom_sheet');
                               await showModalBottomSheet(
@@ -505,14 +508,14 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                       child: Padding(
                                         padding:
                                             MediaQuery.viewInsetsOf(context),
-                                        child: SizedBox(
+                                        child: Container(
                                           height: MediaQuery.sizeOf(context)
                                                   .height *
                                               0.25,
                                           child: MyGameConfigSheetWidget(
                                             gameRef:
-                                                widget.gameObject!.reference,
-                                            gameName: widget.gameObject!.name,
+                                                widget!.gameObject!.reference,
+                                            gameName: widget!.gameObject!.name,
                                             myGameRef: _model.myGamesRef!,
                                           ),
                                         ),
@@ -538,7 +541,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                 Expanded(
                   child: Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(24.0, 12.0, 24.0, 12.0),
+                        EdgeInsetsDirectional.fromSTEB(24.0, 12.0, 24.0, 12.0),
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
@@ -546,32 +549,33 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                         children: [
                           Container(
                             height: 200.0,
-                            decoration: const BoxDecoration(),
+                            decoration: BoxDecoration(),
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                if (((widget.gameObject?.galleryURLs != null &&
-                                            (widget.gameObject?.galleryURLs)!
+                                if (((widget!.gameObject?.galleryURLs != null &&
+                                            (widget!.gameObject?.galleryURLs)!
                                                 .isNotEmpty) ==
                                         true) &&
-                                    (widget.gameObject!.galleryURLs.isNotEmpty))
+                                    (widget!.gameObject!.galleryURLs.length >
+                                        0))
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         32.0, 0.0, 32.0, 0.0),
                                     child: Builder(
                                       builder: (context) {
-                                        final images = widget
+                                        final images = widget!
                                                 .gameObject?.galleryURLs
-                                                .toList() ??
+                                                ?.toList() ??
                                             [];
 
-                                        return SizedBox(
+                                        return Container(
                                           width: double.infinity,
                                           height: 190.0,
                                           child: Stack(
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         0.0, 0.0, 0.0, 40.0),
                                                 child: PageView.builder(
@@ -600,7 +604,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                                             (_) =>
                                                                 SizedBox.expand(
                                                           child: Image(
-                                                            image: BlurHashImage(widget
+                                                            image: BlurHashImage(widget!
                                                                     .gameObject!
                                                                     .galleryBluehash[
                                                                 imagesIndex]),
@@ -608,7 +612,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                                           ),
                                                         ),
                                                         image: NetworkImage(
-                                                          widget.gameObject!
+                                                          widget!.gameObject!
                                                                   .galleryURLs[
                                                               imagesIndex],
                                                         ),
@@ -623,10 +627,10 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                                 ),
                                               ),
                                               Align(
-                                                alignment: const AlignmentDirectional(
+                                                alignment: AlignmentDirectional(
                                                     -1.0, 1.0),
                                                 child: Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           16.0, 0.0, 0.0, 16.0),
                                                   child: smooth_page_indicator
@@ -648,7 +652,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                                           .pageViewController!
                                                           .animateToPage(
                                                         i,
-                                                        duration: const Duration(
+                                                        duration: Duration(
                                                             milliseconds: 500),
                                                         curve: Curves.ease,
                                                       );
@@ -682,7 +686,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                     ),
                                   ),
                                 Align(
-                                  alignment: const AlignmentDirectional(0.0, 0.0),
+                                  alignment: AlignmentDirectional(0.0, 0.0),
                                   child: InkWell(
                                     splashColor: Colors.transparent,
                                     focusColor: Colors.transparent,
@@ -698,11 +702,11 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                           type: PageTransitionType.fade,
                                           child: FlutterFlowExpandedImageView(
                                             image: Image.network(
-                                              widget.gameObject!.thumbnailUrl,
+                                              widget!.gameObject!.thumbnailUrl,
                                               fit: BoxFit.contain,
                                             ),
                                             allowRotation: false,
-                                            tag: widget
+                                            tag: widget!
                                                 .gameObject!.thumbnailUrl,
                                             useHeroAnimation: true,
                                           ),
@@ -710,13 +714,13 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                       );
                                     },
                                     child: Hero(
-                                      tag: widget.gameObject!.thumbnailUrl,
+                                      tag: widget!.gameObject!.thumbnailUrl,
                                       transitionOnUserGestures: true,
                                       child: ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(8.0),
                                         child: Image.network(
-                                          widget.gameObject!.thumbnailUrl,
+                                          widget!.gameObject!.thumbnailUrl,
                                           width: 300.0,
                                           height: 200.0,
                                           fit: BoxFit.cover,
@@ -729,11 +733,11 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 8.0, 0.0, 8.0),
                             child: Text(
                               valueOrDefault<String>(
-                                widget.gameName,
+                                widget!.gameName,
                                 'nomeDoJogo',
                               ),
                               style: FlutterFlowTheme.of(context)
@@ -751,7 +755,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                 animationsMap['textOnPageLoadAnimation1']!),
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 4.0, 0.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
@@ -769,7 +773,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                     ),
                                     Text(
                                       valueOrDefault<String>(
-                                        widget.gameObject?.rating.toString(),
+                                        widget!.gameObject?.rating?.toString(),
                                         '0',
                                       ),
                                       style: FlutterFlowTheme.of(context)
@@ -785,7 +789,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                                         .bodyMediumFamily),
                                           ),
                                     ),
-                                  ].divide(const SizedBox(width: 10.0)),
+                                  ].divide(SizedBox(width: 10.0)),
                                 ),
                                 Row(
                                   mainAxisSize: MainAxisSize.max,
@@ -799,8 +803,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                     ),
                                     Text(
                                       valueOrDefault<String>(
-                                        widget.gameObject?.playerCountMax
-                                            .toString(),
+                                        widget!.gameObject?.playerCountMax
+                                            ?.toString(),
                                         '0',
                                       ),
                                       style: FlutterFlowTheme.of(context)
@@ -816,7 +820,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                                         .bodyMediumFamily),
                                           ),
                                     ),
-                                  ].divide(const SizedBox(width: 10.0)),
+                                  ].divide(SizedBox(width: 10.0)),
                                 ),
                                 Row(
                                   mainAxisSize: MainAxisSize.max,
@@ -830,8 +834,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                     ),
                                     Text(
                                       valueOrDefault<String>(
-                                        widget.gameObject?.playTime
-                                            .toString(),
+                                        widget!.gameObject?.playTime
+                                            ?.toString(),
                                         '0',
                                       ),
                                       style: FlutterFlowTheme.of(context)
@@ -847,7 +851,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                                         .bodyMediumFamily),
                                           ),
                                     ),
-                                  ].divide(const SizedBox(width: 10.0)),
+                                  ].divide(SizedBox(width: 10.0)),
                                 ),
                                 Row(
                                   mainAxisSize: MainAxisSize.max,
@@ -861,8 +865,8 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                     ),
                                     Text(
                                       valueOrDefault<String>(
-                                        widget.gameObject?.ageRecommendation
-                                            .toString(),
+                                        widget!.gameObject?.ageRecommendation
+                                            ?.toString(),
                                         '0',
                                       ),
                                       style: FlutterFlowTheme.of(context)
@@ -878,14 +882,14 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                                         .bodyMediumFamily),
                                           ),
                                     ),
-                                  ].divide(const SizedBox(width: 10.0)),
+                                  ].divide(SizedBox(width: 10.0)),
                                 ),
-                              ].divide(const SizedBox(width: 10.0)),
+                              ].divide(SizedBox(width: 10.0)),
                             ).animateOnPageLoad(
                                 animationsMap['rowOnPageLoadAnimation1']!),
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 4.0, 4.0, 0.0, 0.0),
                             child: Text(
                               'Descrição',
@@ -905,12 +909,12 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                           ),
                           if (!_model.lerMais)
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   4.0, 4.0, 0.0, 0.0),
                               child: SelectionArea(
                                   child: Text(
                                 valueOrDefault<String>(
-                                  widget.gameObject?.description,
+                                  widget!.gameObject?.description,
                                   '--',
                                 ).maybeHandleOverflow(
                                   maxChars: 100,
@@ -931,16 +935,16 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                   animationsMap['textOnPageLoadAnimation3']!),
                             ),
                           Container(
-                            decoration: const BoxDecoration(),
+                            decoration: BoxDecoration(),
                             child: Visibility(
                               visible: _model.lerMais == true,
                               child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     4.0, 4.0, 0.0, 0.0),
                                 child: SelectionArea(
                                     child: Text(
                                   valueOrDefault<String>(
-                                    widget.gameObject?.description,
+                                    widget!.gameObject?.description,
                                     '--',
                                   ),
                                   style: FlutterFlowTheme.of(context)
@@ -961,7 +965,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                           ),
                           if (!_model.lerMais)
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   4.0, 4.0, 0.0, 0.0),
                               child: InkWell(
                                 splashColor: Colors.transparent,
@@ -996,7 +1000,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                             ),
                           if (_model.lerMais)
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   4.0, 4.0, 0.0, 0.0),
                               child: InkWell(
                                 splashColor: Colors.transparent,
@@ -1122,7 +1126,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                   ).animateOnPageLoad(animationsMap[
                                       'conditionalBuilderOnPageLoadAnimation1']!),
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 8.0, 0.0, 0.0),
                                     child: Text(
                                       valueOrDefault<String>(
@@ -1144,7 +1148,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 4.0, 0.0, 0.0),
                                     child: Text(
                                       'Favoritos',
@@ -1250,7 +1254,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                   ).animateOnPageLoad(animationsMap[
                                       'conditionalBuilderOnPageLoadAnimation2']!),
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 8.0, 0.0, 0.0),
                                     child: Text(
                                       valueOrDefault<String>(
@@ -1272,7 +1276,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 4.0, 0.0, 0.0),
                                     child: Text(
                                       'Lista de desejo',
@@ -1297,19 +1301,19 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                 children: [
                                   FaIcon(
                                     FontAwesomeIcons.dollarSign,
-                                    color: widget.gameObject!.timesRented > 0
+                                    color: widget!.gameObject!.timesRented > 0
                                         ? FlutterFlowTheme.of(context).success
                                         : FlutterFlowTheme.of(context)
                                             .primaryText,
                                     size: 32.0,
                                   ),
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 8.0, 0.0, 0.0),
                                     child: Text(
                                       valueOrDefault<String>(
-                                        widget.gameObject?.timesRented
-                                            .toString(),
+                                        widget!.gameObject?.timesRented
+                                            ?.toString(),
                                         '0',
                                       ),
                                       style: FlutterFlowTheme.of(context)
@@ -1327,7 +1331,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 4.0, 0.0, 0.0),
                                     child: Text(
                                       'Alugado',
@@ -1366,7 +1370,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                             Builder(
                               builder: (context) {
                                 final categoriesList =
-                                    widget.gameObject?.categories.toList() ??
+                                    widget!.gameObject?.categories?.toList() ??
                                         [];
 
                                 return SingleChildScrollView(
@@ -1381,7 +1385,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                       final categoriesListItem =
                                           categoriesList[categoriesListIndex];
                                       return Container(
-                                        decoration: const BoxDecoration(),
+                                        decoration: BoxDecoration(),
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(24.0),
@@ -1393,17 +1397,17 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                           ),
                                         ),
                                       );
-                                    }).divide(const SizedBox(width: 15.0)),
+                                    }).divide(SizedBox(width: 15.0)),
                                   ),
                                 );
                               },
                             ),
-                          if ((widget.gameObject?.galleryURLs != null &&
-                                  (widget.gameObject?.galleryURLs)!
+                          if ((widget!.gameObject?.galleryURLs != null &&
+                                  (widget!.gameObject?.galleryURLs)!
                                       .isNotEmpty) ==
                               true)
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 16.0, 0.0, 0.0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
@@ -1425,12 +1429,12 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                   ),
                                   Builder(
                                     builder: (context) {
-                                      final imagesUrls = widget
+                                      final imagesUrls = widget!
                                               .gameObject?.galleryURLs
-                                              .toList() ??
+                                              ?.toList() ??
                                           [];
 
-                                      return SizedBox(
+                                      return Container(
                                         width: double.infinity,
                                         height: 180.0,
                                         child: CarouselSlider.builder(
@@ -1485,7 +1489,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                 desktop: false,
                               ))
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 32.0, 0.0, 0.0),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
@@ -1515,17 +1519,17 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                           print('Button pressed ...');
                                         },
                                         text: 'Reviews',
-                                        icon: const Icon(
+                                        icon: Icon(
                                           Icons.rate_review_sharp,
                                           size: 15.0,
                                         ),
                                         options: FFButtonOptions(
                                           height: 40.0,
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   24.0, 0.0, 24.0, 0.0),
                                           iconPadding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 0.0, 0.0, 0.0),
                                           color: FlutterFlowTheme.of(context)
                                               .secondary,
@@ -1546,7 +1550,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                                             .titleSmallFamily),
                                               ),
                                           elevation: 3.0,
-                                          borderSide: const BorderSide(
+                                          borderSide: BorderSide(
                                             color: Colors.transparent,
                                             width: 1.0,
                                           ),
@@ -1554,7 +1558,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                               BorderRadius.circular(8.0),
                                         ),
                                       ),
-                                    ].divide(const SizedBox(height: 10.0)),
+                                    ].divide(SizedBox(height: 10.0)),
                                   ),
                                 ),
                             ],
@@ -1567,18 +1571,18 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                 if (valueOrDefault<bool>(
                   FFAppState()
                           .myGamesGameRef
-                          .contains(widget.gameObject?.reference) ==
+                          .contains(widget!.gameObject?.reference) ==
                       false,
                   false,
                 ))
                   Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 24.0),
+                        EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 24.0),
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).secondaryBackground,
-                        boxShadow: const [
+                        boxShadow: [
                           BoxShadow(
                             blurRadius: 4.0,
                             color: Color(0x55000000),
@@ -1595,7 +1599,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                         ),
                       ),
                       child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
+                        padding: EdgeInsetsDirectional.fromSTEB(
                             24.0, 16.0, 16.0, 16.0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
@@ -1613,7 +1617,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                       valueOrDefault<String>(
                                         formatNumber(
                                           valueOrDefault<double>(
-                                                widget
+                                                widget!
                                                     .gameObject?.averagePrice,
                                                 0.0,
                                               ) /
@@ -1638,7 +1642,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                           ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           4.0, 0.0, 0.0, 0.0),
                                       child: Text(
                                         '+ entrega',
@@ -1662,7 +1666,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                   ],
                                 ),
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 4.0, 0.0, 0.0),
                                   child: Text(
                                     'preço médio',
@@ -1688,17 +1692,17 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                     true) &&
                                 !FFAppState()
                                     .myGamesGameRef
-                                    .contains(widget.gameObject?.reference))
+                                    .contains(widget!.gameObject?.reference))
                               AuthUserStreamWidget(
                                 builder: (context) => FFButtonWidget(
-                                  onPressed: (widget
+                                  onPressed: (widget!
                                               .gameObject?.availableToRent ==
                                           false)
                                       ? null
                                       : () async {
                                           logFirebaseEvent(
                                               'GAME_DETAILS_PAGE_rentButton_ON_TAP');
-                                          if ((widget.gameObject
+                                          if ((widget!.gameObject
                                                       ?.availableToRent ==
                                                   true) &&
                                               FFDevEnvironmentValues()
@@ -1710,20 +1714,20 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                               'toRentList',
                                               queryParameters: {
                                                 'gameObject': serializeParam(
-                                                  widget.gameObject,
+                                                  widget!.gameObject,
                                                   ParamType.Document,
                                                 ),
                                               }.withoutNulls,
                                               extra: <String, dynamic>{
                                                 'gameObject':
-                                                    widget.gameObject,
+                                                    widget!.gameObject,
                                               },
                                             );
                                           } else {
                                             return;
                                           }
                                         },
-                                  text: (widget.gameObject?.availableToRent ==
+                                  text: (widget!.gameObject?.availableToRent ==
                                               true) &&
                                           FFDevEnvironmentValues()
                                               .isRentingAvailable
@@ -1732,11 +1736,11 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                   options: FFButtonOptions(
                                     width: 130.0,
                                     height: 50.0,
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 0.0),
-                                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 0.0),
-                                    color: (widget.gameObject
+                                    color: (widget!.gameObject
                                                     ?.availableToRent ==
                                                 true) &&
                                             FFDevEnvironmentValues()
@@ -1750,7 +1754,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                           fontFamily:
                                               FlutterFlowTheme.of(context)
                                                   .titleSmallFamily,
-                                          color: (widget.gameObject
+                                          color: (widget!.gameObject
                                                           ?.availableToRent ==
                                                       true) &&
                                                   FFDevEnvironmentValues()
@@ -1766,7 +1770,7 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                                       .titleSmallFamily),
                                         ),
                                     elevation: 3.0,
-                                    borderSide: const BorderSide(
+                                    borderSide: BorderSide(
                                       color: Colors.transparent,
                                       width: 1.0,
                                     ),

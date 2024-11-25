@@ -1,11 +1,15 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
+import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import '/profile/modify_address/modify_address_widget.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
 import 'settings_list_address_model.dart';
 export 'settings_list_address_model.dart';
@@ -66,7 +70,7 @@ class _SettingsListAddressWidgetState extends State<SettingsListAddressWidget> {
                 borderRadius: 30.0,
                 borderWidth: 1.0,
                 buttonSize: 60.0,
-                icon: const Icon(
+                icon: Icon(
                   Icons.arrow_back_rounded,
                   color: Colors.white,
                   size: 30.0,
@@ -89,7 +93,7 @@ class _SettingsListAddressWidgetState extends State<SettingsListAddressWidget> {
                           FlutterFlowTheme.of(context).headlineMediumFamily),
                     ),
               ),
-              actions: const [],
+              actions: [],
               centerTitle: true,
               elevation: 2.0,
             ),
@@ -110,7 +114,7 @@ class _SettingsListAddressWidgetState extends State<SettingsListAddressWidget> {
                         borderRadius: BorderRadius.circular(16.0),
                       ),
                       child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
+                        padding: EdgeInsetsDirectional.fromSTEB(
                             20.0, 20.0, 20.0, 20.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -172,7 +176,7 @@ class _SettingsListAddressWidgetState extends State<SettingsListAddressWidget> {
                                       borderRadius: BorderRadius.circular(12.0),
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           16.0, 16.0, 16.0, 16.0),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
@@ -264,7 +268,7 @@ class _SettingsListAddressWidgetState extends State<SettingsListAddressWidget> {
                                                     borderRadius: 20.0,
                                                     buttonSize: 40.0,
                                                     fillColor:
-                                                        const Color(0xFFE3F2FD),
+                                                        Color(0xFFE3F2FD),
                                                     icon: Icon(
                                                       Icons.edit,
                                                       color:
@@ -314,7 +318,7 @@ class _SettingsListAddressWidgetState extends State<SettingsListAddressWidget> {
                                                     borderRadius: 20.0,
                                                     buttonSize: 40.0,
                                                     fillColor:
-                                                        const Color(0xFFFFEBEE),
+                                                        Color(0xFFFFEBEE),
                                                     icon: Icon(
                                                       Icons.delete,
                                                       color:
@@ -328,23 +332,23 @@ class _SettingsListAddressWidgetState extends State<SettingsListAddressWidget> {
                                                           'deleteAddress pressed ...');
                                                     },
                                                   ),
-                                                ].divide(const SizedBox(width: 8.0)),
+                                                ].divide(SizedBox(width: 8.0)),
                                               ),
                                             ],
                                           ),
-                                        ].divide(const SizedBox(height: 12.0)),
+                                        ].divide(SizedBox(height: 12.0)),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ].divide(const SizedBox(height: 16.0)),
+                              ].divide(SizedBox(height: 16.0)),
                             ),
-                          ].divide(const SizedBox(height: 16.0)),
+                          ].divide(SizedBox(height: 16.0)),
                         ),
                       ),
                     ),
                   ),
-                ].divide(const SizedBox(height: 24.0)).around(const SizedBox(height: 24.0)),
+                ].divide(SizedBox(height: 24.0)).around(SizedBox(height: 24.0)),
               ),
             ),
           ),

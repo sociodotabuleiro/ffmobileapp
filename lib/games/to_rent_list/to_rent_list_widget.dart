@@ -2,15 +2,18 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/backend/schema/enums/enums.dart';
+import '/backend/schema/structs/index.dart';
 import '/components/game_to_rent/game_to_rent_widget.dart';
 import '/components/nav_bar/nav_bar_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:convert';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/flutter_flow/random_data_util.dart' as random_data;
 import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -69,16 +72,16 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
             appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(50.0),
+              preferredSize: Size.fromHeight(50.0),
               child: AppBar(
                 backgroundColor:
                     FlutterFlowTheme.of(context).secondaryBackground,
                 automaticallyImplyLeading: false,
                 leading: Align(
-                  alignment: const AlignmentDirectional(-1.0, 0.0),
+                  alignment: AlignmentDirectional(-1.0, 0.0),
                   child: Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 0.0),
                     child: FlutterFlowIconButton(
                       borderColor: Colors.transparent,
                       borderRadius: 30.0,
@@ -98,7 +101,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                     ),
                   ),
                 ),
-                actions: const [],
+                actions: [],
                 centerTitle: true,
                 elevation: 0.0,
               ),
@@ -106,21 +109,21 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
             body: Container(
               width: MediaQuery.sizeOf(context).width * 1.0,
               height: MediaQuery.sizeOf(context).height * 1.0,
-              decoration: const BoxDecoration(),
+              decoration: BoxDecoration(),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Align(
-                    alignment: const AlignmentDirectional(0.0, -1.0),
+                    alignment: AlignmentDirectional(0.0, -1.0),
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Align(
-                          alignment: const AlignmentDirectional(-1.0, -1.0),
+                          alignment: AlignmentDirectional(-1.0, -1.0),
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 24.0, 0.0, 0.0, 0.0),
                             child: Text(
                               'Jogos disponíveis',
@@ -139,9 +142,9 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                           ),
                         ),
                         Align(
-                          alignment: const AlignmentDirectional(-1.0, -1.0),
+                          alignment: AlignmentDirectional(-1.0, -1.0),
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 24.0, 4.0, 0.0, 0.0),
                             child: Text(
                               'Abaixo estão os jogos disponíveis para alugar',
@@ -165,18 +168,18 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                   ),
                   Flexible(
                     child: Align(
-                      alignment: const AlignmentDirectional(0.0, -1.0),
+                      alignment: AlignmentDirectional(0.0, -1.0),
                       child: Container(
                         width: MediaQuery.sizeOf(context).width * 1.0,
                         height: MediaQuery.sizeOf(context).height * 0.7,
-                        decoration: const BoxDecoration(),
+                        decoration: BoxDecoration(),
                         child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               12.0, 12.0, 12.0, 0.0),
                           child: Builder(
                             builder: (context) {
                               final userListFromGame =
-                                  widget.gameObject?.availableAt.toList() ??
+                                  widget!.gameObject?.availableAt?.toList() ??
                                       [];
                               if (userListFromGame.isEmpty) {
                                 return Center(
@@ -194,13 +197,13 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                   scrollDirection: Axis.vertical,
                                   itemCount: userListFromGame.length,
                                   separatorBuilder: (_, __) =>
-                                      const SizedBox(height: 16.0),
+                                      SizedBox(height: 16.0),
                                   itemBuilder:
                                       (context, userListFromGameIndex) {
                                     final userListFromGameItem =
                                         userListFromGame[userListFromGameIndex];
                                     return Container(
-                                      decoration: const BoxDecoration(),
+                                      decoration: BoxDecoration(),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
@@ -211,8 +214,8 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                                 'Keyew5_${userListFromGameIndex}_of_${userListFromGame.length}'),
                                             userRef: userListFromGameItem,
                                             gameRef:
-                                                widget.gameObject!.reference,
-                                            gameName: widget.gameObject!.name,
+                                                widget!.gameObject!.reference,
+                                            gameName: widget!.gameObject!.name,
                                           ),
                                         ],
                                       ),
@@ -232,7 +235,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).secondaryBackground,
                     ),
-                    alignment: const AlignmentDirectional(0.0, 0.0),
+                    alignment: AlignmentDirectional(0.0, 0.0),
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
@@ -240,17 +243,17 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Align(
-                            alignment: const AlignmentDirectional(0.0, 0.0),
+                            alignment: AlignmentDirectional(0.0, 0.0),
                             child: FFButtonWidget(
                               onPressed: () async {
                                 logFirebaseEvent(
                                     'TO_RENT_LIST_PAGE_PAGAR_BTN_ON_TAP');
-                                var shouldSetState = false;
+                                var _shouldSetState = false;
                                 logFirebaseEvent('Button_backend_call');
                                 _model.renterObject =
                                     await UsersRecord.getDocumentOnce(
                                         FFAppState().renterRef!);
-                                shouldSetState = true;
+                                _shouldSetState = true;
                                 if (!(_model.renterObject?.reference != null)) {
                                   logFirebaseEvent('Button_alert_dialog');
                                   await showDialog(
@@ -259,21 +262,21 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                       return WebViewAware(
                                         child: AlertDialog(
                                           title:
-                                              const Text('Sem escolha de usuário!'),
-                                          content: const Text(
+                                              Text('Sem escolha de usuário!'),
+                                          content: Text(
                                               'Por favor escolha um locador e uma data!'),
                                           actions: [
                                             TextButton(
                                               onPressed: () => Navigator.pop(
                                                   alertDialogContext),
-                                              child: const Text('Ok'),
+                                              child: Text('Ok'),
                                             ),
                                           ],
                                         ),
                                       );
                                     },
                                   );
-                                  if (shouldSetState) safeSetState(() {});
+                                  if (_shouldSetState) safeSetState(() {});
                                   return;
                                 }
                                 logFirebaseEvent('Button_alert_dialog');
@@ -283,19 +286,19 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                       builder: (alertDialogContext) {
                                         return WebViewAware(
                                           child: AlertDialog(
-                                            title: const Text('Método de Pagamento'),
-                                            content: const Text(
+                                            title: Text('Método de Pagamento'),
+                                            content: Text(
                                                 'Qual método de pagamento você deseja usar?'),
                                             actions: [
                                               TextButton(
                                                 onPressed: () => Navigator.pop(
                                                     alertDialogContext, false),
-                                                child: const Text('Pix'),
+                                                child: Text('Pix'),
                                               ),
                                               TextButton(
                                                 onPressed: () => Navigator.pop(
                                                     alertDialogContext, true),
-                                                child: const Text('Cartão'),
+                                                child: Text('Cartão'),
                                               ),
                                             ],
                                           ),
@@ -323,7 +326,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                                 FFAppState().renterRef!)!
                                             .priceBreakdown
                                             .total,
-                                    description: widget.gameObject?.name,
+                                    description: widget!.gameObject?.name,
                                     externalReference:
                                         '${random_data.randomString(
                                       8,
@@ -334,7 +337,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                     )}${currentUserReference?.id}',
                                   );
 
-                                  shouldSetState = true;
+                                  _shouldSetState = true;
                                   logFirebaseEvent('Button_update_page_state');
                                   _model.orderId = getJsonField(
                                     (_model.createdBillingcard?.jsonBody ?? ''),
@@ -353,7 +356,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                                 .primaryText,
                                           ),
                                         ),
-                                        duration: const Duration(milliseconds: 4000),
+                                        duration: Duration(milliseconds: 4000),
                                         backgroundColor:
                                             FlutterFlowTheme.of(context)
                                                 .secondary,
@@ -380,7 +383,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                       ).toString(),
                                     );
 
-                                    shouldSetState = true;
+                                    _shouldSetState = true;
                                     if ((_model.paymentstatuscard?.succeeded ??
                                         true)) {
                                       logFirebaseEvent('Button_alert_dialog');
@@ -389,15 +392,15 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                         builder: (alertDialogContext) {
                                           return WebViewAware(
                                             child: AlertDialog(
-                                              title: const Text('Aluguel Efetuado!'),
-                                              content: const Text(
+                                              title: Text('Aluguel Efetuado!'),
+                                              content: Text(
                                                   'Aluguel Efetuado com Sucesso!'),
                                               actions: [
                                                 TextButton(
                                                   onPressed: () =>
                                                       Navigator.pop(
                                                           alertDialogContext),
-                                                  child: const Text('Ok'),
+                                                  child: Text('Ok'),
                                                 ),
                                               ],
                                             ),
@@ -411,26 +414,26 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                         builder: (alertDialogContext) {
                                           return WebViewAware(
                                             child: AlertDialog(
-                                              title: const Text('Erro no pagamento!'),
-                                              content: const Text(
+                                              title: Text('Erro no pagamento!'),
+                                              content: Text(
                                                   'Erro ao efetuar Pagamento'),
                                               actions: [
                                                 TextButton(
                                                   onPressed: () =>
                                                       Navigator.pop(
                                                           alertDialogContext),
-                                                  child: const Text('Ok'),
+                                                  child: Text('Ok'),
                                                 ),
                                               ],
                                             ),
                                           );
                                         },
                                       );
-                                      if (shouldSetState) safeSetState(() {});
+                                      if (_shouldSetState) safeSetState(() {});
                                       return;
                                     }
                                   } else {
-                                    if (shouldSetState) safeSetState(() {});
+                                    if (_shouldSetState) safeSetState(() {});
                                     return;
                                   }
                                 } else {
@@ -453,7 +456,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                                 FFAppState().renterRef!)!
                                             .priceBreakdown
                                             .total,
-                                    description: widget.gameObject?.name,
+                                    description: widget!.gameObject?.name,
                                     externalReference:
                                         '${random_data.randomString(
                                       8,
@@ -464,7 +467,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                     )}${currentUserReference?.id}',
                                   );
 
-                                  shouldSetState = true;
+                                  _shouldSetState = true;
                                   logFirebaseEvent('Button_update_page_state');
                                   _model.orderId = getJsonField(
                                     (_model.createdBillingPix?.jsonBody ?? ''),
@@ -483,7 +486,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                                 .primaryText,
                                           ),
                                         ),
-                                        duration: const Duration(milliseconds: 4000),
+                                        duration: Duration(milliseconds: 4000),
                                         backgroundColor:
                                             FlutterFlowTheme.of(context)
                                                 .secondary,
@@ -510,7 +513,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                       ).toString(),
                                     );
 
-                                    shouldSetState = true;
+                                    _shouldSetState = true;
                                     if ((_model.paymentstatuspix?.succeeded ??
                                         true)) {
                                       logFirebaseEvent('Button_alert_dialog');
@@ -519,15 +522,15 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                         builder: (alertDialogContext) {
                                           return WebViewAware(
                                             child: AlertDialog(
-                                              title: const Text('Aluguel Efetuado!'),
-                                              content: const Text(
+                                              title: Text('Aluguel Efetuado!'),
+                                              content: Text(
                                                   'Aluguel Efetuado com Sucesso!'),
                                               actions: [
                                                 TextButton(
                                                   onPressed: () =>
                                                       Navigator.pop(
                                                           alertDialogContext),
-                                                  child: const Text('Ok'),
+                                                  child: Text('Ok'),
                                                 ),
                                               ],
                                             ),
@@ -541,26 +544,26 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                         builder: (alertDialogContext) {
                                           return WebViewAware(
                                             child: AlertDialog(
-                                              title: const Text('Erro no pagamento!'),
-                                              content: const Text(
+                                              title: Text('Erro no pagamento!'),
+                                              content: Text(
                                                   'Erro ao efetuar Pagamento'),
                                               actions: [
                                                 TextButton(
                                                   onPressed: () =>
                                                       Navigator.pop(
                                                           alertDialogContext),
-                                                  child: const Text('Ok'),
+                                                  child: Text('Ok'),
                                                 ),
                                               ],
                                             ),
                                           );
                                         },
                                       );
-                                      if (shouldSetState) safeSetState(() {});
+                                      if (_shouldSetState) safeSetState(() {});
                                       return;
                                     }
                                   } else {
-                                    if (shouldSetState) safeSetState(() {});
+                                    if (_shouldSetState) safeSetState(() {});
                                     return;
                                   }
                                 }
@@ -589,7 +592,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                     '0',
                                   ),
                                 );
-                                shouldSetState = true;
+                                _shouldSetState = true;
                                 if (!functions.checkStatusCode(
                                     _model.lalamoveCallRequest!)) {
                                   logFirebaseEvent('Button_alert_dialog');
@@ -598,21 +601,21 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                     builder: (alertDialogContext) {
                                       return WebViewAware(
                                         child: AlertDialog(
-                                          title: const Text('Falha!'),
-                                          content: const Text(
+                                          title: Text('Falha!'),
+                                          content: Text(
                                               'A chamada do motorista falhou, tentaremos novamente.'),
                                           actions: [
                                             TextButton(
                                               onPressed: () => Navigator.pop(
                                                   alertDialogContext),
-                                              child: const Text('Ok'),
+                                              child: Text('Ok'),
                                             ),
                                           ],
                                         ),
                                       );
                                     },
                                   );
-                                  if (shouldSetState) safeSetState(() {});
+                                  if (_shouldSetState) safeSetState(() {});
                                   return;
                                 }
                                 logFirebaseEvent('Button_update_app_state');
@@ -621,12 +624,12 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                       LalamoveOrderResponseStruct.maybeFromMap(
                                               _model.lalamoveCallRequest)
                                           ?.metadata
-                                          .orderId,
+                                          ?.orderId,
                                   shortExternalReference:
                                       LalamoveOrderResponseStruct.maybeFromMap(
                                               _model.lalamoveCallRequest)
                                           ?.metadata
-                                          .orderId,
+                                          ?.orderId,
                                   address: currentUserDocument?.address,
                                   customer: CustomerDeliveryStruct(
                                     document: valueOrDefault(
@@ -653,11 +656,11 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                       LalamoveQuotationDataStruct.maybeFromMap(
                                               _model.lalamoveCallRequest)
                                           ?.priceBreakdown
-                                          .total,
+                                          ?.total,
                                   marketplaceName: '0',
                                   marketplaceId: '0',
                                   items: ItemsDeliveryStruct(
-                                    name: widget.gameObject?.name,
+                                    name: widget!.gameObject?.name,
                                     price: FFAppState().purchaseData.price,
                                     quantity: 1,
                                     totalPrice:
@@ -693,13 +696,13 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                             .maybeFromMap(
                                                 _model.lalamoveCallRequest)
                                         ?.priceBreakdown
-                                        .total,
+                                        ?.total,
                                     status: RentalStatus.rented,
                                     currentStatusTime: getCurrentTimestamp,
                                   ),
                                   ...mapToFirestore(
                                     {
-                                      'games': [widget.gameObject?.reference],
+                                      'games': [widget!.gameObject?.reference],
                                     },
                                   ),
                                 });
@@ -720,17 +723,17 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                             .maybeFromMap(
                                                 _model.lalamoveCallRequest)
                                         ?.priceBreakdown
-                                        .total,
+                                        ?.total,
                                     status: RentalStatus.rented,
                                     currentStatusTime: getCurrentTimestamp,
                                   ),
                                   ...mapToFirestore(
                                     {
-                                      'games': [widget.gameObject?.reference],
+                                      'games': [widget!.gameObject?.reference],
                                     },
                                   ),
                                 }, rentalsRecordReference1);
-                                shouldSetState = true;
+                                _shouldSetState = true;
                                 logFirebaseEvent('Button_backend_call');
 
                                 var rentalsRecordReference2 =
@@ -752,13 +755,13 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                             .maybeFromMap(
                                                 _model.lalamoveCallRequest)
                                         ?.priceBreakdown
-                                        .total,
+                                        ?.total,
                                     status: RentalStatus.rented,
                                     currentStatusTime: getCurrentTimestamp,
                                   ),
                                   ...mapToFirestore(
                                     {
-                                      'games': [widget.gameObject?.reference],
+                                      'games': [widget!.gameObject?.reference],
                                     },
                                   ),
                                 });
@@ -779,17 +782,17 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                             .maybeFromMap(
                                                 _model.lalamoveCallRequest)
                                         ?.priceBreakdown
-                                        .total,
+                                        ?.total,
                                     status: RentalStatus.rented,
                                     currentStatusTime: getCurrentTimestamp,
                                   ),
                                   ...mapToFirestore(
                                     {
-                                      'games': [widget.gameObject?.reference],
+                                      'games': [widget!.gameObject?.reference],
                                     },
                                   ),
                                 }, rentalsRecordReference2);
-                                shouldSetState = true;
+                                _shouldSetState = true;
                                 logFirebaseEvent('Button_backend_call');
 
                                 await currentUserReference!.update({
@@ -823,15 +826,15 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                   builder: (alertDialogContext) {
                                     return WebViewAware(
                                       child: AlertDialog(
-                                        title: const Text(
+                                        title: Text(
                                             'Pedido realizado com Sucesso!'),
-                                        content: const Text(
+                                        content: Text(
                                             'Seu pedido foi realizado! Logo mais ele estará chegando até você!'),
                                         actions: [
                                           TextButton(
                                             onPressed: () => Navigator.pop(
                                                 alertDialogContext),
-                                            child: const Text('Ok'),
+                                            child: Text('Ok'),
                                           ),
                                         ],
                                       ),
@@ -855,12 +858,12 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                           rentingId: currentUserReference,
                                         ),
                                         usersRentalRecordReference);
-                                shouldSetState = true;
+                                _shouldSetState = true;
                                 logFirebaseEvent('Button_navigate_to');
 
                                 context.pushNamed('HomePage');
 
-                                if (shouldSetState) safeSetState(() {});
+                                if (_shouldSetState) safeSetState(() {});
                               },
                               text: 'Pagar',
                               icon: Icon(
@@ -871,9 +874,9 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                               ),
                               options: FFButtonOptions(
                                 height: 40.0,
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     24.0, 0.0, 24.0, 0.0),
-                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                iconPadding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
                                 color: FlutterFlowTheme.of(context).primary,
                                 textStyle: FlutterFlowTheme.of(context)
@@ -889,7 +892,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                                   .titleSmallFamily),
                                     ),
                                 elevation: 3.0,
-                                borderSide: const BorderSide(
+                                borderSide: BorderSide(
                                   color: Colors.transparent,
                                   width: 1.0,
                                 ),
@@ -902,11 +905,11 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                     ),
                   ),
                   Align(
-                    alignment: const AlignmentDirectional(0.0, 1.0),
+                    alignment: AlignmentDirectional(0.0, 1.0),
                     child: wrapWithModel(
                       model: _model.navBarModel,
                       updateCallback: () => safeSetState(() {}),
-                      child: const NavBarWidget(),
+                      child: NavBarWidget(),
                     ),
                   ),
                 ],

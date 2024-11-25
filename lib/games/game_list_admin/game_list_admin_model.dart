@@ -1,8 +1,21 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'game_list_admin_widget.dart' show GameListAdminWidget;
+import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_debounce/easy_debounce.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:provider/provider.dart';
 
 class GameListAdminModel extends FlutterFlowModel<GameListAdminWidget> {
   ///  Local state fields for this page.
@@ -92,9 +105,7 @@ class GameListAdminModel extends FlutterFlowModel<GameListAdminWidget> {
     searchFieldFocusNode?.dispose();
     searchFieldTextController?.dispose();
 
-    for (var s in listViewStreamSubscriptions2) {
-      s?.cancel();
-    }
+    listViewStreamSubscriptions2.forEach((s) => s?.cancel());
     listViewPagingController2?.dispose();
 
     tabBarController?.dispose();

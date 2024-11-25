@@ -1,10 +1,12 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'transfer_status_model.dart';
 export 'transfer_status_model.dart';
 
@@ -39,7 +41,7 @@ class _TransferStatusWidgetState extends State<TransferStatusWidget> {
       logFirebaseEvent('TRANSFER_STATUS_transferStatus_ON_INIT_S');
       logFirebaseEvent('transferStatus_backend_call');
       _model.ownerObject =
-          await UsersRecord.getDocumentOnce(widget.rental!.ownerID!);
+          await UsersRecord.getDocumentOnce(widget!.rental!.ownerID!);
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
@@ -57,7 +59,7 @@ class _TransferStatusWidgetState extends State<TransferStatusWidget> {
     return Container(
       width: MediaQuery.sizeOf(context).width * 0.7,
       height: MediaQuery.sizeOf(context).height * 0.5,
-      constraints: const BoxConstraints(
+      constraints: BoxConstraints(
         maxWidth: 570.0,
       ),
       decoration: BoxDecoration(
@@ -69,12 +71,12 @@ class _TransferStatusWidgetState extends State<TransferStatusWidget> {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: EdgeInsets.all(10.0),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
             Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
+              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
@@ -90,7 +92,7 @@ class _TransferStatusWidgetState extends State<TransferStatusWidget> {
                   ),
                   Text(
                     valueOrDefault<String>(
-                      widget.rental?.rentalID,
+                      widget!.rental?.rentalID,
                       'Id Pedido',
                     ),
                     textAlign: TextAlign.end,
@@ -102,7 +104,7 @@ class _TransferStatusWidgetState extends State<TransferStatusWidget> {
                               FlutterFlowTheme.of(context).displaySmallFamily),
                         ),
                   ),
-                ].divide(const SizedBox(height: 8.0)),
+                ].divide(SizedBox(height: 8.0)),
               ),
             ),
             Divider(
@@ -111,7 +113,7 @@ class _TransferStatusWidgetState extends State<TransferStatusWidget> {
               color: FlutterFlowTheme.of(context).alternate,
             ),
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: EdgeInsets.all(12.0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -129,7 +131,7 @@ class _TransferStatusWidgetState extends State<TransferStatusWidget> {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(2.0),
+                      padding: EdgeInsets.all(2.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(40.0),
                         child: Image.network(
@@ -149,10 +151,10 @@ class _TransferStatusWidgetState extends State<TransferStatusWidget> {
                     ),
                   ),
                   Stack(
-                    alignment: const AlignmentDirectional(0.0, 0.0),
+                    alignment: AlignmentDirectional(0.0, 0.0),
                     children: [
                       Align(
-                        alignment: const AlignmentDirectional(0.0, 0.0),
+                        alignment: AlignmentDirectional(0.0, 0.0),
                         child: Container(
                           width: 120.0,
                           height: 4.0,
@@ -169,7 +171,7 @@ class _TransferStatusWidgetState extends State<TransferStatusWidget> {
                           color: FlutterFlowTheme.of(context).alternate,
                           shape: BoxShape.circle,
                         ),
-                        alignment: const AlignmentDirectional(0.0, 0.0),
+                        alignment: AlignmentDirectional(0.0, 0.0),
                         child: Icon(
                           Icons.keyboard_double_arrow_right_rounded,
                           color: FlutterFlowTheme.of(context).secondaryText,
@@ -190,7 +192,7 @@ class _TransferStatusWidgetState extends State<TransferStatusWidget> {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(2.0),
+                      padding: EdgeInsets.all(2.0),
                       child: AuthUserStreamWidget(
                         builder: (context) => ClipRRect(
                           borderRadius: BorderRadius.circular(40.0),
@@ -211,7 +213,7 @@ class _TransferStatusWidgetState extends State<TransferStatusWidget> {
                       ),
                     ),
                   ),
-                ].divide(const SizedBox(width: 16.0)),
+                ].divide(SizedBox(width: 16.0)),
               ),
             ),
             Text(
@@ -225,7 +227,7 @@ class _TransferStatusWidgetState extends State<TransferStatusWidget> {
             ),
             Text(
               valueOrDefault<String>(
-                widget.rental?.status?.name,
+                widget!.rental?.status?.name,
                 'Status',
               ),
               textAlign: TextAlign.end,
@@ -238,12 +240,12 @@ class _TransferStatusWidgetState extends State<TransferStatusWidget> {
                   ),
             ),
             Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 12.0),
+              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 12.0),
               child: Text(
                 valueOrDefault<String>(
                   dateTimeFormat(
                     "MMMMEEEEd",
-                    widget.rental?.currentStatusTime,
+                    widget!.rental?.currentStatusTime,
                     locale: FFLocalizations.of(context).languageCode,
                   ),
                   '00:00:00',
@@ -259,7 +261,7 @@ class _TransferStatusWidgetState extends State<TransferStatusWidget> {
                     ),
               ),
             ),
-          ].divide(const SizedBox(height: 4.0)).addToEnd(const SizedBox(height: 12.0)),
+          ].divide(SizedBox(height: 4.0)).addToEnd(SizedBox(height: 12.0)),
         ),
       ),
     );

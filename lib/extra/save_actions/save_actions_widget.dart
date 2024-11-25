@@ -1,9 +1,11 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:webviewx_plus/webviewx_plus.dart';
 import 'save_actions_model.dart';
 export 'save_actions_model.dart';
@@ -29,7 +31,7 @@ class _SaveActionsWidgetState extends State<SaveActionsWidget> {
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('SAVE_ACTIONS_saveActions_ON_INIT_STATE');
-      if ((currentUserDocument?.completedRegisterPages.toList() ?? []).last ==
+      if ((currentUserDocument?.completedRegisterPages?.toList() ?? []).last ==
           4) {
         logFirebaseEvent('saveActions_alert_dialog');
         var confirmDialogResponse = await showDialog<bool>(
@@ -37,18 +39,18 @@ class _SaveActionsWidgetState extends State<SaveActionsWidget> {
               builder: (alertDialogContext) {
                 return WebViewAware(
                   child: AlertDialog(
-                    title: const Text('Adicionar imagem de perfil'),
-                    content: const Text('Deseja criar seu avatar agora?'),
+                    title: Text('Adicionar imagem de perfil'),
+                    content: Text('Deseja criar seu avatar agora?'),
                     actions: [
                       TextButton(
                         onPressed: () =>
                             Navigator.pop(alertDialogContext, false),
-                        child: const Text('Não'),
+                        child: Text('Não'),
                       ),
                       TextButton(
                         onPressed: () =>
                             Navigator.pop(alertDialogContext, true),
-                        child: const Text('Sim'),
+                        child: Text('Sim'),
                       ),
                     ],
                   ),
@@ -64,7 +66,7 @@ class _SaveActionsWidgetState extends State<SaveActionsWidget> {
           return;
         }
       } else {
-        if ((currentUserDocument?.completedRegisterPages.toList() ?? [])
+        if ((currentUserDocument?.completedRegisterPages?.toList() ?? [])
                 .last ==
             3) {
           logFirebaseEvent('saveActions_alert_dialog');
@@ -73,19 +75,19 @@ class _SaveActionsWidgetState extends State<SaveActionsWidget> {
                 builder: (alertDialogContext) {
                   return WebViewAware(
                     child: AlertDialog(
-                      title: const Text('Adicionar jogos'),
+                      title: Text('Adicionar jogos'),
                       content:
-                          const Text('Deseja adicionar jogos da ludopédia agora?'),
+                          Text('Deseja adicionar jogos da ludopédia agora?'),
                       actions: [
                         TextButton(
                           onPressed: () =>
                               Navigator.pop(alertDialogContext, false),
-                          child: const Text('Não'),
+                          child: Text('Não'),
                         ),
                         TextButton(
                           onPressed: () =>
                               Navigator.pop(alertDialogContext, true),
-                          child: const Text('Sim'),
+                          child: Text('Sim'),
                         ),
                       ],
                     ),
@@ -101,7 +103,7 @@ class _SaveActionsWidgetState extends State<SaveActionsWidget> {
             return;
           }
         } else {
-          if ((currentUserDocument?.completedRegisterPages.toList() ?? [])
+          if ((currentUserDocument?.completedRegisterPages?.toList() ?? [])
                   .last ==
               2) {
             logFirebaseEvent('saveActions_alert_dialog');
@@ -110,18 +112,18 @@ class _SaveActionsWidgetState extends State<SaveActionsWidget> {
                   builder: (alertDialogContext) {
                     return WebViewAware(
                       child: AlertDialog(
-                        title: const Text('Adicionar número'),
-                        content: const Text('Deseja adicionar seu número agora?'),
+                        title: Text('Adicionar número'),
+                        content: Text('Deseja adicionar seu número agora?'),
                         actions: [
                           TextButton(
                             onPressed: () =>
                                 Navigator.pop(alertDialogContext, false),
-                            child: const Text('Não'),
+                            child: Text('Não'),
                           ),
                           TextButton(
                             onPressed: () =>
                                 Navigator.pop(alertDialogContext, true),
-                            child: const Text('Sim'),
+                            child: Text('Sim'),
                           ),
                         ],
                       ),
@@ -137,7 +139,7 @@ class _SaveActionsWidgetState extends State<SaveActionsWidget> {
               return;
             }
           } else {
-            if ((currentUserDocument?.completedRegisterPages.toList() ?? [])
+            if ((currentUserDocument?.completedRegisterPages?.toList() ?? [])
                     .last ==
                 1) {
               logFirebaseEvent('saveActions_navigate_to');
@@ -196,11 +198,11 @@ class _SaveActionsWidgetState extends State<SaveActionsWidget> {
                           FlutterFlowTheme.of(context).headlineMediumFamily),
                     ),
               ),
-              actions: const [],
+              actions: [],
               centerTitle: false,
               elevation: 2.0,
             ),
-            body: const SafeArea(
+            body: SafeArea(
               top: true,
               child: Column(
                 mainAxisSize: MainAxisSize.max,

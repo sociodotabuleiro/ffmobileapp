@@ -1,7 +1,9 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/games/modify_my_game_price/modify_my_game_price_widget.dart';
 import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -48,7 +50,7 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
       logFirebaseEvent('MY_GAME_CONFIG_SHEET_myGameConfigSheet_O');
       logFirebaseEvent('myGameConfigSheet_backend_call');
       _model.myGamesObject =
-          await MyGamesRecord.getDocumentOnce(widget.myGameRef!);
+          await MyGamesRecord.getDocumentOnce(widget!.myGameRef!);
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
@@ -67,7 +69,7 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
     context.watch<calendar_iagfh0_app_state.FFAppState>();
 
     return Align(
-      alignment: const AlignmentDirectional(0.0, 1.0),
+      alignment: AlignmentDirectional(0.0, 1.0),
       child: Container(
         width: double.infinity,
         height: 200.0,
@@ -95,10 +97,10 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
                 child: Container(
                   width: double.infinity,
                   height: 60.0,
-                  decoration: const BoxDecoration(),
+                  decoration: BoxDecoration(),
                   child: Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
+                        EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
@@ -110,7 +112,7 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.0),
                             child: Icon(
                               Icons.share_rounded,
                               color: FlutterFlowTheme.of(context).secondaryText,
@@ -120,7 +122,7 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
                         ),
                         Expanded(
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 12.0, 0.0, 0.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
@@ -150,13 +152,13 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
                 ),
               ),
             ),
-            if (FFAppState().myGamesGameRef.contains(widget.myGameRef) == true)
+            if (FFAppState().myGamesGameRef.contains(widget!.myGameRef) == true)
               Container(
                 width: double.infinity,
                 height: 60.0,
-                decoration: const BoxDecoration(),
+                decoration: BoxDecoration(),
                 child: Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
@@ -168,7 +170,7 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
                           borderRadius: BorderRadius.circular(40.0),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: EdgeInsets.all(8.0),
                           child: Icon(
                             Icons.calendar_today,
                             color: FlutterFlowTheme.of(context).secondaryText,
@@ -178,7 +180,7 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
                       ),
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               12.0, 0.0, 0.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
@@ -207,7 +209,7 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
                 ),
               ),
             if ((_model.myGamesObject?.toRent == true) &&
-                (FFAppState().myGamesGameRef.contains(widget.myGameRef) ==
+                (FFAppState().myGamesGameRef.contains(widget!.myGameRef) ==
                     true))
               InkWell(
                 splashColor: Colors.transparent,
@@ -225,7 +227,7 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
                       return WebViewAware(
                         child: Padding(
                           padding: MediaQuery.viewInsetsOf(context),
-                          child: SizedBox(
+                          child: Container(
                             height: MediaQuery.sizeOf(context).height * 0.15,
                             child: ModifyMyGamePriceWidget(
                               myGameObject: _model.myGamesObject!,
@@ -239,10 +241,10 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
                 child: Container(
                   width: double.infinity,
                   height: 60.0,
-                  decoration: const BoxDecoration(),
+                  decoration: BoxDecoration(),
                   child: Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
+                        EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
@@ -254,7 +256,7 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
                             borderRadius: BorderRadius.circular(40.0),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.0),
                             child: Icon(
                               Icons.attach_money,
                               color: FlutterFlowTheme.of(context).secondaryText,
@@ -264,7 +266,7 @@ class _MyGameConfigSheetWidgetState extends State<MyGameConfigSheetWidget> {
                         ),
                         Expanded(
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 12.0, 0.0, 0.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,

@@ -1,9 +1,16 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/nav_bar/nav_bar_widget.dart';
+import '/components/transfer_status/transfer_status_widget.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import 'delivery_status_widget.dart' show DeliveryStatusWidget;
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:provider/provider.dart';
 
 class DeliveryStatusModel extends FlutterFlowModel<DeliveryStatusWidget> {
   ///  State fields for stateful widgets in this page.
@@ -24,9 +31,7 @@ class DeliveryStatusModel extends FlutterFlowModel<DeliveryStatusWidget> {
 
   @override
   void dispose() {
-    for (var s in listViewStreamSubscriptions) {
-      s?.cancel();
-    }
+    listViewStreamSubscriptions.forEach((s) => s?.cancel());
     listViewPagingController?.dispose();
 
     navBarModel.dispose();

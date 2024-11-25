@@ -5,9 +5,12 @@ import '/components/nav_bar/nav_bar_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:math';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -43,7 +46,7 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
       logFirebaseEvent('MY_GAMES_PAGE_myGames_ON_INIT_STATE');
       logFirebaseEvent('myGames_update_page_state');
       _model.finalIndexFavoriites = valueOrDefault<int>(
-        (currentUserDocument?.favoriteList.toList() ?? []).length,
+        (currentUserDocument?.favoriteList?.toList() ?? []).length,
         0,
       );
       safeSetState(() {});
@@ -164,19 +167,19 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                               FlutterFlowTheme.of(context).titleLargeFamily),
                         ),
                   ),
-                  actions: const [],
+                  actions: [],
                   centerTitle: true,
                   elevation: 0.0,
                 ),
                 body: Container(
                   width: MediaQuery.sizeOf(context).width * 1.0,
                   height: MediaQuery.sizeOf(context).height * 1.0,
-                  decoration: const BoxDecoration(),
+                  decoration: BoxDecoration(),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
+                        padding: EdgeInsetsDirectional.fromSTEB(
                             16.0, 16.0, 16.0, 0.0),
                         child: Container(
                           width: double.infinity,
@@ -184,7 +187,7 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                           decoration: BoxDecoration(
                             color: FlutterFlowTheme.of(context)
                                 .secondaryBackground,
-                            boxShadow: const [
+                            boxShadow: [
                               BoxShadow(
                                 blurRadius: 3.0,
                                 color: Color(0x33000000),
@@ -200,7 +203,7 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                             ),
                           ),
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 16.0, 0.0, 12.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
@@ -213,9 +216,9 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                                 ),
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         4.0, 0.0, 0.0, 0.0),
-                                    child: SizedBox(
+                                    child: Container(
                                       width: 200.0,
                                       child: TextFormField(
                                         controller: _model.textController,
@@ -334,13 +337,13 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                         child: Column(
                           children: [
                             Align(
-                              alignment: const Alignment(-1.0, 0),
+                              alignment: Alignment(-1.0, 0),
                               child: TabBar(
                                 labelColor:
                                     FlutterFlowTheme.of(context).primary,
                                 unselectedLabelColor:
-                                    FlutterFlowTheme.of(context).primary,
-                                labelPadding: const EdgeInsetsDirectional.fromSTEB(
+                                    FlutterFlowTheme.of(context).secondaryText,
+                                labelPadding: EdgeInsetsDirectional.fromSTEB(
                                     8.0, 0.0, 8.0, 0.0),
                                 labelStyle: FlutterFlowTheme.of(context)
                                     .titleMedium
@@ -354,10 +357,10 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                                               FlutterFlowTheme.of(context)
                                                   .titleMediumFamily),
                                     ),
-                                unselectedLabelStyle: const TextStyle(),
+                                unselectedLabelStyle: TextStyle(),
                                 indicatorColor:
                                     FlutterFlowTheme.of(context).primary,
-                                tabs: const [
+                                tabs: [
                                   Tab(
                                     text: 'Meus jogos',
                                   ),
@@ -382,7 +385,7 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                                             await GamesRecord.getDocumentOnce(
                                                 (currentUserDocument
                                                             ?.favoriteList
-                                                            .toList() ??
+                                                            ?.toList() ??
                                                         [])[
                                                     _model
                                                         .currentIndexFavorites]);
@@ -407,7 +410,7 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                                         _model.gamesDocumentWishlist =
                                             await GamesRecord.getDocumentOnce(
                                                 (currentUserDocument?.wishlist
-                                                            .toList() ??
+                                                            ?.toList() ??
                                                         [])[
                                                     _model
                                                         .currentIndexWishlist]);
@@ -434,7 +437,9 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                                   KeepAliveWidgetWrapper(
                                     builder: (context) => Builder(
                                       builder: (context) {
-                                        if (_model.textController.text != '') {
+                                        if (_model.textController.text !=
+                                                null &&
+                                            _model.textController.text != '') {
                                           return Builder(
                                             builder: (context) {
                                               if ((_model.searchedGamesList !=
@@ -474,7 +479,7 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                                                                   myGamesSearchedRefIndex];
                                                           return Padding(
                                                             padding:
-                                                                const EdgeInsetsDirectional
+                                                                EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         12.0,
                                                                         16.0,
@@ -493,7 +498,7 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                                                                   return Center(
                                                                     child:
                                                                         Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
                                                                           0.0,
                                                                           16.0,
                                                                           0.0,
@@ -526,7 +531,7 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                                                                           .height *
                                                                       0.24,
                                                                   decoration:
-                                                                      const BoxDecoration(),
+                                                                      BoxDecoration(),
                                                                   child:
                                                                       GamelistCardWidget(
                                                                     key: Key(
@@ -595,7 +600,7 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                                                                   myGamesRefIndex];
                                                           return Padding(
                                                             padding:
-                                                                const EdgeInsetsDirectional
+                                                                EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         12.0,
                                                                         16.0,
@@ -615,7 +620,7 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                                                                   return Center(
                                                                     child:
                                                                         Padding(
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
                                                                           0.0,
                                                                           16.0,
                                                                           0.0,
@@ -648,7 +653,7 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                                                                           .height *
                                                                       0.24,
                                                                   decoration:
-                                                                      const BoxDecoration(),
+                                                                      BoxDecoration(),
                                                                   child:
                                                                       GamelistCardWidget(
                                                                     key: Key(
@@ -689,7 +694,9 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                                   KeepAliveWidgetWrapper(
                                     builder: (context) => Builder(
                                       builder: (context) {
-                                        if (_model.textController.text != '') {
+                                        if (_model.textController.text !=
+                                                null &&
+                                            _model.textController.text != '') {
                                           return Builder(
                                             builder: (context) {
                                               if (_model.favoritedGamesNames
@@ -768,7 +775,7 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                                             builder: (context) {
                                               if (((currentUserDocument
                                                               ?.favoriteList
-                                                              .toList() ??
+                                                              ?.toList() ??
                                                           [])
                                                       .isNotEmpty) ==
                                                   true) {
@@ -777,7 +784,7 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                                                     final favoritedGamesNotSearched =
                                                         (currentUserDocument
                                                                     ?.favoriteList
-                                                                    .toList() ??
+                                                                    ?.toList() ??
                                                                 [])
                                                             .map((e) => e)
                                                             .toList();
@@ -885,7 +892,9 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                                   KeepAliveWidgetWrapper(
                                     builder: (context) => Builder(
                                       builder: (context) {
-                                        if (_model.textController.text != '') {
+                                        if (_model.textController.text !=
+                                                null &&
+                                            _model.textController.text != '') {
                                           return Builder(
                                             builder: (context) {
                                               if (_model.wishlistGamesNames
@@ -956,7 +965,7 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
 
                                                               return Container(
                                                                 decoration:
-                                                                    const BoxDecoration(),
+                                                                    BoxDecoration(),
                                                                 child:
                                                                     GamelistCardWidget(
                                                                   key: Key(
@@ -1000,7 +1009,7 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                                                       final wishList =
                                                           (currentUserDocument
                                                                       ?.wishlist
-                                                                      .toList() ??
+                                                                      ?.toList() ??
                                                                   [])
                                                               .map((e) => e)
                                                               .toList();
@@ -1060,7 +1069,7 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
 
                                                                 return Container(
                                                                   decoration:
-                                                                      const BoxDecoration(),
+                                                                      BoxDecoration(),
                                                                   child:
                                                                       GamelistCardWidget(
                                                                     key: Key(
@@ -1105,7 +1114,7 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                       wrapWithModel(
                         model: _model.navBarModel,
                         updateCallback: () => safeSetState(() {}),
-                        child: const NavBarWidget(),
+                        child: NavBarWidget(),
                       ),
                     ],
                   ),

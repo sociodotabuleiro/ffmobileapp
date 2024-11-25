@@ -1,7 +1,17 @@
+import '/backend/backend.dart';
 import '/components/nav_bar/nav_bar_widget.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import '/games/confirm_add_games/confirm_add_games_widget.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'add_games_widget.dart' show AddGamesWidget;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:webviewx_plus/webviewx_plus.dart';
 
 class AddGamesModel extends FlutterFlowModel<AddGamesWidget> {
   ///  Local state fields for this page.

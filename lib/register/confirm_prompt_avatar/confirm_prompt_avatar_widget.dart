@@ -1,10 +1,13 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
+import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'dart:convert';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -61,7 +64,7 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
         color: FlutterFlowTheme.of(context).secondaryBackground,
       ),
       child: Padding(
-        padding: const EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
+        padding: EdgeInsetsDirectional.fromSTEB(0.0, 16.0, 0.0, 0.0),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -85,7 +88,7 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
             ),
             Flexible(
               child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 0.0),
+                padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 0.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -93,7 +96,7 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                   children: [
                     Text(
                       valueOrDefault<String>(
-                        widget.configs?.raca,
+                        widget!.configs?.raca,
                         'Sua raça',
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -106,7 +109,7 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                     ),
                     Text(
                       valueOrDefault<String>(
-                        widget.configs?.genero,
+                        widget!.configs?.genero,
                         'Seu gênero',
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -119,7 +122,7 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                     ),
                     Text(
                       valueOrDefault<String>(
-                        widget.configs?.idade,
+                        widget!.configs?.idade,
                         'Sua idade',
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -132,7 +135,7 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                     ),
                     Text(
                       valueOrDefault<String>(
-                        widget.configs?.epoca,
+                        widget!.configs?.epoca,
                         'Sua época',
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -145,7 +148,7 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                     ),
                     Text(
                       valueOrDefault<String>(
-                        widget.configs?.aparenciafisica,
+                        widget!.configs?.aparenciafisica,
                         'Sua aparência física',
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -158,7 +161,7 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                     ),
                     Text(
                       valueOrDefault<String>(
-                        widget.configs?.vestimentas,
+                        widget!.configs?.vestimentas,
                         'Suas vestimentas',
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -174,15 +177,15 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
               ),
             ),
             Align(
-              alignment: const AlignmentDirectional(0.0, 1.0),
+              alignment: AlignmentDirectional(0.0, 1.0),
               child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 16.0),
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 16.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Align(
-                      alignment: const AlignmentDirectional(0.0, 1.0),
+                      alignment: AlignmentDirectional(0.0, 1.0),
                       child: FFButtonWidget(
                         onPressed: () async {
                           logFirebaseEvent(
@@ -191,7 +194,7 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                           _model.imageCallResult =
                               await GetImageOpenAiCall.call(
                             description:
-                                'You are a fictional character in a fantastic world, a ${widget.configs?.genero} ${widget.configs?.raca}, ${widget.configs?.idade} years old,  living in ${widget.configs?.epoca} epoch with the following physical traits: ${widget.configs?.aparenciafisica}  with the following vestiments: ${widget.configs?.vestimentas}. Create a photo to be your profile picture, front-faced, cute style. Only the character. White background',
+                                'You are a fictional character in a fantastic world, a ${widget!.configs?.genero} ${widget!.configs?.raca}, ${widget!.configs?.idade} years old,  living in ${widget!.configs?.epoca} epoch with the following physical traits: ${widget!.configs?.aparenciafisica}  with the following vestiments: ${widget!.configs?.vestimentas}. Create a photo to be your profile picture, front-faced, cute style. Only the character. White background',
                           );
 
                           if ((_model.imageCallResult?.succeeded ?? true)) {
@@ -222,13 +225,13 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                               logFirebaseEvent('Button_show_snack_bar');
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: const Text(
+                                  content: Text(
                                     'Imagem salva com sucesso!',
                                     style: TextStyle(
                                       color: Colors.white,
                                     ),
                                   ),
-                                  duration: const Duration(milliseconds: 4000),
+                                  duration: Duration(milliseconds: 4000),
                                   backgroundColor:
                                       FlutterFlowTheme.of(context).success,
                                 ),
@@ -240,13 +243,13 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                               logFirebaseEvent('Button_show_snack_bar');
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: const Text(
+                                  content: Text(
                                     'Falha ao salvar imagem',
                                     style: TextStyle(
                                       color: Colors.white,
                                     ),
                                   ),
-                                  duration: const Duration(milliseconds: 4000),
+                                  duration: Duration(milliseconds: 4000),
                                   backgroundColor:
                                       FlutterFlowTheme.of(context).secondary,
                                 ),
@@ -256,13 +259,13 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                             logFirebaseEvent('Button_show_snack_bar');
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: const Text(
+                                content: Text(
                                   'Falha ao criar imagem.',
                                   style: TextStyle(
                                     color: Colors.white,
                                   ),
                                 ),
-                                duration: const Duration(milliseconds: 4000),
+                                duration: Duration(milliseconds: 4000),
                                 backgroundColor:
                                     FlutterFlowTheme.of(context).secondary,
                               ),
@@ -275,9 +278,9 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                         options: FFButtonOptions(
                           width: 120.0,
                           height: 40.0,
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               24.0, 0.0, 24.0, 0.0),
-                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
                           color: FlutterFlowTheme.of(context).success,
                           textStyle: FlutterFlowTheme.of(context)
@@ -292,7 +295,7 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                                         .titleSmallFamily),
                               ),
                           elevation: 3.0,
-                          borderSide: const BorderSide(
+                          borderSide: BorderSide(
                             color: Colors.transparent,
                             width: 1.0,
                           ),
@@ -301,7 +304,7 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                       ),
                     ),
                     Align(
-                      alignment: const AlignmentDirectional(0.0, 1.0),
+                      alignment: AlignmentDirectional(0.0, 1.0),
                       child: FFButtonWidget(
                         onPressed: () async {
                           logFirebaseEvent(
@@ -313,9 +316,9 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                         options: FFButtonOptions(
                           width: 120.0,
                           height: 40.0,
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               24.0, 0.0, 24.0, 0.0),
-                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
                           color: FlutterFlowTheme.of(context).error,
                           textStyle: FlutterFlowTheme.of(context)
@@ -330,7 +333,7 @@ class _ConfirmPromptAvatarWidgetState extends State<ConfirmPromptAvatarWidget> {
                                         .titleSmallFamily),
                               ),
                           elevation: 3.0,
-                          borderSide: const BorderSide(
+                          borderSide: BorderSide(
                             color: Colors.transparent,
                             width: 1.0,
                           ),

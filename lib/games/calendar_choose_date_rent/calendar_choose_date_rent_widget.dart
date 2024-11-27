@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -6,8 +8,11 @@ import 'package:calendar_iagfh0/custom_code/widgets/index.dart'
     as calendar_iagfh0_custom_widgets;
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'calendar_choose_date_rent_model.dart';
+import '/components/game_to_rent/game_to_rent_widget.dart';
+
+import '../../custom_code/widgets/custom_time_picker.dart';
+
 export 'calendar_choose_date_rent_model.dart';
 
 class CalendarChooseDateRentWidget extends StatefulWidget {
@@ -32,6 +37,11 @@ class CalendarChooseDateRentWidget extends StatefulWidget {
 class _CalendarChooseDateRentWidgetState
     extends State<CalendarChooseDateRentWidget> {
   late CalendarChooseDateRentModel _model;
+  TimeOfDay _selectedTime = TimeOfDay.now();
+  bool _isTimeSelected = false;
+
+  DateTime?  _selectedDate;
+
 
   @override
   void setState(VoidCallback callback) {
@@ -57,11 +67,10 @@ class _CalendarChooseDateRentWidgetState
   }
 
   Future<List<DateTime>> fetchLatestAvailableDates() async {
-    logFirebaseEvent('Fetching latest available dates from Firestore');
 
       try {
       // Get the mygames document reference
-      final myGamesDocRef = widget.renterRef!.collection('mygames').doc(widget.myGames!.reference.id);
+      final myGamesDocRef = widget.renterRef!.collection('myGames').doc(widget.myGames!.reference.id);
 
       // Fetch the document snapshot
       final myGamesDocSnapshot = await myGamesDocRef.get();
@@ -78,11 +87,14 @@ class _CalendarChooseDateRentWidgetState
 
     // Convert the dates to DateTime objects and return
     return availableDatesRaw
-            ?.map((date) => DateTime.parse(date.toString()))
+            ?.map((date) => (date as Timestamp).toDate())
             .toList() ??
         [];
   } catch (e) {
-    logFirebaseEvent('Error fetching available dates: $e');
+    if (e is FirebaseException) {
+      print('Fi-rebase error: ${e.code}'); 
+    }
+    logFirebaseEvent('Error fetching available dates');
     return [];
   }
 }
@@ -102,7 +114,7 @@ class _CalendarChooseDateRentWidgetState
           Align(
             alignment: const AlignmentDirectional(-1.0, 0.0),
             child: Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(25.0, 25.0, 0.0, 0.0),
+              padding: const EdgeInsetsDirectional.fromSTEB(25.0, 35.0, 0.0, 0.0),
               child: FlutterFlowIconButton(
                 borderRadius: 8.0,
                 buttonSize: 40.0,
@@ -114,7 +126,6 @@ class _CalendarChooseDateRentWidgetState
                 ),
                 onPressed: () async {
                   logFirebaseEvent('CALENDAR_CHOOSE_DATE_RENT_arrow_back_ICN');
-                  logFirebaseEvent('IconButton_close_dialog_drawer_etc');
                   Navigator.pop(context);
                 },
               ),
@@ -122,83 +133,129 @@ class _CalendarChooseDateRentWidgetState
           ),
           SizedBox(
             width: MediaQuery.sizeOf(context).width * 1.0,
-            height: MediaQuery.sizeOf(context).height * 0.8,
+            height: MediaQuery.sizeOf(context).height * 0.4,
             child: calendar_iagfh0_custom_widgets.Calendar(
               width: MediaQuery.sizeOf(context).width * 1.0,
               height: MediaQuery.sizeOf(context).height * 0.8,
               availableDates: _model.availableDates,
               onSelectedDatesChanged: (choosenDates) async {
-                logFirebaseEvent('CALENDAR_CHOOSE_DATE_RENT_Container_5d3u');
-                logFirebaseEvent('Calendar_update_component_state');
                 _model.choosenDates = choosenDates!.toList().cast<DateTime>();
                 safeSetState(() {});
               },
             ),
           ),
-          FFButtonWidget(
-            onPressed: () async {
-              logFirebaseEvent('CALENDAR_CHOOSE_DATE_RENT_ESCOLHER_LOCAD');
-               // Fetch the latest available dates from Firestore
-            final latestAvailableDates = await fetchLatestAvailableDates();
-
-            // Validate the user's chosen dates
-            final unavailableDates = _model.choosenDates.where(
-              (date) => !latestAvailableDates.contains(date),
-            );
-
-            if (unavailableDates.isNotEmpty) {
-              // Some dates are no longer available, update the _model and rebuild the widget
-              logFirebaseEvent('unavailable_dates_found');
-              _model.availableDates = latestAvailableDates;
-              _model.choosenDates.removeWhere(
-                (date) => unavailableDates.contains(date),
-              );
-              safeSetState(() {}); // Rebuild the widget with updated data
-
-              // Show a message to the user
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    'Uma ou mais datas estão indisponíveis, tente novamente, por favor.',
-                  ),
-                  duration: Duration(seconds: 3),
-                ),
-              );
-              return; // Exit the function without proceeding
-            }
-
-            // All dates are valid, proceed with the operation
-            logFirebaseEvent('successufuly_choosen_dates');
-            FFAppState().choosenRentDates =
-                _model.choosenDates.toList().cast<DateTime>();
-            FFAppState().renterRef = widget.renterRef;
-            FFAppState().purchaseData = PurchaseComponentsStruct(
-              name: widget.gameName,
-              price: _model.choosenDates.length * widget.myGames!.price,
-              quantity: 1,
-              totalPrice: _model.choosenDates.length * widget.myGames!.price,
-            );
-            FFAppState().dueDatePurchase = _model.choosenDates.last;
-            safeSetState(() {});
-            },
-            text: 'Escolher locador',
-            options: FFButtonOptions(
+          SizedBox(
+            width: MediaQuery.sizeOf(context).width * 1.0,
+            height: 20.0,
+          ),
+          if (_isTimeSelected == true) 
+              SizedBox(
+              width: MediaQuery.sizeOf(context).width * 1.0,
               height: 40.0,
-              padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-              iconPadding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-              color: FlutterFlowTheme.of(context).primary,
-              textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                    fontFamily: FlutterFlowTheme.of(context).titleSmallFamily,
-                    color: Colors.white,
-                    letterSpacing: 0.0,
-                    useGoogleFonts: GoogleFonts.asMap().containsKey(
-                        FlutterFlowTheme.of(context).titleSmallFamily),
+              child: Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(25.0, 0.0, 0.0, 0.0),
+                child: Text(
+                  'Horário de entrega selecionado: ${_selectedTime.hour.toString().padLeft(2, '0')}:${_selectedTime.minute.toString().padLeft(2, '0')}',
+                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                    fontFamily: 'Poppins',
+                    color: Colors.black,
+                    fontSize: 16.0,
                   ),
-              elevation: 0.0,
-              borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+            ),
+          SizedBox(
+            width: MediaQuery.sizeOf(context).width * 1.0,
+            height: 55.0,
+            child: GameToRentWidget(
+              gameName: widget.gameName,
+              gameRef: widget.myGames!.gameRef,
+              userRef: widget.renterRef,
+              allowCalendarIcon: false,
+              selectedDate: _model.choosenDates.isNotEmpty
+                  ? _model.choosenDates.first
+                  : null,
+              selectedTime: _selectedTime,
             ),
           ),
-        ].divide(const SizedBox(height: 12.0)),
+          const Spacer(), // Pushes the buttons to the bottom
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                FFButtonWidget(
+                  onPressed: () async {
+                    logFirebaseEvent('OPEN_TIME_PICKER_MODAL');
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      builder: (BuildContext context) {
+                        return BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                          child: Container(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Center(
+                              child: CustomTimePicker(
+                                initialTime: _selectedTime,
+                                onTimeChanged: (TimeOfDay newTime) {
+                                  setState(() {
+                                    _selectedTime = newTime;
+                                    _isTimeSelected = true;
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  text: 'Escolher horário',
+                  options: FFButtonOptions(
+                    height: 40.0,
+                    color: FlutterFlowTheme.of(context).primary,
+                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                          fontFamily: 'Poppins',
+                          color: Colors.white,
+                        ),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+                FFButtonWidget(
+                  onPressed: () async {
+                    logFirebaseEvent('CONFIRM_AND_POP');
+                    // Confirm the selection and save data
+                    FFAppState().choosenRentDates =
+                        _model.choosenDates.toList().cast<DateTime>();
+                    FFAppState().renterRef = widget.renterRef;
+                    FFAppState().purchaseData = PurchaseComponentsStruct(
+                      name: widget.gameName,
+                      price: _model.choosenDates.length * widget.myGames!.price,
+                      quantity: 1,
+                      totalPrice: _model.choosenDates.length * widget.myGames!.price,
+                    );
+                    FFAppState().dueDatePurchase = _model.choosenDates.last;
+
+                    // Pop back to the previous page
+                    Navigator.pop(context);
+                  },
+                  text: 'Confirmar',
+                  options: FFButtonOptions(
+                    height: 40.0,
+                    color: Colors.green,
+                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                          fontFamily: 'Poppins',
+                          color: Colors.white,
+                        ),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

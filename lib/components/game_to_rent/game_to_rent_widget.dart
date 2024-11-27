@@ -22,11 +22,17 @@ class GameToRentWidget extends StatefulWidget {
     required this.userRef,
     required this.gameRef,
     required this.gameName,
+    this.allowCalendarIcon = false,
+    this.selectedDate, // Date for the delivery
+    this.selectedTime, // Time for the delivery
   });
 
   final DocumentReference? userRef;
   final DocumentReference? gameRef;
   final String? gameName;
+  final bool allowCalendarIcon;
+  final DateTime? selectedDate;
+  final TimeOfDay? selectedTime;
 
   @override
   State<GameToRentWidget> createState() => _GameToRentWidgetState();
@@ -39,13 +45,10 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
   void setState(VoidCallback callback) {
     super.setState(callback);
     _model.onUpdate();
+    
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _model = createModel(context, () => GameToRentModel());
-        String formatAddress({
+   String formatAddress({
       required String street,
       required String number,
       String? complement,
@@ -66,100 +69,108 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
       // Join components with commas, ignoring empty ones
       return components.join(', ');
     }
+
+  @override
+  void initState() {
+    super.initState();
+    _model = createModel(context, () => GameToRentModel());
+   
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      logFirebaseEvent('GAME_TO_RENT_gameToRent_ON_INIT_STATE');
-      logFirebaseEvent('gameToRent_backend_call');
-      _model.userObject = await UsersRecord.getDocumentOnce(widget!.userRef!);
-      logFirebaseEvent('gameToRent_update_component_state');
-      _model.quotation = QuotationsStruct(
-        renterRef: _model.userObject?.reference,
-      );
-      safeSetState(() {});
-      logFirebaseEvent('gameToRent_custom_action');
-      _model.distanceCalculated = await actions.distanceBetween2Points(
-        currentUserDocument!.address.lat,
-        currentUserDocument!.address.lng,
-        _model.userObject!.address.lat,
-        _model.userObject!.address.lng,
-      );
-      logFirebaseEvent('gameToRent_firestore_query');
-      _model.myGamesObject = await queryMyGamesRecordOnce(
-        parent: widget!.userRef,
-        queryBuilder: (myGamesRecord) => myGamesRecord.where(
-          'gameRef',
-          isEqualTo: widget!.gameRef,
-        ),
-        singleRecord: true,
-      ).then((s) => s.firstOrNull);
-      logFirebaseEvent('gameToRent_backend_call');
-      _model.authUserObject =
-          (await UsersRecord.getDocumentOnce(currentUserReference!)) as UsersRecord?;
-      logFirebaseEvent('gameToRent_custom_action');
-        final address1 = formatAddress(
-        street: _model.userObject?.address.street ?? '',
-        number: _model.userObject?.address.number ?? '',
-        complement: _model.userObject?.address.complement,
-        neighborhood: _model.userObject?.address.neighborhood ?? '',
-        city: _model.userObject?.address.city ?? '',
-        state: _model.userObject?.address.state ?? '',
-      );
-        final address2 = formatAddress(
-      street: currentUserDocument?.address.street ?? '',
-      number: currentUserDocument?.address.number ?? '',
-      complement: currentUserDocument?.address.complement,
-      neighborhood: currentUserDocument?.address.neighborhood ?? '',
-      city: currentUserDocument?.address.city ?? '',
-      state: currentUserDocument?.address.state ?? '',
-    );
-      _model.quotationJson = await actions.getQuotationLalaMove(
-        _model.userObject!.address.lat.toString(),
-        _model.userObject!.address.lng.toString(),
-        currentUserDocument!.address.lat.toString(),
-        currentUserDocument!.address.lng.toString(),
-        address1,
-        address2
-      );
-      final quotationJson = _model.quotationJson!;
-      final priceBreakdown = quotationJson['priceBreakdown'];
-      final priceTotal = _model.safeParseDouble(priceBreakdown['total']);
-      if (priceTotal <= 0.0 ||
-          _model.isNullOrEmpty(quotationJson)) {
-        logFirebaseEvent('gameToRent_quotation_missing');
-        _model.quotationSuccess = false;
-        _model.isLoaded = true;
-        safeSetState(() {});
-      } else {
-        logFirebaseEvent('gameToRent_update_component_state');
-        _model.isLoaded = true;
-         // Extract and process the price breakdown safely
-        if (priceBreakdown != null) {
-        //   priceBreakdown['base'] = _model.safeParseDouble(priceBreakdown['base']);
-        //   priceBreakdown['specialRequests'] =
-        //       _model.safeParseDouble(priceBreakdown['specialRequests']);
-        //   priceBreakdown['vat'] = _model.safeParseDouble(priceBreakdown['vat']);
-           priceBreakdown['totalBeforeOptimization'] =
-               _model.safeParseDouble(priceBreakdown['totalBeforeOptimization']);
-           priceBreakdown['totalExcludePriorityFee'] =
-              _model.safeParseDouble(priceBreakdown['totalExcludePriorityFee']);
-           priceBreakdown['total'] = _model.safeParseDouble(priceBreakdown['total']);
-         }
-        quotationJson['priceBreakdown'] = priceBreakdown;
-        _model.updateQuotationStruct(
-          (e) => e
-            ..quotationsData =
-                LalamoveQuotationDataStruct.maybeFromMap(_model.quotationJson),
-        );
-        _model.quotationSuccess = true;
-        safeSetState(() {});
-        logFirebaseEvent('gameToRent_quotation_updated');
-        FFAppState().addToQuotations(QuotationsStruct(
-          renterRef: widget!.userRef,
-          quotationsData:
-              LalamoveQuotationDataStruct.maybeFromMap(_model.quotationJson),
-        ));
-        safeSetState(() {});
-      }
+    _fetchQuotation();
+    //   logFirebaseEvent('GAME_TO_RENT_gameToRent_ON_INIT_STATE');
+    //   logFirebaseEvent('gameToRent_backend_call');
+    //   _model.userObject = await UsersRecord.getDocumentOnce(widget!.userRef!);
+    //   logFirebaseEvent('gameToRent_update_component_state');
+    //   _model.quotation = QuotationsStruct(
+    //     renterRef: _model.userObject?.reference,
+    //   );
+    //   safeSetState(() {});
+    //   logFirebaseEvent('gameToRent_custom_action');
+    //   _model.distanceCalculated = await actions.distanceBetween2Points(
+    //     currentUserDocument!.address.lat,
+    //     currentUserDocument!.address.lng,
+    //     _model.userObject!.address.lat,
+    //     _model.userObject!.address.lng,
+    //   );
+    //   logFirebaseEvent('gameToRent_firestore_query');
+    //   _model.myGamesObject = await queryMyGamesRecordOnce(
+    //     parent: widget!.userRef,
+    //     queryBuilder: (myGamesRecord) => myGamesRecord.where(
+    //       'gameRef',
+    //       isEqualTo: widget!.gameRef,
+    //     ),
+    //     singleRecord: true,
+    //   ).then((s) => s.firstOrNull);
+    //   logFirebaseEvent('gameToRent_backend_call');
+    //   _model.authUserObject =
+    //       (await UsersRecord.getDocumentOnce(currentUserReference!)) as UsersRecord?;
+    //   logFirebaseEvent('gameToRent_custom_action');
+    //     final address1 = formatAddress(
+    //     street: _model.userObject?.address.street ?? '',
+    //     number: _model.userObject?.address.number ?? '',
+    //     complement: _model.userObject?.address.complement,
+    //     neighborhood: _model.userObject?.address.neighborhood ?? '',
+    //     city: _model.userObject?.address.city ?? '',
+    //     state: _model.userObject?.address.state ?? '',
+    //   );
+    //     final address2 = formatAddress(
+    //   street: currentUserDocument?.address.street ?? '',
+    //   number: currentUserDocument?.address.number ?? '',
+    //   complement: currentUserDocument?.address.complement,
+    //   neighborhood: currentUserDocument?.address.neighborhood ?? '',
+    //   city: currentUserDocument?.address.city ?? '',
+    //   state: currentUserDocument?.address.state ?? '',
+    // );
+    //   _model.quotationJson = await actions.getQuotationLalaMove(
+    //     _model.userObject!.address.lat.toString(),
+    //     _model.userObject!.address.lng.toString(),
+    //     currentUserDocument!.address.lat.toString(),
+    //     currentUserDocument!.address.lng.toString(),
+    //     address1,
+    //     address2,
+    //     null,
+    //   );
+    //   final quotationJson = _model.quotationJson!;
+    //   final priceBreakdown = quotationJson['priceBreakdown'];
+    //   final priceTotal = _model.safeParseDouble(priceBreakdown['total']);
+    //   if (priceTotal <= 0.0 ||
+    //       _model.isNullOrEmpty(quotationJson)) {
+    //     logFirebaseEvent('gameToRent_quotation_missing');
+    //     _model.quotationSuccess = false;
+    //     _model.isLoaded = true;
+    //     safeSetState(() {});
+    //   } else {
+    //     logFirebaseEvent('gameToRent_update_component_state');
+    //     _model.isLoaded = true;
+    //      // Extract and process the price breakdown safely
+    //     if (priceBreakdown != null) {
+    //     //   priceBreakdown['base'] = _model.safeParseDouble(priceBreakdown['base']);
+    //     //   priceBreakdown['specialRequests'] =
+    //     //       _model.safeParseDouble(priceBreakdown['specialRequests']);
+    //     //   priceBreakdown['vat'] = _model.safeParseDouble(priceBreakdown['vat']);
+    //        priceBreakdown['totalBeforeOptimization'] =
+    //            _model.safeParseDouble(priceBreakdown['totalBeforeOptimization']);
+    //        priceBreakdown['totalExcludePriorityFee'] =
+    //           _model.safeParseDouble(priceBreakdown['totalExcludePriorityFee']);
+    //        priceBreakdown['total'] = _model.safeParseDouble(priceBreakdown['total']);
+    //      }
+    //     quotationJson['priceBreakdown'] = priceBreakdown;
+    //     _model.updateQuotationStruct(
+    //       (e) => e
+    //         ..quotationsData =
+    //             LalamoveQuotationDataStruct.maybeFromMap(_model.quotationJson),
+    //     );
+    //     _model.quotationSuccess = true;
+    //     safeSetState(() {});
+    //     logFirebaseEvent('gameToRent_quotation_updated');
+    //     FFAppState().addToQuotations(QuotationsStruct(
+    //       renterRef: widget!.userRef,
+    //       quotationsData:
+    //           LalamoveQuotationDataStruct.maybeFromMap(_model.quotationJson),
+    //     ));
+    //     safeSetState(() {});
+    //   }
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
@@ -171,6 +182,131 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
 
     super.dispose();
   }
+
+  Future<void> _fetchQuotation({DateTime? selectedDate, TimeOfDay? selectedTime}) async {
+  logFirebaseEvent('GAME_TO_RENT_FETCH_QUOTATION');
+
+  // Fetch the user record if not already fetched
+  if (_model.userObject == null) {
+    logFirebaseEvent('gameToRent_backend_call_user');
+    _model.userObject = await UsersRecord.getDocumentOnce(widget.userRef!);
+    _model.quotation = QuotationsStruct(renterRef: _model.userObject?.reference);
+  }
+
+  // Calculate the distance if not already calculated
+  if (_model.distanceCalculated == null) {
+    logFirebaseEvent('gameToRent_distance_calculation');
+    _model.distanceCalculated = await actions.distanceBetween2Points(
+      currentUserDocument!.address.lat,
+      currentUserDocument!.address.lng,
+      _model.userObject!.address.lat,
+      _model.userObject!.address.lng,
+    );
+  }
+
+  // Fetch the game record if not already fetched
+  if (_model.myGamesObject == null) {
+    logFirebaseEvent('gameToRent_fetch_myGames');
+    _model.myGamesObject = await queryMyGamesRecordOnce(
+      parent: widget.userRef,
+      queryBuilder: (myGamesRecord) =>
+          myGamesRecord.where('gameRef', isEqualTo: widget.gameRef),
+      singleRecord: true,
+    ).then((s) => s.firstOrNull);
+  }
+
+  // Prepare addresses
+  final address1 = formatAddress(
+    street: _model.userObject?.address.street ?? '',
+    number: _model.userObject?.address.number ?? '',
+    complement: _model.userObject?.address.complement,
+    neighborhood: _model.userObject?.address.neighborhood ?? '',
+    city: _model.userObject?.address.city ?? '',
+    state: _model.userObject?.address.state ?? '',
+  );
+  final address2 = formatAddress(
+    street: currentUserDocument?.address.street ?? '',
+    number: currentUserDocument?.address.number ?? '',
+    complement: currentUserDocument?.address.complement,
+    neighborhood: currentUserDocument?.address.neighborhood ?? '',
+    city: currentUserDocument?.address.city ?? '',
+    state: currentUserDocument?.address.state ?? '',
+  );
+
+  // Prepare ISO 8601 time if both date and time are provided
+  String? isoScheduleAt;
+  if (selectedDate != null && selectedTime != null) {
+    final combinedDateTime = DateTime(
+      selectedDate.year,
+      selectedDate.month,
+      selectedDate.day,
+      selectedTime.hour,
+      selectedTime.minute,
+    );
+    final brazilTime = combinedDateTime.toLocal();
+    final formattedDateWithTime = DateFormat("yyyy-MM-ddTHH:mm:ss").format(brazilTime);
+    final timezoneOffset = brazilTime.timeZoneOffset;
+    final offsetSign = timezoneOffset.isNegative ? "-" : "+";
+    final hoursOffset = timezoneOffset.inHours.abs().toString().padLeft(2, '0');
+    final minutesOffset = (timezoneOffset.inMinutes.abs() % 60).toString().padLeft(2, '0');
+
+    isoScheduleAt = '$formattedDateWithTime$offsetSign$hoursOffset:$minutesOffset';
+    }
+  else{
+    isoScheduleAt = null;
+  }
+
+  // Fetch Lalamove quotation
+  logFirebaseEvent('gameToRent_fetch_quotation');
+  _model.quotationJson = await actions.getQuotationLalaMove(
+    _model.userObject!.address.lat.toString(),
+    _model.userObject!.address.lng.toString(),
+    currentUserDocument!.address.lat.toString(),
+    currentUserDocument!.address.lng.toString(),
+    address1,
+    address2,
+    isoScheduleAt,
+  );
+
+  // Process the fetched data
+  final quotationJson = _model.quotationJson!;
+  final priceBreakdown = quotationJson['priceBreakdown'];
+  final priceTotal = _model.safeParseDouble(priceBreakdown['total']);
+
+  if (priceTotal <= 0.0 || _model.isNullOrEmpty(quotationJson)) {
+    logFirebaseEvent('gameToRent_quotation_missing');
+    _model.quotationSuccess = false;
+  } else {
+    logFirebaseEvent('gameToRent_update_component_state');
+    if (priceBreakdown != null) {
+      priceBreakdown['totalBeforeOptimization'] =
+          _model.safeParseDouble(priceBreakdown['totalBeforeOptimization']);
+      priceBreakdown['totalExcludePriorityFee'] =
+          _model.safeParseDouble(priceBreakdown['totalExcludePriorityFee']);
+      priceBreakdown['total'] = _model.safeParseDouble(priceBreakdown['total']);
+    }
+    quotationJson['priceBreakdown'] = priceBreakdown;
+
+    _model.updateQuotationStruct(
+      (e) => e
+        ..quotationsData =
+            LalamoveQuotationDataStruct.maybeFromMap(_model.quotationJson),
+    );
+    _model.quotationSuccess = true;
+
+    // Update global state
+    FFAppState().addToQuotations(QuotationsStruct(
+      renterRef: widget.userRef,
+      quotationsData:
+          LalamoveQuotationDataStruct.maybeFromMap(_model.quotationJson),
+    ));
+  }
+
+  _model.isLoaded = true;
+  safeSetState(() {});
+}
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -348,122 +484,128 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
                                                             .bodyMediumFamily),
                                               ),
                                         ),
+                                        IconButton(
+                                      icon: const Icon(
+                                        Icons.info_outline,
+                                        color: Colors.red,
+                                        size: 16.0,
+                                      ),
+                                      onPressed: () {
+                                        // Show additional information about price variability
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: const Text('Informação sobre o preço'),
+                                              content: const Text(
+                                                  'O preço pode variar dependendo do dia e horário que escolher o aluguel.'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text('OK'),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                    ),
                                       ].divide(const SizedBox(width: 4.0)),
                                     ),
                                   ].divide(const SizedBox(height: 5.0)),
                                 ),
                                 Align(
-                                  alignment: const AlignmentDirectional(0.0, 1.0),
-                                  child: InkWell(
-                                    splashColor: Colors.transparent,
-                                    focusColor: Colors.transparent,
-                                    hoverColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    onTap: () async {
-                                      logFirebaseEvent(
-                                          'GAME_TO_RENT_Container_xihcs5uz_ON_TAP');
-                                      logFirebaseEvent(
-                                          'Container_bottom_sheet');
-                                      await showModalBottomSheet(
-                                        isScrollControlled: true,
-                                        backgroundColor: Colors.transparent,
-                                        enableDrag: false,
-                                        context: context,
-                                        builder: (context) {
-                                          return WebViewAware(
-                                            child: Padding(
-                                              padding: MediaQuery.viewInsetsOf(
-                                                  context),
-                                              child: SizedBox(
-                                                height:
-                                                    MediaQuery.sizeOf(context)
-                                                            .height *
-                                                        1.0,
-                                                child:
-                                                    (_model.myGamesObject != null &&
-                                                    _model.myGamesObject!.availableDates != null)
-                                                ? CalendarChooseDateRentWidget(
-                                                    availableDates: _model.myGamesObject!.availableDates,
-                                                    renterRef: widget.userRef!,
-                                                    myGames: _model.myGamesObject!,
-                                                    gameName: widget.gameName!,
-                                                  )
-                                                : const Center(child: CircularProgressIndicator()),
-                                              ),
-                                            ),
-                                          );
+                                alignment: const AlignmentDirectional(0.0, 1.0),
+                                child: widget.allowCalendarIcon
+                                    ? InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          logFirebaseEvent(
+                                              'GAME_TO_RENT_Container_xihcs5uz_ON_TAP');
+                                          logFirebaseEvent(
+                                              'Container_bottom_sheet');
+                                          await showModalBottomSheet(
+                                            isScrollControlled: true,
+                                            backgroundColor: Colors.transparent,
+                                            enableDrag: false,
+                                            context: context,
+                                            builder: (context) {
+                                              return WebViewAware(
+                                                child: Padding(
+                                                  padding: MediaQuery.viewInsetsOf(context),
+                                                  child: SizedBox(
+                                                    height: MediaQuery.sizeOf(context).height * 1.0,
+                                                    child: (_model.myGamesObject != null &&
+                                                            _model.myGamesObject!.availableDates != null)
+                                                        ? CalendarChooseDateRentWidget(
+                                                            availableDates: _model
+                                                                .myGamesObject!.availableDates,
+                                                            renterRef: widget.userRef!,
+                                                            myGames: _model.myGamesObject!,
+                                                            gameName: widget.gameName!,
+                                                          )
+                                                        : const Center(
+                                                            child: CircularProgressIndicator()),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          ).then((value) => safeSetState(() {}));
                                         },
-                                      ).then((value) => safeSetState(() {}));
-                                    },
-                                    child: Container(
-                                      width: 115.0,
-                                      height: 70.0,
-                                      decoration: BoxDecoration(
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
-                                      ),
-                                      child: Align(
-                                        alignment:
-                                            const AlignmentDirectional(0.0, 0.0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Align(
-                                              alignment: const AlignmentDirectional(
-                                                  0.0, 0.0),
-                                              child: Icon(
-                                                Icons.calendar_month,
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondary,
-                                                size: 44.0,
-                                              ),
-                                            ),
-                                            Align(
-                                              alignment: const AlignmentDirectional(
-                                                  0.0, 0.0),
-                                              child: Text(
-                                                'Escolher datas',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
+                                        child: Container(
+                                          width: 115.0,
+                                          height: 70.0,
+                                          decoration: BoxDecoration(
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryBackground,
+                                          ),
+                                          child: Align(
+                                            alignment: const AlignmentDirectional(0.0, 0.0),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Align(
+                                                  alignment: const AlignmentDirectional(0.0, 0.0),
+                                                  child: Icon(
+                                                    Icons.calendar_month,
+                                                    color: FlutterFlowTheme.of(context).secondary,
+                                                    size: 44.0,
+                                                  ),
+                                                ),
+                                                Align(
+                                                  alignment: const AlignmentDirectional(0.0, 0.0),
+                                                  child: Text(
+                                                    'Escolher datas',
+                                                    style: FlutterFlowTheme.of(context)
                                                         .bodyMedium
                                                         .override(
-                                                          fontFamily:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .bodyMediumFamily,
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .secondary,
+                                                          fontFamily: FlutterFlowTheme.of(context)
+                                                              .bodyMediumFamily,
+                                                          color: FlutterFlowTheme.of(context).secondary,
                                                           letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FontWeight.w800,
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .underline,
-                                                          useGoogleFonts: GoogleFonts
-                                                                  .asMap()
-                                                              .containsKey(
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMediumFamily),
+                                                          fontWeight: FontWeight.w800,
+                                                          decoration: TextDecoration.underline,
+                                                          useGoogleFonts: GoogleFonts.asMap().containsKey(
+                                                              FlutterFlowTheme.of(context)
+                                                                  .bodyMediumFamily),
                                                         ),
-                                              ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ]
-                                  .divide(const SizedBox(width: 12.0))
-                                  .addToStart(const SizedBox(width: 4.0))
-                                  .addToEnd(const SizedBox(width: 4.0)),
+                                      )
+                                    : const SizedBox.shrink(), // If allowCalendarIcon is false, show nothing or an alternative widget
+                              ),
+                              ],
                             ),
                           ),
                         ].divide(const SizedBox(height: 12.0)),

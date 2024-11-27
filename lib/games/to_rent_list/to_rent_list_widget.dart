@@ -670,9 +670,9 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                             key: Key(
                                                 'Keyew5_${userListFromGameIndex}_of_${userListFromGame.length}'),
                                             userRef: userListFromGameItem,
-                                            gameRef:
-                                                widget.gameObject!.reference,
+                                            gameRef: widget.gameObject!.reference,
                                             gameName: widget.gameObject!.name,
+                                            allowCalendarIcon: true,
                                           ),
                                         ],
                                       ),

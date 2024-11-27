@@ -29,6 +29,7 @@ Future<dynamic> getQuotationLalaMove(
   String lng2,
   String address1,
   String address2,
+  String? scheduleAt, // Optional ISO 8601 schedule time
 ) async {
   try {
    // Prepare request body for Lalamove quotation
@@ -57,7 +58,8 @@ Future<dynamic> getQuotationLalaMove(
       "quantity": "1",
       "weight": "LESS_THAN_3KG",
       "handlingInstructions": ["KEEP_UPRIGHT"]
-    }
+    },
+    if (scheduleAt != null) "scheduleAt": scheduleAt, // Include if provided
   }
 });
 

@@ -134,12 +134,10 @@ String getCurrentTimeInIso8601(int minutesToAdd) {
 
   // Calculate and format the timezone offset
   String timezoneOffset = newTime.timeZoneOffset.isNegative ? "-" : "+";
-  timezoneOffset += newTime.timeZoneOffset.inHours
+  timezoneOffset += "${newTime.timeZoneOffset.inHours
           .abs()
           .toString()
-          .padLeft(2, '0') +
-      ":" +
-      (newTime.timeZoneOffset.inMinutes.abs() % 60).toString().padLeft(2, '0');
+          .padLeft(2, '0')}:${(newTime.timeZoneOffset.inMinutes.abs() % 60).toString().padLeft(2, '0')}";
 
   // Return the final ISO 8601 formatted string with timezone
   return "$iso8601String$timezoneOffset";

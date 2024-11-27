@@ -366,6 +366,40 @@ class FFAppState extends ChangeNotifier {
     updateFn(_deliveryData);
   }
 
+  List<LalamoveOrderResponseStruct> _lalamoveOrderResponses = [];
+  List<LalamoveOrderResponseStruct> get lalamoveOrderResponses => _lalamoveOrderResponses;
+  set lalamoveOrderResponses(List<LalamoveOrderResponseStruct> value) {
+    _lalamoveOrderResponses = value;
+  }
+  
+  void updateLalamoveOrderResponsesAtIndex(
+    int index,
+    LalamoveOrderResponseStruct Function(LalamoveOrderResponseStruct) updateFn,
+  ) {
+    lalamoveOrderResponses[index] = updateFn(_lalamoveOrderResponses[index]);
+  }
+
+  void insertAtIndexInLalamoveOrderResponses(int index, LalamoveOrderResponseStruct value) {
+    lalamoveOrderResponses.insert(index, value);
+  }
+
+  void addToLalamoveOrderResponses(LalamoveOrderResponseStruct value) {
+    lalamoveOrderResponses.add(value);
+  }
+
+  void removeFromLalamoveOrderResponses(LalamoveOrderResponseStruct value) {
+    lalamoveOrderResponses.remove(value);
+  }
+
+  void removeAtIndexFromLalamoveOrderResponses(int index) {
+    lalamoveOrderResponses.removeAt(index);
+  }
+
+  void deleteLalamoveOrderResponses() {
+    _lalamoveOrderResponses = [];
+  }
+
+
   String _SdtWalletId = 'ac106fd5-2b59-4c05-b6b9-0db299574d87';
   String get SdtWalletId => _SdtWalletId;
   set SdtWalletId(String value) {
@@ -639,6 +673,12 @@ class FFAppState extends ChangeNotifier {
 
   void insertAtIndexInQuotations(int index, QuotationsStruct value) {
     quotations.insert(index, value);
+  }
+
+  QuotationsStruct _choosenQuotation = QuotationsStruct();
+  QuotationsStruct get choosenQuotation => _choosenQuotation;
+  set choosenQuotation(QuotationsStruct value) {
+    choosenQuotation = value;
   }
 
   List<DocumentReference> _notifications = [];

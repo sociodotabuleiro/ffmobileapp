@@ -102,7 +102,7 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
                             onSelectedItemChanged: (index) {
                               setState(() {
                                 _hour = ((index % 12) + 12) % 12 + 1; // Wrap hours to 1-12
-                                _updateTime();
+                                //_updateTime();
                               });
                             },
                             childDelegate: ListWheelChildLoopingListDelegate(
@@ -132,7 +132,7 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
                             onSelectedItemChanged: (index) {
                               setState(() {
                                 _minute = index % 60; // Wrap minutes to 0-59
-                                _updateTime();
+                                //_updateTime();
                               });
                             },
                             childDelegate: ListWheelChildLoopingListDelegate(
@@ -166,7 +166,7 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
                         onPressed: () {
                           setState(() {
                             _isAM = true;
-                            _updateTime();
+                            //_updateTime();
                           });
                         },
                         style: ElevatedButton.styleFrom(
@@ -188,7 +188,7 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
                       onPressed: () {
                         setState(() {
                           _isAM = false;
-                          _updateTime();
+                          //_updateTime();
                         });
                       },
                       style: ElevatedButton.styleFrom(
@@ -211,12 +211,7 @@ class _CustomTimePickerState extends State<CustomTimePicker> {
                  ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      final hourIn24Format = _isAM
-                          ? (_hour == 12 ? 0 : _hour) // Convert 12 AM to 00
-                          : (_hour == 12 ? 12 : _hour + 12); // Keep 12 PM as 12
-                      widget.onTimeChanged(
-                        TimeOfDay(hour: hourIn24Format, minute: _minute),
-                      );
+                      _updateTime();
                       },
                     child: const Text('Salvar'),
                   ),

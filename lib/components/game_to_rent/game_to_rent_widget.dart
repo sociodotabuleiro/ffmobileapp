@@ -243,16 +243,13 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
       selectedTime.hour,
       selectedTime.minute,
     );
-    final brazilTime = combinedDateTime.toLocal();
-    final formattedDateWithTime = DateFormat("yyyy-MM-ddTHH:mm:ss").format(brazilTime);
-    final timezoneOffset = brazilTime.timeZoneOffset;
-    final offsetSign = timezoneOffset.isNegative ? "-" : "+";
-    final hoursOffset = timezoneOffset.inHours.abs().toString().padLeft(2, '0');
-    final minutesOffset = (timezoneOffset.inMinutes.abs() % 60).toString().padLeft(2, '0');
 
-    isoScheduleAt = '$formattedDateWithTime$offsetSign$hoursOffset:$minutesOffset';
-    }
-  else{
+    // Convert to UTC
+    final utcDateTime = combinedDateTime.toUtc();
+
+    // Format the DateTime as ISO 8601 with "Z"
+    isoScheduleAt = DateFormat("yyyy-MM-ddTHH:mm:ss").format(utcDateTime) + "Z";
+  } else {
     isoScheduleAt = null;
   }
 
@@ -317,7 +314,7 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
       width: MediaQuery.sizeOf(context).width * 0.95,
       height: 96.0,
       constraints: const BoxConstraints(
-        maxWidth: 570.0,
+        minHeight: 96.0, // Adjust the height to fit your content
       ),
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
@@ -337,7 +334,7 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
                   if (_model.quotationSuccess ?? false) {
                     return Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(12.0, 16.0, 0.0, 12.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -458,7 +455,7 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
                                           color: Color(0xFF0E9E43),
                                           size: 16.0,
                                         ),
-                                        Text(
+                                        Text(                               
                                           'R\$${valueOrDefault<String>(
                                             getJsonField(
                                               _model.quotationJson,
@@ -482,7 +479,7 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
                                                         FlutterFlowTheme.of(
                                                                 context)
                                                             .bodyMediumFamily),
-                                              ),
+                                              ),                                       
                                         ),
                                         IconButton(
                                       icon: const Icon(
@@ -752,4 +749,14 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
       ),
     );
   }
+
+  @override
+  void didUpdateWidget(GameToRentWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.selectedTime != widget.selectedTime) {
+      _fetchQuotation(selectedDate: widget.selectedDate, selectedTime: widget.selectedTime);
+    }
+  }
+
 }

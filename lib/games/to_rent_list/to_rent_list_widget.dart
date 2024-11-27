@@ -382,8 +382,10 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
         }
 
         logFirebaseEvent('lalamove_call_successful');
-        // Update FFAppState().deliveryData as needed
-        // ...
+
+        LalamoveOrderResponseStruct response = LalamoveOrderResponseStruct.maybeFromMap(_model.lalamoveCallRequest)!;
+
+        FFAppState().addToLalamoveOrderResponses(response);
 
         return true;
       }
@@ -482,43 +484,43 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
       }
 
       Future<void> createRentalRecordAndStartPayment() async {
-  // Generate a unique external reference for this rental/payment session
-  FFAppState().externalReference = '${random_data.randomString(8, 8, true, true, true)}${currentUserReference?.id}';
+        // Generate a unique external reference for this rental/payment session
+      FFAppState().externalReference = '${random_data.randomString(8, 8, true, true, true)}${currentUserReference?.id}';
 
-  // Prepare initial rental data
-  Map<String, dynamic> rentalData = {
-    'createdDate': DateTime.now(),
-    'renterId': currentUserReference,
-    'status': 'initiated', // Initial status for tracking
-    'externalReference': FFAppState().externalReference, // Link to payment
-    // Add any other necessary fields
-  };
+      // Prepare initial rental data
+      Map<String, dynamic> rentalData = {
+        'createdDate': DateTime.now(),
+        'renterId': currentUserReference,
+        'status': 'initiated', // Initial status for tracking
+        'externalReference': FFAppState().externalReference, // Link to payment
+        // Add any other necessary fields
+      };
 
-  // Create the rental record and get the reference
-  DocumentReference rentalRef = await createRentalsRecordForUser(currentUserReference!, rentalData, isRenter: true);
+      // Create the rental record and get the reference
+      DocumentReference rentalRef = await createRentalsRecordForUser(currentUserReference!, rentalData, isRenter: true);
 
-  // Store the reference for payment tracking
-  _model.usersRentalRef = rentalRef;
+      // Store the reference for payment tracking
+      _model.usersRentalRef = rentalRef;
 
-  // Step 2: Proceed with choosing payment method and initiating payment
-  bool useCard = await choosePaymentMethod();
-  bool paymentSuccess = false;
+      // Step 2: Proceed with choosing payment method and initiating payment
+      bool useCard = await choosePaymentMethod();
+      bool paymentSuccess = false;
 
-  if (useCard) {
-    paymentSuccess = await processCardPayment(rentalRef);
-  } else {
-    paymentSuccess = await processPixPayment(rentalRef);
-  }
+      if (useCard) {
+        paymentSuccess = await processCardPayment(rentalRef);
+      } else {
+        paymentSuccess = await processPixPayment(rentalRef);
+      }
 
-  if (!paymentSuccess) return;
+      if (!paymentSuccess) return;
 
-  // Step 3: Complete the rental and initiate delivery if payment is successful
-  if (!await callLalamove()) return;
+      // Step 3: Complete the rental and initiate delivery if payment is successful
+      if (!await callLalamove()) return;
 
-  await updateRecords();
+      await updateRecords();
 
-  await showSuccessDialogAndNavigate();
-}
+      await showSuccessDialogAndNavigate();
+    }
 
     return Title(
         title: 'Lista de Alugueis',

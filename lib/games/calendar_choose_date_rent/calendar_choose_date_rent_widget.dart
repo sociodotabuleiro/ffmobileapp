@@ -166,16 +166,20 @@ class _CalendarChooseDateRentWidgetState
             ),
           SizedBox(
             width: MediaQuery.sizeOf(context).width * 1.0,
-            height: 55.0,
-            child: GameToRentWidget(
-              gameName: widget.gameName,
-              gameRef: widget.myGames!.gameRef,
-              userRef: widget.renterRef,
-              allowCalendarIcon: false,
-              selectedDate: _model.choosenDates.isNotEmpty
-                  ? _model.choosenDates.first
-                  : null,
-              selectedTime: _selectedTime,
+            height: 100.0,
+            child:  StatefulBuilder(
+              builder: (context, setState) {
+              return GameToRentWidget(
+                  gameName: widget.gameName,
+                  gameRef: widget.myGames!.gameRef,
+                  userRef: widget.renterRef,
+                  allowCalendarIcon: false,
+                  selectedDate: _model.choosenDates.isNotEmpty
+                      ? _model.choosenDates.first
+                      : null,
+                  selectedTime: _selectedTime,
+                );
+              },
             ),
           ),
           const Spacer(), // Pushes the buttons to the bottom
@@ -225,7 +229,7 @@ class _CalendarChooseDateRentWidgetState
                 ),
                 FFButtonWidget(
                   onPressed: () async {
-                    logFirebaseEvent('CONFIRM_AND_POP');
+                    logFirebaseEvent('calendar_choose_date_rent_confirm_BTN');
                     // Confirm the selection and save data
                     FFAppState().choosenRentDates =
                         _model.choosenDates.toList().cast<DateTime>();
@@ -237,7 +241,6 @@ class _CalendarChooseDateRentWidgetState
                       totalPrice: _model.choosenDates.length * widget.myGames!.price,
                     );
                     FFAppState().dueDatePurchase = _model.choosenDates.last;
-
                     // Pop back to the previous page
                     Navigator.pop(context);
                   },

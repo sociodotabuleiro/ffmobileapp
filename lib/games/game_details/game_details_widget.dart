@@ -751,13 +751,13 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                       );
                                     },
                                     child: Hero(
-                                      tag: widget!.gameObject!.thumbnailUrl,
+                                      tag: widget.gameObject!.thumbnailUrl,
                                       transitionOnUserGestures: true,
                                       child: ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(8.0),
                                         child: Image.network(
-                                          widget!.gameObject!.thumbnailUrl,
+                                          widget.gameObject!.thumbnailUrl,
                                           width: 300.0,
                                           height: 200.0,
                                           fit: BoxFit.cover,

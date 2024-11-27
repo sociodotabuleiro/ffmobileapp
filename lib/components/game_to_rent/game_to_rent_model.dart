@@ -46,6 +46,9 @@ class GameToRentModel extends FlutterFlowModel<GameToRentWidget> {
   // Stores action output result for [Custom Action - getQuotationLalaMove] action in gameToRent widget.
   dynamic? quotationJson;
 
+  QuotationsStruct lastQuotation = QuotationsStruct();
+
+
   bool isNullOrEmpty(dynamic value) {
   if (value == null) {
     return true; // Null check

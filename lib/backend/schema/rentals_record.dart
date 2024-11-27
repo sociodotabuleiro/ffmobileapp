@@ -82,6 +82,21 @@ class RentalsRecord extends FirestoreRecord {
   DateTime? get paymentConfirmedAt => _paymentConfirmedAt;
   bool hasPaymentConfirmedAt() => _paymentConfirmedAt != null;
 
+  // "rentedDates" field.
+  List<DateTime>? _rentedDates;
+  List<DateTime> get rentedDates => _rentedDates ?? const [];
+  bool hasRentedDates() => _rentedDates != null;
+
+  // "firstDeliveryDate" field.
+  DateTime? _firstDeliveryDate;
+  DateTime? get firstDeliveryDate => _firstDeliveryDate;
+  bool hasFirstDeliveryDate() => _firstDeliveryDate != null;
+
+  // "returnDeliveryDate" field.
+  DateTime? _returnDeliveryDate;
+  DateTime? get returnDeliveryDate => _returnDeliveryDate;
+  bool hasReturnDeliveryDate() => _returnDeliveryDate != null;
+
   DocumentReference get parentReference => reference.parent.parent!;
 
   void _initializeFields() {
@@ -98,6 +113,9 @@ class RentalsRecord extends FirestoreRecord {
     _currentStatusTime = snapshotData['currentStatusTime'] as DateTime?;
     _pastTimes = getDataList(snapshotData['pastTimes']);
     _paymentConfirmedAt = snapshotData['paymentConfirmedAt'] as DateTime?;
+    _rentedDates = getDataList(snapshotData['rentedDates']);
+    _firstDeliveryDate = snapshotData['firstDeliveryDate'] as DateTime?;
+    _returnDeliveryDate = snapshotData['returnDeliveryDate'] as DateTime?;
   }
 
   static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
@@ -150,6 +168,8 @@ Map<String, dynamic> createRentalsRecordData({
   RentalStatus? status,
   DateTime? currentStatusTime,
   DateTime? paymentConfirmedAt,
+  DateTime? firstDeliveryDate,
+  DateTime? returnDeliveryDate,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -163,6 +183,8 @@ Map<String, dynamic> createRentalsRecordData({
       'status': status,
       'currentStatusTime': currentStatusTime,
       'paymentConfirmedAt': paymentConfirmedAt,
+      'firstDeliveryDate': firstDeliveryDate,
+      'returnDeliveryDate': returnDeliveryDate,
     }.withoutNulls,
   );
 
@@ -187,7 +209,10 @@ class RentalsRecordDocumentEquality implements Equality<RentalsRecord> {
         listEquality.equals(e1?.newDueDates, e2?.newDueDates) &&
         e1?.currentStatusTime == e2?.currentStatusTime &&
         listEquality.equals(e1?.pastTimes, e2?.pastTimes) &&
-        e1?.paymentConfirmedAt == e2?.paymentConfirmedAt;
+        e1?.paymentConfirmedAt == e2?.paymentConfirmedAt &&
+        listEquality.equals(e1?.rentedDates, e2?.rentedDates) &&
+        e1?.firstDeliveryDate == e2?.firstDeliveryDate &&
+        e1?.returnDeliveryDate == e2?.returnDeliveryDate;
   }
 
   @override
@@ -204,7 +229,10 @@ class RentalsRecordDocumentEquality implements Equality<RentalsRecord> {
         e?.newDueDates,
         e?.currentStatusTime,
         e?.pastTimes,
-        e?.paymentConfirmedAt
+        e?.paymentConfirmedAt,
+        e?.rentedDates,
+        e?.firstDeliveryDate,
+        e?.returnDeliveryDate
       ]);
 
   @override

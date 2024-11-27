@@ -23,6 +23,7 @@ enum RentalStatus {
   returned,
   timeAdded,
   cancelled,
+  denied,
 }
 
 enum NotificationTypes {

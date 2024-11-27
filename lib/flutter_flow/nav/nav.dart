@@ -276,6 +276,24 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'Notifications',
           path: '/notifications',
           builder: (context, params) => NotificationsWidget(),
+        ),
+        FFRoute(
+          name: 'rentRequest',
+          path: '/rentRequest',
+          builder: (context, params) => RentRequestWidget(
+            gameRef: params.getParam(
+              'gameRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['games'],
+            ),
+            rentingUserRef: params.getParam(
+              'rentingUserRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['users'],
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

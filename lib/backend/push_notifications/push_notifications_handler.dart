@@ -161,6 +161,13 @@ final parametersBuilderMap =
   'Settings2EditProfile': ParameterData.none(),
   'SettingsListAddress': ParameterData.none(),
   'Notifications': ParameterData.none(),
+  'rentRequest': (data) async => ParameterData(
+        allParams: {
+          'gameRef': getParameter<DocumentReference>(data, 'gameRef'),
+          'rentingUserRef':
+              getParameter<DocumentReference>(data, 'rentingUserRef'),
+        },
+      ),
 };
 
 Map<String, dynamic> getInitialParameterData(Map<String, dynamic> data) {

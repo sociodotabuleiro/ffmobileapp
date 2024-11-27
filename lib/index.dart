@@ -46,3 +46,4 @@ export '/profile/settings_list_address/settings_list_address_widget.dart'
     show SettingsListAddressWidget;
 export '/notifications/notifications/notifications_widget.dart'
     show NotificationsWidget;
+export '/games/rent_request/rent_request_widget.dart' show RentRequestWidget;

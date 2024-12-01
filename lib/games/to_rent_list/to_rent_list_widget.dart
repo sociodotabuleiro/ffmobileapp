@@ -159,28 +159,60 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
     super.dispose();
   }
 
+ Future<DocumentReference> createOrUpdateRentalsRecord({
+  required DocumentReference userRef,
+  required String rentalId,
+  required DateTime rentalDate,
+  required DateTime dueDate,
+  required double pricePerDay,
+  required RentalStatus status,
+  required DateTime currentStatusTime,
+  required bool isRenter,
+  DocumentReference? ownerID,
+  DocumentReference? renterID,
+  double? deliveryFee,
+  DateTime? firstDeliveryDate,
+  List<DocumentReference>? games,
+}) async {
+  logFirebaseEvent('create_or_update_rentals_record');
+
+  // Prepare the rentals record data
+  final rentalsRecordData = {
+    'rentalID': rentalId,
+    'rentalDate': rentalDate,
+    'dueDate': dueDate,
+    'pricePerDay': pricePerDay,
+    'status': status,
+    'currentStatusTime': currentStatusTime,
+    if (deliveryFee != null) 'deliveryFee': deliveryFee,
+    if (firstDeliveryDate != null) 'firstDeliveryDate': firstDeliveryDate,
+    if (ownerID != null) 'ownerID': ownerID,
+    if (renterID != null) 'renterID': renterID,
+    if (games != null) 'games': games,
+  };
+
+  final rentalRef = RentalsRecord.createDoc(userRef, id: rentalId);
+  await rentalRef.set(rentalsRecordData);
+
+  final rentalsRecord = RentalsRecord.getDocumentFromData(rentalsRecordData, rentalRef);
+
+  if (isRenter) {
+    _model.documentRenting = rentalsRecord;
+  } else {
+    _model.documentOwner = rentalsRecord;
+  }
+
+  return rentalRef;
+}
+
+
+
   @override
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
     context.watch<calendar_iagfh0_app_state.FFAppState>();
 
      
-      Future<DocumentReference> createRentalsRecordForUser(DocumentReference userRef, Map<String, dynamic> data, {required bool isRenter}) async {
-        logFirebaseEvent('create_rentals_record_for_user');
-
-        var rentalsRecordReference = RentalsRecord.createDoc(userRef);
-        await rentalsRecordReference.set(data);
-
-        var rentalsRecord = RentalsRecord.getDocumentFromData(data, rentalsRecordReference);
-
-        if (isRenter) {
-          _model.documentRenting = rentalsRecord;
-        } else {
-          _model.documentOwner = rentalsRecord;
-        }
-
-        return rentalsRecordReference; // Return the document reference for further usage
-      }
 
       Future<void> updateUserReferences() async {
         logFirebaseEvent('update_user_references');
@@ -424,30 +456,56 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
         logFirebaseEvent('available_dates_updated_successfully');
       }
 
-      Future<void> updateRecords() async {
+      Future<void> updateRentalsRecords(RentalStatus status) async {
         logFirebaseEvent('update_records_in_backend');
 
-        // Prepare the rentals record data
-        Map<String, dynamic> rentalsRecordData = {
-          ...createRentalsRecordData(
-            rentalID: _model.orderId ?? '0',
-            ownerID: FFAppState().ownerRefPurchase,
-            renterID: currentUserReference,
-            rentalDate: getCurrentTimestamp,
-            dueDate: FFAppState().dueDatePurchase,
-            pricePerDay: FFAppState().purchaseData.totalPrice,
-            deliveryFee: LalamoveOrderResponseStruct.maybeFromMap(_model.lalamoveCallRequest)?.priceBreakdown.total ?? 0.0,
-            status: RentalStatus.rented,
-            currentStatusTime: getCurrentTimestamp,
-          ),
-          'games': [widget.gameObject?.reference],
-        };
+        // Prepare common rental data
+        final rentalId = _model.orderId ?? '0';
+        final rentalDate = getCurrentTimestamp;
+        final dueDate = FFAppState().dueDatePurchase;
+        final pricePerDay = FFAppState().purchaseData.totalPrice;
+        final deliveryFee = LalamoveOrderResponseStruct
+                .maybeFromMap(_model.lalamoveCallRequest)
+                ?.priceBreakdown
+                .total ??
+            0.0;
+       final games = [widget.gameObject?.reference]?.where((game) => game != null).toList().cast<DocumentReference>();
 
-        // Create RentalsRecord for the current user (renter)
-        await createRentalsRecordForUser(currentUserReference!, rentalsRecordData, isRenter: true);
+
+      // Create RentalsRecord for the renter
+       await createOrUpdateRentalsRecord(
+        userRef: currentUserReference!,
+        rentalId: rentalId,
+        rentalDate: rentalDate,
+        dueDate: dueDate!,
+        pricePerDay: pricePerDay,
+        status: status,
+        currentStatusTime: getCurrentTimestamp,
+        isRenter: true,
+        ownerID: FFAppState().ownerRefPurchase,
+        renterID: currentUserReference,
+        deliveryFee: deliveryFee,
+        firstDeliveryDate: getCurrentTimestamp,
+        games: games,
+      );
 
         // Create RentalsRecord for the owner
-        await createRentalsRecordForUser(FFAppState().renterRef!, rentalsRecordData, isRenter: false);
+        await createOrUpdateRentalsRecord(
+          userRef: FFAppState().ownerRefPurchase!,
+          rentalId: rentalId,
+          rentalDate: rentalDate,
+          dueDate: dueDate,
+          pricePerDay: pricePerDay,
+          status: status,
+          currentStatusTime: getCurrentTimestamp,
+          isRenter: false,
+          ownerID: FFAppState().ownerRefPurchase,
+          renterID: currentUserReference,
+          deliveryFee: deliveryFee,
+          firstDeliveryDate: getCurrentTimestamp,
+          games: games,
+        );
+
 
         // Update user references
         await updateUserReferences();
@@ -493,11 +551,16 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
         'renterId': currentUserReference,
         'status': 'initiated', // Initial status for tracking
         'externalReference': FFAppState().externalReference, // Link to payment
-        // Add any other necessary fields
       };
 
-      // Create the rental record and get the reference
-      DocumentReference rentalRef = await createRentalsRecordForUser(currentUserReference!, rentalData, isRenter: true);
+       await updateRentalsRecords(RentalStatus.initiated);
+
+      //create a function to add a document in usersRental collection with 2 fields: renterId and Owner Id
+      
+      final rentalRef = await UsersRentalRecord.createDoc(currentUserReference!, id: FFAppState().externalReference).set(rentalData);
+    
+
+
 
       // Store the reference for payment tracking
       _model.usersRentalRef = rentalRef;
@@ -517,7 +580,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
       // Step 3: Complete the rental and initiate delivery if payment is successful
       if (!await callLalamove()) return;
 
-      await updateRecords();
+     
 
       await showSuccessDialogAndNavigate();
     }

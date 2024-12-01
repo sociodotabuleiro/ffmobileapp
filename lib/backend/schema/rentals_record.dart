@@ -97,6 +97,51 @@ class RentalsRecord extends FirestoreRecord {
   DateTime? get returnDeliveryDate => _returnDeliveryDate;
   bool hasReturnDeliveryDate() => _returnDeliveryDate != null;
 
+  // "transactionReceiptUrl" field.
+  String? _transactionReceiptUrl;
+  String get transactionReceiptUrl => _transactionReceiptUrl ?? '';
+  bool hasTransactionReceiptUrl() => _transactionReceiptUrl != null;
+
+  // "invoiceUrl" field.
+  String? _invoiceUrl;
+  String get invoiceUrl => _invoiceUrl ?? '';
+  bool hasInvoiceUrl() => _invoiceUrl != null;
+
+  // "billingType" field.
+  String? _billingType;
+  String get billingType => _billingType ?? '';
+  bool hasBillingType() => _billingType != null;
+
+  // "paymentId" field.
+  String? _paymentId;
+  String get paymentId => _paymentId ?? '';
+  bool hasPaymentId() => _paymentId != null;
+
+  // "statusASAAS" field.
+  String? _statusASAAS;
+  String get statusASAAS => _statusASAAS ?? '';
+  bool hasStatusASAAS() => _statusASAAS != null;
+
+  // "value" field.
+  double? _value;
+  double get value => _value ?? 0.0;
+  bool hasValue() => _value != null;
+
+  // "netValue" field.
+  double? _netValue;
+  double get netValue => _netValue ?? 0.0;
+  bool hasNetValue() => _netValue != null;
+
+  // "confirmedDate" field.
+  DateTime? _confirmedDate;
+  DateTime? get confirmedDate => _confirmedDate;
+  bool hasConfirmedDate() => _confirmedDate != null;
+
+  // "creditDate" field.
+  DateTime? _creditDate;
+  DateTime? get creditDate => _creditDate;
+  bool hasCreditDate() => _creditDate != null;
+
   DocumentReference get parentReference => reference.parent.parent!;
 
   void _initializeFields() {
@@ -116,6 +161,15 @@ class RentalsRecord extends FirestoreRecord {
     _rentedDates = getDataList(snapshotData['rentedDates']);
     _firstDeliveryDate = snapshotData['firstDeliveryDate'] as DateTime?;
     _returnDeliveryDate = snapshotData['returnDeliveryDate'] as DateTime?;
+    _transactionReceiptUrl = snapshotData['transactionReceiptUrl'] as String?;
+    _invoiceUrl = snapshotData['invoiceUrl'] as String?;
+    _billingType = snapshotData['billingType'] as String?;
+    _paymentId = snapshotData['paymentId'] as String?;
+    _statusASAAS = snapshotData['statusASAAS'] as String?;
+    _value = castToType<double>(snapshotData['value']);
+    _netValue = castToType<double>(snapshotData['netValue']);
+    _confirmedDate = snapshotData['confirmedDate'] as DateTime?;
+    _creditDate = snapshotData['creditDate'] as DateTime?;
   }
 
   static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
@@ -170,6 +224,15 @@ Map<String, dynamic> createRentalsRecordData({
   DateTime? paymentConfirmedAt,
   DateTime? firstDeliveryDate,
   DateTime? returnDeliveryDate,
+  String? transactionReceiptUrl,
+  String? invoiceUrl,
+  String? billingType,
+  String? paymentId,
+  String? statusASAAS,
+  double? value,
+  double? netValue,
+  DateTime? confirmedDate,
+  DateTime? creditDate,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -185,6 +248,15 @@ Map<String, dynamic> createRentalsRecordData({
       'paymentConfirmedAt': paymentConfirmedAt,
       'firstDeliveryDate': firstDeliveryDate,
       'returnDeliveryDate': returnDeliveryDate,
+      'transactionReceiptUrl': transactionReceiptUrl,
+      'invoiceUrl': invoiceUrl,
+      'billingType': billingType,
+      'paymentId': paymentId,
+      'statusASAAS': statusASAAS,
+      'value': value,
+      'netValue': netValue,
+      'confirmedDate': confirmedDate,
+      'creditDate': creditDate,
     }.withoutNulls,
   );
 
@@ -212,7 +284,16 @@ class RentalsRecordDocumentEquality implements Equality<RentalsRecord> {
         e1?.paymentConfirmedAt == e2?.paymentConfirmedAt &&
         listEquality.equals(e1?.rentedDates, e2?.rentedDates) &&
         e1?.firstDeliveryDate == e2?.firstDeliveryDate &&
-        e1?.returnDeliveryDate == e2?.returnDeliveryDate;
+        e1?.returnDeliveryDate == e2?.returnDeliveryDate &&
+        e1?.transactionReceiptUrl == e2?.transactionReceiptUrl &&
+        e1?.invoiceUrl == e2?.invoiceUrl &&
+        e1?.billingType == e2?.billingType &&
+        e1?.paymentId == e2?.paymentId &&
+        e1?.statusASAAS == e2?.statusASAAS &&
+        e1?.value == e2?.value &&
+        e1?.netValue == e2?.netValue &&
+        e1?.confirmedDate == e2?.confirmedDate &&
+        e1?.creditDate == e2?.creditDate;
   }
 
   @override
@@ -232,7 +313,16 @@ class RentalsRecordDocumentEquality implements Equality<RentalsRecord> {
         e?.paymentConfirmedAt,
         e?.rentedDates,
         e?.firstDeliveryDate,
-        e?.returnDeliveryDate
+        e?.returnDeliveryDate,
+        e?.transactionReceiptUrl,
+        e?.invoiceUrl,
+        e?.billingType,
+        e?.paymentId,
+        e?.statusASAAS,
+        e?.value,
+        e?.netValue,
+        e?.confirmedDate,
+        e?.creditDate
       ]);
 
   @override

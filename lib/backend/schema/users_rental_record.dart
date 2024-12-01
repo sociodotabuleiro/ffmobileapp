@@ -22,14 +22,26 @@ class UsersRentalRecord extends FirestoreRecord {
   DocumentReference? get renterId => _renterId;
   bool hasRenterId() => _renterId != null;
 
-  // "rentingId" field.
-  DocumentReference? _rentingId;
-  DocumentReference? get rentingId => _rentingId;
-  bool hasRentingId() => _rentingId != null;
+  // "ownerId" field.
+  DocumentReference? _ownerId;
+  DocumentReference? get ownerId => _ownerId;
+  bool hasOwnerId() => _ownerId != null;
+
+  // "ownerRentalsId" field.
+  DocumentReference? _ownerRentalsId;
+  DocumentReference? get ownerRentalsId => _ownerRentalsId;
+  bool hasOwnerRentalsId() => _ownerRentalsId != null;
+
+  // "renterRentalsId" field.
+  DocumentReference? _renterRentalsId;
+  DocumentReference? get renterRentalsId => _renterRentalsId;
+  bool hasRenterRentalsId() => _renterRentalsId != null;
 
   void _initializeFields() {
     _renterId = snapshotData['renterId'] as DocumentReference?;
-    _rentingId = snapshotData['rentingId'] as DocumentReference?;
+    _ownerId = snapshotData['ownerId'] as DocumentReference?;
+    _ownerRentalsId = snapshotData['ownerRentalsId'] as DocumentReference?;
+    _renterRentalsId = snapshotData['renterRentalsId'] as DocumentReference?;
   }
 
   static CollectionReference get collection =>
@@ -68,12 +80,16 @@ class UsersRentalRecord extends FirestoreRecord {
 
 Map<String, dynamic> createUsersRentalRecordData({
   DocumentReference? renterId,
-  DocumentReference? rentingId,
+  DocumentReference? ownerId,
+  DocumentReference? ownerRentalsId,
+  DocumentReference? renterRentalsId,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'renterId': renterId,
-      'rentingId': rentingId,
+      'ownerId': ownerId,
+      'ownerRentalsId': ownerRentalsId,
+      'renterRentalsId': renterRentalsId,
     }.withoutNulls,
   );
 
@@ -85,12 +101,15 @@ class UsersRentalRecordDocumentEquality implements Equality<UsersRentalRecord> {
 
   @override
   bool equals(UsersRentalRecord? e1, UsersRentalRecord? e2) {
-    return e1?.renterId == e2?.renterId && e1?.rentingId == e2?.rentingId;
+    return e1?.renterId == e2?.renterId &&
+        e1?.ownerId == e2?.ownerId &&
+        e1?.ownerRentalsId == e2?.ownerRentalsId &&
+        e1?.renterRentalsId == e2?.renterRentalsId;
   }
 
   @override
-  int hash(UsersRentalRecord? e) =>
-      const ListEquality().hash([e?.renterId, e?.rentingId]);
+  int hash(UsersRentalRecord? e) => const ListEquality()
+      .hash([e?.renterId, e?.ownerId, e?.ownerRentalsId, e?.renterRentalsId]);
 
   @override
   bool isValidKey(Object? o) => o is UsersRentalRecord;

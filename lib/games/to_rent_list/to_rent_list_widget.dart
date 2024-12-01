@@ -848,14 +848,14 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                         .doc(_model.documentRenting!.rentalID);
                                 await usersRentalRecordReference
                                     .set(createUsersRentalRecordData(
-                                  renterId: FFAppState().renterRef,
-                                  rentingId: currentUserReference,
+                                  renterId: currentUserReference,
+                                  ownerId: FFAppState().renterRef,
                                 ));
                                 _model.usersRentalObject =
                                     UsersRentalRecord.getDocumentFromData(
                                         createUsersRentalRecordData(
-                                          renterId: FFAppState().renterRef,
-                                          rentingId: currentUserReference,
+                                          renterId: currentUserReference,
+                                          ownerId: FFAppState().renterRef,
                                         ),
                                         usersRentalRecordReference);
                                 _shouldSetState = true;

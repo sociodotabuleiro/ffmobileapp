@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/schema/enums/enums.dart';
@@ -65,19 +68,50 @@ Future<Response?> retryRequest(
 
   while (attempt < retries) {
     try {
+      // Make the request
       response = await request();
+
+      // Log success
+      _logger.i('Request succeeded with status: ${response.statusCode}');
+
+      // Check for successful status codes
       if (response.statusCode == 200 || response.statusCode == 201) {
         return response;
       }
-      _logger.w('Request failed with status: ${response.statusCode}. Retrying...');
+
+      // Stop retrying for 400-level errors (client errors)
+      if (response.statusCode >= 400 && response.statusCode < 500) {
+        _logger.e(
+            'Non-recoverable error: ${response.statusCode}. Stopping retries.');
+        return response; // Return response for client error
+      }
+
+      // Log other status codes and continue retrying
+      _logger.w(
+          'Request failed with status: ${response.statusCode}. Retrying...');
+    } on TimeoutException catch (e) {
+      // Handle request timeout
+      _logger.e('TimeoutException occurred: $e');
+    } on SocketException catch (e) {
+      // Handle network issues
+      _logger.e('SocketException occurred: $e');
     } catch (e) {
-      _logger.w('Exception occurred: $e. Retrying...');
+      // Catch-all for other exceptions
+      _logger.e('An unexpected error occurred: $e');
     }
 
+    // Increment attempt counter
     attempt++;
-    if (attempt < retries) await Future.delayed(delay);
+
+    // If retries remain, wait before retrying
+    if (attempt < retries) {
+      await Future.delayed(delay);
+    }
   }
-  return response; // Returns the last response or null if all retries failed
+
+  // Log and return the last response or null if all retries failed
+  _logger.e('All retries failed. Returning the last response or null.');
+  return response;
 }
 
 // Loading indicator dialog
@@ -556,11 +590,16 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
        await updateRentalsRecords(RentalStatus.initiated);
 
       //create a function to add a document in usersRental collection with 2 fields: renterId and Owner Id
-      
-      final rentalRef = await UsersRentalRecord.createDoc(currentUserReference!, id: FFAppState().externalReference).set(rentalData);
-    
+      final usersRentalCollection = FirebaseFirestore.instance.collection('usersRental');
 
+    DocumentReference rentalRef = usersRentalCollection.doc(_model.orderId);
 
+    await rentalRef.set({
+      'renterId': currentUserReference,
+      'ownerId': FFAppState().ownerRefPurchase,
+      'ownerRentalsId': _model.documentOwner?.reference,
+      'renterRentalsId': _model.documentRenting?.reference,
+    });
 
       // Store the reference for payment tracking
       _model.usersRentalRef = rentalRef;
@@ -774,7 +813,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
 
                                    await createRentalRecordAndStartPayment();                               
 
-                                  await updateRecords();
+                                  //await updateRecords();
 
                                   await showSuccessDialogAndNavigate();
                                       },

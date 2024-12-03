@@ -298,6 +298,12 @@ class FFAppState extends ChangeNotifier {
     _purchaseData = value;
   }
 
+  String _paymentId;
+  String get paymentId => _paymentId;
+  set paymentId(String value) {
+    _paymentId = value;
+  }
+
   void updatePurchaseDataStruct(Function(PurchaseComponentsStruct) updateFn) {
     updateFn(_purchaseData);
   }

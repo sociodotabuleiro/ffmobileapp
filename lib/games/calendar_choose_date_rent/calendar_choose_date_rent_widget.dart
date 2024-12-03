@@ -15,6 +15,10 @@ import '../../custom_code/widgets/custom_time_picker.dart';
 
 export 'calendar_choose_date_rent_model.dart';
 
+import '../../analytics_service.dart';
+
+final analytics_service = AnalyticsService();
+
 class CalendarChooseDateRentWidget extends StatefulWidget {
   const CalendarChooseDateRentWidget({
     super.key,
@@ -55,6 +59,8 @@ class _CalendarChooseDateRentWidgetState
     _model = createModel(context, () => CalendarChooseDateRentModel());
 
     _model.availableDates = widget.availableDates ?? [];
+
+     analytics_service.logFunnelStep('VIEW_DATES_AVAILABLE', 3);
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -230,6 +236,19 @@ class _CalendarChooseDateRentWidgetState
                 FFButtonWidget(
                   onPressed: () async {
                     logFirebaseEvent('calendar_choose_date_rent_confirm_BTN');
+                    
+                    // Check if the user has selected a date
+                    if (_model.choosenDates.isEmpty || !_isTimeSelected) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Selecione uma data e horário para alugar o jogo.'),
+                        ),
+                      );
+                      return;
+                    }
+
+                    analytics_service.logFunnelStep('CHOOSED_RENT_DATE_TIME', 4);
+
                     // Confirm the selection and save data
                     FFAppState().choosenRentDates =
                         _model.choosenDates.toList().cast<DateTime>();

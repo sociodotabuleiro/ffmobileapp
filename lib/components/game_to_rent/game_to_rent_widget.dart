@@ -357,11 +357,13 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
                                       child: ClipRRect(
                                         borderRadius:
                                             BorderRadius.circular(8.0),
-                                        child: Image.network(
-                                          'https://picsum.photos/seed/977/600',
+                                        child: Image.asset(
+                                          _model.userObject!.isStore 
+                                              ? 'assets/images/perfil_de_loja-8.png' 
+                                              : 'assets/images/perfil_usuario-8.png',
                                           width: 45.0,
                                           height: 45.0,
-                                          fit: BoxFit.cover,
+                                          fit: BoxFit.cover,  
                                         ),
                                       ),
                                     ),

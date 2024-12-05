@@ -25,6 +25,7 @@ import 'package:http/http.dart';
 import 'package:logger/logger.dart';
 import '../../analytics_service.dart';
 
+
 final analytics_service = AnalyticsService();
 
 final Logger _logger = Logger();
@@ -412,39 +413,39 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
   } 
   
   Future<void> rollbackPayment() async {
-  logFirebaseEvent('rollback_payment');
-  analytics_service.logFunnelStep('ROLLBACK_PAYMENT', 71);
-  try {
-    final response = await retryRequest(
-      () => post(
-        Uri.parse('https://asaasrefundpayment-667069547103.southamerica-east1.run.app'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'paymentId': FFAppState().paymentId,
-        }),
-      ),
-      retries: 3,
-      delay: const Duration(seconds: 2),
-    );
+    logFirebaseEvent('rollback_payment');
+    analytics_service.logFunnelStep('ROLLBACK_PAYMENT', 71);
+    try {
+      final response = await retryRequest(
+        () => post(
+          Uri.parse('https://asaasrefundpayment-667069547103.southamerica-east1.run.app'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({
+            'paymentId': FFAppState().paymentId,
+          }),
+        ),
+        retries: 3,
+        delay: const Duration(seconds: 2),
+      );
 
-    if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
-      final responseData = jsonDecode(response.body);
-      if (responseData['success'] == true) {
-        logFirebaseEvent('payment_rollback_success');
-        _logger.i('Payment successfully rolled back. Refunds: ${responseData['refunds']}');
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        final responseData = jsonDecode(response.body);
+        if (responseData['success'] == true) {
+          logFirebaseEvent('payment_rollback_success');
+          _logger.i('Payment successfully rolled back. Refunds: ${responseData['refunds']}');
+        } else {
+          logFirebaseEvent('payment_rollback_failed');
+          _logger.w('Failed to roll back payment. Response: ${response.body}');
+        }
       } else {
         logFirebaseEvent('payment_rollback_failed');
-        _logger.w('Failed to roll back payment. Response: ${response.body}');
+        _logger.w('Failed to roll back payment. Status: ${response?.statusCode}, Response: ${response?.body}');
       }
-    } else {
-      logFirebaseEvent('payment_rollback_failed');
-      _logger.w('Failed to roll back payment. Status: ${response?.statusCode}, Response: ${response?.body}');
+    } catch (e) {
+      logFirebaseEvent('payment_rollback_exception');
+      _logger.e('An error occurred while rolling back payment: $e');
     }
-  } catch (e) {
-    logFirebaseEvent('payment_rollback_exception');
-    _logger.e('An error occurred while rolling back payment: $e');
   }
-}
 
   Future<bool> callLalamove() async {
 
@@ -624,28 +625,74 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
     analytics_service.logRentalComplete('rental_complete', FFAppState().purchaseData.totalPrice);
     analytics_service.logPurchase(_model.orderId!, FFAppState().purchaseData.totalPrice, 'BRL');
 
+    final gameName = widget.gameObject?.name ?? 'jogo';
+    final gameRef = widget.gameObject?.reference;
+    final rentingUserRef = currentUserReference;
+    final ownerRef = FFAppState().ownerRefPurchase;
 
-    await showDialog(
-      context: context,
-      builder: (alertDialogContext) {
-        return WebViewAware(
-          child: AlertDialog(
-            title: const Text('Pedido realizado com Sucesso!'),
-            content: const Text('Seu pedido foi realizado! Logo mais ele estará chegando até você!'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(alertDialogContext),
-                child: const Text('Ok'),
-              ),
-            ],
-          ),
-        );
+      // Send notification to the game owner
+    final notificationPayload = {
+      "title": "Aluguel do $gameName realizado.",
+      "message": "Por favor confirme a data e o horário do pedido.",
+      "initial_page_name": "rentRequest",
+      "parameter_data": {
+        "gameRef": gameRef,
+        "rentingUserRef": rentingUserRef,
       },
-    );
+      "user_ids": [ownerRef],
+      "type": "GAME_RENTED",
+    };
 
-    logFirebaseEvent('navigate_to_homepage');
-    context.pushNamed('HomePage');
-  }
+      try {
+        final response = await retryRequest(
+          () => post(
+            Uri.parse('https://<YOUR_CLOUD_FUNCTION_URL>/create_notification'),
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode(notificationPayload),
+          ),
+          retries: 3,
+          delay: const Duration(seconds: 2),
+        );
+
+        if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+          final responseData = jsonDecode(response.body);
+          if (responseData['status'] == 'success') {
+            logFirebaseEvent('notification_sent_successfully');
+            _logger.i('Notification sent successfully. Response: ${response.body}');
+          } else {
+            logFirebaseEvent('notification_failed');
+            _logger.w('Failed to send notification. Response: ${response.body}');
+          }
+        } else {
+          logFirebaseEvent('notification_failed');
+          _logger.w('Failed to send notification. Status: ${response?.statusCode}, Response: ${response?.body}');
+        }
+      } catch (e) {
+        logFirebaseEvent('notification_exception');
+        _logger.e('An error occurred while sending notification: $e');
+      }
+
+       await showDialog(
+        context: context,
+        builder: (alertDialogContext) {
+          return WebViewAware(
+            child: AlertDialog(
+              title: const Text('Pedido realizado com Sucesso!'),
+              content: const Text('O locador tem até 30 minutos para confirmar a locação.'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(alertDialogContext),
+                  child: const Text('Ok'),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+
+      logFirebaseEvent('navigate_to_homepage');
+      context.pushNamed('HomePage');
+    }
 
   Future<void> createRentalRecordAndStartPayment() async {
         // Generate a unique external reference for this rental/payment session
@@ -692,10 +739,10 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
       if (!paymentSuccess) return;
 
 
-      if (!await callLalamove()) {
-        logFirebaseEvent('delivery_setup_failed');
-        return; 
-      }
+     // if (!await callLalamove()) {
+      //  logFirebaseEvent('delivery_setup_failed');
+     //   return; 
+    //  }
 
       
 

@@ -63,7 +63,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
                 borderRadius: 30.0,
                 borderWidth: 1.0,
                 buttonSize: 60.0,
-                icon: Icon(
+                icon: const Icon(
                   Icons.arrow_back_rounded,
                   color: Colors.white,
                   size: 30.0,
@@ -95,7 +95,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
                   NotificationsRecord.collection(currentUserReference)
                       .orderBy('date', descending: true),
                   parent: currentUserReference),
-              padding: EdgeInsets.fromLTRB(
+              padding: const EdgeInsets.fromLTRB(
                 0,
                 4.0,
                 0,
@@ -103,7 +103,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
               ),
               reverse: false,
               scrollDirection: Axis.vertical,
-              separatorBuilder: (_, __) => SizedBox(height: 8.0),
+              separatorBuilder: (_, __) => const SizedBox(height: 8.0),
               builderDelegate: PagedChildBuilderDelegate<NotificationsRecord>(
                 // Customize what your widget looks like when it's loading the first page.
                 firstPageProgressIndicatorBuilder: (_) => Center(

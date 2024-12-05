@@ -98,7 +98,7 @@ class _RentRequestWidgetState extends State<RentRequestWidget> {
                   size: 25.0,
                 ),
                 onPressed: () {
-                  print('IconButton pressed ...');
+                  Navigator.pop(context);
                 },
               ),
               title: Text(
@@ -117,13 +117,13 @@ class _RentRequestWidgetState extends State<RentRequestWidget> {
             body: SafeArea(
               top: true,
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(24.0, 24.0, 24.0, 24.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(24.0, 24.0, 24.0, 24.0),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 16.0, 0.0),
                         child: Material(
                           color: Colors.transparent,
@@ -139,7 +139,7 @@ class _RentRequestWidgetState extends State<RentRequestWidget> {
                               borderRadius: BorderRadius.circular(16.0),
                             ),
                             child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   20.0, 20.0, 20.0, 20.0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -157,12 +157,12 @@ class _RentRequestWidgetState extends State<RentRequestWidget> {
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(8.0),
-                                          child: Image.network(
-                                            'https://images.unsplash.com/photo-1730369624412-2e474536ee18?w=\${params.gameDetails.gameImage}&h=\${params.gameDetails.gameImage}',
-                                            width: 80.0,
-                                            height: 80.0,
-                                            fit: BoxFit.cover,
-                                          ),
+                                          child:  
+                             
+                                            _model.gameObject!.thumbnailUrl == null || _model.gameObject!.thumbnailUrl == ''
+                                                ? Image.asset('assets/images/error.png',  width: 80.0, height: 80.0, fit: BoxFit.cover,)
+                                                : Image.network(_model.gameObject!.thumbnailUrl, width: 80.0, height: 80.0, fit: BoxFit.cover,),
+                                           
                                         ),
                                       ),
                                       Expanded(
@@ -219,16 +219,16 @@ class _RentRequestWidgetState extends State<RentRequestWidget> {
                                           ],
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 16.0)),
+                                    ].divide(const SizedBox(width: 16.0)),
                                   ),
-                                ].divide(SizedBox(height: 16.0)),
+                                ].divide(const SizedBox(height: 16.0)),
                               ),
                             ),
                           ),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 16.0, 0.0),
                         child: Material(
                           color: Colors.transparent,
@@ -244,7 +244,7 @@ class _RentRequestWidgetState extends State<RentRequestWidget> {
                               borderRadius: BorderRadius.circular(16.0),
                             ),
                             child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   20.0, 20.0, 20.0, 20.0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -320,7 +320,7 @@ class _RentRequestWidgetState extends State<RentRequestWidget> {
                                                               .bodyLargeFamily),
                                             ),
                                       ),
-                                    ].divide(SizedBox(width: 12.0)),
+                                    ].divide(const SizedBox(width: 12.0)),
                                   ),
                                   Row(
                                     mainAxisSize: MainAxisSize.max,
@@ -357,16 +357,16 @@ class _RentRequestWidgetState extends State<RentRequestWidget> {
                                                               .bodyLargeFamily),
                                             ),
                                       ),
-                                    ].divide(SizedBox(width: 12.0)),
+                                    ].divide(const SizedBox(width: 12.0)),
                                   ),
-                                ].divide(SizedBox(height: 16.0)),
+                                ].divide(const SizedBox(height: 16.0)),
                               ),
                             ),
                           ),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 16.0, 0.0),
                         child: Material(
                           color: Colors.transparent,
@@ -382,7 +382,7 @@ class _RentRequestWidgetState extends State<RentRequestWidget> {
                               borderRadius: BorderRadius.circular(16.0),
                             ),
                             child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
                                   20.0, 20.0, 20.0, 20.0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -476,16 +476,16 @@ class _RentRequestWidgetState extends State<RentRequestWidget> {
                                           ],
                                         ),
                                       ),
-                                    ].divide(SizedBox(width: 12.0)),
+                                    ].divide(const SizedBox(width: 12.0)),
                                   ),
-                                ].divide(SizedBox(height: 16.0)),
+                                ].divide(const SizedBox(height: 16.0)),
                               ),
                             ),
                           ),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 16.0, 0.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -498,9 +498,9 @@ class _RentRequestWidgetState extends State<RentRequestWidget> {
                               options: FFButtonOptions(
                                 width: MediaQuery.sizeOf(context).width * 1.0,
                                 height: 50.0,
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
-                                iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
                                 color: FlutterFlowTheme.of(context).primary,
                                 textStyle: FlutterFlowTheme.of(context)
@@ -537,7 +537,7 @@ class _RentRequestWidgetState extends State<RentRequestWidget> {
                                         child: Padding(
                                           padding:
                                               MediaQuery.viewInsetsOf(context),
-                                          child: ConfirmCancelOrderWidget(),
+                                          child: const ConfirmCancelOrderWidget(),
                                         ),
                                       ),
                                     );
@@ -548,11 +548,11 @@ class _RentRequestWidgetState extends State<RentRequestWidget> {
                               options: FFButtonOptions(
                                 width: MediaQuery.sizeOf(context).width * 1.0,
                                 height: 50.0,
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
-                                iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
-                                color: Color(0x00FFFFFF),
+                                color: const Color(0x00FFFFFF),
                                 textStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(
@@ -573,10 +573,10 @@ class _RentRequestWidgetState extends State<RentRequestWidget> {
                                 borderRadius: BorderRadius.circular(25.0),
                               ),
                             ),
-                          ].divide(SizedBox(height: 16.0)),
+                          ].divide(const SizedBox(height: 16.0)),
                         ),
                       ),
-                    ].divide(SizedBox(height: 24.0)),
+                    ].divide(const SizedBox(height: 24.0)),
                   ),
                 ),
               ),

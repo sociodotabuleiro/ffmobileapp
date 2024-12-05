@@ -298,7 +298,7 @@ class FFAppState extends ChangeNotifier {
     _purchaseData = value;
   }
 
-  String _paymentId;
+  String _paymentId = '';
   String get paymentId => _paymentId;
   set paymentId(String value) {
     _paymentId = value;

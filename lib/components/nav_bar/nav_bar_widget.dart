@@ -2,15 +2,8 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'nav_bar_model.dart';
 export 'nav_bar_model.dart';
-import '/backend/backend.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 
 
@@ -53,7 +46,7 @@ class _NavBarWidgetState extends State<NavBarWidget> {
       height: 70.0,
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).primary,
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(0.0),
           bottomRight: Radius.circular(0.0),
           topLeft: Radius.circular(16.0),
@@ -95,55 +88,54 @@ class _NavBarWidgetState extends State<NavBarWidget> {
               context.pushNamed('gamesList');
             },
           ),
-          FlutterFlowIconButton(
-            borderRadius: 20.0,
-            buttonSize: 55.0,
-            icon: Icon(
-              Icons.games,
-              color: FlutterFlowTheme.of(context).secondaryBackground,
-              size: 32.0,
-            ),
-            onPressed: () async {
+          IconButton(
+             onPressed: () async {
               logFirebaseEvent('NAV_BAR_COMP_gamesButton_ON_TAP');
               logFirebaseEvent('gamesButton_navigate_to');
 
               context.pushNamed('myGames');
             },
+            icon: Image.asset(
+              'assets/images/meus_jogos-8.png',
+              fit: BoxFit.cover,
+              height: 32.0,
+              width: 32.0,
+            ),
+            iconSize: 55.0, // Adjust size as needed
           ),
           Stack(
             children: [
-              FlutterFlowIconButton(
-                borderRadius: 20.0,
-                borderWidth: 1.0,
-                buttonSize: 55.0,
-                icon: Icon(
-                  Icons.shopping_cart,
-                  color: FlutterFlowTheme.of(context).secondaryBackground,
-                  size: 32.0,
-                ),
-                onPressed: () async {
+             IconButton(
+               onPressed: () async {
                   logFirebaseEvent('NAV_BAR_COMP_requestsButton_ON_TAP');
                   logFirebaseEvent('requestsButton_navigate_to');
 
                   context.pushNamed('deliveryStatus');
                 },
+                icon: Image.asset(
+                  'assets/images/lista_de_pedidos-8.png',
+                  fit: BoxFit.cover,
+                  height: 32.0,
+                  width: 32.0,
+                ),
+                iconSize: 55.0, // Adjust size as needed
               ),
             ],
           ),
-          FlutterFlowIconButton(
-            borderRadius: 20.0,
-            buttonSize: 55.0,
-            icon: Icon(
-              Icons.person,
-              color: FlutterFlowTheme.of(context).secondaryBackground,
-              size: 32.0,
-            ),
-            onPressed: () async {
+          IconButton(
+           onPressed: () async {
               logFirebaseEvent('NAV_BAR_COMP_profileButton_ON_TAP');
               logFirebaseEvent('profileButton_navigate_to');
 
               context.pushNamed('Profile');
             },
+            icon: Image.asset(
+              'assets/images/perfil_usuario-8.png',
+              fit: BoxFit.cover,
+              height: 32.0,
+              width: 32.0,
+            ),
+            iconSize: 55.0, // Adjust size as needed
           ),
         ],
       ),

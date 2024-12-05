@@ -1,14 +1,12 @@
-import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ff_theme/flutter_flow/flutter_flow_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'notification_basic_model.dart';
 export 'notification_basic_model.dart';
+import '/backend/schema/enums/enums.dart';
 
 class NotificationBasicWidget extends StatefulWidget {
   const NotificationBasicWidget({
@@ -42,7 +40,7 @@ class _NotificationBasicWidgetState extends State<NotificationBasicWidget> {
       logFirebaseEvent('NOTIFICATION_BASIC_notification_basic_ON');
       logFirebaseEvent('notification_basic_backend_call');
       _model.notificationObject =
-          await NotificationsRecord.getDocumentOnce(widget!.notificationRef!);
+          await NotificationsRecord.getDocumentOnce(widget.notificationRef!);
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
@@ -55,18 +53,64 @@ class _NotificationBasicWidgetState extends State<NotificationBasicWidget> {
     super.dispose();
   }
 
+   
+
+   Widget _getNotificationIcon(NotificationTypes type) {
+    switch (type) {
+      case NotificationTypes.GAME_RENTED:
+      case NotificationTypes.ORDER_ACCEPTED_BY_OWNER:
+        return Image.asset(
+          'assets/images/pedido_confirmado-8.png',
+          width: 24.0,
+          height: 24.0,
+        );
+      case NotificationTypes.SEARCHING_DRIVER:
+        return Image.asset(
+          'assets/images/pedido_pendente-8.png',
+          width: 24.0,
+          height: 24.0,
+        );
+      case NotificationTypes.DRIVER_GOING_RENTER:
+      case NotificationTypes.DRIVER_GOING_OWNER:
+        return Image.asset(
+          'assets/images/pedido_a_entregar-8.png',
+          width: 24.0,
+          height: 24.0,
+        );
+      case NotificationTypes.ORDER_DELIVERED_RENTER:
+        return Image.asset(
+          'assets/images/pedido_entregue-8.png',
+          width: 24.0,
+          height: 24.0,
+        );
+      case NotificationTypes.ORDER_DELIVERED_OWNER:
+        return Image.asset(
+          'assets/images/pedido_devolvido-8.png',
+          width: 24.0,
+          height: 24.0,
+        );
+      default:
+        return const Icon(
+          Icons.notifications,
+          color: Color(0xFF4B39EF),
+          size: 24.0,
+        );
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(12.0, 16.0, 12.0, 16.0),
+      padding: const EdgeInsetsDirectional.fromSTEB(12.0, 16.0, 12.0, 16.0),
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Color(0xFFE6EDF3),
+          color: const Color(0xFFE6EDF3),
           borderRadius: BorderRadius.circular(12.0),
         ),
         child: Padding(
-          padding: EdgeInsets.all(12.0),
+          padding: const EdgeInsets.all(12.0),
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -75,10 +119,10 @@ class _NotificationBasicWidgetState extends State<NotificationBasicWidget> {
                 width: 48.0,
                 height: 48.0,
                 decoration: BoxDecoration(
-                  color: Color(0xFFD1E0FF),
+                  color: const Color(0xFFD1E0FF),
                   borderRadius: BorderRadius.circular(24.0),
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.notifications,
                   color: Color(0xFF4B39EF),
                   size: 24.0,
@@ -143,10 +187,10 @@ class _NotificationBasicWidgetState extends State<NotificationBasicWidget> {
                                 FlutterFlowTheme.of(context).bodyMediumFamily),
                           ),
                     ),
-                  ].divide(SizedBox(height: 4.0)),
+                  ].divide(const SizedBox(height: 4.0)),
                 ),
               ),
-            ].divide(SizedBox(width: 16.0)),
+            ].divide(const SizedBox(width: 16.0)),
           ),
         ),
       ),

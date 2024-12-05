@@ -1,5 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/components/nav_bar/nav_bar_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -21,13 +22,20 @@ class NotificationsModel extends FlutterFlowModel<NotificationsWidget> {
   Query? listViewPagingQuery;
   List<StreamSubscription?> listViewStreamSubscriptions = [];
 
+  // Model for navBar component.
+  late NavBarModel navBarModel;
+
   @override
-  void initState(BuildContext context) {}
+  void initState(BuildContext context) {
+    navBarModel = createModel(context, () => NavBarModel());
+  }
 
   @override
   void dispose() {
     listViewStreamSubscriptions.forEach((s) => s?.cancel());
     listViewPagingController?.dispose();
+
+    navBarModel.dispose();
   }
 
   /// Additional helper methods.

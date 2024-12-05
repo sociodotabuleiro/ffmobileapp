@@ -1,5 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/components/nav_bar/nav_bar_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -85,56 +86,80 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
               centerTitle: true,
               elevation: 2.0,
             ),
-            body: PagedListView<DocumentSnapshot<Object?>?,
-                NotificationsRecord>.separated(
-              pagingController: _model.setListViewController(
-                  NotificationsRecord.collection(currentUserReference)
-                      .orderBy('date', descending: true),
-                  parent: currentUserReference),
-              padding: EdgeInsets.fromLTRB(
-                0,
-                4.0,
-                0,
-                44.0,
-              ),
-              reverse: false,
-              scrollDirection: Axis.vertical,
-              separatorBuilder: (_, __) => SizedBox(height: 8.0),
-              builderDelegate: PagedChildBuilderDelegate<NotificationsRecord>(
-                // Customize what your widget looks like when it's loading the first page.
-                firstPageProgressIndicatorBuilder: (_) => Center(
-                  child: SizedBox(
-                    width: 50.0,
-                    height: 50.0,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        FlutterFlowTheme.of(context).primary,
+            body: Container(
+              width: MediaQuery.sizeOf(context).width * 1.0,
+              height: MediaQuery.sizeOf(context).height * 1.0,
+              decoration: BoxDecoration(),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: MediaQuery.sizeOf(context).width * 1.0,
+                    height: MediaQuery.sizeOf(context).height * 0.8,
+                    decoration: BoxDecoration(),
+                    child: PagedListView<DocumentSnapshot<Object?>?,
+                        NotificationsRecord>.separated(
+                      pagingController: _model.setListViewController(
+                          NotificationsRecord.collection(currentUserReference)
+                              .orderBy('date', descending: true),
+                          parent: currentUserReference),
+                      padding: EdgeInsets.fromLTRB(
+                        0,
+                        4.0,
+                        0,
+                        44.0,
                       ),
-                    ),
-                  ),
-                ),
-                // Customize what your widget looks like when it's loading another page.
-                newPageProgressIndicatorBuilder: (_) => Center(
-                  child: SizedBox(
-                    width: 50.0,
-                    height: 50.0,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        FlutterFlowTheme.of(context).primary,
-                      ),
-                    ),
-                  ),
-                ),
+                      reverse: false,
+                      scrollDirection: Axis.vertical,
+                      separatorBuilder: (_, __) => SizedBox(height: 8.0),
+                      builderDelegate:
+                          PagedChildBuilderDelegate<NotificationsRecord>(
+                        // Customize what your widget looks like when it's loading the first page.
+                        firstPageProgressIndicatorBuilder: (_) => Center(
+                          child: SizedBox(
+                            width: 50.0,
+                            height: 50.0,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                FlutterFlowTheme.of(context).primary,
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Customize what your widget looks like when it's loading another page.
+                        newPageProgressIndicatorBuilder: (_) => Center(
+                          child: SizedBox(
+                            width: 50.0,
+                            height: 50.0,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                FlutterFlowTheme.of(context).primary,
+                              ),
+                            ),
+                          ),
+                        ),
 
-                itemBuilder: (context, _, listViewIndex) {
-                  final listViewNotificationsRecord =
-                      _model.listViewPagingController!.itemList![listViewIndex];
-                  return NotificationBasicWidget(
-                    key: Key(
-                        'Keyp0z_${listViewIndex}_of_${_model.listViewPagingController!.itemList!.length}'),
-                    notificationRef: listViewNotificationsRecord.reference,
-                  );
-                },
+                        itemBuilder: (context, _, listViewIndex) {
+                          final listViewNotificationsRecord = _model
+                              .listViewPagingController!
+                              .itemList![listViewIndex];
+                          return NotificationBasicWidget(
+                            key: Key(
+                                'Keysum_${listViewIndex}_of_${_model.listViewPagingController!.itemList!.length}'),
+                            notificationRef:
+                                listViewNotificationsRecord.reference,
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  wrapWithModel(
+                    model: _model.navBarModel,
+                    updateCallback: () => safeSetState(() {}),
+                    child: NavBarWidget(),
+                  ),
+                ],
               ),
             ),
           ),

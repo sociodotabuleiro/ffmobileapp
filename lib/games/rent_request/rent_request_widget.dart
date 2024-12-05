@@ -157,11 +157,11 @@ class _RentRequestWidgetState extends State<RentRequestWidget> {
                                         child: ClipRRect(
                                           borderRadius:
                                               BorderRadius.circular(8.0),
-                                          child: Image.network(
-                                            'https://images.unsplash.com/photo-1730369624412-2e474536ee18?w=\${params.gameDetails.gameImage}&h=\${params.gameDetails.gameImage}',
+                                          child: Image.asset(
+                                            'assets/images/error.png',
                                             width: 80.0,
                                             height: 80.0,
-                                            fit: BoxFit.cover,
+                                            fit: BoxFit.contain,
                                           ),
                                         ),
                                       ),

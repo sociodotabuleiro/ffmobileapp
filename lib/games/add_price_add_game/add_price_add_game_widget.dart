@@ -300,9 +300,10 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                                                       TextFieldGamePriceWidget(
                                                     key: Key(
                                                         'Key6g3_${gamesListIndex}_of_${gamesList.length}'),
-                                                    gameToAdd:
-                                                        FFAppState().gamesToAdd[
-                                                            gamesListIndex],
+                                                    gameToAdd: FFAppState()
+                                                        .gamesToAdd
+                                                        .elementAtOrNull(
+                                                            gamesListIndex)!,
                                                     indexGameToAdd:
                                                         gamesListIndex,
                                                   ),
@@ -390,16 +391,19 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                         firestoreBatch.set(myGamesRecordReference, {
                           ...createMyGamesRecordData(
                             gameRef: FFAppState()
-                                .gamesToAdd[_model.currentCount]
-                                .gameRef,
+                                .gamesToAdd
+                                .elementAtOrNull(_model.currentCount)
+                                ?.gameRef,
                             price: FFAppState()
-                                .gamesToAdd[_model.currentCount]
-                                .rentValue,
+                                .gamesToAdd
+                                .elementAtOrNull(_model.currentCount)
+                                ?.rentValue,
                             toRent: FFAppState()
-                                .gamesToAdd[_model.currentCount]
-                                .isAvailableToRent,
+                                .gamesToAdd
+                                .elementAtOrNull(_model.currentCount)
+                                ?.isAvailableToRent,
                             publicId:
-                                '${FFAppState().gamesToAdd[_model.currentCount].gameRef?.id}${random_data.randomString(
+                                '${FFAppState().gamesToAdd.elementAtOrNull(_model.currentCount)?.gameRef?.id}${random_data.randomString(
                               5,
                               5,
                               true,
@@ -418,16 +422,19 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                             MyGamesRecord.getDocumentFromData({
                           ...createMyGamesRecordData(
                             gameRef: FFAppState()
-                                .gamesToAdd[_model.currentCount]
-                                .gameRef,
+                                .gamesToAdd
+                                .elementAtOrNull(_model.currentCount)
+                                ?.gameRef,
                             price: FFAppState()
-                                .gamesToAdd[_model.currentCount]
-                                .rentValue,
+                                .gamesToAdd
+                                .elementAtOrNull(_model.currentCount)
+                                ?.rentValue,
                             toRent: FFAppState()
-                                .gamesToAdd[_model.currentCount]
-                                .isAvailableToRent,
+                                .gamesToAdd
+                                .elementAtOrNull(_model.currentCount)
+                                ?.isAvailableToRent,
                             publicId:
-                                '${FFAppState().gamesToAdd[_model.currentCount].gameRef?.id}${random_data.randomString(
+                                '${FFAppState().gamesToAdd.elementAtOrNull(_model.currentCount)?.gameRef?.id}${random_data.randomString(
                               5,
                               5,
                               true,
@@ -443,14 +450,16 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                           ),
                         }, myGamesRecordReference);
                         if (FFAppState()
-                                .gamesToAdd[_model.currentCount]
-                                .isAvailableToRent ==
+                                .gamesToAdd
+                                .elementAtOrNull(_model.currentCount)
+                                ?.isAvailableToRent ==
                             true) {
                           logFirebaseEvent('Button_backend_call');
 
                           firestoreBatch.update(
                               FFAppState()
-                                  .gamesToAdd[_model.currentCount]
+                                  .gamesToAdd
+                                  .elementAtOrNull(_model.currentCount)!
                                   .gameRef!,
                               {
                                 ...createGamesRecordData(

@@ -215,7 +215,7 @@ const { pipeline } = require("node:stream/promises");
 setGlobalOptions({region: "us-central1"});
 
 exports.ffGetQuotation = functions.region("us-central1")
-  .runWith({ minInstances: 1, timeoutSeconds: 120 })
+  .runWith({ minInstances: 1,  timeoutSeconds: 120})
   .https.onCall(async (data, context) => {
   try {
     console.log(`Making API call for ${data["callName"]}`);
@@ -248,7 +248,7 @@ async function verifyAuthHeader(request) {
   }
 }
 
-exports.ffGetQuotationV2 = onRequest({ cors: true, minInstances: 1, timeoutSeconds: 120 }, async (req, res) => {
+exports.ffGetQuotationV2 = onRequest({ cors: true, minInstances: 1,  timeoutSeconds: 120 }, async (req, res) => {
   try {
     const context = {
       auth: await verifyAuthHeader(req),

@@ -98,7 +98,9 @@ class PixKeyStruct extends FFFirebaseStruct {
         dateCreated: data['dateCreated'] as String?,
         canBeDeleted: data['canBeDeleted'] as bool?,
         cannotBeDeletedReason: data['cannotBeDeletedReason'] as String?,
-        qrCode: QrCodeStruct.maybeFromMap(data['qrCode']),
+        qrCode: data['qrCode'] is QrCodeStruct
+            ? data['qrCode']
+            : QrCodeStruct.maybeFromMap(data['qrCode']),
       );
 
   static PixKeyStruct? maybeFromMap(dynamic data) =>

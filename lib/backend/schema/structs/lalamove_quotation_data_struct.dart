@@ -145,10 +145,15 @@ class LalamoveQuotationDataStruct extends FFFirebaseStruct {
           StopsStruct.fromMap,
         ),
         isRouteOptimized: data['isRouteOptimized'] as bool?,
-        priceBreakdown:
-            PriceBreakdownStruct.maybeFromMap(data['priceBreakdown']),
-        item: ItemStruct.maybeFromMap(data['item']),
-        distance: DistanceStruct.maybeFromMap(data['distance']),
+        priceBreakdown: data['priceBreakdown'] is PriceBreakdownStruct
+            ? data['priceBreakdown']
+            : PriceBreakdownStruct.maybeFromMap(data['priceBreakdown']),
+        item: data['item'] is ItemStruct
+            ? data['item']
+            : ItemStruct.maybeFromMap(data['item']),
+        distance: data['distance'] is DistanceStruct
+            ? data['distance']
+            : DistanceStruct.maybeFromMap(data['distance']),
       );
 
   static LalamoveQuotationDataStruct? maybeFromMap(dynamic data) => data is Map

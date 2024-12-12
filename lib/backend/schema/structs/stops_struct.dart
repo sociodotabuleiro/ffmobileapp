@@ -47,7 +47,9 @@ class StopsStruct extends FFFirebaseStruct {
 
   static StopsStruct fromMap(Map<String, dynamic> data) => StopsStruct(
         stopId: data['stopId'] as String?,
-        coordinates: CoordinatesStruct.maybeFromMap(data['coordinates']),
+        coordinates: data['coordinates'] is CoordinatesStruct
+            ? data['coordinates']
+            : CoordinatesStruct.maybeFromMap(data['coordinates']),
         address: data['address'] as String?,
       );
 

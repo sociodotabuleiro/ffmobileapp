@@ -58,7 +58,9 @@ class CardStruct extends FFFirebaseStruct {
         name: data['name'] as String?,
         number: data['number'] as String?,
         validDate: data['validDate'] as String?,
-        address: AddressStruct.maybeFromMap(data['address']),
+        address: data['address'] is AddressStruct
+            ? data['address']
+            : AddressStruct.maybeFromMap(data['address']),
       );
 
   static CardStruct? maybeFromMap(dynamic data) =>

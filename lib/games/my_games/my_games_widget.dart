@@ -130,7 +130,10 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
             title: 'myGames',
             color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
             child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
+              onTap: () {
+                FocusScope.of(context).unfocus();
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
               child: Scaffold(
                 key: scaffoldKey,
                 backgroundColor:
@@ -381,14 +384,13 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                                       while (_model.currentIndexFavorites <
                                           _model.finalIndexFavoriites) {
                                         logFirebaseEvent('Tab_backend_call');
-                                        _model.gamesDocument =
-                                            await GamesRecord.getDocumentOnce(
-                                                (currentUserDocument
-                                                            ?.favoriteList
-                                                            ?.toList() ??
-                                                        [])[
-                                                    _model
-                                                        .currentIndexFavorites]);
+                                        _model.gamesDocument = await GamesRecord
+                                            .getDocumentOnce((currentUserDocument
+                                                        ?.favoriteList
+                                                        ?.toList() ??
+                                                    [])
+                                                .elementAtOrNull(_model
+                                                    .currentIndexFavorites)!);
                                         logFirebaseEvent(
                                             'Tab_update_page_state');
                                         _model.addToFavoritedGamesDocList(
@@ -411,9 +413,9 @@ class _MyGamesWidgetState extends State<MyGamesWidget>
                                             await GamesRecord.getDocumentOnce(
                                                 (currentUserDocument?.wishlist
                                                             ?.toList() ??
-                                                        [])[
-                                                    _model
-                                                        .currentIndexWishlist]);
+                                                        [])
+                                                    .elementAtOrNull(_model
+                                                        .currentIndexWishlist)!);
                                         logFirebaseEvent(
                                             'Tab_update_page_state');
                                         _model.addToWishlistGamesDocList(_model

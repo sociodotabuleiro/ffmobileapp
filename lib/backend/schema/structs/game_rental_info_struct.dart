@@ -77,7 +77,9 @@ class GameRentalInfoStruct extends FFFirebaseStruct {
         gameID: data['gameID'] as DocumentReference?,
         rentalDate: data['rentalDate'] as DateTime?,
         dueDate: data['dueDate'] as DateTime?,
-        status: deserializeEnum<RentalStatus>(data['status']),
+        status: data['status'] is RentalStatus
+            ? data['status']
+            : deserializeEnum<RentalStatus>(data['status']),
         currentStatusTime: data['currentStatusTime'] as DateTime?,
         pastTimes: getDataList(data['pastTimes']),
       );

@@ -31,7 +31,8 @@ class _SaveActionsWidgetState extends State<SaveActionsWidget> {
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('SAVE_ACTIONS_saveActions_ON_INIT_STATE');
-      if ((currentUserDocument?.completedRegisterPages?.toList() ?? []).last ==
+      if ((currentUserDocument?.completedRegisterPages?.toList() ?? [])
+              .lastOrNull ==
           4) {
         logFirebaseEvent('saveActions_alert_dialog');
         var confirmDialogResponse = await showDialog<bool>(
@@ -67,7 +68,7 @@ class _SaveActionsWidgetState extends State<SaveActionsWidget> {
         }
       } else {
         if ((currentUserDocument?.completedRegisterPages?.toList() ?? [])
-                .last ==
+                .lastOrNull ==
             3) {
           logFirebaseEvent('saveActions_alert_dialog');
           var confirmDialogResponse = await showDialog<bool>(
@@ -104,7 +105,7 @@ class _SaveActionsWidgetState extends State<SaveActionsWidget> {
           }
         } else {
           if ((currentUserDocument?.completedRegisterPages?.toList() ?? [])
-                  .last ==
+                  .lastOrNull ==
               2) {
             logFirebaseEvent('saveActions_alert_dialog');
             var confirmDialogResponse = await showDialog<bool>(
@@ -140,7 +141,7 @@ class _SaveActionsWidgetState extends State<SaveActionsWidget> {
             }
           } else {
             if ((currentUserDocument?.completedRegisterPages?.toList() ?? [])
-                    .last ==
+                    .lastOrNull ==
                 1) {
               logFirebaseEvent('saveActions_navigate_to');
 
@@ -179,7 +180,10 @@ class _SaveActionsWidgetState extends State<SaveActionsWidget> {
         title: 'saveActions',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).primaryBackground,

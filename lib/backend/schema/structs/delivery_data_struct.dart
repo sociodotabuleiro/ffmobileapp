@@ -156,9 +156,15 @@ class DeliveryDataStruct extends FFFirebaseStruct {
       DeliveryDataStruct(
         externalId: data['external_id'] as String?,
         shortExternalReference: data['short_external_reference'] as String?,
-        address: AddressStruct.maybeFromMap(data['address']),
-        customer: CustomerDeliveryStruct.maybeFromMap(data['customer']),
-        payments: PaymentsDeliveryStruct.maybeFromMap(data['payments']),
+        address: data['address'] is AddressStruct
+            ? data['address']
+            : AddressStruct.maybeFromMap(data['address']),
+        customer: data['customer'] is CustomerDeliveryStruct
+            ? data['customer']
+            : CustomerDeliveryStruct.maybeFromMap(data['customer']),
+        payments: data['payments'] is PaymentsDeliveryStruct
+            ? data['payments']
+            : PaymentsDeliveryStruct.maybeFromMap(data['payments']),
         deliveryDatetime: data['delivery_datetime'] as String?,
         preparationStart: data['preparation_start'] as String?,
         orderCreatedAt: data['order_created_at'] as String?,
@@ -167,7 +173,9 @@ class DeliveryDataStruct extends FFFirebaseStruct {
         totalPrice: castToType<double>(data['total_price']),
         marketplaceName: data['marketplace_name'] as String?,
         marketplaceId: data['marketplace_id'] as String?,
-        items: ItemsDeliveryStruct.maybeFromMap(data['items']),
+        items: data['items'] is ItemsDeliveryStruct
+            ? data['items']
+            : ItemsDeliveryStruct.maybeFromMap(data['items']),
       );
 
   static DeliveryDataStruct? maybeFromMap(dynamic data) => data is Map

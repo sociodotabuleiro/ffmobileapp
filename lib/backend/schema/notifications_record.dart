@@ -56,7 +56,9 @@ class NotificationsRecord extends FirestoreRecord {
 
   void _initializeFields() {
     _notificationID = snapshotData['notificationID'] as String?;
-    _type = deserializeEnum<NotificationTypes>(snapshotData['type']);
+    _type = snapshotData['type'] is NotificationTypes
+        ? snapshotData['type']
+        : deserializeEnum<NotificationTypes>(snapshotData['type']);
     _users = getDataList(snapshotData['users']);
     _message = snapshotData['message'] as String?;
     _date = snapshotData['date'] as DateTime?;

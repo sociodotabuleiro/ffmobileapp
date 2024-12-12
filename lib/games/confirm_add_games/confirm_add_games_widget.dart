@@ -199,11 +199,13 @@ class _ConfirmAddGamesWidgetState extends State<ConfirmAddGamesWidget> {
                   safeSetState(() {});
                   while (_model.currentIndex! < _model.finalIndex!) {
                     logFirebaseEvent('Button_backend_call');
-                    _model.document = await GamesRecord.getDocumentOnce(
-                        widget!.choosenGames![_model.currentIndex!]);
+                    _model.document = await GamesRecord.getDocumentOnce((widget!
+                        .choosenGames!
+                        .elementAtOrNull(_model.currentIndex!))!);
                     logFirebaseEvent('Button_update_app_state');
                     FFAppState().addToGamesToAdd(GameToAddStruct(
-                      gameRef: widget!.choosenGames?[_model.currentIndex!],
+                      gameRef: widget!.choosenGames
+                          ?.elementAtOrNull(_model.currentIndex!),
                       rentValue: valueOrDefault<double>(
                         _model.document!.averagePrice * 0.03,
                         0.0,

@@ -116,17 +116,22 @@ class LalamoveOrderResponseStruct extends FFFirebaseStruct {
       LalamoveOrderResponseStruct(
         orderId: data['orderId'] as String?,
         quotationId: data['quotationId'] as String?,
-        priceBreakdown:
-            PriceBreakdownStruct.maybeFromMap(data['priceBreakdown']),
+        priceBreakdown: data['priceBreakdown'] is PriceBreakdownStruct
+            ? data['priceBreakdown']
+            : PriceBreakdownStruct.maybeFromMap(data['priceBreakdown']),
         driverId: data['driverId'] as String?,
         shareLink: data['shareLink'] as String?,
         status: data['status'] as String?,
-        distance: DistanceStruct.maybeFromMap(data['distance']),
+        distance: data['distance'] is DistanceStruct
+            ? data['distance']
+            : DistanceStruct.maybeFromMap(data['distance']),
         stops: getStructList(
           data['stops'],
           StopsStruct.fromMap,
         ),
-        metadata: LalamoveMetadataStruct.maybeFromMap(data['metadata']),
+        metadata: data['metadata'] is LalamoveMetadataStruct
+            ? data['metadata']
+            : LalamoveMetadataStruct.maybeFromMap(data['metadata']),
       );
 
   static LalamoveOrderResponseStruct? maybeFromMap(dynamic data) => data is Map

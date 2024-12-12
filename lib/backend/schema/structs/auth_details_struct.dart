@@ -89,7 +89,9 @@ class AuthDetailsStruct extends FFFirebaseStruct {
   static AuthDetailsStruct fromMap(Map<String, dynamic> data) =>
       AuthDetailsStruct(
         userID: data['userID'] as String?,
-        method: deserializeEnum<AuthMethods>(data['method']),
+        method: data['method'] is AuthMethods
+            ? data['method']
+            : deserializeEnum<AuthMethods>(data['method']),
         jwtTokenHash: data['jwtTokenHash'] as String?,
         refreshToken: data['refreshToken'] as String?,
         issuer: data['issuer'] as String?,

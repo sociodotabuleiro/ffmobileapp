@@ -250,8 +250,12 @@ class UsersRecord extends FirestoreRecord {
     _lastName = snapshotData['lastName'] as String?;
     _cpf = snapshotData['cpf'] as String?;
     _rg = snapshotData['rg'] as String?;
-    _gender = deserializeEnum<Gender>(snapshotData['gender']);
-    _address = AddressStruct.maybeFromMap(snapshotData['address']);
+    _gender = snapshotData['gender'] is Gender
+        ? snapshotData['gender']
+        : deserializeEnum<Gender>(snapshotData['gender']);
+    _address = snapshotData['address'] is AddressStruct
+        ? snapshotData['address']
+        : AddressStruct.maybeFromMap(snapshotData['address']);
     _birthDate = snapshotData['birthDate'] as DateTime?;
     _email = snapshotData['email'] as String?;
     _uid = snapshotData['uid'] as String?;
@@ -293,7 +297,9 @@ class UsersRecord extends FirestoreRecord {
     _rentedToIds = getDataList(snapshotData['rentedToIds']);
     _rentedFromIds = getDataList(snapshotData['rentedFromIds']);
     _walletId = snapshotData['walletId'] as String?;
-    _cardOnUse = CardStruct.maybeFromMap(snapshotData['cardOnUse']);
+    _cardOnUse = snapshotData['cardOnUse'] is CardStruct
+        ? snapshotData['cardOnUse']
+        : CardStruct.maybeFromMap(snapshotData['cardOnUse']);
     _asaasClientId = snapshotData['asaasClientId'] as String?;
     _wantToRentTo = snapshotData['wantToRentTo'] as bool?;
     _askedToRentTo = snapshotData['askedToRentTo'] as bool?;

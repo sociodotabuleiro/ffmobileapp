@@ -435,7 +435,10 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
         title: ':gameName',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -503,8 +506,11 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                 builder: (context) {
                                   return WebViewAware(
                                     child: GestureDetector(
-                                      onTap: () =>
-                                          FocusScope.of(context).unfocus(),
+                                      onTap: () {
+                                        FocusScope.of(context).unfocus();
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                      },
                                       child: Padding(
                                         padding:
                                             MediaQuery.viewInsetsOf(context),
@@ -605,16 +611,18 @@ class _GameDetailsWidgetState extends State<GameDetailsWidget>
                                                                 SizedBox.expand(
                                                           child: Image(
                                                             image: BlurHashImage(widget!
-                                                                    .gameObject!
-                                                                    .galleryBluehash[
-                                                                imagesIndex]),
+                                                                .gameObject!
+                                                                .galleryBluehash
+                                                                .elementAtOrNull(
+                                                                    imagesIndex)!),
                                                             fit: BoxFit.cover,
                                                           ),
                                                         ),
                                                         image: NetworkImage(
                                                           widget!.gameObject!
-                                                                  .galleryURLs[
-                                                              imagesIndex],
+                                                              .galleryURLs
+                                                              .elementAtOrNull(
+                                                                  imagesIndex)!,
                                                         ),
                                                         width: 300.0,
                                                         height: 200.0,

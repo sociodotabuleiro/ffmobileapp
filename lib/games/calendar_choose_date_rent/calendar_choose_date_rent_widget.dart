@@ -118,7 +118,7 @@ class _CalendarChooseDateRentWidgetState
                 quantity: 1,
                 totalPrice: _model.choosenDates.length * widget!.myGames!.price,
               );
-              FFAppState().dueDatePurchase = _model.choosenDates.last;
+              FFAppState().dueDatePurchase = _model.choosenDates.lastOrNull;
               safeSetState(() {});
             },
             text: 'Escolher locador',

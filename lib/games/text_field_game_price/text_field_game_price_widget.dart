@@ -131,7 +131,10 @@ class _TextFieldGamePriceWidgetState extends State<TextFieldGamePriceWidget> {
                 ),
             hintText: valueOrDefault<String>(
               formatNumber(
-                FFAppState().gamesToAdd[widget!.indexGameToAdd!].rentValue,
+                FFAppState()
+                    .gamesToAdd
+                    .elementAtOrNull(widget!.indexGameToAdd!)
+                    ?.rentValue,
                 formatType: FormatType.decimal,
                 decimalType: DecimalType.commaDecimal,
                 currency: 'R\$',

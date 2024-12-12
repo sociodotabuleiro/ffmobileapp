@@ -9,8 +9,8 @@ import '/backend/schema/enums/enums.dart';
 import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
-class RentalsRecord extends FirestoreRecord {
-  RentalsRecord._(
+class UsersRentalsRecord extends FirestoreRecord {
+  UsersRentalsRecord._(
     DocumentReference reference,
     Map<String, dynamic> data,
   ) : super(reference, data) {
@@ -142,8 +142,6 @@ class RentalsRecord extends FirestoreRecord {
   DateTime? get creditDate => _creditDate;
   bool hasCreditDate() => _creditDate != null;
 
-  DocumentReference get parentReference => reference.parent.parent!;
-
   void _initializeFields() {
     _rentalID = snapshotData['rentalID'] as String?;
     _games = getDataList(snapshotData['games']);
@@ -174,46 +172,41 @@ class RentalsRecord extends FirestoreRecord {
     _creditDate = snapshotData['creditDate'] as DateTime?;
   }
 
-  static Query<Map<String, dynamic>> collection([DocumentReference? parent]) =>
-      parent != null
-          ? parent.collection('rentals')
-          : FirebaseFirestore.instance.collectionGroup('rentals');
+  static CollectionReference get collection =>
+      FirebaseFirestore.instance.collection('usersRentals');
 
-  static DocumentReference createDoc(DocumentReference parent, {String? id}) =>
-      parent.collection('rentals').doc(id);
+  static Stream<UsersRentalsRecord> getDocument(DocumentReference ref) =>
+      ref.snapshots().map((s) => UsersRentalsRecord.fromSnapshot(s));
 
-  static Stream<RentalsRecord> getDocument(DocumentReference ref) =>
-      ref.snapshots().map((s) => RentalsRecord.fromSnapshot(s));
+  static Future<UsersRentalsRecord> getDocumentOnce(DocumentReference ref) =>
+      ref.get().then((s) => UsersRentalsRecord.fromSnapshot(s));
 
-  static Future<RentalsRecord> getDocumentOnce(DocumentReference ref) =>
-      ref.get().then((s) => RentalsRecord.fromSnapshot(s));
-
-  static RentalsRecord fromSnapshot(DocumentSnapshot snapshot) =>
-      RentalsRecord._(
+  static UsersRentalsRecord fromSnapshot(DocumentSnapshot snapshot) =>
+      UsersRentalsRecord._(
         snapshot.reference,
         mapFromFirestore(snapshot.data() as Map<String, dynamic>),
       );
 
-  static RentalsRecord getDocumentFromData(
+  static UsersRentalsRecord getDocumentFromData(
     Map<String, dynamic> data,
     DocumentReference reference,
   ) =>
-      RentalsRecord._(reference, mapFromFirestore(data));
+      UsersRentalsRecord._(reference, mapFromFirestore(data));
 
   @override
   String toString() =>
-      'RentalsRecord(reference: ${reference.path}, data: $snapshotData)';
+      'UsersRentalsRecord(reference: ${reference.path}, data: $snapshotData)';
 
   @override
   int get hashCode => reference.path.hashCode;
 
   @override
   bool operator ==(other) =>
-      other is RentalsRecord &&
+      other is UsersRentalsRecord &&
       reference.path.hashCode == other.reference.path.hashCode;
 }
 
-Map<String, dynamic> createRentalsRecordData({
+Map<String, dynamic> createUsersRentalsRecordData({
   String? rentalID,
   DocumentReference? ownerID,
   DocumentReference? renterID,
@@ -265,11 +258,12 @@ Map<String, dynamic> createRentalsRecordData({
   return firestoreData;
 }
 
-class RentalsRecordDocumentEquality implements Equality<RentalsRecord> {
-  const RentalsRecordDocumentEquality();
+class UsersRentalsRecordDocumentEquality
+    implements Equality<UsersRentalsRecord> {
+  const UsersRentalsRecordDocumentEquality();
 
   @override
-  bool equals(RentalsRecord? e1, RentalsRecord? e2) {
+  bool equals(UsersRentalsRecord? e1, UsersRentalsRecord? e2) {
     const listEquality = ListEquality();
     return e1?.rentalID == e2?.rentalID &&
         listEquality.equals(e1?.games, e2?.games) &&
@@ -299,7 +293,7 @@ class RentalsRecordDocumentEquality implements Equality<RentalsRecord> {
   }
 
   @override
-  int hash(RentalsRecord? e) => const ListEquality().hash([
+  int hash(UsersRentalsRecord? e) => const ListEquality().hash([
         e?.rentalID,
         e?.games,
         e?.ownerID,
@@ -328,5 +322,5 @@ class RentalsRecordDocumentEquality implements Equality<RentalsRecord> {
       ]);
 
   @override
-  bool isValidKey(Object? o) => o is RentalsRecord;
+  bool isValidKey(Object? o) => o is UsersRentalsRecord;
 }

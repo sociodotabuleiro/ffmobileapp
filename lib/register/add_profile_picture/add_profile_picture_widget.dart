@@ -64,7 +64,10 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
         title: 'addProfilePicture',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: Colors.white,
@@ -899,8 +902,11 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                     builder: (context) {
                                       return WebViewAware(
                                         child: GestureDetector(
-                                          onTap: () =>
-                                              FocusScope.of(context).unfocus(),
+                                          onTap: () {
+                                            FocusScope.of(context).unfocus();
+                                            FocusManager.instance.primaryFocus
+                                                ?.unfocus();
+                                          },
                                           child: Padding(
                                             padding: MediaQuery.viewInsetsOf(
                                                 context),

@@ -40,8 +40,9 @@ class QuotationsStruct extends FFFirebaseStruct {
   static QuotationsStruct fromMap(Map<String, dynamic> data) =>
       QuotationsStruct(
         renterRef: data['renterRef'] as DocumentReference?,
-        quotationsData:
-            LalamoveQuotationDataStruct.maybeFromMap(data['quotationsData']),
+        quotationsData: data['quotationsData'] is LalamoveQuotationDataStruct
+            ? data['quotationsData']
+            : LalamoveQuotationDataStruct.maybeFromMap(data['quotationsData']),
       );
 
   static QuotationsStruct? maybeFromMap(dynamic data) => data is Map

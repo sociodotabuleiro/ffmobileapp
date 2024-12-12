@@ -81,7 +81,10 @@ class _RentRequestWidgetState extends State<RentRequestWidget> {
         title: 'rentRequest',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -532,8 +535,11 @@ class _RentRequestWidgetState extends State<RentRequestWidget> {
                                   builder: (context) {
                                     return WebViewAware(
                                       child: GestureDetector(
-                                        onTap: () =>
-                                            FocusScope.of(context).unfocus(),
+                                        onTap: () {
+                                          FocusScope.of(context).unfocus();
+                                          FocusManager.instance.primaryFocus
+                                              ?.unfocus();
+                                        },
                                         child: Padding(
                                           padding:
                                               MediaQuery.viewInsetsOf(context),

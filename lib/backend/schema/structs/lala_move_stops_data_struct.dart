@@ -49,7 +49,9 @@ class LalaMoveStopsDataStruct extends FFFirebaseStruct {
       LalaMoveStopsDataStruct(
         lat: data['lat'] as String?,
         lng: data['lng'] as String?,
-        address: AddressStruct.maybeFromMap(data['address']),
+        address: data['address'] is AddressStruct
+            ? data['address']
+            : AddressStruct.maybeFromMap(data['address']),
       );
 
   static LalaMoveStopsDataStruct? maybeFromMap(dynamic data) => data is Map

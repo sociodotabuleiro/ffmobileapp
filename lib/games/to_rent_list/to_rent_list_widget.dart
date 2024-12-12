@@ -67,7 +67,10 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
         title: 'toRentList',
         color: FlutterFlowTheme.of(context).primary.withAlpha(0XFF),
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -841,24 +844,6 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
                                     );
                                   },
                                 );
-                                logFirebaseEvent('Button_backend_call');
-
-                                var usersRentalRecordReference =
-                                    UsersRentalRecord.collection
-                                        .doc(_model.documentRenting!.rentalID);
-                                await usersRentalRecordReference
-                                    .set(createUsersRentalRecordData(
-                                  renterId: currentUserReference,
-                                  ownerId: FFAppState().renterRef,
-                                ));
-                                _model.usersRentalObject =
-                                    UsersRentalRecord.getDocumentFromData(
-                                        createUsersRentalRecordData(
-                                          renterId: currentUserReference,
-                                          ownerId: FFAppState().renterRef,
-                                        ),
-                                        usersRentalRecordReference);
-                                _shouldSetState = true;
                                 logFirebaseEvent('Button_navigate_to');
 
                                 context.pushNamed('HomePage');

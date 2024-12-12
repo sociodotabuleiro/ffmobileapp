@@ -23,13 +23,13 @@ class CalendarChooseDateRentWidget extends StatefulWidget {
   const CalendarChooseDateRentWidget({
     super.key,
     required this.availableDates,
-    required this.renterRef,
+    required this.ownerRef,
     required this.myGames,
     required this.gameName,
   });
 
   final List<DateTime>? availableDates;
-  final DocumentReference? renterRef;
+  final DocumentReference? ownerRef;
   final MyGamesRecord? myGames;
   final String? gameName;
 
@@ -76,7 +76,7 @@ class _CalendarChooseDateRentWidgetState
 
       try {
       // Get the mygames document reference
-      final myGamesDocRef = widget.renterRef!.collection('myGames').doc(widget.myGames!.reference.id);
+      final myGamesDocRef = widget.ownerRef!.collection('myGames').doc(widget.myGames!.reference.id);
 
       // Fetch the document snapshot
       final myGamesDocSnapshot = await myGamesDocRef.get();
@@ -178,7 +178,7 @@ class _CalendarChooseDateRentWidgetState
               return GameToRentWidget(
                   gameName: widget.gameName,
                   gameRef: widget.myGames!.gameRef,
-                  userRef: widget.renterRef,
+                  userRef: widget.ownerRef,
                   allowCalendarIcon: false,
                   selectedDate: _model.choosenDates.isNotEmpty
                       ? _model.choosenDates.first
@@ -252,7 +252,7 @@ class _CalendarChooseDateRentWidgetState
                     // Confirm the selection and save data
                     FFAppState().choosenRentDates =
                         _model.choosenDates.toList().cast<DateTime>();
-                    FFAppState().renterRef = widget.renterRef;
+                    FFAppState().ownerRefPurchase = widget.ownerRef;
                     FFAppState().purchaseData = PurchaseComponentsStruct(
                       name: widget.gameName,
                       price: _model.choosenDates.length * widget.myGames!.price,

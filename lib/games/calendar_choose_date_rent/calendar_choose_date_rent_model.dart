@@ -36,6 +36,8 @@ class CalendarChooseDateRentModel
 
   ///  State fields for stateful widgets in this component.
 
+  
+
   // Stores action output result for [Backend Call - Read Document] action in gameToRent widget.
   UsersRecord? userObject;
   // Stores action output result for [Custom Action - distanceBetween2Points] action in gameToRent widget.

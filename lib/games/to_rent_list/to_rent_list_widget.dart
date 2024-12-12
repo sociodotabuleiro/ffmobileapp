@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:sociodotabuleiro/custom_code/util/rents/rents_util.dart';
+
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/schema/enums/enums.dart';
@@ -10,7 +12,6 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:convert';
-import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/flutter_flow/random_data_util.dart' as random_data;
 import 'package:calendar_iagfh0/app_state.dart' as calendar_iagfh0_app_state;
@@ -24,142 +25,14 @@ export 'to_rent_list_model.dart';
 import 'package:http/http.dart';
 import 'package:logger/logger.dart';
 import '../../analytics_service.dart';
+import '../../custom_code/util/network_util.dart';
+import '../../custom_code/util/delivery/delivery_util.dart';
 
 
 final analytics_service = AnalyticsService();
-
 final Logger _logger = Logger();
+final deliveryUtil = DeliveryUtil();
 
-
-Future<void> showPixQrCodeDialog(BuildContext context, String encodedImage, String payload, DateTime expirationDate) async {
-  Uint8List decodedImage = base64Decode(encodedImage); // Decode Base64 image
-
-  await showDialog(
-    context: context,
-    builder: (alertDialogContext) {
-      return AlertDialog(
-        title: const Text('Pagamento Pix'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.memory(decodedImage, height: 150, width: 150), // Display QR code image
-            const SizedBox(height: 10),
-            const Text('Pix "Copia e Cola":', style: TextStyle(fontWeight: FontWeight.bold)),
-            SelectableText(payload), // Display Pix payload for "Copia e Cola"
-            const SizedBox(height: 10),
-            Text('Válido até: ${DateFormat('yyyy-MM-dd HH:mm').format(expirationDate)}'),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(alertDialogContext),
-            child: const Text('Fechar'),
-          ),
-        ],
-      );
-    },
-  );
-}
-
-
-Future<Response?> retryRequest(
-  Future<Response> Function() request, {
-  int retries = 3,
-  Duration delay = const Duration(seconds: 2),
-}) async {
-  int attempt = 0;
-  Response? response;
-
-  while (attempt < retries) {
-    try {
-      // Make the request
-      response = await request();
-
-      // Log success
-      _logger.i('Request succeeded with status: ${response.statusCode}');
-
-      // Check for successful status codes
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return response;
-      }
-
-      // Stop retrying for 400-level errors (client errors)
-      if (response.statusCode >= 400 && response.statusCode < 500) {
-        _logger.e(
-            'Non-recoverable error: ${response.statusCode}. Stopping retries.');
-        return response; // Return response for client error
-      }
-
-      // Log other status codes and continue retrying
-      _logger.w(
-          'Request failed with status: ${response.statusCode}. Retrying...');
-    } on TimeoutException catch (e) {
-      // Handle request timeout
-      _logger.e('TimeoutException occurred: $e');
-    } on SocketException catch (e) {
-      // Handle network issues
-      _logger.e('SocketException occurred: $e');
-    } catch (e) {
-      // Catch-all for other exceptions
-      _logger.e('An unexpected error occurred: $e');
-    }
-
-    // Increment attempt counter
-    attempt++;
-
-    // If retries remain, wait before retrying
-    if (attempt < retries) {
-      await Future.delayed(delay);
-    }
-  }
-
-  // Log and return the last response or null if all retries failed
-  _logger.e('All retries failed. Returning the last response or null.');
-  return response;
-}
-
-// Loading indicator dialog
-Future<void> showLoadingDialog(BuildContext context, String message) async {
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        content: Row(
-          children: [
-            const CircularProgressIndicator(),
-            const SizedBox(width: 20),
-            Expanded(child: Text(message)),
-          ],
-        ),
-      );
-    },
-  );
-}
-
-// Hide the loading dialog
-void hideLoadingDialog(BuildContext context) {
-  Navigator.pop(context);
-}
-
-// Centralized error dialog
-Future<void> showErrorDialog(BuildContext context, String title, int? statusCode, String? errorMessage) async {
-  await showDialog(
-    context: context,
-    builder: (alertDialogContext) {
-      return AlertDialog(
-        title: Text(title),
-        content: Text('Status: ${statusCode ?? 'unknown'}\nErro: ${errorMessage ?? 'unknown error'}'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(alertDialogContext),
-            child: const Text('Ok'),
-          ),
-        ],
-      );
-    },
-  );
-}
 
 class ToRentListWidget extends StatefulWidget {
   /// This page should return all the users that are renting the game choosen in
@@ -200,73 +73,208 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
     super.dispose();
   }
 
-  Future<DocumentReference> createOrUpdateRentalsRecord({
-  required DocumentReference userRef,
-  required String rentalId,
-  required DateTime rentalDate,
-  required DateTime dueDate,
-  required double pricePerDay,
-  required RentalStatus status,
-  required DateTime currentStatusTime,
-  required bool isRenter,
-  DocumentReference? ownerID,
-  DocumentReference? renterID,
-  double? deliveryFee,
-  DateTime? firstDeliveryDate,
-  List<DocumentReference>? games,
-}) async {
-  logFirebaseEvent('create_or_update_rentals_record');
+  Future<void> showPixQrCodeDialog(BuildContext context, String encodedImage, String payload, DateTime expirationDate) async {
+  Uint8List decodedImage = base64Decode(encodedImage); // Decode Base64 image
 
-  // Prepare the rentals record data
-  final rentalsRecordData = {
-    'rentalID': rentalId,
-    'rentalDate': rentalDate,
-    'dueDate': dueDate,
-    'pricePerDay': pricePerDay,
-    'status': status,
-    'currentStatusTime': currentStatusTime,
-    if (deliveryFee != null) 'deliveryFee': deliveryFee,
-    if (firstDeliveryDate != null) 'firstDeliveryDate': firstDeliveryDate,
-    if (ownerID != null) 'ownerID': ownerID,
-    if (renterID != null) 'renterID': renterID,
-    if (games != null) 'games': games,
-  };
-
-  final rentalRef = RentalsRecord.createDoc(userRef, id: rentalId);
-  await rentalRef.set(rentalsRecordData);
-
-  final rentalsRecord = RentalsRecord.getDocumentFromData(rentalsRecordData, rentalRef);
-
-  if (isRenter) {
-    _model.documentRenting = rentalsRecord;
-  } else {
-    _model.documentOwner = rentalsRecord;
-  }
-
-  return rentalRef;
+  await showDialog(
+    context: context,
+    builder: (alertDialogContext) {
+      return AlertDialog(
+        title: const Text('Pagamento Pix'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.memory(decodedImage, height: 150, width: 150), // Display QR code image
+            const SizedBox(height: 10),
+            const Text('Pix "Copia e Cola":', style: TextStyle(fontWeight: FontWeight.bold)),
+            SelectableText(payload), // Display Pix payload for "Copia e Cola"
+            const SizedBox(height: 10),
+            Text('Válido até: ${DateFormat('yyyy-MM-dd HH:mm').format(expirationDate)}'),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(alertDialogContext),
+            child: const Text('Fechar'),
+          ),
+        ],
+      );
+    },
+  );
 }
 
-  Future<void> updateUserReferences() async {
-        logFirebaseEvent('update_user_references');
 
-        // Update current user's (renter's) document
-        await currentUserReference!.update({
-          'rentedFromCount': FieldValue.increment(1),
-          'rentedFrom': FieldValue.arrayUnion([FFAppState().renterRef]),
-          'rentedFromIds': FieldValue.arrayUnion([_model.documentRenting?.reference]),
-        });
+  Future<Response?> retryRequest(
+    Future<Response> Function() request, {
+    int retries = 3,
+    Duration delay = const Duration(seconds: 2),
+  }) async {
+    int attempt = 0;
+    Response? response;
 
-        // Update owner's document
-        await FFAppState().renterRef!.update({
-          'rentedToCount': FieldValue.increment(1),
-          'rentedTo': FieldValue.arrayUnion([currentUserReference]),
-          'rentedToIds': FieldValue.arrayUnion([_model.documentOwner?.reference]),
-        });
+    while (attempt < retries) {
+      try {
+        // Make the request
+        response = await request();
+
+        // Log success
+        _logger.i('Request succeeded with status: ${response.statusCode}');
+
+        // Check for successful status codes
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          return response;
+        }
+
+        // Stop retrying for 400-level errors (client errors)
+        if (response.statusCode >= 400 && response.statusCode < 500) {
+          _logger.e(
+              'Non-recoverable error: ${response.statusCode}. Stopping retries.');
+          return response; // Return response for client error
+        }
+
+        // Log other status codes and continue retrying
+        _logger.w(
+            'Request failed with status: ${response.statusCode}. Retrying...');
+      } on TimeoutException catch (e) {
+        // Handle request timeout
+        _logger.e('TimeoutException occurred: $e');
+      } on SocketException catch (e) {
+        // Handle network issues
+        _logger.e('SocketException occurred: $e');
+      } catch (e) {
+        // Catch-all for other exceptions
+        _logger.e('An unexpected error occurred: $e');
       }
+
+      // Increment attempt counter
+      attempt++;
+
+      // If retries remain, wait before retrying
+      if (attempt < retries) {
+        await Future.delayed(delay);
+      }
+    }
+
+    // Log and return the last response or null if all retries failed
+    _logger.e('All retries failed. Returning the last response or null.');
+    return response;
+  }
+
+  // Loading indicator dialog
+  Future<void> showLoadingDialog(BuildContext context, String message) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Row(
+            children: [
+              const CircularProgressIndicator(),
+              const SizedBox(width: 20),
+              Expanded(child: Text(message)),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  // Hide the loading dialog
+  void hideLoadingDialog(BuildContext context) {
+    Navigator.pop(context);
+  }
+
+  // Centralized error dialog
+  Future<void> showErrorDialog(BuildContext context, String title, int? statusCode, String? errorMessage) async {
+    await showDialog(
+      context: context,
+      builder: (alertDialogContext) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text('Status: ${statusCode ?? 'unknown'}\nErro: ${errorMessage ?? 'unknown error'}'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(alertDialogContext),
+              child: const Text('Ok'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+//   Future<DocumentReference> createOrUpdateRentalsRecord({
+//   required DocumentReference userRef,
+//   required String rentalId,
+//   required DateTime rentalDate,
+//   required DateTime dueDate,
+//   required double pricePerDay,
+//   required RentalStatus status,
+//   required DateTime currentStatusTime,
+//   required bool isRenter,
+//   DocumentReference? ownerID,
+//   DocumentReference? renterID,
+//   double? deliveryFee,
+//   DateTime? firstDeliveryDate,
+//   List<DocumentReference>? games,
+// }) async {
+//   logFirebaseEvent('create_or_update_rentals_record');
+//
+//   // Prepare the rentals record data
+//   final rentalsRecordData = {
+//     'rentalID': rentalId,
+//     'rentalDate': rentalDate,
+//     'dueDate': dueDate,
+//     'pricePerDay': pricePerDay,
+//     'status': status,
+//     'currentStatusTime': currentStatusTime,
+//     if (deliveryFee != null) 'deliveryFee': deliveryFee,
+//     if (firstDeliveryDate != null) 'firstDeliveryDate': firstDeliveryDate,
+//     if (ownerID != null) 'ownerID': ownerID,
+//     if (renterID != null) 'renterID': renterID,
+//     if (games != null) 'games': games,
+//   };
+//
+//   final rentalRef = RentalsRecord.createDoc(userRef, id: rentalId);
+//   await rentalRef.set(rentalsRecordData);
+//
+//   final rentalsRecord = RentalsRecord.getDocumentFromData(rentalsRecordData, rentalRef);
+//
+//   if (isRenter) {
+//     _model.documentRenting = rentalsRecord;
+//   } else {
+//     _model.documentOwner = rentalsRecord;
+//   }
+//
+//   return rentalRef;
+// }
+
+  // Future<void> updateUserReferences(
+  //   RentalsRecord ownerRentalsRef,
+  //   RentalsRecord renterRentalsRef,
+  //   DocumentReference ownerRef,
+  //   DocumentReference renterRef,
+  // ) async {
+  //       logFirebaseEvent('update_user_references');
+//
+  //       // Update current user's (renter's) document
+  //       await renterRef.update({
+  //         'rentedFromCount': FieldValue.increment(1),
+  //         'rentedFrom': FieldValue.arrayUnion([ownerRef]),
+  //         'rentedFromIds': FieldValue.arrayUnion([ownerRentalsRef]),
+  //       });
+//
+  //       // Update owner's document
+  //       await ownerRef.update({
+  //         'rentedToCount': FieldValue.increment(1),
+  //         'rentedTo': FieldValue.arrayUnion([renterRef]),
+  //         'rentedToIds': FieldValue.arrayUnion([renterRentalsRef]),
+  //       });
+  //     }
 
   Future<bool> checkRenterSelection() async {
     logFirebaseEvent('get_renter_object');
-    _model.renterObject = await UsersRecord.getDocumentOnce(FFAppState().renterRef!);
+    _model.renterObject = await UsersRecord.getDocumentOnce(FFAppState().ownerRefPurchase!);
 
     if (_model.renterObject?.reference != null) {
       return true;
@@ -381,7 +389,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
       'value': FFAppState().purchaseData.quantity.toDouble() +
           functions.getObjectForUserRef(
             FFAppState().quotations.toList(),
-            FFAppState().renterRef!,
+            FFAppState().ownerRefPurchase!,
           )!.priceBreakdown.total,
       'dueDate': DateFormat('yyyy-MM-dd').format(DateTime.now().add(const Duration(days: 7))),
       'description': widget.gameObject?.name ?? '',
@@ -401,7 +409,7 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
     'value': FFAppState().purchaseData.quantity.toDouble() +
         functions.getObjectForUserRef(
           FFAppState().quotations.toList(),
-          FFAppState().renterRef!,
+          FFAppState().ownerRefPurchase!,
         )!.priceBreakdown.total,
     'dueDate': DateFormat('yyyy-MM-dd').format(DateTime.now().add(const Duration(days: 7))),
     'description': widget.gameObject?.name ?? '',
@@ -412,211 +420,365 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
     return await processPayment(paymentData, 'PIX');
   } 
   
-  Future<void> rollbackPayment() async {
-    logFirebaseEvent('rollback_payment');
-    analytics_service.logFunnelStep('ROLLBACK_PAYMENT', 71);
-    try {
-      final response = await retryRequest(
-        () => post(
-          Uri.parse('https://asaasrefundpayment-667069547103.southamerica-east1.run.app'),
-          headers: {'Content-Type': 'application/json'},
-          body: jsonEncode({
-            'paymentId': FFAppState().paymentId,
-          }),
-        ),
-        retries: 3,
-        delay: const Duration(seconds: 2),
-      );
+//Future<void> rollbackPayment() async {
+  //   logFirebaseEvent('rollback_payment');
+  //   analytics_service.logFunnelStep('ROLLBACK_PAYMENT', 71);
+  //   try {
+  //     final response = await retryRequest(
+  //       () => post(
+  //         Uri.parse('https://asaasrefundpayment-667069547103.southamerica-east1.run.app'),
+  //         headers: {'Content-Type': 'application/json'},
+  //         body: jsonEncode({
+  //           'paymentId': FFAppState().paymentId,
+  //         }),
+  //       ),
+  //       retries: 3,
+  //       delay: const Duration(seconds: 2),
+  //     );
+//
+  //     if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+  //       final responseData = jsonDecode(response.body);
+  //       if (responseData['success'] == true) {
+  //         logFirebaseEvent('payment_rollback_success');
+  //         _logger.i('Payment successfully rolled back. Refunds: ${responseData['refunds']}');
+  //       } else {
+  //         logFirebaseEvent('payment_rollback_failed');
+  //         _logger.w('Failed to roll back payment. Response: ${response.body}');
+  //       }
+  //     } else {
+  //       logFirebaseEvent('payment_rollback_failed');
+  //       _logger.w('Failed to roll back payment. Status: ${response?.statusCode}, Response: ${response?.body}');
+  //     }
+  //   } catch (e) {
+  //     logFirebaseEvent('payment_rollback_exception');
+  //     _logger.e('An error occurred while rolling back payment: $e');
+  //   }
+  // }
 
-      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
-        final responseData = jsonDecode(response.body);
-        if (responseData['success'] == true) {
-          logFirebaseEvent('payment_rollback_success');
-          _logger.i('Payment successfully rolled back. Refunds: ${responseData['refunds']}');
-        } else {
-          logFirebaseEvent('payment_rollback_failed');
-          _logger.w('Failed to roll back payment. Response: ${response.body}');
-        }
-      } else {
-        logFirebaseEvent('payment_rollback_failed');
-        _logger.w('Failed to roll back payment. Status: ${response?.statusCode}, Response: ${response?.body}');
-      }
-    } catch (e) {
-      logFirebaseEvent('payment_rollback_exception');
-      _logger.e('An error occurred while rolling back payment: $e');
-    }
-  }
+//Future<bool> callLalamove() async {
+//
+//   analytics_service.logFunnelStep('CALLING_LALAMOVE', 7);
+//   const int maxRetries = 3; // Limit for retries
+//   const Duration retryDelay = Duration(seconds: 2); // Delay between retries
+//   int attempt = 0;
+//
+//   while (attempt < maxRetries) {
+//     try {
+//       logFirebaseEvent('call_lalamove_api_attempt', parameters: {'attempt': attempt + 1});
+//
+//       // Retrieve quotation data
+//       LalamoveQuotationDataStruct quotationData =
+//           functions.getObjectForUserRef(FFAppState().quotations.toList(), FFAppState().ownerRefPurchase!)!;
+//
+//       // Call Lalamove API
+//       _model.lalamoveCallRequest = await actions.callDriverLalamove(
+//         quotationData.stops.toList(),
+//         quotationData.quotationId,
+//         _model.renterObject!.fullName,
+//         _model.renterObject!.phoneNumber,
+//         valueOrDefault(currentUserDocument?.fullName, ''),
+//         currentPhoneNumber,
+//         valueOrDefault<String>(_model.orderId, '0'),
+//       );
+//
+//       // Check response status
+//       if (functions.checkStatusCode(_model.lalamoveCallRequest!)) {
+//         logFirebaseEvent('lalamove_call_successful');
+//         LalamoveOrderResponseStruct response =
+//             LalamoveOrderResponseStruct.maybeFromMap(_model.lalamoveCallRequest)!;
+//
+//         FFAppState().addToLalamoveOrderResponses(response);
+//
+//         return true; // Delivery setup succeeded
+//       } else {
+//         logFirebaseEvent('lalamove_call_failed');
+//         _logger.w('Lalamove call failed. Retrying...');
+//       }
+//     } catch (e) {
+//       logFirebaseEvent('lalamove_exception');
+//       _logger.e('An error occurred while calling Lalamove: $e');
+//     }
+//
+//     attempt++;
+//     if (attempt < maxRetries) {
+//       await Future.delayed(retryDelay);
+//     }
+//   }
+//
+//   // All retries failed; handle failure
+//   logFirebaseEvent('lalamove_retries_exhausted');
+//   await showDialog(
+//     context: context,
+//     builder: (alertDialogContext) {
+//       return WebViewAware(
+//         child: AlertDialog(
+//           title: const Text('Falha no Pedido'),
+//           content: const Text(
+//               'Não foi possível configurar a entrega com a Lalamove. O pagamento será revertido.'),
+//           actions: [
+//             TextButton(
+//               onPressed: () => Navigator.pop(alertDialogContext),
+//               child: const Text('Ok'),
+//             ),
+//           ],
+//         ),
+//       );
+//     },
+//   );
+//
+//   // Optionally, roll back payment (implement rollback logic if needed)
+//   await rollbackPayment();
+//
+//   return false; // Delivery setup failed
+// }
 
-  Future<bool> callLalamove() async {
+// Future<void> initiateLalamoveCall(BuildContext context) async {
+    //
+  //   logFirebaseEvent('initiate_lalamove_call');
+//
+  //   final ownerName = valueOrDefault(currentUserDocument?.fullName, '');
+  //   final ownerPhoneNumber = currentPhoneNumber;
+  //   final renterName = _model.renterObject?.fullName ?? '';
+  //   final renterPhoneNumber = _model.renterObject?.phoneNumber ?? '';
+  //   final orderId = valueOrDefault<String>(_model.orderId, '0');
+//
+  //   // Make the delivery call using DeliveryUtil.
+  //   bool success = await deliveryUtil.callLalamove(
+  //     ownerName,
+  //     ownerPhoneNumber,
+  //     renterName,
+  //     renterPhoneNumber,
+  //     orderId,
+  //   );
+//
+  //   if (success) {
+  //     await showDialog(
+  //       context: context,
+  //       builder: (alertDialogContext) {
+  //         return AlertDialog(
+  //           title: const Text('Entrega Configurada'),
+  //           content: const Text('A entrega foi configurada com sucesso.'),
+  //           actions: [
+  //             TextButton(
+  //               onPressed: () => Navigator.pop(alertDialogContext),
+  //               child: const Text('Ok'),
+  //             ),
+  //           ],
+  //         );
+  //       },
+  //     );
+  //   } else {
+  //     await showDialog(
+  //       context: context,
+  //       builder: (alertDialogContext) {
+  //         return AlertDialog(
+  //           title: const Text('Falha na Entrega'),
+  //           content: const Text(
+  //               'Não foi possível configurar a entrega. O pagamento será revertido.'),
+  //           actions: [
+  //             TextButton(
+  //               onPressed: () => Navigator.pop(alertDialogContext),
+  //               child: const Text('Ok'),
+  //             ),
+  //           ],
+  //         );
+  //       },
+  //     );
+  //   }
+  // }
 
-  analytics_service.logFunnelStep('CALLING_LALAMOVE', 7);
-  const int maxRetries = 3; // Limit for retries
-  const Duration retryDelay = Duration(seconds: 2); // Delay between retries
-  int attempt = 0;
+// Future<void> updateAvailableDates({
+  //   required DocumentReference gameRef,
+  //   required List<DateTime> selectedDates,
+  //   required DocumentReference ownerRef,
+  // }) async {
+  //   logFirebaseEvent('update_available_dates_in_backend');
+//
+  //   // Get the owner's "mygames" document reference
+  //   final myGamesDocRef = ownerRef.collection('mygames').doc(gameRef.id);
+//
+  //   // Fetch the current availableDates array
+  //   final myGamesDocSnapshot = await myGamesDocRef.get();
+  //   if (!myGamesDocSnapshot.exists) {
+  //     logFirebaseEvent('mygames_document_not_found');
+  //     return;
+  //   }
+//
+  //   final List<dynamic>? currentAvailableDates = myGamesDocSnapshot.data()?['availableDates'] as List<dynamic>?;
+//
+  //   if (currentAvailableDates == null || selectedDates.isEmpty) {
+  //     logFirebaseEvent('no_available_dates_to_update');
+  //     return;
+  //   }
+//
+  //   // Remove the selected dates from the availableDates array
+  //   final updatedAvailableDates = currentAvailableDates.where((date) {
+  //     return !selectedDates.contains(date);
+  //   }).toList();
+//
+  //   // Update the availableDates array in Firestore
+  //   await myGamesDocRef.update({
+  //     'availableDates': updatedAvailableDates,
+  //   });
+//
+  //   logFirebaseEvent('available_dates_updated_successfully');
+  // }
 
-  while (attempt < maxRetries) {
-    try {
-      logFirebaseEvent('call_lalamove_api_attempt', parameters: {'attempt': attempt + 1});
+// Future<void> sendNotificationForRentalStatus({
+//   required RentalStatus status,
+//   required String gameName,
+//   required DocumentReference gameRef,
+//   required DocumentReference rentingUserRef,
+//   required DocumentReference ownerRef,
+// }) async {
+//   NotificationTypes? notificationType;
+//
+//   switch (status) {
+//     case RentalStatus.initiated:
+//       notificationType = NotificationTypes.PAYMENT_CREATED;
+//       break;
+//     case RentalStatus.rented:
+//       notificationType = NotificationTypes.GAME_RENTED;
+//       break;
+//     case RentalStatus.paid:
+//       notificationType = NotificationTypes.ORDER_PAID;
+//       break;
+//     case RentalStatus.deliveryRented:
+//       notificationType = NotificationTypes.DRIVER_GOING_OWNER;
+//       break;
+//     case RentalStatus.received:
+//       notificationType = NotificationTypes.ORDER_DELIVERED_RENTER;
+//       break;
+//     case RentalStatus.deliveryReturned:
+//       notificationType = NotificationTypes.DRIVER_GOING_RENTER;
+//       break;
+//     case RentalStatus.returned:
+//       notificationType = NotificationTypes.ORDER_DELIVERED_OWNER;
+//       break;
+//     case RentalStatus.timeAdded:
+//       notificationType = NotificationTypes.PAYMENT_UPDATED;
+//       break;
+//     case RentalStatus.cancelled:
+//       notificationType = NotificationTypes.ORDER_CANCELLED;
+//       break;
+//     case RentalStatus.denied:
+//       notificationType = NotificationTypes.ORDER_CANCELLED; // You can replace with a different type if needed
+//       break;
+//     default:
+//       notificationType = NotificationTypes.GENERAL;
+//   }
+//
+//   if (notificationType == null) return;
+//
+//   final notificationPayload = {
+//     "title": "Status atualizado: $gameName",
+//     "message": "O status do aluguel foi alterado para $status.",
+//     "initial_page_name": "rentRequest",
+//     "parameter_data": {
+//       "gameRef": gameRef,
+//       "rentingUserRef": rentingUserRef,
+//     },
+//     "user_ids": [ownerRef],
+//     "type": notificationType.toString(),
+//   };
+//
+//   try {
+//     final response = await retryRequest(
+//       () => post(
+//         Uri.parse('https://<YOUR_CLOUD_FUNCTION_URL>/create_notification'),
+//         headers: {'Content-Type': 'application/json'},
+//         body: jsonEncode(notificationPayload),
+//       ),
+//       retries: 3,
+//       delay: const Duration(seconds: 2),
+//     );
+//
+//     if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+//       logFirebaseEvent('notification_sent_successfully');
+//       _logger.i('Notification sent successfully. Response: ${response.body}');
+//     } else {
+//       logFirebaseEvent('notification_failed');
+//       _logger.w('Failed to send notification. Status: ${response?.statusCode}, Response: ${response?.body}');
+//     }
+//   } catch (e) {
+//     logFirebaseEvent('notification_exception');
+//     _logger.e('An error occurred while sending notification: $e');
+//   }
+// }
 
-      // Retrieve quotation data
-      LalamoveQuotationDataStruct quotationData =
-          functions.getObjectForUserRef(FFAppState().quotations.toList(), FFAppState().renterRef!)!;
-
-      // Call Lalamove API
-      _model.lalamoveCallRequest = await actions.callDriverLalamove(
-        quotationData.stops.toList(),
-        quotationData.quotationId,
-        _model.renterObject!.fullName,
-        _model.renterObject!.phoneNumber,
-        valueOrDefault(currentUserDocument?.fullName, ''),
-        currentPhoneNumber,
-        valueOrDefault<String>(_model.orderId, '0'),
-      );
-
-      // Check response status
-      if (functions.checkStatusCode(_model.lalamoveCallRequest!)) {
-        logFirebaseEvent('lalamove_call_successful');
-        LalamoveOrderResponseStruct response =
-            LalamoveOrderResponseStruct.maybeFromMap(_model.lalamoveCallRequest)!;
-
-        FFAppState().addToLalamoveOrderResponses(response);
-
-        return true; // Delivery setup succeeded
-      } else {
-        logFirebaseEvent('lalamove_call_failed');
-        _logger.w('Lalamove call failed. Retrying...');
-      }
-    } catch (e) {
-      logFirebaseEvent('lalamove_exception');
-      _logger.e('An error occurred while calling Lalamove: $e');
-    }
-
-    attempt++;
-    if (attempt < maxRetries) {
-      await Future.delayed(retryDelay);
-    }
-  }
-
-  // All retries failed; handle failure
-  logFirebaseEvent('lalamove_retries_exhausted');
-  await showDialog(
-    context: context,
-    builder: (alertDialogContext) {
-      return WebViewAware(
-        child: AlertDialog(
-          title: const Text('Falha no Pedido'),
-          content: const Text(
-              'Não foi possível configurar a entrega com a Lalamove. O pagamento será revertido.'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(alertDialogContext),
-              child: const Text('Ok'),
-            ),
-          ],
-        ),
-      );
-    },
-  );
-
-  // Optionally, roll back payment (implement rollback logic if needed)
-  await rollbackPayment();
-
-  return false; // Delivery setup failed
-}
-
-  Future<void> updateAvailableDates() async {
-    logFirebaseEvent('update_available_dates_in_backend');
-
-    // Get the owner's mygames document reference
-    final myGamesDocRef = FFAppState().ownerRefPurchase!.collection('mygames').doc(widget.gameObject?.reference.id);
-
-    // Fetch the current availableDates array
-    final myGamesDocSnapshot = await myGamesDocRef.get();
-    if (!myGamesDocSnapshot.exists) {
-      logFirebaseEvent('mygames_document_not_found');
-      return;
-    }
-
-    final List<dynamic>? currentAvailableDates = myGamesDocSnapshot.data()?['availableDates'] as List<dynamic>?;
-
-    // Ensure the availableDates array and selected dates are valid
-    if (currentAvailableDates == null || FFAppState().choosenRentDates.isEmpty) {
-      logFirebaseEvent('no_available_dates_to_update');
-      return;
-    }
-
-    // Remove the selected dates from the availableDates array
-    final updatedAvailableDates = currentAvailableDates.where((date) {
-      return !FFAppState().choosenRentDates.contains(date);
-    }).toList();
-
-    // Update the availableDates array in Firestore
-    await myGamesDocRef.update({
-      'availableDates': updatedAvailableDates,
-    });
-
-    logFirebaseEvent('available_dates_updated_successfully');
-  }
-
-  Future<void> updateRentalsRecords(RentalStatus status) async {
-    logFirebaseEvent('update_records_in_backend');
-
-    // Prepare common rental data
-    final rentalId = _model.orderId ?? '0';
-    final rentalDate = getCurrentTimestamp;
-    final dueDate = FFAppState().dueDatePurchase;
-    final pricePerDay = FFAppState().purchaseData.totalPrice;
-    final deliveryFee = LalamoveOrderResponseStruct
-            .maybeFromMap(_model.lalamoveCallRequest)
-            ?.priceBreakdown
-            .total ??
-        0.0;
-    final games = [widget.gameObject?.reference]?.where((game) => game != null).toList().cast<DocumentReference>();
-
-
-  // Create RentalsRecord for the renter
-    await createOrUpdateRentalsRecord(
-    userRef: currentUserReference!,
-    rentalId: rentalId,
-    rentalDate: rentalDate,
-    dueDate: dueDate!,
-    pricePerDay: pricePerDay,
-    status: status,
-    currentStatusTime: getCurrentTimestamp,
-    isRenter: true,
-    ownerID: FFAppState().ownerRefPurchase,
-    renterID: currentUserReference,
-    deliveryFee: deliveryFee,
-    firstDeliveryDate: getCurrentTimestamp,
-    games: games,
-  );
-
-    // Create RentalsRecord for the owner
-    await createOrUpdateRentalsRecord(
-      userRef: FFAppState().ownerRefPurchase!,
-      rentalId: rentalId,
-      rentalDate: rentalDate,
-      dueDate: dueDate,
-      pricePerDay: pricePerDay,
-      status: status,
-      currentStatusTime: getCurrentTimestamp,
-      isRenter: false,
-      ownerID: FFAppState().ownerRefPurchase,
-      renterID: currentUserReference,
-      deliveryFee: deliveryFee,
-      firstDeliveryDate: getCurrentTimestamp,
-      games: games,
-    );
-
-
-    // Update user references
-    await updateUserReferences();
-
-      // Update available dates in the owner's mygames document
-    await updateAvailableDates();
-
-    logFirebaseEvent('records_updated_successfully');
-  }
+// Future<void> updateRentalsRecords(RentalStatus status) async {
+  //   logFirebaseEvent('update_records_in_backend');
+//
+  //   // Prepare common rental data
+  //   final rentalId = _model.orderId ?? '0';
+  //   final rentalDate = getCurrentTimestamp;
+  //   final dueDate = FFAppState().dueDatePurchase;
+  //   final pricePerDay = FFAppState().purchaseData.totalPrice;
+  //   final deliveryFee = LalamoveOrderResponseStruct
+  //           .maybeFromMap(_model.lalamoveCallRequest)
+  //           ?.priceBreakdown
+  //           .total ??
+  //       0.0;
+  //   final games = [widget.gameObject?.reference]?.where((game) => game != null).toList().cast<DocumentReference>();
+//
+//
+  // // Create RentalsRecord for the renter
+  //   await createOrUpdateRentalsRecord(
+  //   userRef: currentUserReference!,
+  //   rentalId: rentalId,
+  //   rentalDate: rentalDate,
+  //   dueDate: dueDate!,
+  //   pricePerDay: pricePerDay,
+  //   status: status,
+  //   currentStatusTime: getCurrentTimestamp,
+  //   isRenter: true,
+  //   ownerID: FFAppState().ownerRefPurchase,
+  //   renterID: currentUserReference,
+  //   deliveryFee: deliveryFee,
+  //   firstDeliveryDate: getCurrentTimestamp,
+  //   games: games,
+  // );
+//
+  //   // Create RentalsRecord for the owner
+  //   await createOrUpdateRentalsRecord(
+  //     userRef: FFAppState().ownerRefPurchase!,
+  //     rentalId: rentalId,
+  //     rentalDate: rentalDate,
+  //     dueDate: dueDate,
+  //     pricePerDay: pricePerDay,
+  //     status: status,
+  //     currentStatusTime: getCurrentTimestamp,
+  //     isRenter: false,
+  //     ownerID: FFAppState().ownerRefPurchase,
+  //     renterID: currentUserReference,
+  //     deliveryFee: deliveryFee,
+  //     firstDeliveryDate: getCurrentTimestamp,
+  //     games: games,
+  //   );
+//
+//
+  //   // Update user references
+  //   await updateUserReferences();
+//
+  //    // Update available dates in the owner's "mygames" document
+  //     await updateAvailableDates(
+  //       gameRef: widget.gameObject!.reference,
+  //       selectedDates: FFAppState().choosenRentDates,
+  //       ownerRef: FFAppState().ownerRefPurchase!,
+  //     );
+//
+  //       // Send notification based on the updated status
+  //     await sendNotificationForRentalStatus(
+  //       status: status,
+  //       gameName: widget.gameObject!.name,
+  //       gameRef: widget.gameObject!.reference,
+  //       rentingUserRef: currentUserReference!,
+  //       ownerRef: FFAppState().ownerRefPurchase!,
+  //     );
+//
+//
+  //   logFirebaseEvent('records_updated_successfully');
+  // }
 
   Future<void> showSuccessDialogAndNavigate() async {
     logFirebaseEvent('order_completed_successfully');
@@ -624,53 +786,6 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
     //analytics_service.logPurchaseComplete(FFAppState().purchaseData.totalPrice);
     analytics_service.logRentalComplete('rental_complete', FFAppState().purchaseData.totalPrice);
     analytics_service.logPurchase(_model.orderId!, FFAppState().purchaseData.totalPrice, 'BRL');
-
-    final gameName = widget.gameObject?.name ?? 'jogo';
-    final gameRef = widget.gameObject?.reference;
-    final rentingUserRef = currentUserReference;
-    final ownerRef = FFAppState().ownerRefPurchase;
-
-      // Send notification to the game owner
-    final notificationPayload = {
-      "title": "Aluguel do $gameName realizado.",
-      "message": "Por favor confirme a data e o horário do pedido.",
-      "initial_page_name": "rentRequest",
-      "parameter_data": {
-        "gameRef": gameRef,
-        "rentingUserRef": rentingUserRef,
-      },
-      "user_ids": [ownerRef],
-      "type": "GAME_RENTED",
-    };
-
-      try {
-        final response = await retryRequest(
-          () => post(
-            Uri.parse('https://<YOUR_CLOUD_FUNCTION_URL>/create_notification'),
-            headers: {'Content-Type': 'application/json'},
-            body: jsonEncode(notificationPayload),
-          ),
-          retries: 3,
-          delay: const Duration(seconds: 2),
-        );
-
-        if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
-          final responseData = jsonDecode(response.body);
-          if (responseData['status'] == 'success') {
-            logFirebaseEvent('notification_sent_successfully');
-            _logger.i('Notification sent successfully. Response: ${response.body}');
-          } else {
-            logFirebaseEvent('notification_failed');
-            _logger.w('Failed to send notification. Response: ${response.body}');
-          }
-        } else {
-          logFirebaseEvent('notification_failed');
-          _logger.w('Failed to send notification. Status: ${response?.statusCode}, Response: ${response?.body}');
-        }
-      } catch (e) {
-        logFirebaseEvent('notification_exception');
-        _logger.e('An error occurred while sending notification: $e');
-      }
 
        await showDialog(
         context: context,
@@ -707,7 +822,15 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
       //   'externalReference': FFAppState().externalReference, // Link to payment
       // };
 
-       await updateRentalsRecords(RentalStatus.initiated);
+       await RentsUtil.updateRentalsRecords(status: RentalStatus.initiated, 
+       gameRef: widget.gameObject!.reference, 
+       renterRef: currentUserReference!, 
+       ownerRef: FFAppState().ownerRefPurchase!,
+       gameName: widget.gameObject!.name,
+       pricePerDay:FFAppState().purchaseData.price,
+       dueDate: FFAppState().dueDatePurchase!,
+       selectedGames: List.from([widget.gameObject!.reference]),
+       );
 
       //create a function to add a document in usersRental collection with 2 fields: renterId and Owner Id
       final usersRentalCollection = FirebaseFirestore.instance.collection('usersRental');
@@ -748,9 +871,6 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
 
       await showSuccessDialogAndNavigate();
     }
-
-  
-
 
 
   @override

@@ -122,11 +122,7 @@ class _NotificationBasicWidgetState extends State<NotificationBasicWidget> {
                   color: const Color(0xFFD1E0FF),
                   borderRadius: BorderRadius.circular(24.0),
                 ),
-                child: const Icon(
-                  Icons.notifications,
-                  color: Color(0xFF4B39EF),
-                  size: 24.0,
-                ),
+                child: _getNotificationIcon(_model.notificationObject!.type!),
               ),
               Expanded(
                 child: Column(

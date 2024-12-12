@@ -646,11 +646,11 @@ class FFAppState extends ChangeNotifier {
     choosenRentDates.insert(index, value);
   }
 
-  DocumentReference? _renterRef;
-  DocumentReference? get renterRef => _renterRef;
-  set renterRef(DocumentReference? value) {
-    _renterRef = value;
-  }
+  // DocumentReference? _renterRef;
+  // DocumentReference? get renterRef => _renterRef;
+  // set renterRef(DocumentReference? value) {
+  //   _renterRef = value;
+  // }
 
   List<QuotationsStruct> _quotations = [];
   List<QuotationsStruct> get quotations => _quotations;

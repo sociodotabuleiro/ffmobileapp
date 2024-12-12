@@ -544,7 +544,7 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
                                                         ? CalendarChooseDateRentWidget(
                                                             availableDates: _model
                                                                 .myGamesObject!.availableDates,
-                                                            renterRef: widget.userRef!,
+                                                            ownerRef: widget.userRef!,
                                                             myGames: _model.myGamesObject!,
                                                             gameName: widget.gameName!,
                                                           )

@@ -84,9 +84,9 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
               color: FlutterFlowTheme.of(context).secondaryBackground,
             ),
             child: Align(
-              alignment: AlignmentDirectional(0.0, 0.0),
+              alignment: const AlignmentDirectional(0.0, 0.0),
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(32.0, 0.0, 32.0, 0.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(32.0, 0.0, 32.0, 0.0),
                 child: Text(
                   'Adicione seus valores, caso o jogo esteja disponível para alugar',
                   textAlign: TextAlign.center,
@@ -105,7 +105,7 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
             ),
           ),
           Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
+            padding: const EdgeInsetsDirectional.fromSTEB(0.0, 12.0, 0.0, 0.0),
             child: Container(
               width: MediaQuery.sizeOf(context).width * 1.0,
               height: MediaQuery.sizeOf(context).height * 0.6,
@@ -153,7 +153,7 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                                         .primaryBackground,
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0.0, 8.0, 0.0, 8.0),
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,
@@ -295,7 +295,7 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                                                 ),
                                                 Container(
                                                   width: 200.0,
-                                                  decoration: BoxDecoration(),
+                                                  decoration: const BoxDecoration(),
                                                   child:
                                                       TextFieldGamePriceWidget(
                                                     key: Key(
@@ -316,7 +316,7 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                                 );
                               },
                             );
-                          }).divide(SizedBox(height: 25.0)),
+                          }).divide(const SizedBox(height: 25.0)),
                         ),
                       );
                     },
@@ -346,9 +346,9 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                   options: FFButtonOptions(
                     height: 40.0,
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                     iconPadding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                     color: FlutterFlowTheme.of(context).error,
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                           fontFamily:
@@ -359,7 +359,7 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                               FlutterFlowTheme.of(context).titleSmallFamily),
                         ),
                     elevation: 3.0,
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Colors.transparent,
                       width: 1.0,
                     ),
@@ -373,9 +373,20 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                     try {
                       while (_model.currentCount < _model.finalCount) {
                         logFirebaseEvent('Button_backend_call');
+                        
+                        final gameRef = FFAppState().gamesToAdd[_model.currentCount].gameRef;
+                        if (gameRef == null) {
+                          throw Exception('Game reference is null');
+                        }
+    
+                        final myGamesRecordReference = FirebaseFirestore.instance
+                            .collection('MyGames')
+                            .doc(gameRef.id); 
+                         
+                        //var myGamesRecordReference =
+                         //   MyGamesRecord.createDoc(currentUserReference!);
 
-                        var myGamesRecordReference =
-                            MyGamesRecord.createDoc(currentUserReference!);
+
                         firestoreBatch.set(myGamesRecordReference, {
                           ...createMyGamesRecordData(
                             gameRef: FFAppState()
@@ -454,12 +465,12 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                                     'availableAtGeoHash':
                                         FieldValue.arrayUnion([
                                       valueOrDefault<String>(
-                                        currentUserDocument?.address?.geohash,
+                                        currentUserDocument?.address.geohash,
                                         '0',
                                       )
                                     ]),
                                     'availableAtLatLng': FieldValue.arrayUnion([
-                                      currentUserDocument?.address?.coordinates
+                                      currentUserDocument?.address.coordinates
                                           ?.toGeoPoint()
                                     ]),
                                     'availableAtMyGamesRef':
@@ -479,14 +490,14 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                         builder: (alertDialogContext) {
                           return WebViewAware(
                             child: AlertDialog(
-                              title: Text('Sucesso!'),
-                              content: Text(
+                              title: const Text('Sucesso!'),
+                              content: const Text(
                                   'Seus jogos foram adicionados com sucesso!'),
                               actions: [
                                 TextButton(
                                   onPressed: () =>
                                       Navigator.pop(alertDialogContext),
-                                  child: Text('Ok'),
+                                  child: const Text('Ok'),
                                 ),
                               ],
                             ),
@@ -508,10 +519,10 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                   options: FFButtonOptions(
                     height: 40.0,
                     padding:
-                        EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                        const EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
                     iconPadding:
-                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                    color: Color(0xFF24965B),
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                    color: const Color(0xFF24965B),
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
                           fontFamily:
                               FlutterFlowTheme.of(context).titleSmallFamily,
@@ -521,7 +532,7 @@ class _AddPriceAddGameWidgetState extends State<AddPriceAddGameWidget> {
                               FlutterFlowTheme.of(context).titleSmallFamily),
                         ),
                     elevation: 3.0,
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Colors.transparent,
                       width: 1.0,
                     ),

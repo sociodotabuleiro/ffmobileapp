@@ -3,27 +3,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
-import '/backend/schema/util/schema_util.dart';
-import '/backend/schema/enums/enums.dart';
 
 import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 class QuotationsStruct extends FFFirebaseStruct {
   QuotationsStruct({
-    DocumentReference? renterRef,
+    DocumentReference? ownerRef,
     LalamoveQuotationDataStruct? quotationsData,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
-  })  : _renterRef = renterRef,
+  })  : _ownerRef = ownerRef,
         _quotationsData = quotationsData,
         super(firestoreUtilData);
 
-  // "renterRef" field.
-  DocumentReference? _renterRef;
-  DocumentReference? get renterRef => _renterRef;
-  set renterRef(DocumentReference? val) => _renterRef = val;
+  // "ownerRef" field.
+  DocumentReference? _ownerRef;
+  DocumentReference? get ownerRef => _ownerRef;
+  set ownerRef(DocumentReference? val) => _ownerRef = val;
 
-  bool hasRenterRef() => _renterRef != null;
+  bool hasOwnerRef() => _ownerRef != null;
 
   // "quotationsData" field.
   LalamoveQuotationDataStruct? _quotationsData;
@@ -39,7 +37,7 @@ class QuotationsStruct extends FFFirebaseStruct {
 
   static QuotationsStruct fromMap(Map<String, dynamic> data) =>
       QuotationsStruct(
-        renterRef: data['renterRef'] as DocumentReference?,
+        ownerRef: data['ownerRef'] as DocumentReference?,
         quotationsData:
             LalamoveQuotationDataStruct.maybeFromMap(data['quotationsData']),
       );
@@ -49,14 +47,14 @@ class QuotationsStruct extends FFFirebaseStruct {
       : null;
 
   Map<String, dynamic> toMap() => {
-        'renterRef': _renterRef,
+        'ownerRef': _ownerRef,
         'quotationsData': _quotationsData?.toMap(),
       }.withoutNulls;
 
   @override
   Map<String, dynamic> toSerializableMap() => {
-        'renterRef': serializeParam(
-          _renterRef,
+        'ownerRef': serializeParam(
+          _ownerRef,
           ParamType.DocumentReference,
         ),
         'quotationsData': serializeParam(
@@ -67,8 +65,8 @@ class QuotationsStruct extends FFFirebaseStruct {
 
   static QuotationsStruct fromSerializableMap(Map<String, dynamic> data) =>
       QuotationsStruct(
-        renterRef: deserializeParam(
-          data['renterRef'],
+        ownerRef: deserializeParam(
+          data['ownerRef'],
           ParamType.DocumentReference,
           false,
           collectionNamePath: ['users'],
@@ -87,16 +85,16 @@ class QuotationsStruct extends FFFirebaseStruct {
   @override
   bool operator ==(Object other) {
     return other is QuotationsStruct &&
-        renterRef == other.renterRef &&
+        ownerRef == other.ownerRef &&
         quotationsData == other.quotationsData;
   }
 
   @override
-  int get hashCode => const ListEquality().hash([renterRef, quotationsData]);
+  int get hashCode => const ListEquality().hash([ownerRef, quotationsData]);
 }
 
 QuotationsStruct createQuotationsStruct({
-  DocumentReference? renterRef,
+  DocumentReference? ownerRef,
   LalamoveQuotationDataStruct? quotationsData,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
@@ -104,7 +102,7 @@ QuotationsStruct createQuotationsStruct({
   bool delete = false,
 }) =>
     QuotationsStruct(
-      renterRef: renterRef,
+      ownerRef: ownerRef,
       quotationsData: quotationsData ??
           (clearUnsetFields ? LalamoveQuotationDataStruct() : null),
       firestoreUtilData: FirestoreUtilData(

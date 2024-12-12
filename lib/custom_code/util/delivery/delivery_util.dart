@@ -16,6 +16,8 @@ final Logger _logger = Logger();
 final network_util.NetworkUtil _network_util = network_util.NetworkUtil();
 
 class DeliveryUtil {
+  
+  
   Future<bool> callLalamove(
   String ownerName,
   String ownerPhoneNumber,
@@ -79,7 +81,7 @@ class DeliveryUtil {
     return false; // Delivery setup failed
   }
 
-   Future<void> rollbackPayment() async {
+  Future<void> rollbackPayment() async {
     logFirebaseEvent('rollback_payment');
     analytics_service.logFunnelStep('ROLLBACK_PAYMENT', 71);
     try {

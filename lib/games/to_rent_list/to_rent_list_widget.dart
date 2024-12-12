@@ -822,7 +822,8 @@ class _ToRentListWidgetState extends State<ToRentListWidget> {
       //   'externalReference': FFAppState().externalReference, // Link to payment
       // };
 
-       await RentsUtil.updateRentalsRecords(status: RentalStatus.initiated, 
+       await RentsUtil.createRentalsRecord(
+       status: RentalStatus.initiated, 
        gameRef: widget.gameObject!.reference, 
        renterRef: currentUserReference!, 
        ownerRef: FFAppState().ownerRefPurchase!,

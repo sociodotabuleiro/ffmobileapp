@@ -1,3 +1,5 @@
+import 'package:sociodotabuleiro/games/to_rent_list/to_rent_list_widget.dart';
+
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -44,9 +46,7 @@ class _RentRequestWidgetState extends State<RentRequestWidget> {
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('RENT_REQUEST_rentRequest_ON_INIT_STATE');
-      logFirebaseEvent('rentRequest_backend_call');
       _model.gameObject = await GamesRecord.getDocumentOnce(widget!.gameRef!);
-      logFirebaseEvent('rentRequest_backend_call');
       _model.rentingUserObject =
           await UsersRecord.getDocumentOnce(widget!.rentingUserRef!);
       logFirebaseEvent('rentRequest_firestore_query');
@@ -492,7 +492,7 @@ class _RentRequestWidgetState extends State<RentRequestWidget> {
                           children: [
                             FFButtonWidget(
                               onPressed: () {
-                                print('Button pressed ...');
+                                confirmRent();
                               },
                               text: 'Confirmar Aluguel',
                               options: FFButtonOptions(
@@ -583,5 +583,24 @@ class _RentRequestWidgetState extends State<RentRequestWidget> {
             ),
           ),
         ));
+  }
+  
+  void confirmRent() async {
+  
+   
+    final currentUserDocument = await FirebaseFirestore.instance.collection('users').doc(currentUserReference!.id).get();
+
+
+    final ownerName = currentUserDocument['fullName'];
+
+
+  deliveryUtil.callLalamove(
+  ownerName,
+  currentPhoneNumber,
+  _model.rentingUserObject!.fullName,
+  _model.rentingUserObject!.phoneNumber,
+  _model.rentalsObject!.rentalID);
+
+
   }
 }

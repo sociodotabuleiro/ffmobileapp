@@ -190,7 +190,7 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
   if (_model.userObject == null) {
     logFirebaseEvent('gameToRent_backend_call_user');
     _model.userObject = await UsersRecord.getDocumentOnce(widget.userRef!);
-    _model.quotation = QuotationsStruct(renterRef: _model.userObject?.reference);
+    _model.quotation = QuotationsStruct(ownerRef: _model.userObject?.reference);
   }
 
   // Calculate the distance if not already calculated
@@ -293,7 +293,7 @@ class _GameToRentWidgetState extends State<GameToRentWidget> {
 
     // Update global state
     FFAppState().addToQuotations(QuotationsStruct(
-      renterRef: widget.userRef,
+      ownerRef: widget.userRef,
       quotationsData:
           LalamoveQuotationDataStruct.maybeFromMap(_model.quotationJson),
     ));

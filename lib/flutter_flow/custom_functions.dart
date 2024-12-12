@@ -239,7 +239,7 @@ LalamoveQuotationDataStruct? getObjectForUserRef(
   DocumentReference userRef,
 ) {
   for (var element in quotations) {
-    if (element.renterRef == userRef) {
+    if (element.ownerRef == userRef) {
       return element.quotationsData;
     }
   }
